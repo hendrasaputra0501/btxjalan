@@ -1,0 +1,45 @@
+<openerp>
+	<data>
+		<record id="act_draft_lc" model="workflow.activity">
+            <field name="wkf_id" ref="purchase.purchase_order"/>
+            <field name="name">draft_lc</field>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'lc_created'})</field>
+        </record>
+
+		<record id="purchase.trans_sent_confirmed" model="workflow.transition">
+            <field name="act_from" ref="purchase.act_sent"/>
+            <field name="act_to" ref="purchase.act_confirmed"/>
+            <field name="condition">payment_method != 'lc'</field>
+            <field name="signal">purchase_confirm</field>
+        </record>
+
+        <record id="purchase.trans_draft_confirmed" model="workflow.transition">
+            <field name="act_from" ref="purchase.act_draft"/>
+            <field name="act_to" ref="purchase.act_confirmed"/>
+            <field name="condition">payment_method != 'lc'</field>
+            <field name="signal">purchase_confirm</field>
+        </record>
+
+        <record id="trans_draft_draft_lc" model="workflow.transition">
+            <field name="act_from" ref="purchase.act_draft"/>
+            <field name="act_to" ref="act_draft_lc"/>
+            <field name="condition">payment_method == 'lc'</field>
+            <field name="signal">purchase_confirm</field>
+        </record>
+
+        <record id="trans_sent_draft_lc" model="workflow.transition">
+            <field name="act_from" ref="purchase.act_sent"/>
+            <field name="act_to" ref="act_draft_lc"/>
+            <field name="condition">payment_method == 'lc'</field>
+            <field name="signal">purchase_confirm</field>
+        </record>
+
+        <record id="trans_draft_lc_confirmed" model="workflow.transition">
+            <field name="act_from" ref="act_draft_lc"/>
+            <field name="act_to" ref="purchase.act_confirmed"/>
+            <field name="condition">(force_release == True or check_draft()) and payment_method == 'lc'</field>
+            <field name="signal">purchase_confirm</field>
+        </record>
+	</data>
+</openerp>

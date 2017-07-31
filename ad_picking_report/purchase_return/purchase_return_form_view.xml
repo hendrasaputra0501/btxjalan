@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report auto="False" id="purchase_return_report" model="stock.picking.out" name="purchase.return.form" file="ad_picking_report/purchase_return/purchase_return_report.mako" string="Purchase Return" usage="default" report_type="webkit" menu="True" header="True"/>
+    </data>
+</openerp>

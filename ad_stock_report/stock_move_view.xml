@@ -1,0 +1,19 @@
+<openerp>
+	<data>
+		<record id="view_move_picking_tree_inherit_valuation" model="ir.ui.view">
+			<field name="name">stock.move.tree.inherit.valuation</field>
+			<field name="model">stock.move</field>
+			<field name="inherit_id" ref="stock.view_move_tree"/>
+			<field name="arch" type="xml">
+				<field name='state' position='before'>
+					<field name="actual_rate" avg="Avg.Actual"/>
+					<field name="term_rate" avg="Avg.Term"/>
+					<field name="commission_rate" avg="Avg.Comm"/>
+					<field name="insurance_rate" avg="Avg.Ins"/>
+					<field name="freight_rate" avg="Avg.Ins"/>
+					<field name="fob_rate" avg="Avg.FOB"/>
+				</field>
+			</field>
+		</record>
+	</data>
+</openerp>

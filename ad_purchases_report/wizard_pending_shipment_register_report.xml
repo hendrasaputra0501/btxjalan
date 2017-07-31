@@ -1,0 +1,47 @@
+<openerp>
+	<data>
+		<record id="pending_shipment_register_wizard" model="ir.ui.view">
+			<field name="name">pending.shipment.register.wizard</field>
+			<field name="model">pending.shipment.register.wizard</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Generate Detail Pending Shipment Register" version="7.0">
+					<group colspan="4" col="4">
+						<field name="date_start"/>
+						<field name="date_stop"/>
+						<!-- <field name="grouping"/> -->
+						<field name="output_type"/>
+						<field name="purchase_type"/>
+					</group>
+					<footer>
+                    	<group>
+	                        <button name="generate_report" string="Print" icon="gtk-print" type="object" class="oe_highlight"/>
+	                        <button string="Cancel" class="oe_highlight" special="cancel"/>
+                    	</group>
+                    </footer>
+				</form>
+			</field>
+		</record>
+		<record id="action_pending_shipment_register_wizard" model="ir.actions.act_window">
+			<field name="name">Generate Detail Pending Shipment Register</field>
+            <field name="res_model">pending.shipment.register.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+		</record>
+		<menuitem id="submenu_reporting_purchases" name="Reporting" parent="base.menu_purchase_root" sequence="9"/>
+		<menuitem id="reporting_pending_shipment_status_reg" name="Pending Detail Shipment Status Register" parent="submenu_reporting_purchases" action="action_pending_shipment_register_wizard"/>
+		<!-- <menuitem id="menu_purchases_report_bitratex_wizard" name="Purchases Report" parent="reporting_pending_shipment_status_reg" action="action_purchases_report_bitratex_wizard"/> -->
+
+		<report id="pending_shipment_register_report"
+			name="pending.shipment.register.report"
+			string="Pending Detail Shipment Register Report"
+			report_type="webkit"
+			model="pending.shipment.register.wizard"
+			file="ad_purchases_report/pending_shipment_register_report.mako" 
+			header="False"
+			auto="False"
+			menu="False"
+		/>
+
+	</data>
+</openerp>

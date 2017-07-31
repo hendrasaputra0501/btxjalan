@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_sale_order_from_stock_picking" model="ir.ui.view">
+            <field name="name">Create Sale Order from Internal Move(s)</field>
+            <field name="model">sale.order.from.stock.picking</field>
+            <field name="arch" type="xml">
+              <form string="Create Sale Order from Internal Move(s)" version="7.0">
+                  <group string="Create Sale Order from Internal Move(s)">
+                      <group>
+                          <field name="partner_id" domain="[('customer','=',True)]"/>
+                          <field name="sale_type"/>
+                          <field name="goods_type"/>
+                          <field name="locale_sale_type" attrs="{'invisible':[('sale_type','=','export')],'required':[('sale_type','=','local')]}"/>
+                      </group>
+                      <group>
+                          <field name="date_order" />
+                          <field name="pricelist_id" domain="[('type','=','sale')]"/>
+                      </group>
+                  </group>
+                  <field name="order_lines" >
+                      <tree string="Order Lines" editable="bottom">
+                          <field name="wizard_id" invisible="1"/>
+                          <!-- <field name="move_id" invisible="1"/> -->
+                          <field name="product_id" invisible="0"/>
+                          <field name="quantity" invisible="0"/>
+                          <field name="product_uom" invisible="0"/>
+                          <field name="uop_quantity" invisible="0"/>
+                          <field name="product_uop" invisible="0"/>
+                          <field name="tracking_id" invisible="0"/>
+                          <field name="prodlot_id" invisible="1"/>
+                          <field name="price_unit" invisible="0"/>
+                          <field name="taxes_id" invisible="0" widget="many2many_tags"/>
+                          <field name="location_id" invisible="0"/>
+                      </tree>
+                  </field>
+                  <footer>
+                      <button name="create_so" string="Create Sale Order" type="object" class="oe_highlight"/>
+                      or
+                      <button string="Cancel" class="oe_link" special="cancel"/>
+                  </footer>
+             </form>
+            </field>
+        </record>
+
+
+        <act_window name="Create Sale Order from Internal Move(s)"
+            res_model="sale.order.from.stock.picking"
+            src_model="stock.picking"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_sale_order_from_stock_picking"/>
+    </data>
+</openerp>

@@ -1,0 +1,58 @@
+<openerp>
+	<data>
+		<record id="view_report_product_wip_stock_tree" model="ir.ui.view">
+	        <field name="name">report.product.wip.stock.tree</field>
+	        <field name="model">report.product.wip.stock</field>
+	        <field name="arch" type="xml">
+	            <tree string="WIP" create="false">
+	                <field name="effective_date"/>
+					<field name="name"/>
+	                <field name="rm_categ_id"/>
+	                <field name="uom_id"/>
+	                <field name="opening"/>
+	                <field name="incoming"/>
+	                <field name="usage"/>
+	                <field name="waste"/>
+	                <field name="closing"/>
+	                <field name="adjustment"/>
+	           </tree>
+	        </field>
+	    </record>	   
+
+	    <record id="view_report_product_wip_stock_search" model="ir.ui.view">
+	        <field name="name">report.product.wip.stock.search</field>
+	        <field name="model">report.product.wip.stock</field>
+	        <field name="arch" type="xml">
+	            <search string="WIP Stock">
+	                <group expand="0" string="Extended Filters...">
+	                    <field name="effective_date"/>
+						<field name="name"/>
+		                <field name="rm_categ_id"/>
+		                <field name="uom_id"/>
+		                <field name="opening"/>
+		                <field name="incoming"/>
+		                <field name="usage"/>
+		                <field name="waste"/>
+		                <field name="closing"/>
+		                <field name="adjustment"/>
+	                </group>
+	                <group expand="1" string="Group By...">
+	                    <filter name="group_categ_id" string="Product" icon="terp-stock_symbol-selection" context="{'group_by':'rm_categ_id'}"/>
+	                    <filter name="group_effective_date" string="Date" icon="terp-stock_symbol-selection" context="{'group_by':'effective_date'}"/>
+	                </group>
+	            </search>
+	        </field>
+	    </record>
+
+	    <record id="action_report_product_wip_stock_report" model="ir.actions.act_window">
+	        <field name="name">Saldo WIP RM</field>
+	        <field name="res_model">report.product.wip.stock</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,graph</field>
+	        <field name="search_view_id"  ref="view_report_product_wip_stock_search"/>
+	        <field name="view_id" ref="view_report_product_wip_stock_tree"/>
+	        <field name="context">{}</field>
+	    </record>
+	    <!-- <menuitem action="action_report_product_wip_stock_report" id="menu_action_report_product_wip_stock_report" parent="menu_stock_production_report_pabean" sequence="1"/> -->
+	</data>
+</openerp>

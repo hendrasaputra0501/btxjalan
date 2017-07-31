@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>      
+    <record model="ir.ui.view" id="lc_tt_position_wizard_form">
+      <field name="name">l/c t/t position wizard</field>
+      <field name="model">lc.tt.position.wizard</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml"> 
+        <form string="l/c t/t position" version="7.0">
+          <group colspan="4" col="4">
+            <field name="goods_type"/>
+            <field name="sale_type"/>
+            <field name="as_on"/>
+            <field name="lc_type"/>
+          </group>
+          <footer>
+            <div>
+              <button type="object" name="print_report" string="Print" icon="STOCK_PRINT"/> or <button special="cancel" string="Cancel" class="oe_link"/>
+            </div>
+          </footer>
+        </form>
+      </field>
+    </record>
+         
+    <record model="ir.actions.act_window" id="lc_tt_position_action">
+        <field name="name">L/C T/T Position Report</field>
+        <field name="res_model">lc.tt.position.wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="lc_tt_position_wizard_form"/>
+    </record>
+
+    <menuitem id="lc_tt_position_menu" parent="sales_report_daily" sequence="10" action="lc_tt_position_action"/>
+    <!-- 
+    <report id="pending_sales_report"
+      name="pending.sales.report"
+      string="Pending Sales Order"
+      model="report.pending.sales.wizard"
+      auto="False"
+      menu="False"
+      file="ad_sales_report/report/pending_sales_report.mako" 
+      usage="default" 
+      report_type="webkit"
+      header="True"
+    /> -->
+  </data>
+</openerp>

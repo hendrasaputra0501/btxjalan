@@ -1,0 +1,159 @@
+<openerp>
+	<data>
+		<record id="view_mrp_move_line_tree" model="ir.ui.view">
+			<field name="name">mrp.move.line.tree</field>
+			<field name="model">mrp.move.line</field>
+			<field name="arch" type="xml">
+				<tree string="Manufacturing Move Lines" >
+					<field name="name"/>
+					<field name="product_id"/>
+					<field name="source_location_id"/>
+					<field name="product_qty"/>
+					<field name="uom_id"/>
+					<field name="second_product_qty"/>
+					<field name="second_uom_id"/>
+					<field name="unit_price"/>
+					<field name="subtotal"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_mrp_move_line_form" model="ir.ui.view">
+			<field name="name">mrp.move.line.form</field>
+			<field name="model">mrp.move.line</field>
+			<field name="arch" type="xml">
+				<form version="7.0" string="Manufacturing Move Lines" >
+					<group>
+						<group colspan="4" col="2">
+							<field name="name"/>
+							<field name="product_id"/>
+							<field name="source_location_id"/>
+						</group>
+						<group>
+							<field name="product_qty"/>
+							<field name="uom_id"/>
+							<field name="unit_price"/>
+							<field name="subtotal"/>
+						</group>
+						<group>
+							<field name="second_product_qty"/>
+							<field name="second_uom_id"/>
+						</group>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_mrp_cost_line_tree" model="ir.ui.view">
+			<field name="name">mrp.cost.line.tree</field>
+			<field name="model">mrp.cost.line</field>
+			<field name="arch" type="xml">
+				<tree string="Manufacturing Cost Lines" >
+					<field name="name"/>
+					<field name="account_id"/>
+					<field name="amount"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_mrp_cost_line_form" model="ir.ui.view">
+			<field name="name">mrp.cost.line.form</field>
+			<field name="model">mrp.cost.line</field>
+			<field name="arch" type="xml">
+				<form version="7.0" string="Manufacturing Cost Lines" >
+					<group>
+						<field name="name"/>
+						<field name="account_id"/>
+						<field name="amount"/>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_mrp_move_tree" model="ir.ui.view">
+			<field name="name">mrp.move.tree</field>
+			<field name="model">mrp.move</field>
+			<field name="arch" type="xml">
+				<tree colors="blue:state == 'draft';red:state == 'cancel';gray:state == 'done';green:state == 'production';" string="Manufacturing Moves" >
+					<field name="name"/>
+					<field name="move_date"/>
+					<field name="bom_id"/>
+					<field name="product_id" invisible="1"/>
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record id="view_mrp_move_form" model="ir.ui.view">
+			<field name="name">mrp.move.form</field>
+			<field name="model">mrp.move</field>
+			<field name="arch" type="xml">
+				<form string="Manufacturing Moves" version="7.0">
+					<header>
+						<button name="action_confirm" type="object" states="draft" string="Confirm"/>
+						<button name="action_production" type="object" states="confirm" string="Start Produce"/>
+						<button name="action_produced" type="object" states="production" string="Finish Production" />
+						<field name="state" widget="statusbar" statusbar_visible="draft,confirm,production,done"/>
+					</header>
+					<sheet>
+						<group colspan="4" col="4">
+							<field name="name"/>
+							<field name="move_date"/>
+							<field name="bom_id" domain="[('bom_id','=',False)]" on_change="onchange_bom_id(bom_id,product_qty)"/>
+							<field name="product_id"/>
+							<field name="product_qty" on_change="onchange_bom_id(bom_id,product_qty)"/>
+							<field name="uom_id"/>
+                            <field name="company_id"/>
+						</group>
+						<group colspan="4" cols="4">
+							<group string="Location Information">
+								<field name="mrp_location_id" domain="[('usage','=','production')]"/>
+								<field name="location_dest_id" domain="[('usage','=','internal')]"/>
+								<field name="picking_id" invisible="0"/>
+								<field name="stock_move_id" invisible="0"/>
+								<field name="cost_move_id" invisible="0"/>
+							</group>
+							<group string="Journal Information">
+								<field name="stock_journal_id"/>
+								<field name="cost_journal_id"/>
+							</group>
+						</group>
+						<notebook>
+							<page string="Production Information">
+								<field name="mrp_move_line" colspan="4"/>
+							</page>
+							<page string="Cost Information">
+								<field name="mrp_cost_line" colspan="4"/>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_mrp_move_search" model="ir.ui.view">
+			<field name="name">mrp.move.search</field>
+			<field name="model">mrp.move</field>
+			<field name="arch" type="xml">
+				<search string="Manufacturing Moves">
+					<field name="name"/>
+					<field name="state"/>
+					<field name="bom_id"/>
+					<field name="product_id"/>
+				</search>
+			</field>
+		</record>
+		
+		<record id="action_mrp_move" model="ir.actions.act_window">
+			<field name="name">Manufacturing Move</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">mrp.move</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="view_mrp_move_search"/>
+			<field name="context">{}</field>
+		</record>
+		
+		<menuitem action="action_mrp_move" id="menu_mrp_move" parent="mrp.menu_mrp_manufacturing" sequence="5"/>
+	</data>
+</openerp>

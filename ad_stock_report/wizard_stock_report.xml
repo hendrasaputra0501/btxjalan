@@ -1,0 +1,54 @@
+<openerp>
+	<data>
+		<record id="stock_report_bitratex_wizard" model="ir.ui.view">
+            <field name="name">stock.report.bitratex.wizard</field>
+            <field name="model">stock.report.bitratex.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Generate Stock Report" version="7.0">
+                    <group colspan="4" col="4">
+                        <field name="date_start"/>
+                        <field name="date_stop"/>
+                        <field name="grouping"/>
+                        <field name="output_type"/>
+                        <field name="with_valuation"/>
+                        <field name="show_only_qty_less_than_1_kg"/>
+                    </group>
+                	<notebook>
+                		<page string="Goods Type" colspan="4">
+                			<field name="goods_type" colspan="4" col="4" nolabel="1"/>
+                		</page>
+                		<page string="Location Exception" colspan="4">
+                            <field name="location_exception" colspan="4" col="4" nolabel="1"/>
+                        </page>
+                        <page string="Force Location" colspan="4">
+                            <field name="location_force" colspan="4" col="4" nolabel="1"/>
+                		</page>
+                        <page string="Filter Products" colspan="4">
+                            <field name="product_ids" colspan="4" col="4" nolabel="1"/>
+                        </page>
+                	</notebook>
+                    <footer>
+                    	<group>
+	                        <button name="generate_report" string="Print" icon="gtk-print" type="object" class="oe_highlight"/>
+	                        <button string="Cancel" class="oe_highlight" special="cancel"/>
+                    	</group>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_stock_report_bitratex_wizard" model="ir.actions.act_window">
+            <field name="name">Generate Stock Report</field>
+            <field name="res_model">stock.report.bitratex.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+        <menuitem id="submenu_reporting_stock" name="Reporting" parent="stock.menu_stock_root" sequence="2"/>
+        <menuitem id="reporting_stock_daily" name="Daily" parent="submenu_reporting_stock" sequence="0"/>
+        <menuitem id="reporting_stock_monthly" name="Monthly" parent="submenu_reporting_stock" sequence="1"/>
+        <menuitem id="menu_stock_report_bitratex_wizard" name="Stock Status" parent="reporting_stock_daily"
+            action="action_stock_report_bitratex_wizard"/>
+	</data>
+</openerp>

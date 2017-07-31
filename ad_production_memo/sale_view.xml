@@ -1,0 +1,16 @@
+<openerp>
+	<data>
+		<record id="view_sale_order_contract_inherit_1" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="ad_sales_contract.view_sale_order_contract_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@string='Advance(s)']" position="before">
+                    <page string="Production Memo(s)" attrs="{'invisible':[('goods_type','!=','finish')]}">
+                        <field name="memo_ids" nolabel="1" colspan="4" context="{'sale_id':context.get('active_id',False)}" />
+                    </page>
+                </xpath>
+            </field>
+        </record>
+	</data>
+</openerp>

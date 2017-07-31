@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_invoice_number_onshipping" model="ir.ui.view">
+            <field name="name">invoice.number.onshipping.wizard</field>
+            <field name="model">invoice.number.onshipping</field>
+            <field name="arch" type="xml">
+              <form string="Generate Draft Invoice Number" version="7.0">
+                  <group string="Generate Draft Invoice Number">
+                      <field name="group"/>
+                  </group>
+                  <footer>
+                      <button name="generate_invoice_draft" string="Generate Number" type="object" class="oe_highlight"/>
+                      or
+                      <button string="Cancel" class="oe_link" special="cancel"/>
+                  </footer>
+             </form>
+            </field>
+        </record>
+
+
+        <act_window name="Generate Draft Invoice Number"
+            res_model="invoice.number.onshipping"
+            src_model="stock.picking.out"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_invoice_number_onshipping"/>
+    </data>
+</openerp>

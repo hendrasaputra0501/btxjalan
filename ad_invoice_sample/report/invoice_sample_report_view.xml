@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+<report 
+	auto="False" id="invoice_sample_report" 
+	model="invoice.sample" 
+	name="invoice.sample.form" 
+	file="ad_invoice_sample/report/invoice_sample_report.mako" 
+	string="Invoice Sample"
+	header="True"
+    usage="default" 
+    report_type="webkit" 
+    menu="True" />
+</data>
+</openerp>

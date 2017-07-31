@@ -1,0 +1,7 @@
+<openerp>
+	<data>
+		<report auto="False" id="covering_doc_report" model="covering.doc" name="covering.doc.form"
+            file="ad_covering_doc/report/covering_document.mako" string="Covering Document"
+            usage="default" report_type="webkit" header="True"/>
+	</data>
+</openerp>

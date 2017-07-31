@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<report id="ad_beacukai.report_bc27_form" model="beacukai"
+			name="bc27.form" webkit_header="blank_header_a4_portrait"
+			file="ad_beacukai_ok/report/mako/bc_27.html" string="Beacukai 2.7"
+			report_type="webkit"  />
+		<report id="report_bc27_form_1" model="beacukai"
+			name="bc27_1.form" webkit_header="blank_header_folio_portrait"
+			file="ad_beacukai_ok/report/mako/bc_27_1.html" string="Beacukai 2.7 Preprinted"
+			report_type="webkit" />
+		<report id="report_bc27_form_2" model="beacukai"
+			name="bc27_1_310.form" webkit_header="blank_header_folio_portrait"
+			file="ad_beacukai_ok/report/mako/bc_27_1_310.html" string="Beacukai 2.7 Preprinted 2"
+			report_type="webkit" />
+		
+		<!-- BC 4.0 -->
+		<report id="ad_beacukai.report_bc40_form" model="beacukai"
+			name="bc40.form" webkit_header="blank_header_a4_portrait"
+			file="ad_beacukai_ok/report/mako/bc_40.html" string="Beacukai 4.0"
+			report_type="webkit" />
+		<report id="report_bc40_form_1" model="beacukai"
+			name="bc40_1.form" webkit_header="blank_header_folio_portrait"
+			file="ad_beacukai_ok/report/mako/bc_40_1.html" string="Beacukai 4.0 Preprinted"
+			report_type="webkit" />
+		
+		<!-- BC 4.0 -->
+		<report id="ad_beacukai.report_bc41_form" model="beacukai"
+			name="bc41.form" webkit_header="blank_header_folio_portrait"
+			file="ad_beacukai_ok/report/mako/bc_41.html" string="Beacukai 4.1"
+			report_type="webkit" />
+		<report id="report_bc41_form_1" model="beacukai"
+			name="bc41_1.form" webkit_header="blank_header_folio_portrait"
+			file="ad_beacukai_ok/report/mako/bc_41_1.html" string="Beacukai 4.1 Preprinted"
+			report_type="webkit" />
+		<report id="report_bc41_form_2" model="beacukai"
+			name="bc41_1_310.form" webkit_header="blank_header_folio_portrait"
+			file="ad_beacukai_ok/report/mako/bc_41_1_310.html" string="Beacukai 4.1 Preprinted 2"
+			report_type="webkit" />
+	</data>
+</openerp>

@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>      
+    <record model="ir.ui.view" id="production_planning_report_form_view">
+      <field name="name">Production Planning</field>
+      <field name="model">report.production.planning.wizard</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml"> 
+        <form string="Production Planning" version="7.0">
+          <group colspan="4" col="4">
+            <field name="report_type"/>
+            <field name="sale_type"/>
+            <newline/>
+            <field name="goods_type"/>
+            <field name="locale_sale_type" attrs="{'invisible':[('sale_type','!=','local')],'required':[('sale_type','=','local')]}"/>
+            <newline/>
+            <field name="as_on"/>
+          </group>
+          <footer>
+            <div>
+              <button type="object" name="print_report" string="Print" icon="STOCK_PRINT"/> or <button special="cancel" string="Cancel" class="oe_link"/>
+            </div>
+          </footer>
+        </form>
+      </field>
+    </record>
+         
+    <record model="ir.actions.act_window" id="production_planning_report_action_view">
+        <field name="name">Production Planning</field>
+        <field name="res_model">report.production.planning.wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="production_planning_report_form_view"/>
+    </record>
+
+    <menuitem name="Production Planning" id="menu_production_planning_report" parent="sales_report_daily" sequence="10" action="production_planning_report_action_view"/>
+    
+    <report id="production_planning_report"
+      name="production.planning.report"
+      string="Production Planning"
+      model="report.production.planning.wizard"
+      auto="False"
+      menu="False"
+      file="ad_sales_report/report/production_planning_report.mako" 
+      usage="default" 
+      report_type="webkit"
+      header="True"
+    />
+  </data>
+</openerp>

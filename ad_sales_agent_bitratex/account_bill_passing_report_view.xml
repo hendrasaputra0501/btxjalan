@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report auto="False" id="report_bill_passing" model="account.bill.passing" name="bill.passing.report.form" file="ad_sales_agent_bitratex/account_bill_passing_report.mako" string="Bill Passing" usage="default" report_type="webkit" menu="True" />
+    </data>
+</openerp>

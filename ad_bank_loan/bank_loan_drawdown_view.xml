@@ -1,0 +1,337 @@
+<openerp>
+	<data>
+		<!-- REPAYMENT LOAN -->
+		<record id="view_bank_loan_drawdown_repayment_tree" model="ir.ui.view">
+			<field name="name">account.bank.loan.drawdown.repayment.tree</field>
+			<field name="model">account.bank.loan.drawdown.repayment</field>
+			<field name="arch" type="xml">
+				<tree string="Repayment Drawdown" >
+					<field name="name" />
+					<field name="entry_date" />
+					<field name="date" />
+					<field name="ref" />
+					<field name="journal_id" />
+					<field name="amount" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_bank_loan_drawdown_repayment_search" model="ir.ui.view">
+			<field name="name">account.bank.loan.drawdown.repayment.search</field>
+			<field name="model">account.bank.loan.drawdown.repayment</field>
+			<field name="arch" type="xml">
+				<search string="Repayment Drawdown">
+					<field name="name" string="Search" filter_domain="['|',('name','ilike', self),('ref','ilike',self)]"/>
+					<!-- <filter string="My Transaction" name="create_by" icon="terp-dialog-close" domain="[('create_by','=',uid)]" /> -->
+					<field name="journal_id" string="Payment Method" filter_domain="[('journal_id','ilike',self)]"/>
+					<group expand="0" string="Group By...">
+						<filter string="Status" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+					</group>
+				</search>
+			</field>
+		</record>
+		
+		<record id="view_bank_loan_drawdown_repayment_form" model="ir.ui.view">
+			<field name="name">account.bank.loan.drawdown.repayment.form</field>
+			<field name="model">account.bank.loan.drawdown.repayment</field>
+			<field name="arch" type="xml">
+				<form string="Repayment Drawdown" version="7.0">
+					<header>
+                        <button name="action_set_draft"  type="object" states="cancel" string="Set To Draft"/>
+                        <button name="action_confirm" string="Confirm" icon="gtk-ok" type="object" states="draft"/>
+                        <button name="action_validate" string="Validate Payment" icon="gtk-ok" class="oe_highlight" type="object" states="confirmed"/>
+                        <button name="action_cancel" string="Cancel Entry" icon="gtk-cancel" type="object" states="draft,confirmed"/>
+                        <button name="action_cancel" string="Unreconcile Entry" icon="gtk-cancel" type="object" states="posted"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,confirmed,posted" />
+					</header>
+					<sheet>
+						<div class="oe_right oe_button_box" name="import_loan_buttons">
+						   <button name="%(action_view_import_account_bank_loan)d"
+                                string="Import Loans" type="action"
+                                attrs="{'invisible':[('state','=','posted')]}"/>
+						</div>
+						<h1>
+							<field name="name" class="oe_inline" attrs="{'invisible':[('name','=',False)]}" readonly="1"/>
+						</h1>
+						<group>
+							<group>
+								<field name="journal_id" on_change="onchange_journal_id(journal_id, date, line_ids)"/>
+								<field name="amount" />
+							</group>
+							<group>
+								<field name="ref" placeholder="PA0123"/>
+								<field name="memo" placeholder="Payment To ..." />
+								<field name="entry_date" />
+								<field name="date" on_change="onchange_journal_id(journal_id, date, line_ids)"/>
+							</group>
+						</group>
+						<notebook>
+							<page string="Repayment of" >
+								<field name="line_ids" >
+									<tree editable="bottom" string="Repayment of" >
+										<field name="loan_id" />
+										<field name="liability_move_line_id" readonly="1"/>
+										<field name="date" readonly="1"/>
+										<field name="amount_original" readonly="1" sum="Total Loan"/>
+										<field name="amount_unreconciled" readonly="1" sum="Total Outstanding"/>
+                                        <field name="full_reconcile" on_change="onchange_full_reconcile(full_reconcile, amount_unreconciled)"/>
+                                        <field name="amount" sum="Total Payment"/>
+									</tree>
+								</field>
+							</page>
+                            <page string="Journal Items" attrs="{'invisible':[('move_id','=',False)]}">
+                                <group>
+                                    <group>
+                                        <field name="move_id" />
+                                    </group>
+                                    <group>
+                                    </group>
+                                </group>
+                                <field name="move_ids" />
+                            </page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_bank_loan_drawdown_repayment" model="ir.actions.act_window">
+			<field name="name">Repayment Drawdown</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">account.bank.loan.drawdown.repayment</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="view_bank_loan_drawdown_repayment_search"/>
+		</record>
+
+		<menuitem action="action_bank_loan_drawdown_repayment" id="menu_bank_loan_drawdown_repayment" parent="account.menu_finance_bank_and_cash" sequence="11"/>
+
+		<!-- PAYMENT INTEREST LOAN -->
+		<record id="view_bank_loan_drawdown_interest_tree" model="ir.ui.view">
+			<field name="name">account.bank.loan.drawdown.interest.tree</field>
+			<field name="model">account.bank.loan.drawdown.interest</field>
+			<field name="arch" type="xml">
+				<tree string="interest Drawdown" >
+					<field name="name" />
+					<field name="entry_date" />
+					<field name="date" />
+					<field name="ref" />
+					<field name="journal_id" />
+					<field name="amount" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_bank_loan_drawdown_interest_search" model="ir.ui.view">
+			<field name="name">account.bank.loan.drawdown.interest.search</field>
+			<field name="model">account.bank.loan.drawdown.interest</field>
+			<field name="arch" type="xml">
+				<search string="interest Drawdown">
+					<field name="name" string="Search" filter_domain="['|',('name','ilike', self),('ref','ilike',self)]"/>
+					<!-- <filter string="My Transaction" name="create_by" icon="terp-dialog-close" domain="[('create_by','=',uid)]" /> -->
+					<field name="journal_id" string="Payment Method" filter_domain="[('journal_id','ilike',self)]"/>
+					<group expand="0" string="Group By...">
+						<filter string="Status" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+					</group>
+				</search>
+			</field>
+		</record>
+		
+		<record id="view_bank_loan_drawdown_interest_form" model="ir.ui.view">
+			<field name="name">account.bank.loan.drawdown.interest.form</field>
+			<field name="model">account.bank.loan.drawdown.interest</field>
+			<field name="arch" type="xml">
+				<form string="interest Drawdown" version="7.0">
+					<header>
+                        <button name="action_set_draft"  type="object" states="cancel" string="Set To Draft"/>
+                        <button name="action_compute" string="Compute Interest" icon="gtk-ok" type="object" states="draft"/>
+                        <button name="action_validate" string="Validate Payment" icon="gtk-ok" class="oe_highlight" type="object" states="computed"/>
+                        <button name="action_cancel" string="Cancel Entry" icon="gtk-cancel" type="object" states="draft,computed"/>
+                        <button name="action_cancel" string="Unreconcile Entry" icon="gtk-cancel" type="object" states="posted"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,computed,posted" />
+					</header>
+					<sheet>
+						<div class="oe_right oe_button_box" name="import_loan_buttons">
+						   <button name="%(action_view_import_account_bank_loan_interest)d"
+                                string="Import Interest" type="action"
+                                attrs="{'invisible':[('state','!=','draft')]}"/>
+                            <button name="%(action_view_import_account_bank_loan_interest_prov)d"
+                                string="Import Interest Provisioned" type="action"
+                                attrs="{'invisible':[('state','!=','computed')]}"/>
+						</div>
+						<h1>
+							<field name="name" class="oe_inline" attrs="{'invisible':[('name','=',False)]}" readonly="1"/>
+						</h1>
+						<group string="Payment Information">
+							<group>
+								<field name="journal_id" on_change="onchange_journal_id(journal_id, date, date_from, date_to, compute_type, line_ids, is_provision)"/>
+								<field name="is_provision"/>
+								<field name="prov_account_id" attrs="{'invisible':[('is_provision','=',False)],'required':[('is_provision','=',True)]}"/>
+								<field name="account_interest"/>
+								<field name="amount" />
+							</group>
+							<group>
+								<field name="ref" placeholder="PA0123"/>
+								<field name="memo" placeholder="Payment To ..." />
+								<field name="entry_date" />
+								<field name="date" on_change="onchange_journal_id(journal_id, date, date_from, date_to, compute_type, line_ids, is_provision)"/>
+							</group>
+						</group>
+						<group>
+                            <group>
+                                <field name="compute_type" />
+                                <field name="date_from" attrs="{'required':[('state','=','draft')],'readonly':[('state','!=','draft')]}"/>
+                                <field name="date_to" attrs="{'required':[('state','=','draft')],'readonly':[('state','!=','draft')]}"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+						<notebook>
+							<page string="interest of" >
+								<field name="line_ids" >
+									<form string="Interest" version="7.0"  >
+	                                    <header>
+	                                        <!-- <button name="compute_interest" type="object" states="draft,computed" string="Compute Interest"/>
+	                                        <button name="action_set_to_draft" type="object" states="computed,cancel" string="Set to Draft"/>
+	                                        <button name="action_validate" type="object" states="computed" string="Validate Payment"/>
+	                                        <button name="action_unreconcile" type="object" states="paid" string="Unreconcile"/> -->
+	                                        <field name="state" widget="statusbar" statusbar_visible="draft,computed,paid"/>
+	                                    </header>
+	                                    <group>
+	                                        <group>
+	                                            <field name="compute_type" invisible="1"/>
+	                                            <field name="date_from"  invisible="1"/>
+	                                            <field name="date_to" invisible="1"/>
+	                                        </group>
+	                                        <group>
+	                                            <field name="rate" attrs="{'required':[('state','=','draft'),('compute_type','=','single')],'readonly':[('state','!=','draft')],'invisible':[('compute_type','!=','single')]}"/>
+	                                        </group>
+	                                    </group>
+	                                    <group>
+	                                        <group>
+	                                            <field name="interest_amount" />
+	                                            <field name="total_paid_amount" />
+	                                        </group>
+	                                    </group>
+	                                    <notebook>
+	                                        <page string="Interest Rate" >
+	                                            <field name="interest_line" readonly="1">
+	                                                <tree string="Interest Rate">
+	                                                    <field name="date_from"/>
+	                                                    <field name="date_to"/>
+	                                                    <field name="n_days"/>
+	                                                    <field name="outstanding"/>
+	                                                    <field name="rate"/>
+	                                                    <field name="amount" sum="amount"/>
+	                                                </tree>
+	                                            </field>     
+	                                        </page>
+	                                        <!-- <page string="Other Charge" >
+	                                            <field name="writeoff_lines">
+	                                                <tree string="Other Charge" editable="bottom">
+	                                                    <field name="invoice_related_id" domain=""/>
+	                                                    <field name="name"/>
+	                                                    <field name="type" string='Charge Type' on_change="onchange_charge(type)"/>
+	                                                    <field name="account_id" domain="[('type','=','other')]"/>
+	                                                    <field name="analytic_id"/>
+	                                                    <field name="analytic_journal_id" attrs="{'required':[('analytic_id','!=',False)]}"/>
+	                                                    <field name="amount" sum="Amount" string='Amount'/>
+	                                                </tree>
+	                                            </field>
+	                                        </page> -->
+	                                    </notebook>
+	                                </form>
+	                                <tree string="Interest">
+	                                    <field name="loan_id"/>
+	                                    <field name="interest_amount" sum="interest_amount"/>
+	                                </tree>
+								</field>
+								<field name="line_prov_ids" >
+									<form string="Interest" version="7.0"  >
+	                                    <header>
+	                                        <!-- <button name="compute_interest" type="object" states="draft,computed" string="Compute Interest"/>
+	                                        <button name="action_set_to_draft" type="object" states="computed,cancel" string="Set to Draft"/>
+	                                        <button name="action_validate" type="object" states="computed" string="Validate Payment"/>
+	                                        <button name="action_unreconcile" type="object" states="paid" string="Unreconcile"/> -->
+	                                        <field name="state" widget="statusbar" statusbar_visible="draft,computed,paid"/>
+	                                    </header>
+	                                    <group>
+	                                        <group>
+	                                            <field name="compute_type" invisible="1"/>
+	                                            <field name="date_from"  invisible="1"/>
+	                                            <field name="date_to" invisible="1"/>
+	                                        </group>
+	                                        <group>
+	                                            <field name="rate" attrs="{'required':[('state','=','draft'),('compute_type','=','single')],'readonly':[('state','!=','draft')],'invisible':[('compute_type','!=','single')]}"/>
+	                                        </group>
+	                                    </group>
+	                                    <group>
+	                                        <group>
+	                                            <field name="interest_amount" />
+	                                            <field name="total_paid_amount" />
+	                                        </group>
+	                                    </group>
+	                                    <notebook>
+	                                        <page string="Interest Rate" >
+	                                            <field name="interest_line" readonly="1">
+	                                                <tree string="Interest Rate">
+	                                                    <field name="date_from"/>
+	                                                    <field name="date_to"/>
+	                                                    <field name="n_days"/>
+	                                                    <field name="outstanding"/>
+	                                                    <field name="rate"/>
+	                                                    <field name="amount" sum="amount"/>
+	                                                </tree>
+	                                            </field>     
+	                                        </page>
+	                                        <!-- <page string="Other Charge" >
+	                                            <field name="writeoff_lines">
+	                                                <tree string="Other Charge" editable="bottom">
+	                                                    <field name="invoice_related_id" domain=""/>
+	                                                    <field name="name"/>
+	                                                    <field name="type" string='Charge Type' on_change="onchange_charge(type)"/>
+	                                                    <field name="account_id" domain="[('type','=','other')]"/>
+	                                                    <field name="analytic_id"/>
+	                                                    <field name="analytic_journal_id" attrs="{'required':[('analytic_id','!=',False)]}"/>
+	                                                    <field name="amount" sum="Amount" string='Amount'/>
+	                                                </tree>
+	                                            </field>
+	                                        </page> -->
+	                                    </notebook>
+	                                </form>
+	                                <tree string="Interest">
+	                                    <field name="loan_id"/>
+	                                    <field name="interest_amount" sum="interest_amount"/>
+	                                </tree>
+								</field>
+							</page>
+                            <page string="Journal Items" attrs="{'invisible':[('move_id','=',False)]}">
+                                <group>
+                                    <group>
+                                        <field name="move_id" />
+                                    </group>
+                                    <group>
+                                    </group>
+                                </group>
+                                <field name="move_ids" />
+                            </page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_bank_loan_drawdown_interest" model="ir.actions.act_window">
+			<field name="name">Interest Drawdown</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">account.bank.loan.drawdown.interest</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="view_bank_loan_drawdown_interest_search"/>
+		</record>
+
+		<menuitem action="action_bank_loan_drawdown_interest" id="menu_bank_loan_drawdown_interest" parent="account.menu_finance_bank_and_cash" sequence="12"/>
+	</data>
+</openerp>

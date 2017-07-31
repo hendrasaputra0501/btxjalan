@@ -1,0 +1,130 @@
+<openerp>
+	<data>
+		<record id="view_extra_charges_tree" model="ir.ui.view">
+            <field name="name">extra.charges.tree</field>
+            <field name="model">extra.charges</field>
+            <field name="arch" type="xml">
+                <tree string="Extra Charges" >
+                    <field name="invoice_id"/>
+                    <field name="type"/>
+                    <field name="po_id"/>
+                    <field name="sale_id"/>
+                    <field name="journal_id"/>
+                    <field name="date_charge"/>
+                    <field name="effective_date"/>
+                </tree>
+            </field>
+        </record>
+        
+		<record id="view_extra_charges_form" model="ir.ui.view">
+			<field name="name">extra.charges.form</field>
+			<field name="model">extra.charges</field>
+			<field name="arch" type="xml">
+				<form string="Extra Charges" version="7.0">
+					<!-- <header>
+						<button name="action_confirm" type="object" states="draft" string="Confirm" />
+						<button name="action_setdraft" type="object" states="open" string="Set to Draft" />
+						<field name="state" widget="statusbar" statusbar_visible="draft,reject,open,close,expired"/>
+					</header> -->
+					<sheet>
+					    <group>
+	                        <group>
+	                        	<field name="invoice_id" />
+	                        	<field name="type" />
+	                        	<field name="sale_id" attrs="{'invisible':[('type','=','in')],'required':[('type','=','out')]}" />
+	                        	<field name="po_id" attrs="{'invisible':[('type','=','out')],'required':[('type','=','in')]}"/>
+	                        </group>
+	                        <group>
+	                        	<field name="date_charge" />
+	                        	<field name="effective_date" />
+	                        </group>
+	                    </group>
+	                    <group>
+	                        <group>
+	                        	<field name="journal_id" />
+	                        	<field name="account_id" />
+	                        </group>
+	                        <group>
+	                        	<field name="purpose_id" />
+	                        </group>
+	                    </group>
+	                    <label for="pick_ids"/>
+	                    <field name="pick_ids"/>
+	                    <label for="charge_ids"/>
+	                    <field name="charge_ids">
+	                    	<form string="Extra Charges Line" version="7.0">
+	                    		<group>
+	                    			<group>
+	                    				<field name="name"/>
+	                    				<field name="type_line"/>
+	                    			</group>
+	                    			<group>
+	                    				<field name="account_id"/>
+	                    				<field name="analytic_id"/>
+	                    				<field name="amount"/>
+	                    				<field name="currency_id"/>
+	                    				<field name="amount_currency"/>
+	                    			</group>
+	                    		</group>
+	                    	</form>
+	                    	<tree string="Extra Charges Line" version="7.0">
+	                    		<field name="name"/>
+	                    		<field name="type_line"/>
+	                    		<field name="account_id"/>
+	                    		<field name="analytic_id"/>
+	                    		<field name="amount"/>
+	                    		<field name="currency_id"/>
+	                    		<field name="amount_currency"/>
+	                    	</tree>
+	                    </field>
+					<!-- <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div> -->
+                	</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_extra_charges_search" model="ir.ui.view">
+            <field name="name">extra.charges.search</field>
+            <field name="model">extra.charges</field>
+            <field name="arch" type="xml">
+                <search string="Extra Charges">
+                    <!-- <field name="trans_ref" string="Search" filter_domain="['|',('trans_ref','ilike', self),('issuing_number','ilike',self)]"/> -->
+                    <field name="sale_id" string="Applicant" filter_domain="[('sale_id','child_of',self)]"/>
+                    <field name="po_id" string="Applicant" filter_domain="[('po_id','child_of',self)]"/>
+                    <field name="invoice_id" string="Applicant" filter_domain="[('invoice_id','child_of',self)]"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Type" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'type'}"/>
+                        <filter string="Journal" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'journal_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+		
+		<record id="action_account_extra_charges" model="ir.actions.act_window">
+            <field name="name">Extra Charges</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">extra.charges</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_extra_charges_search"/>
+            <field name="context">{}</field>
+        </record>
+
+        <record id="action_sale_extra_charges" model="ir.actions.act_window">
+            <field name="name">Extra Charges</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">extra.charges</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_extra_charges_search"/>
+            <field name="context">{'type':'in'}</field>
+        </record>
+        
+        <menuitem action="action_account_extra_charges" id="menu_account_extra_charges" parent="account.menu_finance_bank_and_cash" sequence="5"/>
+
+        <menuitem action="action_sale_extra_charges" id="menu_sale_extra_charges" parent="base.menu_sales" sequence="15"/>
+	</data>
+</openerp>

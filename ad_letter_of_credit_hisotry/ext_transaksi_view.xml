@@ -1,0 +1,24 @@
+<openerp>
+	<data>
+		<record id="view_extra_transaksi_form_inhrt_lc" model="ir.ui.view">
+			<field name="name">ext.transaksi.form.inhrt.lc</field>
+            <field name="model">ext.transaksi</field>
+			<field name="inherit_id" ref="ad_ext_transaksi.view_extra_transaksi_form" />
+			<field name="arch" type="xml">
+				<xpath expr="/form/sheet/notebook/page[@string='Lines']/field[@name='ext_line']/tree/field[@name='picking_related_id']" position="after">
+					<field name="lc_id"/>
+				</xpath>
+			</field>
+		</record>
+		<record id="view_extra_transaksi_other_form_inhrt_lc" model="ir.ui.view">
+			<field name="name">ext.transaksi.other.form.inhrt.lc</field>
+            <field name="model">ext.transaksi</field>
+			<field name="inherit_id" ref="ad_ext_transaksi.view_extra_transaksi_other_form" />
+			<field name="arch" type="xml">
+				<xpath expr="/form/sheet/notebook/page[@string='Lines']/field[@name='ext_line']/tree/field[@name='invoice_related_id']" position="after">
+					<field name="lc_id"/>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</openerp>

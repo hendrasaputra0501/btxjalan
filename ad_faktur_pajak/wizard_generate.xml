@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="generate_faktur_pajak_form_view" model="ir.ui.view">
+            <field name="name">Generate Faktur</field>
+            <field name="model">generate.faktur.pajak</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Generate Faktur" version="7.0">
+                    <group>
+                        <field name="nomor_perusahaan" style="width: 10%%"/>
+                        <field name="tahun" style="width: 10%%"/>
+                        <field name="nomor_awal" style="width: 10%%"/>
+                        <field name="nomor_akhir" onchange="onchange_nomor_faktur(nomor_akhir)" style="width:10%%"/>
+                    </group>
+                    <group>
+                        <button name="generate_faktur" string="Create" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="oe_highlight" special="cancel"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_faktur" model="ir.actions.act_window">
+            <field name="name">Generate Faktur</field>
+            <field name="res_model">generate.faktur.pajak</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+        <menuitem id="menu_generate_faktur_pajak" name="Generate Faktur" parent="faktur_pajak_menu"
+            action="action_faktur"/>
+        
+    </data>
+</openerp>

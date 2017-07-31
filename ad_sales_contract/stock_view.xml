@@ -1,0 +1,598 @@
+<openerp>
+	<data>
+		<record id="view_move_picking_form_inherit_sales_contract" model="ir.ui.view">
+			<field name="name">stock.move.form.inherit.sales.contract</field>
+			<field name="model">stock.move</field>
+			<field name="inherit_id" ref="stock.view_move_picking_form" />
+			<field eval="10" name="priority"/>
+			<field name="arch" type="xml">
+				<field name='name' position='after'>
+					<field name="sale_line_id" attrs="{'invisible':['|',('type','!=','out'),('is_retur','=',True)]}" readonly="0" on_change="onchange_sale_line(sale_line_id)"/>
+					<field name="sequence_line" attrs="{'invisible':[('type','!=','out')]}"/>
+					<field name="lc_product_line_id" attrs="{'invisible':[('type','!=','out')]}"/>
+				</field>
+				<field name='product_id' position='after'>
+					<field name="is_retur" invisible="1" />
+					<field name="price_unit" invisible="0" attrs="{'invisible':[('is_retur','=',False)]}" />
+					<field name="price_currency_id" invisible="0" attrs="{'invisible':[('is_retur','=',False)]}" />
+				</field>
+			</field>
+		</record>
+
+		<record id="view_move_picking_tree_inherit_sales_contract" model="ir.ui.view">
+			<field name="name">stock.move.tree.inherit.sales.contract</field>
+			<field name="model">stock.move</field>
+			<field name="inherit_id" ref="stock.view_move_picking_tree" />
+			<field eval="10" name="priority"/>
+			<field name="arch" type="xml">
+				<field name='product_id' position='before'>
+					<field name="sequence_line" />
+				</field>
+			</field>
+		</record>
+		
+		<record id="view_picking_out_search" model="ir.ui.view">
+            <field name="name">stock.picking.inherit.search</field>
+            <field name="model">stock.picking.out</field>
+            <field name="inherit_id" ref="ad_container_booking.view_picking_out_search"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="lc_ids" string="LC" filter_domain="[('lc_ids','ilike', self)]"/>
+                    <field name="invoice_id" string="Invoice" filter_domain="[('invoice_id','ilike', self)]"/>
+                </field>
+            </field>
+        </record>
+
+		<record id="view_picking_inherit_sales_contract" model="ir.ui.view">
+			<field name="name">view.picking.inherit.sales.contract</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="stock.view_picking_form"/>
+			<field eval="18" name="priority"/>
+			<field name="arch" type="xml">
+				<field name='origin' position='after'>
+					<field name="order_number" attrs="{'invisible':[('type','!=','out')]}"/>
+					<field name="sale_type" attrs="{'invisible':[('type','!=','out')],'required':[('type','=','out')]}"/>
+					<field name="goods_type"/>
+				</field>
+			</field>
+		</record>
+
+		<record id="view_production_receipt_editable_inherit" model="ir.ui.view">
+			<field name="name">view.production.receipt.editable.inherit</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="ad_container_booking.view_picking_form_editable"/>
+			<field name="arch" type="xml">
+				<field name='internal_shipment_type' position='after'>
+					<field name="goods_type"/>
+				</field>
+			</field>
+		</record>
+
+		<!-- stock picking in -->
+		<record id="view_picking_in_inherit_sales_contract" model="ir.ui.view">
+			<field name="name">stock.picking.in.inherit.sales.contract</field>
+			<field name="model">stock.picking.in</field>
+			<field name="inherit_id" ref="stock.view_picking_in_form"/>
+			<field name="arch" type="xml">
+				<field name='origin' position='before'>
+					<field name='is_retur' on_change="onchange_retur(is_retur)" />
+					<field name='sale_type' attrs="{'invisible':[('is_retur','=',False)],'required':[('is_retur','=',True)]}" />
+					<field name='goods_type' required="True" />
+				</field>
+			</field>
+		</record>
+
+		<record id="view_picking_internal_search_inherit" model="ir.ui.view">
+			<field name="name">stock.picking.internal.search.inherit</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="stock.view_picking_internal_search"/>
+			<field name="arch" type="xml">
+				<field name='name' position="after">
+					<filter name="goods_type_fg" string="Finish Goods" icon="terp-accessories-archiver" domain="[('goods_type','=','Finish')]"/>
+					<filter name="goods_type_fg" string="Finish Good Others" icon="terp-accessories-archiver" domain="[('goods_type','=','Finish_others')]"/>
+					<filter name="goods_type_rm" string="Raw Material" icon="terp-accessories-archiver" domain="[('goods_type','=','Raw Material')]"/>
+					<filter name="goods_type_st" string="Stores" icon="terp-accessories-archiver" domain="[('goods_type','=','Stores')]"/>
+					<filter name="goods_type_sc" string="Scraps" icon="terp-accessories-archiver" domain="[('goods_type','=','Scrap')]"/>
+					<filter name="goods_type_waste" string="Waste" icon="terp-accessories-archiver" domain="[('goods_type','=','Waste')]"/>
+					<filter name="goods_type_fixed" string="Fixed Asset" icon="terp-accessories-archiver" domain="[('goods_type','=','Fixed')]"/>
+					<filter name="goods_type_packing" string="Packing Material" icon="terp-accessories-archiver" domain="[('goods_type','=','Packing')]"/>
+				</field>
+			</field>
+		</record>
+
+		<record id="view_picking_out_inherit_sales_contract" model="ir.ui.view">
+			<field name="name">view.picking.out.inherit.sales.contract</field>
+			<field name="model">stock.picking.out</field>
+			<field name="inherit_id" ref="stock.view_picking_out_tree"/>
+			<field name="arch" type="xml">
+				<field name='origin' position='after'>
+					<field name="existing_sequence_number"/>
+				</field>
+			</field>
+		</record>
+
+		<record id="view_picking_out_inherit_sales" model="ir.ui.view">
+			<field name="name">stock.picking.out.extend.form</field>
+			<field name="model">stock.picking.out</field>
+			<field name="inherit_id" ref="ad_container_booking.view_picking_out_extend_form"/>
+			<field name="arch" type="xml">
+				<field name="origin" position="after">
+					<field name="lc_ids" widget="many2many_tags" domain="[('state','not in',['canceled','nonactive','closed']),('sale_ids','=',sale_id)]"/>
+					<field name="goods_type"/>
+				</field>
+			</field>
+		</record>
+
+		<record id="seq_type_delivery_order_local" model="ir.sequence.type">
+			<field name="name">Delivery Order Local</field>
+			<field name="code">stock.picking.out.local</field>
+		</record>
+		
+		<record id="seq_delivery_order_local" model="ir.sequence">
+			<field name="name">Delivery Order Local</field>
+			<field name="code">stock.picking.out.local</field>
+			<field name="prefix">S-%(y)s-%(month)s</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<record id="seq_type_delivery_order_export" model="ir.sequence.type">
+			<field name="name">Delivery Order Export</field>
+			<field name="code">stock.picking.out.export</field>
+		</record>
+		
+		<record id="seq_delivery_order_export" model="ir.sequence">
+			<field name="name">Delivery Order Export</field>
+			<field name="code">stock.picking.out.export</field>
+			<field name="prefix">S-%(y)s-%(month)s</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+
+		<!-- finish good sales -->
+		<record id="seq_type_delivery_order_export_finish" model="ir.sequence.type">
+			<field name="name">Delivery Order Export Finish Good Sales</field>
+			<field name="code">stock.picking.out.export.finish</field>
+		</record>
+		
+		<record id="seq_delivery_order_export_finish" model="ir.sequence">
+			<field name="name">Delivery Order Export Finish Good Salest</field>
+			<field name="code">stock.picking.out.export.finish</field>
+			<field name="prefix">ES-1%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<record id="seq_type_delivery_order_local_finish" model="ir.sequence.type">
+			<field name="name">Delivery Order Local Finish Good Sales</field>
+			<field name="code">stock.picking.out.local.finish</field>
+		</record>
+		
+		<record id="seq_delivery_order_local_finish" model="ir.sequence">
+			<field name="name">Delivery Order Local Finish Good Sales</field>
+			<field name="code">stock.picking.out.local.finish</field>
+			<field name="prefix">LS-1%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<!-- finish good others sales -->
+		<record id="seq_type_delivery_order_export_finish_others" model="ir.sequence.type">
+			<field name="name">Delivery Order Export Finish Good Others Sales</field>
+			<field name="code">stock.picking.out.export.finisho</field>
+		</record>
+		
+		<record id="seq_delivery_order_export_finish_others" model="ir.sequence">
+			<field name="name">Delivery Order Export Finish Good Others Sales</field>
+			<field name="code">stock.picking.out.export.finisho</field>
+			<field name="prefix">ES-2%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<record id="seq_type_delivery_order_local_finish_others" model="ir.sequence.type">
+			<field name="name">Delivery Order Local Finish Good Others Sales</field>
+			<field name="code">stock.picking.out.local.finisho</field>
+		</record>
+		
+		<record id="seq_delivery_order_local_finish_others" model="ir.sequence">
+			<field name="name">Delivery Order Local Finish Good Others Sales</field>
+			<field name="code">stock.picking.out.local.finisho</field>
+			<field name="prefix">LS-2%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<!-- raw material sales -->
+		<record id="seq_type_delivery_order_export_raw" model="ir.sequence.type">
+			<field name="name">Delivery Order Export Raw Material Sales</field>
+			<field name="code">stock.picking.out.export.raw</field>
+		</record>
+		
+		<record id="seq_delivery_order_export_raw" model="ir.sequence">
+			<field name="name">Delivery Order Export Raw Material Salest</field>
+			<field name="code">stock.picking.out.export.raw</field>
+			<field name="prefix">ES-3%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<record id="seq_type_delivery_order_local_raw" model="ir.sequence.type">
+			<field name="name">Delivery Order Local Raw Material Sales</field>
+			<field name="code">stock.picking.out.local.raw</field>
+		</record>
+		
+		<record id="seq_delivery_order_local_raw" model="ir.sequence">
+			<field name="name">Delivery Order Local Raw Material Sales</field>
+			<field name="code">stock.picking.out.local.raw</field>
+			<field name="prefix">LS-3%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<!-- fix asset sales -->
+		<record id="seq_type_delivery_order_export_asset" model="ir.sequence.type">
+			<field name="name">Delivery Order Export Fixed Asset Sales</field>
+			<field name="code">stock.picking.out.export.asset</field>
+		</record>
+		
+		<record id="seq_delivery_order_export_asset" model="ir.sequence">
+			<field name="name">Delivery Order Export Fixed Asset Salest</field>
+			<field name="code">stock.picking.out.export.asset</field>
+			<field name="prefix">ES-4%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<record id="seq_type_delivery_order_local_asset" model="ir.sequence.type">
+			<field name="name">Delivery Order Local Fixed Asset Sales</field>
+			<field name="code">stock.picking.out.local.asset</field>
+		</record>
+		
+		<record id="seq_delivery_order_local_asset" model="ir.sequence">
+			<field name="name">Delivery Order Local Fixed Asset Sales</field>
+			<field name="code">stock.picking.out.local.asset</field>
+			<field name="prefix">LS-4%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<!-- stores sales -->
+		<record id="seq_type_delivery_order_export_stores" model="ir.sequence.type">
+			<field name="name">Delivery Order Export Stores Sales</field>
+			<field name="code">stock.picking.out.export.stores</field>
+		</record>
+		
+		<record id="seq_delivery_order_export_stores" model="ir.sequence">
+			<field name="name">Delivery Order Export Stores Salest</field>
+			<field name="code">stock.picking.out.export.stores</field>
+			<field name="prefix">ES-5%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<record id="seq_type_delivery_order_local_stores" model="ir.sequence.type">
+			<field name="name">Delivery Order Local Stores Sales</field>
+			<field name="code">stock.picking.out.local.stores</field>
+		</record>
+		
+		<record id="seq_delivery_order_local_stores" model="ir.sequence">
+			<field name="name">Delivery Order Local Stores Sales</field>
+			<field name="code">stock.picking.out.local.stores</field>
+			<field name="prefix">LS-5%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<!-- packing sales -->
+		<record id="seq_type_delivery_order_export_packing" model="ir.sequence.type">
+			<field name="name">Delivery Order Export Packing Sales</field>
+			<field name="code">stock.picking.out.export.packing</field>
+		</record>
+		
+		<record id="seq_delivery_order_export_packing" model="ir.sequence">
+			<field name="name">Delivery Order Export Packing Sales</field>
+			<field name="code">stock.picking.out.export.packing</field>
+			<field name="prefix">ES-6%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<record id="seq_type_delivery_order_local_packing" model="ir.sequence.type">
+			<field name="name">Delivery Order Local Packing Sales</field>
+			<field name="code">stock.picking.out.local.packing</field>
+		</record>
+		
+		<record id="seq_delivery_order_local_packing" model="ir.sequence">
+			<field name="name">Delivery Order Local Packing Sales</field>
+			<field name="code">stock.picking.out.local.packing</field>
+			<field name="prefix">LS-6%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<record id="seq_type_delivery_order_local_service" model="ir.sequence.type">
+			<field name="name">Delivery Order Local Service Sales</field>
+			<field name="code">stock.picking.out.local.service</field>
+		</record>
+		
+		<record id="seq_delivery_order_local_service" model="ir.sequence">
+			<field name="name">Delivery Order Local Service Sales</field>
+			<field name="code">stock.picking.out.local.service</field>
+			<field name="prefix">LS-7%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>s
+
+		<!-- others sales -->
+		<record id="seq_type_delivery_order_export_others" model="ir.sequence.type">
+			<field name="name">Delivery Order Export others Sales</field>
+			<field name="code">stock.picking.out.export.others</field>
+		</record>
+		
+		<record id="seq_delivery_order_export_others" model="ir.sequence">
+			<field name="name">Delivery Order Export others Salest</field>
+			<field name="code">stock.picking.out.export.others</field>
+			<field name="prefix">ES-9%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<record id="seq_type_delivery_order_local_others" model="ir.sequence.type">
+			<field name="name">Delivery Order Local others Sales</field>
+			<field name="code">stock.picking.out.local.others</field>
+		</record>
+		
+		<record id="seq_delivery_order_local_others" model="ir.sequence">
+			<field name="name">Delivery Order Local Misc Sales</field>
+			<field name="code">stock.picking.out.local.others</field>
+			<field name="prefix">LS-9%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<!-- Retur Local -->
+		<record id="type_retur_local_1" model="ir.sequence.type">
+			<field name="name">Retur FG</field>
+			<field name="code">stock.picking.in.local.finish</field>
+		</record>
+		
+		<record id="retur_local_1" model="ir.sequence">
+			<field name="name">Retur FG</field>
+			<field name="code">stock.picking.in.local.finish</field>
+			<field name="prefix">LR-1%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<record id="type_retur_local_2" model="ir.sequence.type">
+			<field name="name">Retur FGO</field>
+			<field name="code">stock.picking.in.local.finisho</field>
+		</record>
+		
+		<record id="retur_local_2" model="ir.sequence">
+			<field name="name">Retur FGO</field>
+			<field name="code">stock.picking.in.local.finisho</field>
+			<field name="prefix">LR-2%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<record id="type_retur_local_3" model="ir.sequence.type">
+			<field name="name">Retur RM</field>
+			<field name="code">stock.picking.in.local.raw</field>
+		</record>
+		
+		<record id="retur_local_3" model="ir.sequence">
+			<field name="name">Retur RM</field>
+			<field name="code">stock.picking.in.local.raw</field>
+			<field name="prefix">LR-3%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<record id="type_retur_local_4" model="ir.sequence.type">
+			<field name="name">Retur Fix Asset</field>
+			<field name="code">stock.picking.in.local.asset</field>
+		</record>
+		
+		<record id="retur_local_4" model="ir.sequence">
+			<field name="name">Retur Fix Asset</field>
+			<field name="code">stock.picking.in.local.asset</field>
+			<field name="prefix">LR-4%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<record id="type_retur_local_5" model="ir.sequence.type">
+			<field name="name">Retur Stores</field>
+			<field name="code">stock.picking.in.local.stores</field>
+		</record>
+		
+		<record id="retur_local_5" model="ir.sequence">
+			<field name="name">Retur Stores</field>
+			<field name="code">stock.picking.in.local.stores</field>
+			<field name="prefix">LR-5%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<record id="type_retur_local_6" model="ir.sequence.type">
+			<field name="name">Retur Packing</field>
+			<field name="code">stock.picking.in.local.packing</field>
+		</record>
+		
+		<record id="retur_local_6" model="ir.sequence">
+			<field name="name">Retur Packing</field>
+			<field name="code">stock.picking.in.local.packing</field>
+			<field name="prefix">LR-6%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<record id="type_retur_local_7" model="ir.sequence.type">
+			<field name="name">Retur Service</field>
+			<field name="code">stock.picking.in.local.service</field>
+		</record>
+		
+		<record id="retur_local_7" model="ir.sequence">
+			<field name="name">Retur Service</field>
+			<field name="code">stock.picking.in.local.service</field>
+			<field name="prefix">LR-7%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+		
+		<record id="type_retur_local_9" model="ir.sequence.type">
+			<field name="name">Retur Others</field>
+			<field name="code">stock.picking.in.local.others</field>
+		</record>
+		
+		<record id="retur_local_9" model="ir.sequence">
+			<field name="name">Retur Others</field>
+			<field name="code">stock.picking.in.local.others</field>
+			<field name="prefix">LR-9%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<!-- Retur Export -->
+		<record id="type_retur_export_1" model="ir.sequence.type">
+			<field name="name">Retur FG</field>
+			<field name="code">stock.picking.in.export.finish</field>
+		</record>
+		
+		<record id="retur_export_1" model="ir.sequence">
+			<field name="name">Retur FG</field>
+			<field name="code">stock.picking.in.export.finish</field>
+			<field name="prefix">ER-1%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<record id="type_retur_export_2" model="ir.sequence.type">
+			<field name="name">Retur FGO</field>
+			<field name="code">stock.picking.in.export.finisho</field>
+		</record>
+		
+		<record id="retur_export_2" model="ir.sequence">
+			<field name="name">Retur FGO</field>
+			<field name="code">stock.picking.in.export.finisho</field>
+			<field name="prefix">ER-2%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<record id="type_retur_export_3" model="ir.sequence.type">
+			<field name="name">Retur RM</field>
+			<field name="code">stock.picking.in.export.raw</field>
+		</record>
+		
+		<record id="retur_export_3" model="ir.sequence">
+			<field name="name">Retur RM</field>
+			<field name="code">stock.picking.in.export.raw</field>
+			<field name="prefix">ER-3%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<record id="type_retur_export_4" model="ir.sequence.type">
+			<field name="name">Retur Fix Asset</field>
+			<field name="code">stock.picking.in.export.asset</field>
+		</record>
+		
+		<record id="retur_export_4" model="ir.sequence">
+			<field name="name">Retur Fix Asset</field>
+			<field name="code">stock.picking.in.export.asset</field>
+			<field name="prefix">ER-4%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<record id="type_retur_export_5" model="ir.sequence.type">
+			<field name="name">Retur Stores</field>
+			<field name="code">stock.picking.in.export.stores</field>
+		</record>
+		
+		<record id="retur_export_5" model="ir.sequence">
+			<field name="name">Retur Stores</field>
+			<field name="code">stock.picking.in.export.stores</field>
+			<field name="prefix">ER-5%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<record id="type_retur_export_6" model="ir.sequence.type">
+			<field name="name">Retur Packing</field>
+			<field name="code">stock.picking.in.export.packing</field>
+		</record>
+		
+		<record id="retur_export_6" model="ir.sequence">
+			<field name="name">Retur Packing</field>
+			<field name="code">stock.picking.in.export.packing</field>
+			<field name="prefix">ER-6%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+
+		<record id="type_retur_export_7" model="ir.sequence.type">
+			<field name="name">Retur Service</field>
+			<field name="code">stock.picking.in.export.service</field>
+		</record>
+		
+		<record id="retur_export_7" model="ir.sequence">
+			<field name="name">Retur Service</field>
+			<field name="code">stock.picking.in.export.service</field>
+			<field name="prefix">ER-7%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+		
+		<record id="type_retur_export_9" model="ir.sequence.type">
+			<field name="name">Retur Others</field>
+			<field name="code">stock.picking.in.export.others</field>
+		</record>
+		
+		<record id="retur_export_9" model="ir.sequence">
+			<field name="name">Retur Others</field>
+			<field name="code">stock.picking.in.export.others</field>
+			<field name="prefix">ER-9%(y)s-</field>
+			<field name="suffix"></field>
+			<field name="padding">4</field>
+			<field name="company_id" eval="False"/>
+		</record>
+	</data>
+</openerp>

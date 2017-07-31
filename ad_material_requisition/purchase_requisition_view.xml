@@ -1,0 +1,173 @@
+<openerp>
+	<data>
+		<record id="view_purchase_rquisition_partner_form" model="ir.ui.view">
+			<field name="name">purchase.requisition.partner.form</field>
+			<field name="model">purchase.requisition.partner</field>
+			<field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_partner"/>
+			<field name="arch" type="xml">
+				<field name="partner_id" position="after">
+					<field name="partner_ids"/>
+					<field name="group_product"/>
+				</field>
+				<field name="partner_id" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</field>
+			</field>
+		</record>
+
+		
+		<menuitem
+			id="purchase_requisition.menu_purchase_requisition_pro_mgt"
+			sequence="0"
+			parent="purchase.menu_procurement_management"
+			action="purchase_requisition.action_purchase_requisition"/>  
+	
+	
+		
+		
+		<record model="ir.ui.view" id="view_purchase_requisition_form_mr">
+			<field name="name">purchase.requisition.form.mr</field>
+			<field name="type">form</field>
+			<field name="model">purchase.requisition</field>
+			<field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form" />
+			<field name="arch" type="xml">
+				<button name="tender_cancel" position="after">
+					<button name="print_sca" type="object" string="Print SCA" attrs="{'invisible':[('sca_ids','=',False)]}"/>
+				</button>
+				<field name="user_id" position="after">
+					<field name="assigned_employee"/>
+					<field name="goods_type"/>
+					<field name="category_id"/>
+					<field name="total"/>
+					<field name="sca_date"/>
+				</field>
+				<xpath expr="/form/sheet/notebook/page[@string='Products']/field[@name='line_ids']/tree[@string='Products']/field[@name='product_id']" position="attributes">
+					<attribute name="on_change">onchange_product_id(product_id)</attribute>
+				</xpath>
+				<xpath expr="/form/sheet/notebook/page[@string='Products']/field[@name='line_ids']/tree[@string='Products']/field[@name='product_id']" position="after">
+					<field name="account_analytic_id"/>
+					<field name="last_price"/>
+					<field name="last_order_id"/>
+					<field name="last_partner_id"/>
+					<field name="min_price"/>
+					<field name="min_order_id"/>
+					<field name="min_partner_id"/>
+					<field name="max_price"/>
+					<field name="max_order_id"/>
+					<field name="max_partner_id"/>
+				</xpath>
+				<xpath expr="/form/sheet/notebook/page[@string='Products']/field[@name='line_ids']/form[@string='Products']/group/field[@name='product_id']" position="attributes">
+					<attribute name="on_change">onchange_product_id(product_id)</attribute>
+				</xpath>
+				<xpath expr="/form/sheet/notebook/page[@string='Products']/field[@name='line_ids']/form[@string='Products']/group/field[@name='product_id']" position="after">
+					<field name="account_analytic_id"/>
+					<field name="last_price"/>
+					<field name="last_order_id"/>
+					<field name="last_partner_id"/>
+					<field name="min_price"/>
+					<field name="min_order_id"/>
+					<field name="min_partner_id"/>
+					<field name="max_price"/>
+					<field name="max_order_id"/>
+					<field name="max_partner_id"/>
+				</xpath>
+				<field name="purchase_ids" position="replace">
+					<notebook colspan="4">
+						<page string="SCA" attrs="{'invisible':[('purchase_ids','=',False)]}">
+							<button name="update_rfq" type="object" string="Update RFQ" icon="gtk-apply" class="oe-highlight"/>
+							<field name="sca_ids" colspan="4"  mode="tree" context="{'group_by':'partner_id'}" >
+								<tree string="RFQ(s) line(s)" class="oe_sortable" sort="true" editable="bottom" create="false">
+									<field name="tobe_purchased" on_change="onchange_tobe_purchased(tobe_purchased,po_line_id,po_id)"/>
+									<field name="partner_id" readonly="1"/>
+									<field name="name" readonly="1"/>
+									<field name="pro_qty" readonly="1"/>
+									<field name="product_qty" string="Qty Propose" invisible="0" readonly="0"/>
+									<field name="product_uom" readonly="1"/>
+									<field name="price_unit" readonly="0" on_change="onchange_price_qty(price_unit,pro_qty)"/>
+									<field name="price_subtotal" readonly="0"/>
+									<field name="po_line_id" invisible="1" readonly="1"/>
+									<field name="po_id" invisible="1" readonly="1"/>
+								</tree>
+							</field>
+						</page>
+						<page string="RFQ(s) Generated">
+							<field name="purchase_ids">
+								<tree string="Purchase Order" create="false">
+									<field name="name2" string="RFQ Number"/>
+									<field name="name" string="Reference" invisible="1"/>
+									<field name="date_order" string="Order Date"/>
+									<field name="partner_id"/>
+									<field name="company_id" groups="base.group_multi_company" widget="selection"/>
+									<field name="location_id" groups="stock.group_locations"/>
+									<field name="minimum_planned_date"/>
+									<field name="origin"/>
+									<field name="state"/>
+									<button name="purchase_cancel" states="draft,confirmed,wait_auth" string="Cancel Purchase Order" icon="gtk-cancel"/>
+									<button name="button_confirm" states="draft" type="object" string="Confirm Purchase Order" icon="gtk-apply"/>
+									<button name="purchase_approve" states="confirmed" string="Approved by Supplier" icon="gtk-ok"/>
+								</tree>
+							</field>
+						</page>
+					</notebook>
+				</field>
+				
+				<xpath expr="/form/sheet/div/label[@for='origin']" position="replace">
+				</xpath>
+				<xpath expr="/form/sheet/h1/label[@string=',']" position="replace">
+				</xpath>
+				<xpath expr="/form/sheet/h1/field[@name='origin']" position="replace">
+				</xpath>
+				<xpath expr="/form/sheet/notebook/page[@string='Products']" position="after">
+					<page string="Other Information">
+						<group colspan="4" col="4">
+							<field name="origin" class="oe_inline" placeholder="e.g. MR-15-0001"/>
+						</group>
+					</page>
+				</xpath>
+			</field>
+		</record>
+
+
+		<record id="view_purchase_requisition_wiz_mr" model="ir.ui.view">
+			<field name="name">view.purchase.requisition.wiz.mr</field>
+			<field name="model">purchase.requisition.wizard.assign</field>
+			<field name="arch" type="xml">
+			 <form string="Create RFQ" version="7.0">
+				<separator string="Do you really want to create the RFQ(s) ?"/>
+				<group string="Supplier(s)" colspan="4" col="2">
+					<field nolabel="1" name="partner_ids" colspan="4" />
+				</group>
+				<group string="Purchase Requisition(s)" colspan="4" col="2">
+					<field name="pr_ids" nolabel="1" colspan="4" />
+				</group>
+				<footer>
+					<div>
+						<button name="create_rfqs" string="Create RFQ(s)" type="object" icon="terp-gtk-go-back-rtl"/>
+						 or
+						<button special="cancel" string="Cancel" class="oe_link"/>
+					</div>
+				</footer>
+			</form>
+			</field>
+		</record>
+		
+		<act_window id="act_view_purchase_requisition_wiz_mr"
+			name="Generate RFQ(s)"
+			res_model="purchase.requisition.wizard.assign"
+			src_model="purchase.requisition"
+			multi="True"
+			key2="client_action_multi"
+			view_mode="form" target="new" view_type="form"/>
+	
+		<record model="ir.ui.view" id="view_purchase_requisition_tree_mr">
+			<field name="name">purchase.requisition.tree</field>
+			<field name="model">purchase.requisition</field>
+			<field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_tree" />
+			<field name="arch" type="xml">
+				<xpath expr="/tree[@colors]" position="attributes">
+					<attribute name="colors">black:state == 'cancel';black:date_end and date_end&lt;current_date;black:date_end&gt;current_date;</attribute>		
+				</xpath>
+	  		</field>
+		</record> 
+	</data>
+</openerp>

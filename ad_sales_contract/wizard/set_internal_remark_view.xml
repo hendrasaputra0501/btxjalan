@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_internal_remark_wizard" model="ir.ui.view">
+            <field name="name">Set Internal Remark</field>
+            <field name="model">internal.remark.wizard</field>
+            <field name="arch" type="xml">
+            <form string="Set Internal Remark" version="7.0">
+                <separator string="Set Internal Remark"/>
+                <group>
+                    <field name="remark"/>
+                </group>
+                <footer>
+                    <button name="set_internal_remark" string="Set" type="object" class="oe_highlight" />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+            </field>
+        </record>
+        <record id="action_internal_remark_wizard" model="ir.actions.act_window">
+            <field name="name">Set Internal Remark</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">internal.remark.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="view_eff_rate_wizard" model="ir.ui.view">
+            <field name="name">Set Efisiensi Rate</field>
+            <field name="model">efisiensi.rate.wizard</field>
+            <field name="arch" type="xml">
+            <form string="Set Efisiensi Rate" version="7.0">
+                <separator string="Set Efisiensi Rate"/>
+                <group>
+                    <field name="rate"/>
+                </group>
+                <footer>
+                    <button name="set_eff_rate" string="Set" type="object" class="oe_highlight" />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+            </field>
+        </record>
+        <record id="action_eff_rate_wizard" model="ir.actions.act_window">
+            <field name="name">Set Efisiensi Rate</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">efisiensi.rate.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="view_order_state_wizard" model="ir.ui.view">
+            <field name="name">Set Order State</field>
+            <field name="model">order.state.wizard</field>
+            <field name="arch" type="xml">
+            <form string="Set Order State" version="7.0">
+                <separator string="Set Order State"/>
+                <group>
+                    <field name="order_state"/>
+                </group>
+                <footer>
+                    <button name="set_order_state" string="Set" type="object" class="oe_highlight" />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+            </field>
+        </record>
+        <record id="action_order_state_wizard" model="ir.actions.act_window">
+            <field name="name">Set Order State</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">order.state.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+         <record id="view_reschedule_date_wizard" model="ir.ui.view">
+            <field name="name">Set Reschedule Date</field>
+            <field name="model">reschedule.date.wizard</field>
+            <field name="arch" type="xml">
+            <form string="Set Reschedule Date" version="7.0">
+                <separator string="Set Reschedule Date"/>
+                <group>
+                    <field name="reschedule_date"/>
+                </group>
+                <footer>
+                    <button name="set_reschedule_date" string="Set" type="object" class="oe_highlight" />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+            </field>
+        </record>
+         <record id="action_reschedule_date_wizard" model="ir.actions.act_window">
+            <field name="name">Set Reschedule Date</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">reschedule.date.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</openerp>

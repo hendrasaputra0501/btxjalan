@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		
+		<record id="ad_material_requisition.group_warehouse_extra" model="res.groups">
+		    <field name="name">Warehouse / Warehouse Extra </field>
+		</record>
+		
+		<record id="ad_material_requisition.group_warehouse_user_validation" model="res.groups">
+		    <field name="name">Warehouse / Warehouse User Validation </field>
+		</record>
+		
+		<record id="ad_material_requisition.group_warehouse_manager_validation" model="res.groups">
+		    <field name="name">Warehouse / Warehouse manager Validation </field>
+		</record>
+		
+		
+		<record id="ad_material_requisition.group_admin_department" model="res.groups">
+		    <field name="name">Procurement / Admin Department</field>
+		</record>
+		
+		<record id="ad_material_requisition.group_manager_department" model="res.groups">
+		    <field name="name">Procurement / Manager Department </field>
+		</record>
+		
+		<record id="ad_material_requisition.group_procurement_admin" model="res.groups">
+		    <field name="name">Procurement / Procurement Admin </field>
+		</record>
+		
+		<record id="ad_material_requisition.group_budget_keeper" model="res.groups">
+		    <field name="name">Procurement / Budget Keeper </field>
+		</record>
+		
+		<record id="ad_material_requisition.group_manager_procurement" model="res.groups">
+		    <field name="name">Procurement / Manager Procurement </field>
+		</record>
+		
+		<record id="ad_material_requisition.group_finance_control" model="res.groups">
+		    <field name="name">Procurement / Finance Control </field>
+		</record>
+		
+		<record id="ad_material_requisition.group_gm" model="res.groups">
+		    <field name="name">Procurement / GM </field>
+		</record>
+		
+		<record id="ad_material_requisition.group_cfo" model="res.groups">
+		    <field name="name">Procurement / CFO </field>
+		</record>
+		
+		<record id="ad_material_requisition.group_ceo" model="res.groups">
+		    <field name="name">Procurement / CEO </field>
+		</record>
+		
+	</data>
+</openerp>

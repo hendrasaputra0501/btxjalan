@@ -1,0 +1,22 @@
+.openerp .oe_list_buttons .oe_alternative {
+    visibility: visible;
+}
+.openerp .oe_list_buttons.oe_editing .oe_list_button_export {
+    display: none;
+}
+
+.openerp .oe_form_field_many2many .oe_list_buttons .oe_list_button_export {
+    display: none;
+}
+
+.openerp .oe_form_field_many2many .oe_list_buttons .oe_alternative {
+    display: none;
+}
+
+.openerp .oe_form_field_one2many .oe_list_buttons .oe_list_button_export {
+    display: none;
+}
+
+.openerp .oe_form_field_one2many .oe_list_buttons .oe_alternative {
+    display: none;
+}

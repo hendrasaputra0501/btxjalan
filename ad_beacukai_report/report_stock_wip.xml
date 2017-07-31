@@ -1,0 +1,213 @@
+<openerp>
+	<data>
+		<menuitem id="menu_stock_production_report_pabean" parent="menu_pabean_board" sequence="1" name="Production Analysis"/>
+
+		<record id="view_stock_wip_pabean_tree" model="ir.ui.view">
+	        <field name="name">report.stock.wip.pabean.tree</field>
+	        <field name="model">report.stock.wip.pabean</field>
+	        <field name="arch" type="xml">
+	            <tree string="WIP Stock" create="false">
+	                <field name="picking_id" invisible="1"/>
+					<field name="date" invisible="0"/>
+	                <field name="year" invisible="1" />
+	                <field name="month" invisible="1"/>
+	                <field name="product_id" invisible="0"/>
+	                <field name="product_qty" sum="Total quantity"/>
+	                <field name="product_uom" sum="UoM"/>
+	                <field name="company_id" invisible="1"/>
+	                <field name="location_id" invisible="1"/>
+	                <field name="location_dest_id" invisible="1"/>
+	                <field name="categ_id" invisible="1"/>
+	                <field name="state" invisible="1"/>
+	           </tree>
+	        </field>
+	    </record>
+	    <record id="view_stock_wip_pabean_graph" model="ir.ui.view">
+	         <field name="name">report.stock.wip.pabean.graph</field>
+	         <field name="model">report.stock.wip.pabean</field>
+	         <field name="arch" type="xml">
+	             <graph string="WIP Stock" type="bar">
+	                 <field name="product_id"/>
+	                 <field name="product_qty" operator="+"/>
+	             </graph>
+	         </field>
+	    </record>
+
+	    <record id="view_stock_wip_pabean_search" model="ir.ui.view">
+	        <field name="name">report.stock.wip.pabean.search</field>
+	        <field name="model">report.stock.wip.pabean</field>
+	        <field name="arch" type="xml">
+	            <search string="WIP Stock">
+	                <filter string="Done" name="done" icon="terp-dialog-close" domain="[('state','=','done')]" help = "Completed Stock-Production"/>
+	                <filter string="Todo" icon="terp-gtk-go-back-rtl" domain="[('state','in',('assigned','waiting','confirmed'))]" help = "Future Stock-Moves"/>
+	                <separator/>
+	                <field name="product_id" default_focus="1"/>
+	                <group expand="0" string="Extended Filters...">
+	                    <field name="location_id" />
+	                    <field name="location_dest_id" />
+	                    <field name="categ_id"/>
+
+	                    <field name="company_id" groups="base.group_multi_company"/>
+	                    <field name="date"/>
+	                </group>
+	                <group expand="1" string="Group By...">
+	                    <filter name="group_categ_id" string="Product Category" icon="terp-stock_symbol-selection" context="{'group_by':'categ_id'}"/>
+	                    <filter name="group_product" string="Product" icon="terp-accessories-archiver" context="{'group_by':'product_id'}"/>
+	                    <filter name="group_picking" string="Shipment" icon="terp-accessories-archiver" context="{'group_by':'picking_id'}"/>
+	                    <filter string="Source Location" name="src_location" icon="terp-gtk-jump-to-rtl" context="{'group_by':'location_id'}"/>
+	                    <filter string="Dest. Location" name="dest_location" icon="terp-gtk-jump-to-ltr"  context="{'group_by':'location_dest_id'}"/>
+	                    <filter string="Status" name="group_state" icon="terp-stock_effects-object-colorize" context="{'group_by':'state'}"/>
+	                    
+	                    <filter string="Company" name="group_state" icon="terp-go-home" context="{'group_by':'company_id'}" groups="base.group_multi_company"/>
+	                    <!-- <filter string="Day" icon="terp-go-today" context="{'group_by':'day'}" help="Day Planned"/> -->
+	                    <filter string="Month" icon="terp-go-month" context="{'group_by':'date'}" help="Month"/>
+	                    <filter string="Year" icon="terp-go-year" context="{'group_by':'year'}"  help="Year"/>
+	                </group>
+	            </search>
+	        </field>
+	    </record>
+
+	    <record id="action_stock_wip_pabean_report" model="ir.actions.act_window">
+	        <field name="name">WIP Stock</field>
+	        <field name="res_model">report.stock.wip.pabean</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,graph</field>
+	        <field name="search_view_id"  ref="view_stock_wip_pabean_search"/>
+	        <field name="view_id" ref="view_stock_wip_pabean_tree"/>
+	        <field name="context">{'contact_display': 'partner','search_default_in':1,'search_default_done':1,'search_default_year':1, 'search_default_month':1, }</field>
+	    </record>
+	    <!-- <menuitem action="action_stock_wip_pabean_report" id="menu_action_stock_wip_pabean_report" parent="menu_stock_production_report_pabean" sequence="1"/> -->
+
+	    <record id="view_report_stock_location_product" model="ir.ui.view">
+            <field name="name">Products by WIP Location</field>
+            <field name="model">report.stock.location.product</field>
+            <field name="arch" type="xml">
+               <form string="View Stock of Products in WIP" version="7.0">
+                	<group>
+                		<group>
+	                        <field name="report_type" on_change="onchange_report_type(report_type)" invisible="1"/>
+	                    	<field readonly="1" name="internal_type" attrs="{'required':[('report_type','=','2')],'invisible':[('report_type','=','1')]}"/>
+                		</group>
+                		<group>
+                        	<field name="type" on_change="onchange_report_type(report_type)"/>
+	                    	<!-- <field name="location" attrs="{'required':[('report_type','=','1')],'invisible':[('report_type','=','2')]}" widget="selection" domain="[('usage','=','production')]"/> -->
+	                    	<field name="location" invisible="1" domain="[('usage','=','production')]"/>
+                		</group>
+                	</group>
+                    <group attrs="{'invisible':[('type', '!=', 'period')], 'required':[('type', '=', 'period')]}">
+                		<group>
+                        	<field name="from_date"/>
+                		</group>
+                		<group>
+                        	<field name="to_date"/>
+                		</group>
+                    </group>
+                    <footer>
+                        <button name="action_open_window" string="View Products Inventory" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_stock_location_report_1" model="ir.actions.act_window">
+	        <field name="name">Barang Jadi</field>
+	        <field name="res_model">report.stock.location.product</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">form</field>
+	        <field name="context">{'report_type':'2','internal_type':'Finish'}</field>
+	        <field name="view_id" ref="view_report_stock_location_product"/>
+	    	<field name="target">new</field>
+	    </record>
+
+	    <record id="action_stock_location_report_2" model="ir.actions.act_window">
+	        <field name="name">Sampah Barang Jadi</field>
+	        <field name="res_model">report.stock.location.product</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">form</field>
+	        <field name="context">{'report_type':'2','internal_type':'Finish_others'}</field>
+	        <field name="view_id" ref="view_report_stock_location_product"/>
+	    	<field name="target">new</field>
+	    </record>
+
+	    <record id="action_stock_location_report_3" model="ir.actions.act_window">
+	        <field name="name">Bahan Baku</field>
+	        <field name="res_model">report.stock.location.product</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">form</field>
+	        <field name="context">{'report_type':'2','internal_type':'Raw Material'}</field>
+	        <field name="view_id" ref="view_report_stock_location_product"/>
+	    	<field name="target">new</field>
+	    </record>
+
+	    <record id="action_stock_location_report_4" model="ir.actions.act_window">
+	        <field name="name">Alat dan Spare-part</field>
+	        <field name="res_model">report.stock.location.product</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">form</field>
+	        <field name="context">{'report_type':'2','internal_type':'Stores'}</field>
+	        <field name="view_id" ref="view_report_stock_location_product"/>
+	    	<field name="target">new</field>
+	    </record>
+
+	    <record id="action_stock_location_report_5" model="ir.actions.act_window">
+	        <field name="name">Sampah Produksi</field>
+	        <field name="res_model">report.stock.location.product</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">form</field>
+	        <field name="context">{'report_type':'2','internal_type':'Waste'}</field>
+	        <field name="view_id" ref="view_report_stock_location_product"/>
+	    	<field name="target">new</field>
+	    </record>
+
+	    <record id="action_stock_location_report_6" model="ir.actions.act_window">
+	        <field name="name">Bahan Penolong</field>
+	        <field name="res_model">report.stock.location.product</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">form</field>
+	        <field name="context">{'report_type':'2','internal_type':'Packing'}</field>
+	        <field name="view_id" ref="view_report_stock_location_product"/>
+	    	<field name="target">new</field>
+	    </record>
+
+	    <record id="action_stock_location_report_7" model="ir.actions.act_window">
+	        <field name="name">Asset</field>
+	        <field name="res_model">report.stock.location.product</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">form</field>
+	        <field name="context">{'report_type':'2','internal_type':'Fixed'}</field>
+	        <field name="view_id" ref="view_report_stock_location_product"/>
+	    	<field name="target">new</field>
+	    </record>
+
+	    <menuitem id="menu_action_stock_location_report" parent="menu_stock_move_report_pabean" sequence="3"
+	    name="Mutasi Barang" />
+	    <menuitem id="menu_action_stock_location_report_1" parent="menu_action_stock_location_report" sequence="0"
+	    action="action_stock_location_report_1" />
+	    <menuitem id="menu_action_stock_location_report_2" parent="menu_action_stock_location_report" sequence="1"
+	    action="action_stock_location_report_2" />
+	    <menuitem id="menu_action_stock_location_report_3" parent="menu_action_stock_location_report" sequence="2"
+	    action="action_stock_location_report_3" />
+	    <menuitem id="menu_action_stock_location_report_4" parent="menu_action_stock_location_report" sequence="3"
+	    action="action_stock_location_report_4" />
+	    <menuitem id="menu_action_stock_location_report_5" parent="menu_action_stock_location_report" sequence="4"
+	    action="action_stock_location_report_5" />
+	    <menuitem id="menu_action_stock_location_report_6" parent="menu_action_stock_location_report" sequence="5"
+	    action="action_stock_location_report_6" />
+	    <menuitem id="menu_action_stock_location_report_7" parent="menu_action_stock_location_report" sequence="6"
+	    action="action_stock_location_report_7" />
+
+	    <record id="action_stock_location_report_wip" model="ir.actions.act_window">
+	        <field name="name">Laporan Posisi WIP</field>
+	        <field name="res_model">report.stock.location.product</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">form</field>
+	        <field name="context">{'report_type':'1','internal_type':'Raw Material'}</field>
+	        <field name="view_id" ref="view_report_stock_location_product"/>
+	    	<field name="target">new</field>
+	    </record>
+	    <menuitem action="action_stock_location_report_wip" id="menu_action_stock_location_report_wip" parent="menu_stock_production_report_pabean" sequence="2"/>
+
+	</data>
+</openerp>

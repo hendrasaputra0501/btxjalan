@@ -1,0 +1,45 @@
+<openerp>
+	<data>
+		<record id="view_material_request_group_form" model="ir.ui.view">
+			<field name="name">material.request.group.form</field>
+			<field name="model">material.request.group</field>
+			<field name="arch" type="xml">
+				<form string="Material Request Grouping" version="7.0">
+					<group colspan="4" col="4">
+						<field name="responsible_id"/>
+						<field name="assigned_buyer"/>
+						<field name="requisition_deadline"/>
+						<field name="requisition_date"/>
+					</group>
+					<notebook>
+						<page string="MR Lines">
+							<field name="mr_lines" nolabel="1" colspan="4" domain="[('state','=','submit')]">
+								<field name="name"/>
+								<field name="product_id" domain="[('internal_type','not in',('Finish','Finish_others','Raw Material','Waste','Scrap','Packing'))]"/>
+								<field name="product_qty"/>
+								<field name="product_uom_id"/>
+								<field name="requisition_id"/>
+								<field name="state"/>
+							</field>
+						</page>
+					</notebook>
+					<footer>
+						<button name="generate_batch_pr" string="Create Purchase Requisition" type="object" class="oe_highlight"/>
+	                      or  
+	                    <button string="Cancel" class="oe_link" special="cancel"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<act_window name="Create Draft Purchase Requisition"
+            res_model="material.request.group"
+            src_model="material.request.line"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="act_window_mr_to_pr_batch"/>
+	</data>
+</openerp>

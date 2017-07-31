@@ -1,0 +1,293 @@
+<openerp>
+	<data>
+		<menuitem id="menu_pabean_board" name="Pabean Reports" sequence="75"/>
+		<menuitem id="menu_stock_move_report_pabean" parent="menu_pabean_board" sequence="1" name="Move Analysis"/>
+
+		<record id="view_stock_move_pabean_tree" model="ir.ui.view">
+	        <field name="name">report.stock.move.pabean.tree</field>
+	        <field name="model">report.stock.move.pabean</field>
+	        <field name="arch" type="xml">
+	            <tree string="Pemasukan Barang" create="false">
+	                <field name="year" invisible="0" />
+	                <field name="company_id" invisible="0"/>
+	                <field name="period_id" invisible="0"/>
+					<field name="jns_pabean" invisible="0"/>
+	                <field name="no_pabean" invisible="0"/>
+					<field name="tgl_pabean" invisible="0"/>
+	                <field name="picking_id" invisible="0"/>
+					<field name="date" invisible="0"/>
+	                <field name="partner_id" invisible="1" string="Pengirim" context="{'contact_display':'partner'}" />
+	                <field name="partner_name" invisible="0" string="Pengirim"/>
+	                <field name="product_id" invisible="1"/>
+	                <field name="product_code" invisible="0"/>
+	                <field name="product_name" invisible="0"/>
+	                <field name="product_uom"/>
+	                <field name="product_qty" sum="Total quantity"/>
+	                <field name="currency_id"/>
+	                <field name="price_unit" invisible="1"/>
+	                <field name="subtotal"/>
+	                <field name="type" invisible="1"/>
+	                <field name="location_id" invisible="1"/>
+	                <field name="location_dest_id" invisible="1"/>
+	                <field name="categ_id" invisible="1"/>
+	                <field name="state" invisible="1"/>
+	                <field name="month" invisible="1"/>
+	                <!-- <field name="day" invisible="1"/> -->
+<!-- 	                <field name="value"  sum="Total value"/> -->
+	                <!-- <field name="product_qty_in" sum="Total incoming quantity" />
+	                <field name="product_qty_out" sum="Total outgoing quantity"/> -->
+	           </tree>
+	        </field>
+	    </record>
+
+	    <record id="view_stock_move_pabean_out_tree" model="ir.ui.view">
+	        <field name="name">report.stock.move.pabean.out.tree</field>
+	        <field name="model">report.stock.move.pabean</field>
+	        <field name="arch" type="xml">
+	            <tree string="Pengiriman Barang" create="false">
+	                <field name="year" invisible="0" />
+	                <field name="company_id" invisible="0"/>
+	                <field name="period_id" invisible="0"/>
+					<field name="jns_pabean" invisible="0"/>
+					<field name="no_pabean" invisible="0"/>
+					<field name="tgl_pabean" invisible="0"/>
+	                <field name="invoice_id" invisible="0"/>
+					<field name="date" invisible="0"/>
+	                <field name="partner_id" invisible="1" string="Pengirim" context="{'contact_display':'partner'}" />
+	                <field name="partner_name" invisible="0" string="Pengirim"/>
+	                <field name="product_id" invisible="1"/>
+	                <field name="product_code" invisible="0"/>
+	                <field name="product_name" invisible="0"/>
+	                <field name="product_uom"/>
+	                <field name="product_qty" sum="Total quantity"/>
+	                <field name="currency_id"/>
+	                <field name="price_unit"/>
+	                <field name="subtotal" invisible="0"/>
+	                <field name="type" invisible="1"/>
+	                <field name="location_id" invisible="1"/>
+	                <field name="location_dest_id" invisible="1"/>
+	                <field name="categ_id" invisible="1"/>
+	                <field name="state" invisible="1"/>
+	                <field name="month" invisible="1"/>
+	           </tree>
+	        </field>
+	    </record>
+
+	    <record id="view_stock_move_pabean_graph" model="ir.ui.view">
+	         <field name="name">report.stock.move.pabean.graph</field>
+	         <field name="model">report.stock.move.pabean</field>
+	         <field name="arch" type="xml">
+	             <graph string="Incoming Products" type="bar">
+	                 <field name="product_id"/>
+	                 <field name="product_qty" operator="+"/>
+	             </graph>
+	         </field>
+	    </record>
+
+	    <record id="view_stock_move_pabean_search" model="ir.ui.view">
+	        <field name="name">report.stock.move.pabean.search</field>
+	        <field name="model">report.stock.move.pabean</field>
+	        <field name="arch" type="xml">
+	            <search string="Moves Analysis">
+	                <filter string="Done" name="done" icon="terp-dialog-close" domain="[('state','=','done')]" help = "Completed Stock-Moves"/>
+	                <filter string="Todo" icon="terp-gtk-go-back-rtl" domain="[('state','in',('assigned','waiting','confirmed'))]" help = "Future Stock-Moves"/>
+	                <separator/>
+	                <filter icon="terp-go-home" name="in" string="Incoming" domain="[('type','=','in')]"/>
+	                <!-- <filter icon="terp-go-home" name="internal" string="Internal" domain="[('type','=','internal')]"/> -->
+	                <filter icon="terp-go-home" name="out" string="Outgoing" domain="[('type','=','out')]"/>
+	                
+	                <field name="period_id" string="Period"/>
+	                <field name="tgl_pabean" filter_domain="[('tgl_pabean','&gt;=',self)]" string="Dari Tanggal"/>
+	                <field name="tgl_pabean" filter_domain="[('tgl_pabean','&lt;=',self)]" string="Sampai Tanggal"/>
+	                <!-- <field name="date" filter_domain="[('date','&gt;=',self)]" string="Shipment Date &gt;= "/>
+	                <field name="date" filter_domain="[('date','&lt;=',self)]" string="Shipment Date &lt;= "/> -->
+	                
+	                <field name="product_id" default_focus="1"/>
+	                <field name="partner_id" context="{'contact_display':'partner'}"/>
+	                <group expand="0" string="Extended Filters...">
+	                    <field name="location_id" />
+	                    <field name="location_dest_id" />
+	                    <field name="categ_id"/>
+
+	                    <field name="company_id" groups="base.group_multi_company"/>
+	                    <field name="date"/>
+	                </group>
+	                <group expand="1" string="Group By...">
+	                    <filter name="group_partner" string="Partner" icon="terp-partner" context="{'group_by':'partner_id'}"/>
+	                    <filter name="group_categ_id" string="Product Category" icon="terp-stock_symbol-selection" context="{'group_by':'categ_id'}"/>
+	                    <filter name="group_product" string="Product" icon="terp-accessories-archiver" context="{'group_by':'product_id'}"/>
+	                    <filter name="group_picking" string="Shipment" icon="terp-accessories-archiver" context="{'group_by':'picking_id'}"/>
+	                    <filter string="Source Location" name="src_location" icon="terp-gtk-jump-to-rtl" context="{'group_by':'location_id'}"/>
+	                    <filter string="Dest. Location" name="dest_location" icon="terp-gtk-jump-to-ltr"  context="{'group_by':'location_dest_id'}"/>
+	                    <filter string="Type" name="group_type" icon="terp-stock_symbol-selection" context="{'group_by':'type'}" help="Shipping type specify, goods coming in or going out"/>
+	                    <filter string="Status" name="group_state" icon="terp-stock_effects-object-colorize" context="{'group_by':'state'}"/>
+	                    
+	                    <filter string="Company" name="group_state" icon="terp-go-home" context="{'group_by':'company_id'}" groups="base.group_multi_company"/>
+	                    <!-- <filter string="Day" icon="terp-go-today" context="{'group_by':'day'}" help="Day Planned"/> -->
+	                    <filter string="Month" icon="terp-go-month" context="{'group_by':'date'}" help="Month"/>
+	                    <filter string="Year" icon="terp-go-year" context="{'group_by':'year'}"  help="Year"/>
+	                </group>
+	            </search>
+	        </field>
+	    </record>
+
+	    <!-- <record id="action_stock_move_pabean_in_report" model="ir.actions.act_window">
+	        <field name="name">Pemasukan Barang</field>
+	        <field name="res_model">report.stock.move.pabean</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,graph</field>
+	        <field name="search_view_id"  ref="view_stock_move_pabean_search"/>
+	        <field name="domain">[('type','=','in')]</field>
+	        <field name="view_id" ref="view_stock_move_pabean_tree"/>
+	        <field name="context">{'contact_display': 'partner','search_default_in':1,'search_default_done':1,'search_default_year':1, 'search_default_month':1, }</field>
+	    </record> -->
+	    <!-- <menuitem action="action_stock_move_pabean_in_report" id="menu_action_stock_move_pabean_in_report" parent="menu_stock_move_report_pabean" sequence="1"/> -->
+	    <menuitem id="menu_action_stock_move_pabean_in_report" parent="menu_stock_move_report_pabean" sequence="1" name="Pemasukan Barang"/>
+
+	    <record id="action_stock_move_pabean_in_bc40_report" model="ir.actions.act_window">
+	        <field name="name">BC 4.0</field>
+	        <field name="res_model">report.stock.move.pabean</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,graph</field>
+	        <field name="search_view_id"  ref="view_stock_move_pabean_search"/>
+	        <field name="domain">[('type','=','in'),('jns_pabean','=',3)]</field>
+	        <field name="view_id" ref="view_stock_move_pabean_tree"/>
+	        <field name="context">{'contact_display': 'partner','search_default_in':1,'search_default_done':1,'search_default_year':1, 'search_default_month':1, }</field>
+	    </record>
+	    <menuitem action="action_stock_move_pabean_in_bc40_report" id="menu_action_stock_move_pabean_in_bc40_report" parent="menu_action_stock_move_pabean_in_report" sequence="1"/>
+
+	    <record id="action_stock_move_pabean_in_bc23_report" model="ir.actions.act_window">
+	        <field name="name">BC 2.3</field>
+	        <field name="res_model">report.stock.move.pabean</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,graph</field>
+	        <field name="search_view_id"  ref="view_stock_move_pabean_search"/>
+	        <field name="domain">[('type','=','in'),('jns_pabean','=',1)]</field>
+	        <field name="view_id" ref="view_stock_move_pabean_tree"/>
+	        <field name="context">{'contact_display': 'partner','search_default_in':1,'search_default_done':1,'search_default_year':1, 'search_default_month':1, }</field>
+	    </record>
+	    <menuitem action="action_stock_move_pabean_in_bc23_report" id="menu_action_stock_move_pabean_in_bc23_report" parent="menu_action_stock_move_pabean_in_report" sequence="2"/>
+
+	    <record id="action_stock_move_pabean_in_bc262_report" model="ir.actions.act_window">
+	        <field name="name">BC 2.62</field>
+	        <field name="res_model">report.stock.move.pabean</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,graph</field>
+	        <field name="search_view_id"  ref="view_stock_move_pabean_search"/>
+	        <field name="domain">[('type','=','in'),('jns_pabean','=',72)]</field>
+	        <field name="view_id" ref="view_stock_move_pabean_tree"/>
+	        <field name="context">{'contact_display': 'partner','search_default_in':1,'search_default_done':1,'search_default_year':1, 'search_default_month':1, }</field>
+	    </record>
+	    <menuitem action="action_stock_move_pabean_in_bc262_report" id="menu_action_stock_move_pabean_in_bc262_report" parent="menu_action_stock_move_pabean_in_report" sequence="3"/>
+
+	    <record id="action_stock_move_pabean_in_bc27in_report" model="ir.actions.act_window">
+	        <field name="name">BC 2.7 Masukan</field>
+	        <field name="res_model">report.stock.move.pabean</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,graph</field>
+	        <field name="search_view_id"  ref="view_stock_move_pabean_search"/>
+	        <field name="domain">[('type','=','in'),('jns_pabean','=',21)]</field>
+	        <field name="view_id" ref="view_stock_move_pabean_tree"/>
+	        <field name="context">{'contact_display': 'partner','search_default_in':1,'search_default_done':1,'search_default_year':1, 'search_default_month':1, }</field>
+	    </record>
+	    <menuitem action="action_stock_move_pabean_in_bc27in_report" id="menu_action_stock_move_pabean_in_bc27in_report" parent="menu_action_stock_move_pabean_in_report" sequence="4"/>
+
+	    <record id="action_stock_move_pabean_in_wobc_report" model="ir.actions.act_window">
+	        <field name="name">Tanpa BC</field>
+	        <field name="res_model">report.stock.move.pabean</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,graph</field>
+	        <field name="search_view_id"  ref="view_stock_move_pabean_search"/>
+	        <field name="domain">[('type','=','in'),('jns_pabean','=',False)]</field>
+	        <field name="view_id" ref="view_stock_move_pabean_tree"/>
+	        <field name="context">{'contact_display': 'partner','search_default_in':1,'search_default_done':1,'search_default_year':1, 'search_default_month':1, }</field>
+	    </record>
+	    <menuitem action="action_stock_move_pabean_in_wobc_report" id="menu_action_stock_move_pabean_in_wobc_report" parent="menu_action_stock_move_pabean_in_report" sequence="5"/>
+
+	    
+	    <!-- <record id="action_stock_move_pabean_out_report" model="ir.actions.act_window">
+	        <field name="name">Pengiriman Barang</field>
+	        <field name="res_model">report.stock.move.pabean</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,graph</field>
+	        <field name="search_view_id"  ref="view_stock_move_pabean_search"/>
+	        <field name="domain">[('type','=','out')]</field>
+	        <field name="view_id" ref="view_stock_move_pabean_out_tree"/>
+	        <field name="context">{'contact_display': 'partner','search_default_out':1,'search_default_done':1,'search_default_year':1, 'search_default_month':1, }</field>
+	    </record> -->
+	    <!-- <menuitem action="action_stock_move_pabean_out_report" id="menu_action_stock_move_pabean_out_report" parent="menu_stock_move_report_pabean" sequence="2"/> -->
+	    <menuitem id="menu_action_stock_move_pabean_out_report" parent="menu_stock_move_report_pabean" sequence="2" name="Pengeluaran Barang"/>
+
+	    <record id="action_stock_move_pabean_out_bc41_report" model="ir.actions.act_window">
+	        <field name="name">BC 4.1</field>
+	        <field name="res_model">report.stock.move.pabean</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,graph</field>
+	        <field name="search_view_id"  ref="view_stock_move_pabean_search"/>
+	        <field name="domain">[('type','=','out'),('jns_pabean','=',4)]</field>
+	        <field name="view_id" ref="view_stock_move_pabean_out_tree"/>
+	        <field name="context">{'contact_display': 'partner','search_default_out':1,'search_default_done':1,'search_default_year':1, 'search_default_month':1, }</field>
+	    </record>
+	    <menuitem action="action_stock_move_pabean_out_bc41_report" id="menu_action_stock_move_pabean_out_bc41_report" parent="menu_action_stock_move_pabean_out_report" sequence="1"/>
+
+	    <record id="action_stock_move_pabean_out_bc30_report" model="ir.actions.act_window">
+	        <field name="name">BC 3.0</field>
+	        <field name="res_model">report.stock.move.pabean</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,graph</field>
+	        <field name="search_view_id"  ref="view_stock_move_pabean_search"/>
+	        <field name="domain">[('type','=','out'),('jns_pabean','=',5)]</field>
+	        <field name="view_id" ref="view_stock_move_pabean_out_tree"/>
+	        <field name="context">{'contact_display': 'partner','search_default_out':1,'search_default_done':1,'search_default_year':1, 'search_default_month':1, }</field>
+	    </record>
+	    <menuitem action="action_stock_move_pabean_out_bc30_report" id="menu_action_stock_move_pabean_out_bc30_report" parent="menu_action_stock_move_pabean_out_report" sequence="2"/>
+
+	    <record id="action_stock_move_pabean_out_bc25_report" model="ir.actions.act_window">
+	        <field name="name">BC 2.5</field>
+	        <field name="res_model">report.stock.move.pabean</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,graph</field>
+	        <field name="search_view_id"  ref="view_stock_move_pabean_search"/>
+	        <field name="domain">[('type','=','out'),('jns_pabean','=',6)]</field>
+	        <field name="view_id" ref="view_stock_move_pabean_out_tree"/>
+	        <field name="context">{'contact_display': 'partner','search_default_out':1,'search_default_done':1,'search_default_year':1, 'search_default_month':1, }</field>
+	    </record>
+	    <menuitem action="action_stock_move_pabean_out_bc25_report" id="menu_action_stock_move_pabean_out_bc25_report" parent="menu_action_stock_move_pabean_out_report" sequence="3"/>
+
+	    <record id="action_stock_move_pabean_out_bc261_report" model="ir.actions.act_window">
+	        <field name="name">BC 2.61</field>
+	        <field name="res_model">report.stock.move.pabean</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,graph</field>
+	        <field name="search_view_id"  ref="view_stock_move_pabean_search"/>
+	        <field name="domain">[('type','=','out'),('jns_pabean','=',71)]</field>
+	        <field name="view_id" ref="view_stock_move_pabean_out_tree"/>
+	        <field name="context">{'contact_display': 'partner','search_default_out':1,'search_default_done':1,'search_default_year':1, 'search_default_month':1, }</field>
+	    </record>
+	    <menuitem action="action_stock_move_pabean_out_bc261_report" id="menu_action_stock_move_pabean_out_bc261_report" parent="menu_action_stock_move_pabean_out_report" sequence="4"/>
+
+	    <record id="action_stock_move_pabean_out_bc27out_report" model="ir.actions.act_window">
+	        <field name="name">BC 2.7 Keluaran</field>
+	        <field name="res_model">report.stock.move.pabean</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,graph</field>
+	        <field name="search_view_id"  ref="view_stock_move_pabean_search"/>
+	        <field name="domain">[('type','=','out'),('jns_pabean','=',22)]</field>
+	        <field name="view_id" ref="view_stock_move_pabean_out_tree"/>
+	        <field name="context">{'contact_display': 'partner','search_default_out':1,'search_default_done':1,'search_default_year':1, 'search_default_month':1, }</field>
+	    </record>
+	    <menuitem action="action_stock_move_pabean_out_bc27out_report" id="menu_action_stock_move_pabean_out_bc27out_report" parent="menu_action_stock_move_pabean_out_report" sequence="5"/>
+
+	    <record id="action_stock_move_pabean_out_wobc_report" model="ir.actions.act_window">
+	        <field name="name">Tanpa BC</field>
+	        <field name="res_model">report.stock.move.pabean</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,graph</field>
+	        <field name="search_view_id"  ref="view_stock_move_pabean_search"/>
+	        <field name="domain">[('type','=','out'),('jns_pabean','=',False)]</field>
+	        <field name="view_id" ref="view_stock_move_pabean_out_tree"/>
+	        <field name="context">{'contact_display': 'partner','search_default_out':1,'search_default_done':1,'search_default_year':1, 'search_default_month':1, }</field>
+	    </record>
+	    <menuitem action="action_stock_move_pabean_out_wobc_report" id="menu_action_stock_move_pabean_out_wobc_report" parent="menu_action_stock_move_pabean_out_report" sequence="5"/>
+	</data>
+</openerp>

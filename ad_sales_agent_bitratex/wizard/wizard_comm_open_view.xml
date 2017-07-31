@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_wizard_comm_open" model="ir.ui.view">
+            <field name="name">Wizard Re-Generate Commissions</field>
+            <field name="model">wizard.comm.open</field>
+            <field name="arch" type="xml">
+              <form string="Re-Generate Commissions" version="7.0">
+                  <group string="Re-Generate Commissions">
+                  </group>
+                  <footer>
+                      <button name="commission_open" string="Re-generate Commissions" type="object" class="oe_highlight"/>
+                      or
+                      <button string="Cancel" class="oe_link" special="cancel"/>
+                  </footer>
+             </form>
+            </field>
+        </record>
+
+        <act_window name="Re-generate Commissions"
+            res_model="wizard.comm.open"
+            src_model="account.invoice"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_wizard_comm_open_all" />
+
+        <act_window name="Re-generate Commissions"
+            res_model="wizard.comm.open"
+            src_model="account.invoice"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_wizard_comm_open" />
+    </data>
+</openerp>

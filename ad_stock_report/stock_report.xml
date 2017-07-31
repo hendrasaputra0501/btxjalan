@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		<report auto="False" id="stock_report_bitratex" model="stock.report.bitratex.wizard" name="stock.report.bitratex" file="ad_stock_report/report/stock_report.mako" string="Stock Report" 
+		    usage="default" 
+		    report_type="webkit" 
+		    menu="True" />
+	</data>
+</openerp>

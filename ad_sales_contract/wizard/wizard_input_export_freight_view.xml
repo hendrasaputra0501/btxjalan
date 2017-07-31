@@ -1,0 +1,102 @@
+<openerp>
+    <data>
+        <record id="wizard_input_export_freight_form" model="ir.ui.view">
+            <field name="name">wizard.input.export.freight.form</field>
+            <field name="model">wizard.input.export.freight</field>
+            <field name="arch" type="xml">
+                <form string="Input Export Estimated Freight" version="7.0">
+                    <group>
+                        <!-- <field name="sale_ids" on_change="onchange_sale_ids(sale_ids)">
+                            <tree string="Sales Order">
+                                <field name="name"/>
+                                <field name="partner_id"/>
+                                <field name="date_order"/>
+                                <field name="state"/>
+                            </tree>
+                        </field> -->
+                        <group>
+                            <field name="from_date" on_change="onchange_fields(from_date, to_date)" />
+                        </group>
+                        <group>
+                            <field name="to_date" on_change="onchange_fields(from_date, to_date)" />
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <tree string="Sales Order" editable="bottom">
+                            <field name="sale_id" readonly="1" />
+                            <field name="freight_rate_value" required="1"/>
+                        </tree>
+                    </field>
+                    <footer>
+                        <button string="Input Freight Rate" name="input_freight_rate" type="object" default_focus="1" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_wizard_input_export_freight">
+            <field name="name">Input Export Estimated Freight</field>
+            <field name="res_model">wizard.input.export.freight</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="wizard_input_export_freight_form"/>
+        </record>
+
+        <menuitem id="menu_wizard_input_export_freight" parent="base.menu_sales" sequence="16" action="action_wizard_input_export_freight"/>
+
+        <record id="wizard_input_efisiensi_rate_form" model="ir.ui.view">
+            <field name="name">wizard.input.efisiensi.rate.form</field>
+            <field name="model">wizard.input.efisiensi.rate</field>
+            <field name="arch" type="xml">
+                <form string="Input Efisiensi Rate" version="7.0">
+                    <group>
+                        <!-- <field name="sale_ids" on_change="onchange_sale_ids(sale_ids)">
+                            <tree string="Sales Order">
+                                <field name="name"/>
+                                <field name="partner_id"/>
+                                <field name="date_order"/>
+                                <field name="state"/>
+                            </tree>
+                        </field> -->
+                        <group>
+                            <field name="sale_type" on_change="onchange_fields(from_date, to_date, sale_type, goods_type)" />
+                            <field name="from_date" on_change="onchange_fields(from_date, to_date, sale_type, goods_type)" />
+                        </group>
+                        <group>
+                            <field name="goods_type" on_change="onchange_fields(from_date, to_date, sale_type, goods_type)" />
+                            <field name="to_date" on_change="onchange_fields(from_date, to_date, sale_type, goods_type)" />
+                        </group>
+                    </group>
+                    <field name="line_ids" >
+                        <tree string="Sales Lines" editable="bottom">
+                            <field name="sale_line_id" readonly="1" />
+                            <field name="efisiensi_rate" required="1"/>
+                        </tree>
+                    </field>
+                    <footer>
+                        <button string="Input Efisiensi Rate" name="input_efisiensi_rate" type="object" default_focus="1" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_wizard_input_efisiensi_rate">
+            <field name="name">Input Efisiensi Rate</field>
+            <field name="res_model">wizard.input.efisiensi.rate</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="wizard_input_efisiensi_rate_form"/>
+        </record>
+
+        <menuitem id="menu_wizard_input_efisiensi_rate" parent="base.menu_sales" sequence="16" action="action_wizard_input_efisiensi_rate"/>
+
+    </data>
+</openerp>

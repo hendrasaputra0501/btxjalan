@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_stuffing_memo_onshipping" model="ir.ui.view">
+            <field name="name">Stuffing Memo Onshipping</field>
+            <field name="model">stuffing.memo.onshipping</field>
+            <field name="arch" type="xml">
+              <form string="Create Stuffing Memo" version="7.0">
+                  <group string="Create Stuffing Memo">
+                      <field name="group"/>
+                      <field name="creation_date" />
+                  </group>
+                  <footer>
+                      <button name="open_stuffing_memo" string="Create" type="object" class="oe_highlight"/>
+                      or
+                      <button string="Cancel" class="oe_link" special="cancel"/>
+                  </footer>
+             </form>
+            </field>
+        </record>
+
+
+        <act_window name="Create Draft Stuffing Memo"
+            res_model="stuffing.memo.onshipping"
+            src_model="stock.picking.out"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_stuffing_memo_onshipping"/>
+    </data>
+</openerp>

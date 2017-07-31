@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		<record model="ir.ui.view" id="po_price_wizard_form">
+			<field name="name">PO Price Analysis</field>
+			<field name="model">po.price.wizard</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml"> 
+			<form string="PO Price Analysis" version="7.0">
+				<group>
+					<group>
+						<field name="start_date"/>
+					</group>
+					<group>
+						<field name="end_date"/>
+					</group>
+				</group>
+				<notebook>
+					<page string="Goods Type">
+						<field name="goods_type" nolabel="1"/>
+					</page>
+					<page string="Filter Suppliers">
+						<field name="partner_ids" nolabel="1"/>
+					</page>
+					<page string="Filter Products">
+						<field name="product_ids" nolabel="1"/>
+					</page>
+				</notebook>
+				<footer>
+					<div>
+						<button type="object" name="print_report" string="Print" icon="STOCK_PRINT"/> or <button special="cancel" string="Cancel" class="oe_link"/>
+					</div>
+				</footer>
+			</form>
+			</field>
+		</record>
+		 
+		<record model="ir.actions.act_window" id="action_po_price_wizard">
+			<field name="name">PO Price Analysis</field>
+			<field name="res_model">po.price.wizard</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+			<field name="view_id" ref="po_price_wizard_form"/>
+		</record>
+
+		<menuitem id="menu_po_price_wizard" parent="ad_purchases_report.submenu_reporting_purchases" sequence="10" action="action_po_price_wizard"/>
+		
+		<report id="po_price_report" name="po.price.analysis.report" string="PO Price Analysis" model="po.price.wizard" auto="False" menu="False" file="reporting_module/po_price_analysis/po_price_report.mako" usage="default" report_type="webkit" header="False" />
+	</data>
+</openerp>

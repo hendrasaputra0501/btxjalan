@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report auto="False" id="report_sales_confirmation" model="sale.order" name="sales.confirmation.form" file="reporting_module/sales_confirmation/sales_confirmation_form.mako" string="Sales Confirmation" usage="default" report_type="webkit" menu="True" />
+    </data>
+</openerp>

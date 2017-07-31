@@ -1,0 +1,26 @@
+id,code,name,account_id,trans_type,sale_type,purchase_type,type
+1,,Freight,722110,sale,export,,delivery
+2,,Lift On Lift Off,722190,sale,export,,delivery
+3,,Transport,721110,sale,local,,delivery
+4,,EMKL,722130,sale,export,,delivery
+5,,Insurance,714120,sale,export,,delivery
+6,FGHL,Finish Good Handling Local,721120,sale,local,,delivery
+7,FGHE,Finish Good Handling Export,722120,sale,export,,delivery
+8,BNL,BC Nego Comm Local,714310,sale,local,,invoicing
+9,BCL,BC Courier Local,714310,sale,local,,invoicing
+10,BAL,BC Amandment Local,714310,sale,local,,invoicing
+11,BDL,BC Discrepancy Local,714310,sale,local,,invoicing
+12,BOL,BC Other Local,714310,sale,local,,invoicing
+13,BQL,BC Commission Local,714310,sale,local,,invoicing
+14,BTL,BC Telex Local,714310,sale,local,,invoicing
+15,BNE,BC Nego Comm Export,722150,sale,export,,invoicing
+16,BCE,BC Courier Export,722150,sale,export,,invoicing
+17,BAE,BC Amandment Export,722150,sale,export,,invoicing
+18,BDE,BC Discrepancy Export,722150,sale,export,,invoicing
+20,BOE,BC Other Export,722150,sale,export,,invoicing
+21,BQE,BC Commission Export,722150,sale,export,,invoicing
+22,BTE,BC Telex Export,722150,sale,export,,invoicing
+23,ISE,Interest Sight,722160,sale,export,,invoicing
+24,IUE,Interest Usance,722160,sale,export,,invoicing
+25,IPE,Interest Prepaid,722160,sale,export,,invoicing
+26,RMKB,Raw Material Handling,610140,purchase,,local,other

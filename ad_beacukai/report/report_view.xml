@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		<report auto="False" id="report_beacukai_ceisa_tmpl" model="beacukai" name="beacukai.ceisa.tmpl.test" string="EXPORT TO CEISA TEMPLATE" usage="default" report_type="xls" menu="True" header="False" />
+	</data>
+</openerp>

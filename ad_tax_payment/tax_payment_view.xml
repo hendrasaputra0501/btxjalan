@@ -1,0 +1,235 @@
+<openerp>
+	<data>
+		<record id="view_tax_payment_tree" model="ir.ui.view">
+            <field name="name">account.tax.payment.tree</field>
+            <field name="model">account.tax.payment</field>
+            <field name="arch" type="xml">
+                <tree string="Tax Return" >
+                	<field name="name" />
+                    <field name="tax_type" />
+                    <field name="date_start" />
+                    <field name="date_end" />
+                    <field name="period_id" />
+                    <field name="company_id" invisible="1"/>
+                    <field name="amount_total"/>
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_tax_payment_search" model="ir.ui.view">
+            <field name="name">account.tax.payment.search</field>
+            <field name="model">account.tax.payment</field>
+            <field name="arch" type="xml">
+                <search string="Tax Return">
+                    <field name="name" string="Name"/>
+                    <field name="tax_type" />
+                    <field name="date_start" />
+                    <field name="date_end" />
+                    <field name="period_id" />
+                    <field name="company_id" invisible="1"/>
+                    <field name="amount_total"/>
+                    <field name="state" />
+                </search>
+            </field>
+        </record>
+        
+		<record id="view_tax_payment_form" model="ir.ui.view">
+			<field name="name">account.tax.payment.in.form</field>
+			<field name="model">account.tax.payment</field>
+			<field name="arch" type="xml">
+				<form string="Tax Return" version="7.0">
+					<header>
+						<button name="action_cancel" type="object" states="draft,tax_stated,voucher,done" string="Cancel"/>
+                        <button name="action_validate" type="object" states="draft" string="Create Tax Statement"/>
+                        <button name="action_create_voucher" type="object" states="tax_stated" string="Create Payment"/>
+                        <button name="action_validate_voucher" type="object" states="voucher" string="Pay"/>
+                        <button name="action_draft" type="object" states="cancel" string="Set to Draft"/>
+                        <field name="state" widget="statusbar" statusbar_visible="cancel,draft,tax_stated,voucher,done"/>
+					</header>
+                    <sheet>
+                    <h1>
+                        <label for="name" colspan="1"/>
+                        <div> 
+                            <field name="name" class="oe_inline"/>
+                        </div>
+                    </h1>
+					<group colspan="4" col="4">
+                        <field name="partner_id"/>
+                        <field name="journal_id"/>
+                        <field name="payment_method" domain="[('type','in',('cash','bank'))]"/>
+                        <field name="date_start" on_change="onchange_date(date_start,date_end,company_id,tax_type,tax_lines_dr,tax_lines_cr)"/>
+                        <field name="date_end" on_change="onchange_date(date_start,date_end,company_id,tax_type,tax_lines_dr,tax_lines_cr)"/>
+                        <field name="period_id" domain="[('special','=',False)]"/>
+                        <field name="submit_date"/>
+                        <field name="effective_date"/>
+                        <field name="move_id" readonly="1" attrs="{'invisible':[('move_id','=',False)]}"/>
+                        <field name="company_id" readonly="1" invisible="1" on_change="onchange_date(date_start,date_end,company_id,tax_type,tax_lines_dr,tax_lines_cr)"/>
+                        <field name="amount_total"/>
+                        <field name="voucher_id" readonly="1" attrs="{'invisible':[('voucher_id','=',False)]}" context="{'form_view_ref':'account_voucher.view_vendor_payment_form'}"/>
+                        <field name="voucher_move_id" readonly="1" attrs="{'invisible':[('voucher_move_id','=',False)]}"/>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Taxes type to be Paid">
+                            <field name="tax_type" on_change="onchange_date(date_start,date_end,company_id,tax_type,tax_lines_dr,tax_lines_cr)" nolabel="1" colspan="4"/>
+                        </page>
+                        <page string="General(CR)">
+                            <button name="%(action_wizard_add_taxes)d" context="{'type':'tax_lines_cr'}" string="Add More Lines for General Taxes (CR)" type="action" class="oe_left"/>
+                            <field name="tax_lines_cr" nolabel="1">
+                                <tree string="Taxes(Cr)">
+                                    <field name="move_line_id"/>
+                                    <field name="invoice_id"/>
+                                    <field name="amount" sum="Total in USD"/>
+                                    <field name="currency_id"/> 
+                                    <field name="amount_currency"/>
+                                    <field name="effective_date"/>
+                                </tree>
+                                <form string="Taxes(Cr)">
+                                    <field name="move_line_id"/>
+                                    <field name="invoice_id"/>
+                                    <field name="amount"/>
+                                    <field name="currency_id"/> 
+                                    <field name="amount_currency"/>
+                                    <field name="effective_date"/>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="General(DR)">
+                            <button name="%(action_wizard_add_taxes)d" context="{'type':'tax_lines_dr'}" string="Add More Lines for General Taxes (DR)" type="action" class="oe_left"/>
+                            <field name="tax_lines_dr" nolabel="1">
+                                <tree string="Taxes(Dr)">
+                                    <field name="move_line_id"/>
+                                    <field name="invoice_id"/>
+                                    <field name="amount" sum="Total in USD"/>
+                                    <field name="currency_id"/> 
+                                    <field name="amount_currency"/>
+                                    <field name="effective_date"/>
+                                </tree>
+                                <form string="Taxes(Dr)">
+                                    <field name="move_line_id"/>
+                                    <field name="invoice_id"/>
+                                    <field name="amount"/>
+                                    <field name="currency_id"/> 
+                                    <field name="amount_currency"/>
+                                    <field name="effective_date"/>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="KW.Berikat(CR)">
+                            <button name="%(action_wizard_add_taxes)d" context="{'type':'tax_lines_cr_kb'}" string="Add More Lines for KW.Berikat Taxes (CR)" type="action" class="oe_left"/>
+                            <field name="tax_lines_cr_kb" nolabel="1">
+                                <tree string="Taxes(Cr)">
+                                    <field name="move_line_id"/>
+                                    <field name="invoice_id"/>
+                                    <field name="amount" sum="Total in USD"/>
+                                    <field name="currency_id"/> 
+                                    <field name="amount_currency"/>
+                                    <field name="effective_date"/>
+                                </tree>
+                                <form string="Taxes(Cr)">
+                                    <field name="move_line_id"/>
+                                    <field name="invoice_id"/>
+                                    <field name="amount"/>
+                                    <field name="currency_id"/> 
+                                    <field name="amount_currency"/>
+                                    <field name="effective_date"/>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="KW.Berikat(DR)">
+                            <button name="%(action_wizard_add_taxes)d" context="{'type':'tax_lines_dr_kb'}" string="Add More Lines for KW.Berikat Taxes (DR)" type="action" class="oe_left"/>
+                            <field name="tax_lines_dr_kb" nolabel="1">
+                                <tree string="Taxes(Cr)">
+                                    <field name="move_line_id"/>
+                                    <field name="invoice_id"/>
+                                    <field name="amount" sum="Total in USD"/>
+                                    <field name="currency_id"/> 
+                                    <field name="amount_currency"/>
+                                    <field name="effective_date"/>
+                                </tree>
+                                <form string="Taxes(Cr)">
+                                    <field name="move_line_id"/>
+                                    <field name="invoice_id"/>
+                                    <field name="amount"/>
+                                    <field name="currency_id"/> 
+                                    <field name="amount_currency"/>
+                                    <field name="effective_date"/>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Spec. Unreturned Tax(CR)">
+                            <button name="%(action_wizard_add_taxes)d" context="{'type':'tax_lines_cr_unr'}" string="Add More Lines for Reported and Unreturned Taxes (CR)" type="action" class="oe_left"/>
+                            <field name="tax_lines_cr_unr" nolabel="1">
+                                <tree string="Taxes(Cr)">
+                                    <field name="move_line_id"/>
+                                    <field name="invoice_id"/>
+                                    <field name="amount" sum="Total in USD"/>
+                                    <field name="currency_id"/> 
+                                    <field name="amount_currency"/>
+                                    <field name="effective_date"/>
+                                </tree>
+                                <form string="Taxes(Cr)">
+                                    <field name="move_line_id"/>
+                                    <field name="invoice_id"/>
+                                    <field name="amount"/>
+                                    <field name="currency_id"/> 
+                                    <field name="amount_currency"/>
+                                    <field name="effective_date"/>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Spec. Unreturned Tax(DR)">
+                            <button name="%(action_wizard_add_taxes)d" context="{'type':'tax_lines_dr_unr'}" string="Add More Lines for Reported and Unreturned Taxes (DR)" type="action" class="oe_left"/>
+                            <field name="tax_lines_dr_unr" nolabel="1">
+                                <tree string="Taxes(Cr)">
+                                    <field name="move_line_id"/>
+                                    <field name="invoice_id"/>
+                                    <field name="amount" sum="Total in USD"/>
+                                    <field name="currency_id"/> 
+                                    <field name="amount_currency"/>
+                                    <field name="effective_date"/>
+                                </tree>
+                                <form string="Taxes(Cr)">
+                                    <field name="move_line_id"/>
+                                    <field name="invoice_id"/>
+                                    <field name="amount"/>
+                                    <field name="currency_id"/> 
+                                    <field name="amount_currency"/>
+                                    <field name="effective_date"/>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Statement Journal Items" attrs="{'invisible':[('move_id','=',False)]}">
+                            <field name="move_ids" attrs="{'invisible':[('move_id','=',False)]}"/>
+                        </page>
+                        <page string="Tax Payment Journal Items" attrs="{'invisible':[('voucher_move_id','=',False)]}">
+                            <field name="voucher_move_ids" attrs="{'invisible':[('voucher_move_id','=',False)]}"/>
+                        </page>
+                    </notebook>
+                    </sheet>
+				</form>
+			</field>
+		</record>
+
+        <record id="action_tax_payment" model="ir.actions.act_window">
+            <field name="name">Taxes Payment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.tax.payment</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_tax_payment_search"/>
+        </record>
+
+        <menuitem action="action_tax_payment" id="menu_tax_payment" parent="account.menu_account_end_year_treatments" sequence="12"/>
+        <report id="report_tax_payment_1107_a_export" model="account.tax.payment"
+            name="report.tax.payment.1107.a.export"
+            file="ad_tax_payment/report/1107_a_export.mako" string="Form 1107 A Export"
+            report_type="webkit" header="False" />
+        <report id="report_tax_payment_1107_a_local" model="account.tax.payment"
+            name="report.tax.payment.1107.a.local"
+            file="ad_tax_payment/report/1107_a_local.mako" string="Form 1107 A Local"
+            report_type="webkit" header="False" />
+
+	</data>
+</openerp>

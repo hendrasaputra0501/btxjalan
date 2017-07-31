@@ -1,0 +1,8 @@
+"id","name","model/id"
+1,"Invoice","account.model_account_invoice"
+2,"Invoice Line","account.model_account_invoice_line"
+3,"Extra Transaction","ad_ext_transaksi.model_ext_transaksi_line"
+4,"Bank Loan","ad_bank_loan.model_account_bank_loan"
+5,"Bank Loan Interest","ad_bank_loan.model_account_bank_loan_interest"
+6,"Advance Payment","ad_advance_payment.model_account_advance_payment"
+7,"Bank Loan Repayment","ad_bank_loan.model_account_bank_loan_repayment"

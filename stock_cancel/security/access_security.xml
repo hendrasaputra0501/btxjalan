@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="allow_cancelation" model="res.groups">
+		    <field name="name">Picking Cancel</field>
+		</record>
+	</data>
+
+	<data>
+		<record id="allow_back_date_entry" model="res.groups">
+		    <field name="name">Picking Back Date Release</field>
+		</record>
+	</data>
+</openerp>

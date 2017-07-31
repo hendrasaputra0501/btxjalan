@@ -1,0 +1,2 @@
+purchase_ok,sale_ok,categ_id/id,commission_ok,cost_method,valuation,name,procure_method,type,uom_po_id,supply_method,uom_id,uop_id,property_account_expense
+False,False,product.product_category_all,True,Standard Price,Periodical (manual),Commission,Make to Stock,Service,Hour(s),Buy,Hour(s),Hour(s),l10n_id_BTRX.chart_721140

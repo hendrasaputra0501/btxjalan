@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+<report 
+	auto="False" id="report_inventory_issue_form" 
+	model="stock.picking" 
+	name="inventory.issue.form" 
+	file="reporting_module/inventory_issue/inventory_issue_form.mako" 
+	string="Inventory Issue"
+	usage="default" 
+	report_type="webkit" 
+	webkit_header="header_inventory_issue_form"
+	menu="True"
+	header="False" />
+
+	<record id="view_picking_form_issue_inherit_1" model="ir.ui.view">
+		<field name="name">stock.picking.issue.print.form</field>
+		<field name="model">stock.picking</field>
+		<field name="inherit_id" ref="ad_material_requisition.view_picking_form_issue"/>
+		<field name="arch" type="xml">
+			<button name="button_cancel" position="after">
+				<button name="%(report_inventory_issue_form)d" string="Print Issue" type="action" class="oe_highlight" attrs="{'invisible':['|',('state','!=','draft'),('issue_state','!=','approved_department')]}"/>
+			</button>
+		</field>
+	</record>
+
+	<record id="view_picking_form_inherit_111" model="ir.ui.view">
+		<field name="name">stock.picking.issue.print.form</field>
+		<field name="model">stock.picking</field>
+		<field name="inherit_id" ref="stock.view_picking_form"/>
+		<field name="arch" type="xml">
+			<button name="button_cancel" position="after">
+				<button name="%(report_inventory_issue_form)d" string="Print Issue" type="action" class="oe_highlight" attrs="{'invisible':[('type','!=','internal')]}"/>
+			</button>
+		</field>
+	</record>
+</data>
+</openerp>

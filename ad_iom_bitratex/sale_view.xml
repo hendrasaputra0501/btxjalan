@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+        <record id="view_sale_order_iom_tree_inherit" model="ir.ui.view">
+            <field name="name">view.sale.order.iom.tree.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="have_history"/>
+                </field>
+            </field>
+        </record>
+		<record id="view_sale_order_iom_inherit" model="ir.ui.view">
+            <field name="name">view.sale.order.iom.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@string='Other Information']" position="after">
+                    <page string="Amendment(s)">
+                        <field name="revision_ids" nolabel="1" colspan="4" readonly="1" domain="[('state','=','approved')]">
+                            <tree string="Amendment(s)">
+                                <field name="name"/>
+                                <field name="date_request"/>
+                                <field name="date_approve"/>
+                                <field name="request_uid"/>
+                                <field name="approve_uid"/>
+                                <field name="reason"/>
+                                <field name="state"/>
+                            </tree>
+                            <form string="Internal Office Memo" version="7.0">
+                                <header>
+                                    <field name="state" widget="statusbar" statusbar_visible="rejected,draft,submitted,approved"/>
+                                </header>
+                                <sheet>
+                                    <group colspan="4" cols="4">
+                                        <group colspan="2" col="2">
+                                            <field name="name"/>
+                                            <field name="document_type" on_change="onchange_document_type(document_type)"/>
+                                            <field name="document_sale_id" create="False"/>
+                                            <field name="document_sale_line_id" attrs="{'invisible':[('document_type','!=','sale.order.line')]}" domain="[('order_id','=',document_sale_id)]"/>
+                                            <field name="request_uid" invisible="1"/>
+                                            <field name="model_id" invisible="1"/>
+                                        </group>
+                                        <group colspan="2" col="2">
+                                            <field name="date_request"/>
+
+                                        </group>
+                                    </group>
+                                    <notebook colspan="4">
+                                        <page string="IOM Lines">
+                                            <field name="iom_lines" nolabel="1" context="{'model':document_type,}">
+                                                <tree string="IOM Lines">
+                                                    <field name="add_new_line"/>
+                                                    <field name="fields_id" />
+                                                    <field name="old_value" />
+                                                    <field name="new_value" />
+
+                                                </tree>
+                                                <form string="IOM Lines">
+                                                    <group colspan="4" col="4">
+                                                        <group colspan="4" col="4">
+                                                            <field  name="fields_id" on_change="onchange_fields(fields_id,parent.document_sale_id,parent.document_sale_line_id)" domain="[('name','not in',['name','active','user_id','state']),('ttype','not in',['many2many','one2many','reference']),('model_id','=',parent.model_id)]" />
+                                                            <field name="add_new_line"/>
+                                                            <field name="document_type" invisible="1"/>
+                                                        </group>
+                                                        <group colspan="2" col="2" string="Old Value" attrs="{'invisible':[('add_new_line','=',True)]}">
+                                                            <field name="old_value" attrs="{'invisible':[('add_new_line','=',True)]}"/>
+                                                            <field name="old_value_text" invisible="1" />
+                                                            <field name="old_ref" attrs="{'invisible':['|','|',('add_new_line','=',True),('ttype','!=','many2one'),('document_type','!=','sale.order')]}"/>
+                                                            <field name="old_value_float" invisible="1"/>
+                                                            <field name="old_ref_line" attrs="{'invisible':['|','|',('add_new_line','=',True),('ttype','!=','many2one'),('document_type','!=','sale.order.line')]}"/>
+                                                            <field name="old_value_integer" invisible="1"/>
+                                                            <field name="old_value_char" invisible="1"/>
+                                                            <field name="old_value_date" invisible="1"/>
+                                                            <field name="old_value_datetime" invisible="1"/>
+                                                        </group>
+                                                        <group colspan="2" col="2" string="New Value" attrs="{'invisible':[('add_new_line','=',True)]}">
+                                                            <field name="new_value_text" attrs="{'invisible':['|',('add_new_line','=',True),('ttype','!=','text')]}"/>
+                                                            <field name="new_ref" attrs="{'invisible':['|','|',('add_new_line','=',True),('ttype','!=','many2one'),('document_type','!=','sale.order')]}"/>
+                                                            <field name="new_ref_line" attrs="{'invisible':['|','|',('add_new_line','=',True),('ttype','!=','many2one'),('document_type','!=','sale.order.line')]}"/>
+                                                            <field name="new_value_float" attrs="{'invisible':['|',('add_new_line','=',True),('ttype','!=','float')]}"/>
+                                                            <field name="new_value_integer" attrs="{'invisible':['|',('add_new_line','=',True),('ttype','!=','integer')]}"/>
+                                                            <field name="new_value_char" attrs="{'invisible':['|',('add_new_line','=',True),('ttype','!=','char')]}"/>
+                                                            <field name="new_value_date" attrs="{'invisible':['|',('add_new_line','=',True),('ttype','!=','date')]}"/>
+                                                            <field name="new_value_datetime" attrs="{'invisible':['|',('add_new_line','=',True),('ttype','!=','datetime')]}"/>
+                                                            <field name="ttype" invisible="1"/>
+                                                        </group>
+                                                    </group>
+                                                    <!--<notebook>
+                                                        <page string="New Sale Contract Line" attrs="{'invisible':[('add_new_line','=',False)]}" colspan="4">
+                                                            <field name="sale_line_ids" colspan="4" nolabel="1" context="{'form_view_ref' : 'sale.view_id', 'tree_view_ref' : 'model.view_id'}"/>
+                                                        </page>
+                                                    </notebook>-->
+                                                </form>
+                                            </field>
+                                        </page>
+                                        <page string="Reason">
+                                            <field name="reason" nolabel="1" colspan="4" placeholder="Type the reason for amending the document"/>
+                                        </page>
+                                    </notebook>
+                                </sheet>
+                            </form>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+	</data>
+</openerp>

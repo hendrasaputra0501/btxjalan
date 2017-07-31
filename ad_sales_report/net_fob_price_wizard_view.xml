@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>      
+		<record model="ir.ui.view" id="net_fob_price_wizard_form">
+			<field name="name">net fob price wizard</field>
+			<field name="model">net.fob.price.wizard</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml"> 
+				<form string="net fob price" version="7.0">
+					<group colspan="4" col="4">
+						<field name="type"/>
+						<field name="goods_type"/>
+						<field name="sale_type"/>
+						<field name="as_on_date"  attrs="{'invisible':[('type','=','booked_order')]}"/>
+						<field name="start_date" attrs="{'invisible':[('type','=','target_fob')]}"/>
+						<field name="end_date"  attrs="{'invisible':[('type','=','target_fob')]}"/>
+					</group>
+					<notebook>
+						<page string="Agent Exceptions" attrs="{'invisible':[('type','=','booked_order')]}">
+							<field name="exception_agent_ids">
+								<tree string="Agent Exceptions">
+									<field name="partner_code"/>
+									<field name="name"/>
+								</tree>
+							</field>
+						</page>
+					</notebook>
+							<footer>
+								<div>
+									<button type="object" name="print_report" string="Print" icon="STOCK_PRINT"/> or <button special="cancel" string="Cancel" class="oe_link"/>
+								</div>
+							</footer>
+						</form>
+					</field>
+				</record>
+
+				<record model="ir.actions.act_window" id="net_fob_price_action">
+					<field name="name">Net Fob Price Report</field>
+					<field name="res_model">net.fob.price.wizard</field>
+					<field name="type">ir.actions.act_window</field>
+					<field name="view_type">form</field>
+					<field name="view_mode">form</field>
+					<field name="target">new</field>
+					<field name="view_id" ref="net_fob_price_wizard_form"/>
+				</record>
+
+				<menuitem id="net_fob_price_menu" parent="sales_report_daily" sequence="10" action="net_fob_price_action"/>
+	<!-- 
+	<report id="pending_sales_report"
+	  name="pending.sales.report"
+	  string="Pending Sales Order"
+	  model="report.pending.sales.wizard"
+	  auto="False"
+	  menu="False"
+	  file="ad_sales_report/report/pending_sales_report.mako" 
+	  usage="default" 
+	  report_type="webkit"
+	  header="True"
+	  /> -->
+	</data>
+</openerp>

@@ -1,0 +1,18 @@
+<openerp>
+    <data>
+        <record id="view_partner_advance_property_form" model="ir.ui.view">
+            <field name="name">res.partner.advance.property.form</field>
+            <field name="model">res.partner</field>
+            <field name="priority">32</field>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+                <field name="credit" position="before">
+                    <field name="advance_in_account_id" />
+                </field>
+                <field name="debit" position="before">
+                    <field name="advance_out_account_id" />
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

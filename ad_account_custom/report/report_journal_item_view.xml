@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		<report 
+			auto="False" id="report_journal_item" 
+			model="account.move.line" 
+			name="journal.item" 
+			file="ad_account_custom/report/report_journal_item.mako" 
+			string="Print Journal Item"
+			header="False"
+			usage="default" 
+			report_type="webkit" 
+			menu="True" />
+	</data>
+</openerp>

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report auto="False" id="report_purchase_order_form" model="purchase.order" name="purchase.order.form" file="ad_purchase_order_bitratex/report/purchase_order_form.mako" string="Purchase Order" usage="default" report_type="webkit" menu="True" header="True"/>
+    </data>
+</openerp>

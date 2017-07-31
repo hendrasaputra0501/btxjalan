@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report auto="False" id="report_incoming_shipment" model="stock.picking.in" name="incoming.shipment.form" file="reporting_module/incoming_shipment_report/incoming_shipment_form.mako" string="Incoming Shipment" usage="default" report_type="webkit" menu="True" />
+    </data>
+</openerp>
+

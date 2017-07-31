@@ -1,0 +1,223 @@
+<openerp>
+	<data>
+		<record id="wizard_account_invoice_default_expense_form" model="ir.ui.view">
+			<field name="name">account.invoice.default.expense.form</field>
+			<field name="model">account.invoice.default.expense</field>
+			<field name="arch" type="xml">
+				<form string="Generate Expense Account" version="7.0">
+					<group string="Generate Expense Account for All Selected Invoice">
+						<field name="default_expense_account"/>
+					</group>
+					<footer>
+						<button name="set_default_expense_account" string="Generate" type="object" class="oe_highlight"/>
+						or
+						<button string="Cancel" class="oe_link" special="cancel"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+
+		<act_window name="Generate Expense Account"
+            res_model="account.invoice.default.expense"
+			src_model="account.invoice"
+    		key2="client_action_multi"
+   			multi="True"
+			view_mode="form"
+			view_type="form"
+			target="new"
+			id="action_wizard_account_invoice_default_expense"/>
+
+        <record id="wizard_account_invoice_default_account_form" model="ir.ui.view">
+            <field name="name">account.invoice.default.account.form</field>
+            <field name="model">account.invoice.default.account</field>
+            <field name="arch" type="xml">
+                <form string="Set Default Account AR/AP" version="7.0">
+                    <group string="Set Default Account AR/AP for All Selected Invoice">
+                        <field name="default_account_id"/>
+                    </group>
+                    <footer>
+                        <button name="set_default_account" string="Generate" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <act_window name="Set Default Account AR/AP"
+            res_model="account.invoice.default.account"
+            src_model="account.invoice"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_wizard_account_invoice_default_account"/>
+
+        <record id="wizard_account_invoice_default_date_effective_form" model="ir.ui.view">
+            <field name="name">account.invoice.default.date.effective.form</field>
+            <field name="model">account.invoice.default.date.effective</field>
+            <field name="arch" type="xml">
+                <form string="Set Default Effective Date" version="7.0">
+                    <group string="Set Default Effective Date for All Selected Invoice">
+                        <field name="default_date_effective"/>
+                    </group>
+                    <footer>
+                        <button name="set_default_date_effective" string="Generate" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <act_window name="Set Default Effctive Date"
+            res_model="account.invoice.default.date.effective"
+            src_model="account.invoice"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_wizard_account_invoice_default_date_effective"/>
+
+        <record id="wizard_account_invoice_default_journal_form" model="ir.ui.view">
+            <field name="name">account.invoice.default.journal.form</field>
+            <field name="model">account.invoice.default.journal</field>
+            <field name="arch" type="xml">
+                <form string="Set Default Journal" version="7.0">
+                    <group string="Set Default Journal for All Selected Invoice">
+                        <field name="default_journal_id"/>
+                    </group>
+                    <footer>
+                        <button name="set_default_journal" string="Generate" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <act_window name="Set Default Journal"
+            res_model="account.invoice.default.journal"
+            src_model="account.invoice"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_wizard_account_invoice_default_journal"/>
+
+		<act_window id="action_account_invoice_cancel_2"
+            multi="True"
+            key2="client_action_multi" name="Cancel Draft Invoices"
+            res_model="account.invoice.cancel" src_model="account.invoice"
+            view_mode="form" target="new" view_type="form" />
+
+        <record id="account_invoice_draft_view" model="ir.ui.view">
+            <field name="name">account.invoice.draft.form</field>
+            <field name="model">account.invoice.draft</field>
+            <field name="arch" type="xml">
+                <form string="Set to Draft Invoices" version="7.0">
+                    <footer>
+                        <button string="Set to Draft" name="invoice_set_draft" type="object" default_focus="1" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Set to Draft Invoices"
+            res_model="account.invoice.draft"
+			src_model="account.invoice"
+    		key2="client_action_multi"
+   			multi="True"
+			view_mode="form"
+			view_type="form"
+			target="new"
+			id="action_account_invoice_draft"/>
+
+		<record id="account_invoice_proforma_view" model="ir.ui.view">
+            <field name="name">account.invoice.proforma.form</field>
+            <field name="model">account.invoice.proforma</field>
+            <field name="arch" type="xml">
+                <form string="Release Commercial Invoices" version="7.0">
+                    <footer>
+                        <button string="Release Invoice" name="invoice_proforma" type="object" default_focus="1" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Release Commercial Invoices"
+            res_model="account.invoice.proforma"
+			src_model="account.invoice"
+    		key2="client_action_multi"
+   			multi="True"
+			view_mode="form"
+			view_type="form"
+			target="new"
+			id="action_account_invoice_proforma"/>
+        
+        <record id="account_invoice_default_taxes_form" model="ir.ui.view">
+            <field name="name">account.invoice.default.taxes.form</field>
+            <field name="model">account.invoice.default.taxes</field>
+            <field name="arch" type="xml">
+                <form string="Generate Tax" version="7.0" >
+                    <group>
+                        <field name="override"  />
+                        <field name="tax_ids"  />
+                    </group>
+                    <footer>
+                        <button name="set_default_taxes" string="Generate" class="oe_highlight" type="object" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form> 
+            </field>
+        </record>
+
+        <act_window name="Generate Tax"
+            res_model="account.invoice.default.taxes"
+            src_model="account.invoice"
+            key2="client_action_multi"
+            multi="True"
+            view_type="form"
+            view_mode="form"
+            target="new"
+            id="action_account_invoice_default_taxes_form" />
+
+        <record id="account_invoice_reset_taxes_form" model="ir.ui.view">
+            <field name="name">account.invoice.reset.taxes.form</field>
+            <field name="model">account.invoice.reset.taxes</field>
+            <field name="arch" type="xml">
+                <form string="Reset Taxes" version="7.0" >
+                    <group>
+                    </group>
+                    <footer>
+                        <button name="reset_taxes" string="Generate" class="oe_highlight" type="object" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form> 
+            </field>
+        </record>
+
+        <act_window name="Recompute Amount"
+            res_model="account.invoice.reset.taxes"
+            src_model="account.invoice"
+            key2="client_action_multi"
+            multi="True"
+            view_type="form"
+            view_mode="form"
+            target="new"
+            id="action_account_invoice_reset_taxes_form" />
+    </data>
+</openerp>

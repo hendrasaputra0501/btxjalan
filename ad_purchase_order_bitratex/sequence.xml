@@ -1,0 +1,724 @@
+<openerp>
+	<data>
+        <!-- Purchase -->
+        <!-- PO LOCAL JANUARY -->
+        <record id="seq_type_po_local_1" model="ir.sequence.type">
+            <field name="name">PO Local Jan</field>
+            <field name="code">purchase.order.local.jan</field>
+        </record>
+        
+        <record id="seq_po_local_1" model="ir.sequence">
+            <field name="name">PO Local Jan</field>
+            <field name="code">purchase.order.local.jan</field>
+            <field name="prefix">%(y)s01</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO LOCAL FEBRUARY -->
+        <record id="seq_type_po_local_2" model="ir.sequence.type">
+            <field name="name">PO Local Feb</field>
+            <field name="code">purchase.order.local.feb</field>
+        </record>
+        
+        <record id="seq_po_local_2" model="ir.sequence">
+            <field name="name">PO Local Feb</field>
+            <field name="code">purchase.order.local.feb</field>
+            <field name="prefix">%(y)s02</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO LOCAL MARET -->
+        <record id="seq_type_po_local_3" model="ir.sequence.type">
+            <field name="name">PO Local Mar</field>
+            <field name="code">purchase.order.local.mar</field>
+        </record>
+        
+        <record id="seq_po_local_3" model="ir.sequence">
+            <field name="name">PO Local Mar</field>
+            <field name="code">purchase.order.local.mar</field>
+            <field name="prefix">%(y)s03</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO LOCAL APRIL -->
+        <record id="seq_type_po_local_4" model="ir.sequence.type">
+            <field name="name">PO Local Apr</field>
+            <field name="code">purchase.order.local.apr</field>
+        </record>
+        
+        <record id="seq_po_local_4" model="ir.sequence">
+            <field name="name">PO Local Apr</field>
+            <field name="code">purchase.order.local.apr</field>
+            <field name="prefix">%(y)s04</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO LOCAL May -->
+        <record id="seq_type_po_local_5" model="ir.sequence.type">
+            <field name="name">PO Local May</field>
+            <field name="code">purchase.order.local.may</field>
+        </record>
+        
+        <record id="seq_po_local_5" model="ir.sequence">
+            <field name="name">PO Local May</field>
+            <field name="code">purchase.order.local.may</field>
+            <field name="prefix">%(y)s05</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO LOCAL JUNI -->
+        <record id="seq_type_po_local_6" model="ir.sequence.type">
+            <field name="name">PO Local Jun</field>
+            <field name="code">purchase.order.local.jun</field>
+        </record>
+        
+        <record id="seq_po_local_6" model="ir.sequence">
+            <field name="name">PO Local Jun</field>
+            <field name="code">purchase.order.local.jun</field>
+            <field name="prefix">%(y)s06</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO LOCAL JULY -->
+        <record id="seq_type_po_local_7" model="ir.sequence.type">
+            <field name="name">PO Local Jul</field>
+            <field name="code">purchase.order.local.jul</field>
+        </record>
+        
+        <record id="seq_po_local_7" model="ir.sequence">
+            <field name="name">PO Local Jul</field>
+            <field name="code">purchase.order.local.jul</field>
+            <field name="prefix">%(y)s07</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO LOCAL AUGUST -->
+        <record id="seq_type_po_local_8" model="ir.sequence.type">
+            <field name="name">PO Local Aug</field>
+            <field name="code">purchase.order.local.aug</field>
+        </record>
+        
+        <record id="seq_po_local_8" model="ir.sequence">
+            <field name="name">PO Local Aug</field>
+            <field name="code">purchase.order.local.aug</field>
+            <field name="prefix">%(y)s08</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO LOCAL SEPTEMBER -->
+        <record id="seq_type_po_local_9" model="ir.sequence.type">
+            <field name="name">PO Local Sep</field>
+            <field name="code">purchase.order.local.sep</field>
+        </record>
+        
+        <record id="seq_po_local_9" model="ir.sequence">
+            <field name="name">PO Local Sep</field>
+            <field name="code">purchase.order.local.sep</field>
+            <field name="prefix">%(y)s09</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO LOCAL OCTOBER -->
+        <record id="seq_type_po_local_10" model="ir.sequence.type">
+            <field name="name">PO Local Oct</field>
+            <field name="code">purchase.order.local.oct</field>
+        </record>
+        
+        <record id="seq_po_local_10" model="ir.sequence">
+            <field name="name">PO Local Oct</field>
+            <field name="code">purchase.order.local.oct</field>
+            <field name="prefix">%(y)s10</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO LOCAL NOVEMBER -->
+        <record id="seq_type_po_local_11" model="ir.sequence.type">
+            <field name="name">PO Local Nov</field>
+            <field name="code">purchase.order.local.nov</field>
+        </record>
+        
+        <record id="seq_po_local_11" model="ir.sequence">
+            <field name="name">PO Local Nov</field>
+            <field name="code">purchase.order.local.nov</field>
+            <field name="prefix">%(y)s11</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO LOCAL DECEMBER -->
+        <record id="seq_type_po_local_12" model="ir.sequence.type">
+            <field name="name">PO Local Des</field>
+            <field name="code">purchase.order.local.dec</field>
+        </record>
+
+         <record id="seq_po_local_12" model="ir.sequence">
+            <field name="name">PO Local Des</field>
+            <field name="code">purchase.order.local.dec</field>
+            <field name="prefix">%(y)s12</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO IMPORT JANUARY -->
+        <record id="seq_type_po_import_1" model="ir.sequence.type">
+            <field name="name">PO IMPORT Jan</field>
+            <field name="code">purchase.order.import.jan</field>
+        </record>
+        
+        <record id="seq_po_import_1" model="ir.sequence">
+            <field name="name">PO IMPORT Jan</field>
+            <field name="code">purchase.order.import.jan</field>
+            <field name="prefix">%(y)s01</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO IMPORT FEBRUARY -->
+        <record id="seq_type_po_import_2" model="ir.sequence.type">
+            <field name="name">PO IMPORT Feb</field>
+            <field name="code">purchase.order.import.feb</field>
+        </record>
+        
+        <record id="seq_po_import_2" model="ir.sequence">
+            <field name="name">PO IMPORT Feb</field>
+            <field name="code">purchase.order.import.feb</field>
+            <field name="prefix">%(y)s02</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO IMPORT MARET -->
+        <record id="seq_type_po_import_3" model="ir.sequence.type">
+            <field name="name">PO IMPORT Mar</field>
+            <field name="code">purchase.order.import.mar</field>
+        </record>
+        
+        <record id="seq_po_import_3" model="ir.sequence">
+            <field name="name">PO IMPORT Mar</field>
+            <field name="code">purchase.order.import.mar</field>
+            <field name="prefix">%(y)s03</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO IMPORT APRIL -->
+        <record id="seq_type_po_import_4" model="ir.sequence.type">
+            <field name="name">PO IMPORT Apr</field>
+            <field name="code">purchase.order.import.apr</field>
+        </record>
+        
+        <record id="seq_po_import_4" model="ir.sequence">
+            <field name="name">PO IMPORT Apr</field>
+            <field name="code">purchase.order.import.apr</field>
+            <field name="prefix">%(y)s04</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO IMPORT May -->
+        <record id="seq_type_po_import_5" model="ir.sequence.type">
+            <field name="name">PO IMPORT May</field>
+            <field name="code">purchase.order.import.may</field>
+        </record>
+        
+        <record id="seq_po_import_5" model="ir.sequence">
+            <field name="name">PO IMPORT May</field>
+            <field name="code">purchase.order.import.may</field>
+            <field name="prefix">%(y)s05</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO IMPORT JUNI -->
+        <record id="seq_type_po_import_6" model="ir.sequence.type">
+            <field name="name">PO IMPORT Jun</field>
+            <field name="code">purchase.order.import.jun</field>
+        </record>
+        
+        <record id="seq_po_import_6" model="ir.sequence">
+            <field name="name">PO IMPORT Jun</field>
+            <field name="code">purchase.order.import.jun</field>
+            <field name="prefix">%(y)s06</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO IMPORT JULY -->
+        <record id="seq_type_po_import_7" model="ir.sequence.type">
+            <field name="name">PO IMPORT Jul</field>
+            <field name="code">purchase.order.import.jul</field>
+        </record>
+        
+        <record id="seq_po_import_7" model="ir.sequence">
+            <field name="name">PO IMPORT Jul</field>
+            <field name="code">purchase.order.import.jul</field>
+            <field name="prefix">%(y)s07</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO IMPORT AUGUST -->
+        <record id="seq_type_po_import_8" model="ir.sequence.type">
+            <field name="name">PO IMPORT Aug</field>
+            <field name="code">purchase.order.import.aug</field>
+        </record>
+        
+        <record id="seq_po_import_8" model="ir.sequence">
+            <field name="name">PO IMPORT Aug</field>
+            <field name="code">purchase.order.import.aug</field>
+            <field name="prefix">%(y)s08</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO IMPORT SEPTEMBER -->
+        <record id="seq_type_po_import_9" model="ir.sequence.type">
+            <field name="name">PO IMPORT Sep</field>
+            <field name="code">purchase.order.import.sep</field>
+        </record>
+        
+        <record id="seq_po_import_9" model="ir.sequence">
+            <field name="name">PO IMPORT Sep</field>
+            <field name="code">purchase.order.import.sep</field>
+            <field name="prefix">%(y)s09</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO IMPORT OCTOBER -->
+        <record id="seq_type_po_import_10" model="ir.sequence.type">
+            <field name="name">PO IMPORT Oct</field>
+            <field name="code">purchase.order.import.oct</field>
+        </record>
+        
+        <record id="seq_po_import_10" model="ir.sequence">
+            <field name="name">PO IMPORT Oct</field>
+            <field name="code">purchase.order.import.oct</field>
+            <field name="prefix">%(y)s10</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO IMPORT NOVEMBER -->
+        <record id="seq_type_po_import_11" model="ir.sequence.type">
+            <field name="name">PO IMPORT Nov</field>
+            <field name="code">purchase.order.import.nov</field>
+        </record>
+        
+        <record id="seq_po_import_11" model="ir.sequence">
+            <field name="name">PO IMPORT Nov</field>
+            <field name="code">purchase.order.import.nov</field>
+            <field name="prefix">%(y)s11</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO IMPORT DECEMBER -->
+        <record id="seq_type_po_import_12" model="ir.sequence.type">
+            <field name="name">PO IMPORT Des</field>
+            <field name="code">purchase.order.import.dec</field>
+        </record>
+        
+        <record id="seq_po_import_12" model="ir.sequence">
+            <field name="name">PO Import Des</field>
+            <field name="code">purchase.order.import.dec</field>
+            <field name="prefix">%(y)s12</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+		<!-- MRR LOCAL JANUARY -->
+        <record id="seq_type_mrr_local_1" model="ir.sequence.type">
+            <field name="name">MRR Local Jan</field>
+            <field name="code">stock.picking.in.local.jan</field>
+        </record>
+        
+        <record id="seq_mrr_local_1" model="ir.sequence">
+            <field name="name">MRR Local Jan</field>
+            <field name="code">stock.picking.in.local.jan</field>
+            <field name="prefix">%(y)s01</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR LOCAL FEBRUARY -->
+        <record id="seq_type_mrr_local_2" model="ir.sequence.type">
+            <field name="name">MRR Local Feb</field>
+            <field name="code">stock.picking.in.local.feb</field>
+        </record>
+        
+        <record id="seq_mrr_local_2" model="ir.sequence">
+            <field name="name">MRR Local Feb</field>
+            <field name="code">stock.picking.in.local.feb</field>
+            <field name="prefix">%(y)s02</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR LOCAL MARET -->
+        <record id="seq_type_mrr_local_3" model="ir.sequence.type">
+            <field name="name">MRR Local Mar</field>
+            <field name="code">stock.picking.in.local.mar</field>
+        </record>
+        
+        <record id="seq_mrr_local_3" model="ir.sequence">
+            <field name="name">MRR Local Mar</field>
+            <field name="code">stock.picking.in.local.mar</field>
+            <field name="prefix">%(y)s03</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR LOCAL APRIL -->
+        <record id="seq_type_mrr_local_4" model="ir.sequence.type">
+            <field name="name">MRR Local Apr</field>
+            <field name="code">stock.picking.in.local.apr</field>
+        </record>
+        
+        <record id="seq_mrr_local_4" model="ir.sequence">
+            <field name="name">MRR Local Apr</field>
+            <field name="code">stock.picking.in.local.apr</field>
+            <field name="prefix">%(y)s04</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR LOCAL May -->
+        <record id="seq_type_mrr_local_5" model="ir.sequence.type">
+            <field name="name">MRR Local May</field>
+            <field name="code">stock.picking.in.local.may</field>
+        </record>
+        
+        <record id="seq_mrr_local_5" model="ir.sequence">
+            <field name="name">MRR Local May</field>
+            <field name="code">stock.picking.in.local.may</field>
+            <field name="prefix">%(y)s05</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR LOCAL JUNI -->
+        <record id="seq_type_mrr_local_6" model="ir.sequence.type">
+            <field name="name">MRR Local Jun</field>
+            <field name="code">stock.picking.in.local.jun</field>
+        </record>
+        
+        <record id="seq_mrr_local_6" model="ir.sequence">
+            <field name="name">MRR Local Jun</field>
+            <field name="code">stock.picking.in.local.jun</field>
+            <field name="prefix">%(y)s06</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR LOCAL JULY -->
+        <record id="seq_type_mrr_local_7" model="ir.sequence.type">
+            <field name="name">MRR Local Jul</field>
+            <field name="code">stock.picking.in.local.jul</field>
+        </record>
+        
+        <record id="seq_mrr_local_7" model="ir.sequence">
+            <field name="name">MRR Local Jul</field>
+            <field name="code">stock.picking.in.local.jul</field>
+            <field name="prefix">%(y)s07</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR LOCAL AUGUST -->
+        <record id="seq_type_mrr_local_8" model="ir.sequence.type">
+            <field name="name">MRR Local Aug</field>
+            <field name="code">stock.picking.in.local.aug</field>
+        </record>
+        
+        <record id="seq_mrr_local_8" model="ir.sequence">
+            <field name="name">MRR Local Aug</field>
+            <field name="code">stock.picking.in.local.aug</field>
+            <field name="prefix">%(y)s08</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR LOCAL SEPTEMBER -->
+        <record id="seq_type_mrr_local_9" model="ir.sequence.type">
+            <field name="name">MRR Local Sep</field>
+            <field name="code">stock.picking.in.local.sep</field>
+        </record>
+        
+        <record id="seq_mrr_local_9" model="ir.sequence">
+            <field name="name">MRR Local Sep</field>
+            <field name="code">stock.picking.in.local.sep</field>
+            <field name="prefix">%(y)s09</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR LOCAL OCTOBER -->
+        <record id="seq_type_mrr_local_10" model="ir.sequence.type">
+            <field name="name">MRR Local Oct</field>
+            <field name="code">stock.picking.in.local.oct</field>
+        </record>
+        
+        <record id="seq_mrr_local_10" model="ir.sequence">
+            <field name="name">MRR Local Oct</field>
+            <field name="code">stock.picking.in.local.oct</field>
+            <field name="prefix">%(y)s10</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR LOCAL NOVEMBER -->
+        <record id="seq_type_mrr_local_11" model="ir.sequence.type">
+            <field name="name">MRR Local Nov</field>
+            <field name="code">stock.picking.in.local.nov</field>
+        </record>
+        
+        <record id="seq_mrr_local_11" model="ir.sequence">
+            <field name="name">MRR Local Nov</field>
+            <field name="code">stock.picking.in.local.nov</field>
+            <field name="prefix">%(y)s11</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR LOCAL DECEMBER -->
+        <record id="seq_type_mrr_local_12" model="ir.sequence.type">
+            <field name="name">MRR Local Des</field>
+            <field name="code">stock.picking.in.local.dec</field>
+        </record>
+        
+        <record id="seq_mrr_local_12" model="ir.sequence">
+            <field name="name">MRR Local Des</field>
+            <field name="code">stock.picking.in.local.dec</field>
+            <field name="prefix">%(y)s12</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Import JANUARY -->
+        <record id="seq_type_mrr_import_1" model="ir.sequence.type">
+            <field name="name">MRR Import Jan</field>
+            <field name="code">stock.picking.in.import.jan</field>
+        </record>
+        
+        <record id="seq_mrr_import_1" model="ir.sequence">
+            <field name="name">MRR Import Jan</field>
+            <field name="code">stock.picking.in.import.jan</field>
+            <field name="prefix">%(y)s01</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Import FEBRUARY -->
+        <record id="seq_type_mrr_import_2" model="ir.sequence.type">
+            <field name="name">MRR Import Feb</field>
+            <field name="code">stock.picking.in.import.feb</field>
+        </record>
+        
+        <record id="seq_mrr_import_2" model="ir.sequence">
+            <field name="name">MRR Import Feb</field>
+            <field name="code">stock.picking.in.import.feb</field>
+            <field name="prefix">%(y)s02</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Import MARET -->
+        <record id="seq_type_mrr_import_3" model="ir.sequence.type">
+            <field name="name">MRR Import Mar</field>
+            <field name="code">stock.picking.in.import.mar</field>
+        </record>
+        
+        <record id="seq_mrr_import_3" model="ir.sequence">
+            <field name="name">MRR Import Mar</field>
+            <field name="code">stock.picking.in.import.mar</field>
+            <field name="prefix">%(y)s03</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Import APRIL -->
+        <record id="seq_type_mrr_import_4" model="ir.sequence.type">
+            <field name="name">MRR Import Apr</field>
+            <field name="code">stock.picking.in.import.apr</field>
+        </record>
+        
+        <record id="seq_mrr_import_4" model="ir.sequence">
+            <field name="name">MRR Import Apr</field>
+            <field name="code">stock.picking.in.import.apr</field>
+            <field name="prefix">%(y)s04</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Import May -->
+        <record id="seq_type_mrr_import_5" model="ir.sequence.type">
+            <field name="name">MRR Import May</field>
+            <field name="code">stock.picking.in.import.may</field>
+        </record>
+        
+        <record id="seq_mrr_import_5" model="ir.sequence">
+            <field name="name">MRR Import May</field>
+            <field name="code">stock.picking.in.import.may</field>
+            <field name="prefix">%(y)s05</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Import JUNI -->
+        <record id="seq_type_mrr_import_6" model="ir.sequence.type">
+            <field name="name">MRR Import Jun</field>
+            <field name="code">stock.picking.in.import.jun</field>
+        </record>
+        
+        <record id="seq_mrr_import_6" model="ir.sequence">
+            <field name="name">MRR Import Jun</field>
+            <field name="code">stock.picking.in.import.jun</field>
+            <field name="prefix">%(y)s06</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Import JULY -->
+        <record id="seq_type_mrr_import_7" model="ir.sequence.type">
+            <field name="name">MRR Import Jul</field>
+            <field name="code">stock.picking.in.import.jul</field>
+        </record>
+        
+        <record id="seq_mrr_import_7" model="ir.sequence">
+            <field name="name">MRR Import Jul</field>
+            <field name="code">stock.picking.in.import.jul</field>
+            <field name="prefix">%(y)s07</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Import AUGUST -->
+        <record id="seq_type_mrr_import_8" model="ir.sequence.type">
+            <field name="name">MRR Import Aug</field>
+            <field name="code">stock.picking.in.import.aug</field>
+        </record>
+        
+        <record id="seq_mrr_import_8" model="ir.sequence">
+            <field name="name">MRR Import Aug</field>
+            <field name="code">stock.picking.in.import.aug</field>
+            <field name="prefix">%(y)s08</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Import SEPTEMBER -->
+        <record id="seq_type_mrr_import_9" model="ir.sequence.type">
+            <field name="name">MRR Import Sep</field>
+            <field name="code">stock.picking.in.import.sep</field>
+        </record>
+        
+        <record id="seq_mrr_import_9" model="ir.sequence">
+            <field name="name">MRR Import Sep</field>
+            <field name="code">stock.picking.in.import.sep</field>
+            <field name="prefix">%(y)s09</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Import OCTOBER -->
+        <record id="seq_type_mrr_import_10" model="ir.sequence.type">
+            <field name="name">MRR Import Oct</field>
+            <field name="code">stock.picking.in.import.oct</field>
+        </record>
+        
+        <record id="seq_mrr_import_10" model="ir.sequence">
+            <field name="name">MRR Import Oct</field>
+            <field name="code">stock.picking.in.import.oct</field>
+            <field name="prefix">%(y)s10</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Import NOVEMBER -->
+        <record id="seq_type_mrr_import_11" model="ir.sequence.type">
+            <field name="name">MRR Import Nov</field>
+            <field name="code">stock.picking.in.import.nov</field>
+        </record>
+        
+        <record id="seq_mrr_import_11" model="ir.sequence">
+            <field name="name">MRR Import Nov</field>
+            <field name="code">stock.picking.in.import.nov</field>
+            <field name="prefix">%(y)s11</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Import DECEMBER -->
+        <record id="seq_type_mrr_import_12" model="ir.sequence.type">
+            <field name="name">MRR Import Des</field>
+            <field name="code">stock.picking.in.import.dec</field>
+        </record>
+        
+        <record id="seq_mrr_import_12" model="ir.sequence">
+            <field name="name">MRR Import Des</field>
+            <field name="code">stock.picking.in.import.dec</field>
+            <field name="prefix">%(y)s12</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</openerp>

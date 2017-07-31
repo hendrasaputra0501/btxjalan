@@ -1,0 +1,14 @@
+<openerp>
+	<data>
+		<record id="invoice_inherit_form_discount_po" model="ir.ui.view">
+            <field name="name">account.invoice.inherit.form.discount.po</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form" />
+            <field name="arch" type="xml">
+				<xpath expr="/form/sheet/notebook/page[@string='Invoice']/field[@name='invoice_line']/tree/field[@name='price_unit']" position="after">
+					<field name="discount_ids" widget="many2many_tags"/>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</openerp>

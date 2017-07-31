@@ -1,0 +1,298 @@
+<openerp>
+	<data>
+		
+		<record id="wkf_purchase_request" model="workflow">
+			<field name="name">purchase.requisition</field>
+			<field name="osv">purchase.requisition</field>
+			<field name="on_create">True</field>
+		</record>
+		
+<!--	#############################State Start,Cancel,Done######################################-->
+		
+		
+		<record id="act_draft" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_purchase_request"/>
+			<field name="name">Draft</field>
+			<field name="action">write({'state':'draft'})</field>
+			<field name="kind">function</field>
+			<field name="flow_start">True</field>
+		</record>
+		
+		
+		
+		<record id="act_done" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_purchase_request"/>
+			<field name="name">Done</field>
+			<field name="action">write({'state':'done'})</field>
+			<field name="kind">function</field>
+			<field name="flow_stop">True</field>
+		</record>		
+
+		<record id="act_cancel" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_purchase_request"/>
+			<field name="name">Cancel</field>
+			<field name="action">write({'state':'cancel'})</field>
+			<field name="kind">function</field>
+			
+		</record>
+			
+<!--		##################################activity######################################-->
+		
+		<record id="sent_to_supplier" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_purchase_request"/>
+			<field name="name">Sent to Supplier</field>
+			<field name="action">in_progress()</field>
+			<field name="kind">function</field>
+		</record>
+		
+		<record id="act_done_pr" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_purchase_request"/>
+			<field name="name">Done PR</field>
+			<field name="action">done_pr()</field>
+			<field name="kind">function</field>
+			
+		</record>
+		
+		
+		<record id="price_received" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_purchase_request"/>
+			<field name="name">Price Received</field>
+			<field name="action">price_received()</field>
+			<field name="kind">function</field>
+		</record>
+		
+		<record id="wait_manager" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_purchase_request"/>
+			<field name="name">Wait Manager</field>
+			<field name="action">wait_manager()</field>
+			<field name="kind">function</field>
+		</record>
+		
+		<record id="wait_budget_keeper" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_purchase_request"/>
+			<field name="name">Wait Budget Keeper</field>
+			<field name="action">wait_budget_keeper()</field>
+			<field name="kind">function</field>
+		</record>
+		
+		<record id="wait_finance" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_purchase_request"/>
+			<field name="name">Wait Finance</field>
+			<field name="action">wait_finance()</field>
+			<field name="kind">function</field>
+		</record>
+		
+		<record id="wait_cfo_approval" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_purchase_request"/>
+			<field name="name">Wait CFO Aproval</field>
+			<field name="action">wait_cfo_approval()</field>
+			<field name="kind">function</field>
+		</record>
+		
+		<record id="wait_ceo_approval" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_purchase_request"/>
+			<field name="name">Wait CEO Aproval</field>
+			<field name="action">wait_ceo_approval()</field>
+			<field name="kind">function</field>
+		</record>
+		
+		<!--		##################################transition######################################-->
+	
+		<record id="trans_in_progress" model="workflow.transition">
+			<field name="act_from" ref="act_draft"/>
+			<field name="act_to" ref="sent_to_supplier"/>
+			<field name="signal">tender_in_progress</field>
+			<field name="condition">check_supplier_send()</field>
+		</record>
+		
+		<record id="trans_price_received" model="workflow.transition">
+			<field name="act_from" ref="sent_to_supplier"/>
+			<field name="act_to" ref="price_received"/>
+			<field name="signal">price_received</field>
+			<field name="condition">check_price_receive()</field>
+		</record>
+		
+		
+		<record id="trans_wait_manager" model="workflow.transition">
+			<field name="act_from" ref="price_received"/>
+			<field name="act_to" ref="act_done_pr"/>
+			<field name="signal">wait_manager</field>
+			<field name="condition">True</field>
+		</record>
+		
+		<record id="trans_wait_budget_keeper" model="workflow.transition">
+			<field name="act_from" ref="wait_manager"/>
+			<field name="act_to" ref="wait_budget_keeper"/>
+			<field name="signal">wait_budget_keeper</field>
+			<field name="condition">total >= 1000000</field>
+			<field name="condition">True</field>
+		</record>
+		
+		<record id="trans_bypass_budget_keeper" model="workflow.transition">
+			<field name="act_from" ref="wait_manager"/>
+			<field name="act_to" ref="act_done_pr"/>
+			<field name="condition">total &gt; 1000000</field>
+		</record>
+		
+<!--		<record id="trans_bypass_budget_keeper" model="workflow.transition">-->
+<!--			<field name="act_from" ref="wait_manager"/>-->
+<!--			<field name="act_to" ref="act_done_pr"/>-->
+<!--			<field name="condition">total &gt; 10000</field>-->
+<!--		</record>-->
+		
+		<record id="trans_wait_finance" model="workflow.transition">
+			<field name="act_from" ref="wait_budget_keeper"/>
+			<field name="act_to" ref="wait_finance"/>
+			<field name="signal">wait_finance</field>
+			<field name="condition">total >= 5000000</field>
+		</record>
+		
+		<record id="trans_bypass_finance" model="workflow.transition">
+			<field name="act_from" ref="wait_finance"/>
+			<field name="act_to" ref="act_done_pr"/>
+			<field name="condition">total &gt; 5000000</field>
+		</record>
+		
+		<record id="trans_wait_cfo_approval" model="workflow.transition">
+			<field name="act_from" ref="wait_finance"/>
+			<field name="act_to" ref="wait_cfo_approval"/>
+			<field name="signal">wait_cfo_approval</field>
+			<field name="condition">total >= 50000000</field>
+		</record>
+		
+		<record id="trans_bypass_cfo" model="workflow.transition">
+			<field name="act_from" ref="wait_cfo_approval"/>
+			<field name="act_to" ref="act_done_pr"/>
+			<field name="condition">total &gt; 50000000</field>
+		</record>
+		
+		<record id="trans_wait_ceo_approval" model="workflow.transition">
+			<field name="act_from" ref="wait_cfo_approval"/>
+			<field name="act_to" ref="wait_ceo_approval"/>
+			<field name="signal">wait_ceo_approval</field>
+			<field name="condition">total >= 100000000</field>
+		</record>
+		
+		<record id="back_to_supp" model="workflow.transition">
+			<field name="act_from" ref="act_cancel"/>
+			<field name="act_to" ref="sent_to_supplier"/>
+			<field name="signal">back_to_supp</field>
+			<field name="condition">True</field>
+		</record>
+		
+		
+<!--		###############################action cancel#####################################-->
+
+	<record id="trans_in_progress_cancel" model="workflow.transition">
+			<field name="act_from" ref="sent_to_supplier"/>
+			<field name="act_to" ref="act_cancel"/>
+			<field name="signal">tender_cancel</field>
+			<field name="condition">True</field>
+	</record>
+		
+		<record id="trans_price_received_cancel" model="workflow.transition">
+			<field name="act_from" ref="price_received"/>
+			<field name="act_to" ref="act_cancel"/>
+			<field name="signal">tender_cancel</field>
+			<field name="condition">True</field>
+		</record>
+	
+		<record id="trans_budget_cancel" model="workflow.transition">
+			<field name="act_from" ref="wait_budget_keeper"/>
+			<field name="act_to" ref="act_cancel"/>
+			<field name="signal">tender_cancel</field>
+			<field name="condition">True</field>
+		</record>
+		
+
+		<record id="trans_wait_manager_cancel" model="workflow.transition">
+			<field name="act_from" ref="wait_manager"/>
+			<field name="act_to" ref="act_cancel"/>
+			<field name="signal">tender_cancel</field>
+			<field name="condition">True</field>
+		</record>
+		
+		<!-- <record id="trans_wait_budget_keeper_cancel" model="workflow.transition">
+			<field name="act_from" ref="wait_budget_keeper"/>
+			<field name="act_to" ref="act_cancel"/>
+			<field name="signal">wait_budget_keeper_cancel</field>
+			<field name="condition">True</field>
+		</record> -->
+		
+		<record id="trans_wait_finance_cancel" model="workflow.transition">
+			<field name="act_from" ref="wait_finance"/>
+			<field name="act_to" ref="act_cancel"/>
+			<field name="signal">tender_cancel</field>
+			<field name="condition">True</field>
+		</record>
+		
+		<record id="trans_wait_cfo_approval_cancel" model="workflow.transition">
+			<field name="act_from" ref="wait_cfo_approval"/>
+			<field name="act_to" ref="act_cancel"/>
+			<field name="signal">tender_cancel</field>
+			<field name="condition">True</field>
+		</record>			
+
+		<record id="trans_wait_ceo_approval_cancel" model="workflow.transition">
+			<field name="act_from" ref="wait_ceo_approval"/>
+			<field name="act_to" ref="act_cancel"/>
+			<field name="signal">tender_cancel</field>
+			<field name="condition">True</field>
+		</record>
+		
+<!--	############################Done#####################################-->
+
+		<record id="trans_wait_manager_done" model="workflow.transition">
+			<field name="act_from" ref="wait_manager"/>
+			<field name="act_to" ref="act_done_pr"/>
+			<field name="signal">wait_manager_done</field>
+			<field name="condition">True</field>
+		</record>
+		
+		<record id="trans_budget_done" model="workflow.transition">
+			<field name="act_from" ref="wait_budget_keeper"/>
+			<field name="act_to" ref="act_done_pr"/>
+			<field name="signal">wait_ceo_approval_done</field>
+			<field name="condition">True</field>
+		</record>
+		
+		<record id="trans_wait_finance_done" model="workflow.transition">
+			<field name="act_from" ref="wait_finance"/>
+			<field name="act_to" ref="act_done_pr"/>
+			<field name="signal">wait_finance_done</field>
+			<field name="condition">True</field>
+		</record>
+		
+		<record id="trans_wait_cfo_approval_done" model="workflow.transition">
+			<field name="act_from" ref="wait_cfo_approval"/>
+			<field name="act_to" ref="act_done_pr"/>
+			<field name="signal">wait_cfo_approval_done</field>
+			<field name="condition">True</field>
+		</record>
+		
+		<record id="trans_wait_ceo_approval_done1" model="workflow.transition">
+			<field name="act_from" ref="wait_ceo_approval"/>
+			<field name="act_to" ref="act_done_pr"/>
+			<field name="signal">wait_ceo_approval_done</field>
+			<field name="condition">True</field>
+		</record>
+		
+		
+		
+		<record id="trans_done_pcr" model="workflow.transition">
+			<field name="act_from" ref="act_done_pr"/>
+			<field name="act_to" ref="act_done"/>
+			<field name="signal">po_done</field>
+			<field name="condition">True</field>
+		</record>
+		
+		<record id="trans_done_pr" model="workflow.transition">
+			<field name="act_from" ref="act_cancel"/>
+			<field name="act_to" ref="act_draft"/>
+			<field name="signal">tender_reset</field>
+			<field name="condition">True</field>
+		</record>
+		
+
+	</data>
+</openerp>

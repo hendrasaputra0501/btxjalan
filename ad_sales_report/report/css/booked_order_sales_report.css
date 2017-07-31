@@ -1,0 +1,80 @@
+td {
+    word-break: break-all;
+}
+body {
+  font-family: "times new roman";
+}
+.title1 {
+    text-transform:uppercase;
+    font-size: 15px;
+    font-weight: bold;
+    vertical-align:middle;
+    height: 15px;
+}
+.title2 {
+    font-size: 12px;
+    font-weight: bold;
+    vertical-align:middle;
+    height: 12px;
+}
+.title3 {
+    font-size: 10px;
+    font-weight: bold;
+    vertical-align:middle;
+    height: 10px;
+}
+.header1{
+    font-size:9px;
+    font-weight: bold;
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+    height: 9px;
+}
+.header2{
+    font-size:9px;
+    font-weight: bold;
+    border-top: 1px solid #000000;
+    border-bottom: 1px dotted #000000;
+    height: 9px;
+}
+.header3{
+    font-size:9px;
+    font-weight: bold;
+    border-bottom: 1px solid #000000;
+    height: 9px;
+}
+.detail{
+    font-size: 8px;
+    vertical-align:top;
+    height: 8px;
+}
+.detailcap{
+    text-transform:uppercase;
+    font-size: 8px;
+    vertical-align:top;
+    height: 8px;
+}
+.group{
+    font-weight: bold;
+    font-size: 9px;
+    vertical-align:top;
+    height: 9px;
+}
+.space{
+    font-size: 6px;
+    height: 6px;
+}
+.subtotal{
+    font-size:9px;
+    font-weight: bold;
+    border-bottom: 1px dotted #000000;
+    vertical-align:middle;
+    height: 9px;
+}
+.grandtotal{
+    font-size:9px;
+    font-weight: bold;
+    border-bottom: 1px solid #000000;
+    vertical-align:middle;
+    height: 9px;
+}

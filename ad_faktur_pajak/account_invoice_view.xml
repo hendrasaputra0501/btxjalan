@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record id="faktur_pajak_invoice_form" model="ir.ui.view">
+            <field name="name">faktur.pajak.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_form" />
+            <field name="arch" type="xml">
+               <!--  <xpath expr="/form/header/button[1]" position="replace">
+                </xpath>
+                <xpath expr="/form/header/button[2]" position="replace">
+                </xpath> -->
+                <!-- <xpath expr="/form/header/button[@name='invoice_print']" position="replace">
+                </xpath>
+                <xpath expr="/form/header/button[@name='invoice_print']" position="replace">
+                </xpath> -->
+                <xpath expr="/form/header/button[@name='invoice_open']" position="attributes">
+                    <attribute name="string">Validate</attribute>
+                    <attribute name="groups">ad_property_sales.group_bank</attribute>
+                </xpath>
+                <xpath expr="/form/header/button[@name='invoice_cancel']" position="attributes">
+                    <attribute name="string">Cancel Invoice</attribute>
+                </xpath>
+                <xpath expr="/form/sheet/group/group[2]/field[@name='account_id']" position="after">
+                    <label string="Nomor Faktur"/>
+                    <div>
+                        <field name="kode_transaksi_faktur_pajak" style="width: 13%%"/>
+                        <field name="nomor_faktur_id" invisible="False" style="width: 63%%" domain="[('status','=',context.get('type','out_invoice')=='out_invoice' and '0' or '1')]" />
+                        <div>
+                            <label for="fp_harga_jual"/>
+                            <field name="fp_harga_jual"/>
+                            <label for="fp_penggantian"/>
+                            <field name="fp_penggantian"/>
+                            <label for="fp_uang_muka"/>
+                            <field name="fp_uang_muka"/>
+                            <label for="fp_termin"/>
+                            <field name="fp_termin"/>
+                        </div>
+                    </div>
+                    <field name="authorized_by" on_change="onchange_authorized_by(authorized_by)"/>
+                    <field name="job_position_id" />
+                    <field name="company_currency" invisible="1"/>
+                    <field name="separate_tax"/>
+                    <field name="use_kmk_ar_ap"/>
+					<field name="currency_tax_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                    <field name="tax_date"/>
+                    <field name="faktur_pajak_date_entry"/>                    
+                    <field name="return_source_doc" attrs="{'invisible':[('type','!=','out_refund')]}"/>                    
+                </xpath>
+            </field>
+        </record>
+
+        <record id="faktur_pajak_invoice_form2" model="ir.ui.view">
+            <field name="name">faktur.pajak.invoice.form2</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form" />
+            <field name="arch" type="xml">
+                <!-- <xpath expr="/form/header/button[1]" position="replace">
+                </xpath>
+                <xpath expr="/form/header/button[2]" position="replace">
+                </xpath>
+                <xpath expr="/form/header/button[@name='invoice_print']" position="replace">
+                </xpath>
+                <xpath expr="/form/header/button[@name='invoice_print']" position="replace">
+                </xpath>
+                <xpath expr="/form/header/button[@name='invoice_open']" position="attributes">
+                    <attribute name="string">Validate</attribute>
+                    <attribute name="groups">ad_property_sales.group_bank</attribute>
+                </xpath>
+                <xpath expr="/form/header/button[@name='invoice_cancel']" position="attributes">
+                    <attribute name="string">Cancel Invoice</attribute>
+                </xpath> -->
+                <xpath expr="/form/sheet/notebook/page[@string='Invoice']/div" position="attributes">
+                    <attribute name="style"></attribute>
+                </xpath>
+                <xpath expr="/form/sheet/group/group[2]/field[@name='currency_id']" position="before">
+                    <field name="company_currency" invisible="1"/>
+                    <field name="separate_tax"/>
+                    <field name="use_kmk_ar_ap"/> 
+                    <field name="currency_tax_id" attrs="{'readonly':[('state','!=','draft')]}"/> 
+                    <field name="tax_date"/>                
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Other Info']" position="after">
+                    <page string="E-Faktur Vat In">
+                        <field name="qr_urls" nolable="1"/>
+                        <button name="get_tax_data" type="object" string="Get E-Faktur Datas" class="oe_link oe_edit_only" />
+                        <field name="faktur_pajak_lines" context="{'tree_view_ref':'ad_faktur_pajak.efaktur_head_tree_view'}" readonly="1"/>
+                    </page>
+                </xpath>
+                <field name="tax_line" position="after">
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

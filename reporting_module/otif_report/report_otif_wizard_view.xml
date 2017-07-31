@@ -1,0 +1,44 @@
+<openerp>
+	<data>
+		<record id="otif_wizard" model="ir.ui.view">
+			<field name="name">otif.wizard</field>
+			<field name="model">otif.wizard</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="ON TIME IN FULL REPORT" version="7.0">
+					<group colspan="4" col="4">
+						<field name="date_from" />
+						<field name="date_to" />
+						<field name="output_type" />
+						<field name="sale_type" />
+					</group>
+					<footer>
+						<group>
+							<button name="generate_report" string="Generate Report" icon="gtk-print" type="object" class="oe_highlight"/>
+							<button string="Cancel" class="oe_highlight" special="cancel"/>
+						</group>
+					</footer>
+
+				</form>
+			</field>
+		</record>
+		<record id="action_otif_wizard" model="ir.actions.act_window">
+			<field name="name">REPORT ON TIME FULL</field>
+			<field name="res_model">otif.wizard</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+		<menuitem id="menu_otif_wizard" name="On Time Full Report" parent="ad_stock_report.reporting_stock_daily" action="action_otif_wizard" />
+		<report id="otif_report"
+			name="otif.report.pdf"
+			string="on Time Full Report"
+			model="otif.wizard"
+			auto="False"
+			menu="False"
+			file="reporting_module/otif_report/otif_report.mako"
+			usage="default"
+			report_type="webkit"
+			header="True"
+		/>
+	</data>
+</openerp>

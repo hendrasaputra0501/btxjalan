@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>      
+    <record model="ir.ui.view" id="issue_report_wizard_form">
+      <field name="name">issue report wizard</field>
+      <field name="model">issue.report.wizard</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml"> 
+        <form string="issue report" version="7.0">
+          <group colspan="4" col="4">
+            <!-- <field name="sale_type"/> -->
+            <field name="start_date"/>
+            <field name="end_date"/>
+            <field name="department_id"/>
+            <field name="header_group_by"/>
+          </group>
+          <notebook>
+            <page string="Goods Type" colspan="4">
+              <field name="goods_type" colspan="4" col="4" nolabel="1"/>
+            </page>
+            <page string="Force Location" colspan="4">
+              <field name="location_force" colspan="4" col="4" nolabel="1"/>
+            </page>
+            <page string="Force Analytic Account" colspan="4">
+              <field name="analytic_account_force" colspan="4" col="4" nolabel="1"/>
+            </page>
+            <page string="Force Department" colspan="4">
+              <field name="department_force" colspan="4" col="4" nolabel="1"/>
+            </page>
+            <page string="Force Product" colspan="4">
+              <field name="product_force" colspan="4" col="4" nolabel="1"/>
+            </page>
+          </notebook>
+          <footer>
+            <div>
+              <button type="object" name="print_report" string="Print" icon="STOCK_PRINT"/> or <button special="cancel" string="Cancel" class="oe_link"/>
+            </div>
+          </footer>
+        </form>
+      </field>
+    </record>
+         
+    <record model="ir.actions.act_window" id="issue_report_action">
+        <field name="name">Issue Report</field>
+        <field name="res_model">issue.report.wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="issue_report_wizard_form"/>
+    </record>
+
+    <menuitem id="issue_report_menu" parent="ad_stock_report.reporting_stock_monthly" sequence="10" action="issue_report_action"/>
+    <!-- 
+    <report id="pending_sales_report"
+      name="pending.sales.report"
+      string="Pending Sales Order"
+      model="report.pending.sales.wizard"
+      auto="False"
+      menu="False"
+      file="ad_sales_report/report/pending_sales_report.mako" 
+      usage="default" 
+      report_type="webkit"
+      header="True"
+    /> -->
+  </data>
+</openerp>

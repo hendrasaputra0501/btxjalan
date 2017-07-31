@@ -1,0 +1,204 @@
+<openerp>
+	<data>
+        <record id="product_packing_type_1" model="product.packing.type">
+            <field name="name">Cartons</field>
+        </record>
+        <record id="product_packing_type_2" model="product.packing.type">
+            <field name="name">Bags</field>
+        </record>
+        <record id="product_packing_type_3" model="product.packing.type">
+            <field name="name">Pallets</field>
+        </record>
+
+		<record id="view_product_info_inherit" model="ir.ui.view">
+            <field name="name">view.product.info.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <field name="default_code" position="after">
+                    <field name="old_code"/>
+                </field>
+                <xpath expr="/form/sheet" position="before">
+                    <header>
+                        <button name="set_writeable" type="object" string="Set Product Writeable" attrs="{'invisible':[('edit_state','=','writeable')]}"/>
+                        <button name="set_unwriteable" type="object" string="Set Product Unwriteable" attrs="{'invisible':[('edit_state','=','unwriteable')]}"/>
+                        <field name="edit_state" widget="statusbar" statusbar_colors='{"writeable":"blue","unwriteable":"blue"}'/>
+                    </header>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Procurements']/group[@name='procurement']/group[@name='general']/field[@name='cost_method']" position="before">
+                    <field name="indentable" groups="product.group_costing_method"/>
+                    <field name="use_min_stock" groups="product.group_costing_method"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Information']/group/group[3]" position="after">
+                	<group name="internal_info" string="Internal Information">
+						<field name="function_id" invisible="1"/>                		
+                		<field name="nomenclature"/>
+                        <field name="internal_type" on_change="onchange_set_desc(default_code,name,internal_type,application,sd_type,count,wax,blend_code,blend_id)"/>
+                		<field name="blend_code" attrs="{'invisible':[('internal_type','not in',['Finish','Finish_others'])]}" on_change="onchange_set_desc(default_code,name,internal_type,application,sd_type,count,wax,blend_code,blend_id)"/>
+                        <field name="blend_id" domain="[('bom_id','=',False),('blend_code','=',blend_code)]" attrs="{'invisible':[('internal_type','!=','Finish')]}" on_change="onchange_blend_id(blend_id)"/>
+                		<field name="count" attrs="{'invisible':[('internal_type','!=','Finish')]}" on_change="onchange_set_desc(default_code,name,internal_type,application,sd_type,count,wax,blend_code,blend_id)"/>
+                        <field name="sd_type" attrs="{'invisible':[('internal_type','!=','Finish')]}" on_change="onchange_set_desc(default_code,name,internal_type,application,sd_type,count,wax,blend_code,blend_id)"/>
+                		<field name="wax" attrs="{'invisible':[('internal_type','!=','Finish')]}" on_change="onchange_set_desc(default_code,name,internal_type,application,sd_type,count,wax,blend_code,blend_id)"/>
+                        <field name="origin" attrs="{'invisible':[('internal_type','!=','Raw Material')]}"/>
+ 						<field name="product_group" attrs="{'invisible':[('function_id','&lt;',1)]}"/>               		
+                        <field name="application" invisible='1' attrs="{'invisible':[('internal_type','!=','Finish')]}" on_change="onchange_set_desc(default_code,name,internal_type,application,sd_type,count,wax,blend_code,blend_id)"/>
+                        <field name="specification" invisible='1'/>
+                        <field name="rm_class_id" attrs="{'required':[('internal_type','=','Raw Material')],'invisible':[('internal_type','!=','Raw Material')]}"/>
+                	</group>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Information']/group/group[@name='internal_info']" position="after">
+                	<group name="blend_lines" string="Blend Component" colspan="4" col="4" attrs="{'invisible':[('blend_id','=',False)]}">
+                		<field name="blend_lines" nolabel="1" colspan="4">
+                			<tree string="Blend Components (Bill of Material)" editable="bottom">
+                				<field name="sequence" invisible="1"/>
+			                    <field name="name" invisible="1"/>
+			                    <field name="product_id"/>
+                                <field name="comp_percentage"/>
+			                    <field name="product_qty"/>
+                                <field name="waste_product_id" domain="[('id','!=',product_id)]"/>
+                                <field name="waste_percentage"/>
+                                <field name="waste_qty"/>
+			                    <field name="product_uom" groups="product.group_uom"/>
+                                <field name="date_start"/>
+                                <field name="date_stop"/>
+                			</tree>
+                		</field>
+                	</group>
+                    <group name="extraordinary_desc" string="Special Description" colspan="4" col="4">
+                        <label for="local_desc" string="Local Description"/>
+                        <field name="local_desc" nolabel="1" colspan="4"/>
+                        <label for="export_desc" string="Export Description"/>
+                        <field name="export_desc" nolabel="1" colspan="4"/>
+                    </group>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Inventory']/group[@name='inventory']/group[@name='status']" position="after">
+                    <group name="uop" string="Second Uom for Picking">
+                        <field name="uop_id"/>
+                        <field name="uop_coeff"/>
+                    </group>                    
+                </xpath>
+                <page string="Accounting" position="after">
+                    <page string="Specifications">
+                        <field name="specification_lines" colspan="4" nolabel="1">
+                            <tree string="Product Specifications" editable="bottom">
+                                <field name="sequence"/>
+                                <field name="spec_id" on_change="onchange_spec_id(spec_id)"/>
+                                <field name="name"/>
+                            </tree>
+                        </field>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+        <!-- <record id="view_product_info_tree_inherit" model="ir.ui.view">
+            <field name="name">view.product.info.tree.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="arch" type="xml">
+                <field name="state" position="after">
+                	<field name="internal_type"/>
+                	<field name="count" invisible="1"/>
+                	<field name="wax" invisible="1"/>
+                </field>
+				<field name="qty_available" position="attributes">
+					<attribute name="sum">On Hand</attribute>
+				</field>               
+				<field name="virtual_available" position="attributes">
+					<attribute name="sum">Forecast</attribute>
+				</field>
+                <field name="virtual_available" position="after">
+                    <field name="qty_uop_available" sum="On Hand"/>
+                    <field name="virtual_uop_available" sum="Forecast"/>
+                    <field name="uop_id"/>
+                </field>
+            </field>
+        </record> -->
+
+        <record id="view_product_info_search_inherit" model="ir.ui.view">
+            <field name="name">view.product.info.search.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_search_form_view"/>
+            <field name="arch" type="xml">
+                <filter name="consumable" position="after">
+                	<filter name="internal_type_fg" string="Finish Goods" icon="terp-accessories-archiver" domain="[('internal_type','=','Finish')]"/>
+                    <filter name="internal_type_fg" string="Finish Good Others" icon="terp-accessories-archiver" domain="[('internal_type','=','Finish_others')]"/>
+            		<filter name="internal_type_rm" string="Raw Material" icon="terp-accessories-archiver" domain="[('internal_type','=','Raw Material')]"/>
+            		<filter name="internal_type_st" string="Stores" icon="terp-accessories-archiver" domain="[('internal_type','=','Stores')]"/>
+            		<filter name="internal_type_sc" string="Scraps" icon="terp-accessories-archiver" domain="[('internal_type','=','Scrap')]"/>
+            		<filter name="internal_type_waste" string="Waste" icon="terp-accessories-archiver" domain="[('internal_type','=','Waste')]"/>
+                    <filter name="internal_type_fixed" string="Fixed Asset" icon="terp-accessories-archiver" domain="[('internal_type','=','Fixed')]"/>
+                    <filter name="internal_type_packing" string="Packing Material" icon="terp-accessories-archiver" domain="[('internal_type','=','Packing')]"/>
+            		<filter name="has_bom" string="Has Blend" icon="terp-accessories-archiver" domain="[('blend_id','!=',False)]"/>
+                </filter>
+                <xpath expr="/search/group[2]/filter[@string='Company']" position="after">
+                	<filter string='Internal Type' icon="terp-stock_symbol-selection" domain="[]" context="{'group_by' : 'internal_type'}"/>
+					<filter string='Product Group' icon="terp-stock_symbol-selection" domain="[]" context="{'group_by' : 'product_group'}"/>               </xpath>
+            </field>
+        </record>
+<!-- 
+        <record model="ir.ui.view" id="view_product_manufacturer_inherit">
+            <field name="name">view.product.manufacturer.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product_manufacturer.view_product_form_expiry" />
+            <field name="arch" type="xml">
+                <xpath expr="//group[@string='Manufacturer']/field[@name='manufacturer_pname']" position="after">
+                        <field name="manufacturer_pcatalogue"/>
+                </xpath>
+            </field>
+        </record> -->
+
+        <record id="product_uom_form_inherit_view" model="ir.ui.view" >
+            <field name="name">product.uom.form.inherit</field>
+            <field name="model">product.uom</field>
+            <field name="inherit_id" ref="product.product_uom_form_view" />
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="is_package_unit" />
+                    <field name="uom_alias"/>
+                </field>
+                <xpath expr="/form/group" position="after">
+                    <group string="Additional Information for Package Unit" attrs="{'invisible':[('is_package_unit','=',False)]}">
+                        <group>
+                            <field name="packing_type"/>
+                            <field name="net_weight"/>
+                            <field name="gross_weight"/>
+                            <field name="gross_weight_double"/>
+                            <field name="dimension" placeholder="length x width x height"/>
+                            <field name="width" placeholder="width"/>
+                            <field name="height" placeholder="height"/>
+                            <field name="length" placeholder="length"/>
+                            <field name="dimension_uom" placeholder="example cms,mtr etc.."/>
+                        </group>
+                        <group>
+                            <field name="cone_weight"/>
+                            <field name="cones"/>
+                            <field name="conicity"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="product_uom_tree_inherit_view" model="ir.ui.view" >
+            <field name="name">product.uom.form.inherit</field>
+            <field name="model">product.uom</field>
+            <field name="inherit_id" ref="product.product_uom_tree_view" />
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="is_package_unit" />
+                    <field name="net_weight"/>
+                    <field name="gross_weight"/>
+                    <field name="cones"/>
+                    <field name="cone_weight"/>
+                    <field name="dimension"/>
+                    <field name="width"/>
+                    <field name="height"/>
+                    <field name="length"/>
+                    <field name="conicity"/>
+                    <field name="dimension_uom"/>
+                </field>
+            </field>
+        </record>
+	</data>
+</openerp>

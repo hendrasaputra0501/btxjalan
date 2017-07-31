@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	<record id="stock_proforma_invoice_form" model="ir.ui.view">
+            <field name="name">stock.proforma.invoice.form</field>
+            <field name="model">stock.proforma.invoice</field>
+            <field name="arch" type="xml">
+                <form string="Proforma Invoice" version="7.0">
+                <header>
+                    <!-- <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,open,paid" statusbar_colors='{"proforma":"blue","proforma2":"blue"}'/> -->
+                </header>
+                <sheet string="Proforma Invoice">
+                    <h1>
+                        <label string="Pro Forma Invoice " />
+                        <field name="internal_number" readonly="1" class="oe_inline"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field string="Customer" name="partner_id"
+                                groups="base.group_user" context="{'search_default_customer':1, 'show_address': 1}"
+                                options='{"always_reload": True}'
+                                domain="[('customer', '=', True)]"/>
+                            <label for="shipper"/>
+                            <div>
+                                <div>
+                                    <field name="shipper" />
+                                    <label for="show_shipper_address"/>
+                                    <field name="show_shipper_address"/>
+                                </div>
+                                <field name="s_address_text" placeholder="Input Shipper Customs Address here..."  attrs="{'invisible':[('show_shipper_address','=',False)]}" />
+                            </div>
+                            <label for="buyer"/>
+                            <div>
+                                <div>
+                                    <field name="buyer" />
+                                    <label for="show_buyer_address"/>
+                                    <field name="show_buyer_address"/>
+                                </div>
+                                <field name="address_text" placeholder="Input Buyer Customs Address here..."  attrs="{'invisible':[('show_buyer_address','=',False)]}" />
+                            </div>
+                            <label for="consignee" attrs="{'invisible':[('sale_type','=','local')]}"/>
+                            <div attrs="{'invisible':[('sale_type','=','local')]}">
+                                <div>
+                                    <field name="consignee" />
+                                    <label for="show_consignee_address"/>
+                                    <field name="show_consignee_address"/>
+                                </div>
+                                <field name="c_address_text" placeholder="Input Consignee Customs Address here..."  attrs="{'invisible':[('show_consignee_address','=',False)]}" />
+                            </div>
+                            <label for="notify" attrs="{'invisible':[('sale_type','=','local')]}"/>
+                            <div attrs="{'invisible':[('sale_type','=','local')]}">
+                                <div>
+                                    <field name="notify" />
+                                    <label for="show_notify_address"/>
+                                    <field name="show_notify_address"/>
+                                </div>
+                                <field name="n_address_text" placeholder="Input Notify Customs Address here..."  attrs="{'invisible':[('show_notify_address','=',False)]}" />
+                            </div>
+                            <label for="applicant" attrs="{'invisible':[('sale_type','=','local')]}"/>
+                            <div attrs="{'invisible':[('sale_type','=','local')]}">
+                                <div>
+                                    <field name="applicant"/>
+                                    <label for="show_applicant_address"/>
+                                    <field name="show_applicant_address"/>
+                                </div>
+                                <field name="a_address_text" placeholder="Input Applicant Customs Address here..."  attrs="{'invisible':[('show_applicant_address','=',False)]}" />
+                            </div>
+                            <field name="goods_type" readonly='1'/>
+                            <field name="sale_type" readonly='1'/>
+                            <field name="locale_sale_type" attrs="{'invisible': [('sale_type','!=','local')],'required':[('sale_type','=','local')]}" readonly='1'/>
+                        </group>
+                        <group>
+                            <field name="type" invisible="1"/>
+                            <field name="date_invoice"/>
+                            <label for="currency_id" groups="base.group_multi_currency"/>
+                            <div groups="base.group_multi_currency">
+                                <field name="currency_id" class="oe_inline"/>
+                            </div>
+                        </group>
+                    </group>
+                    <group string="Change Label" colspan="4" col="2">
+                        
+                        <field name="label_print" nolabel="1" colspan="4" readonly="1"/>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Invoice Lines">
+                            <field name="invoice_line" nolabel="1" widget="one2many_list">
+                                <tree string="Invoice Lines" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"/>
+                                    <field name="name"/>
+                                    <field name="quantity"/>
+                                    <field name="uos_id" groups="product.group_uom"/>
+                                    <field name="price_unit"/>
+                                    <field name="invoice_line_tax_id" widget="many2many_tags" context="{'type':parent.type}"
+                                        domain="[('parent_id','=',False),('company_id', '=', parent.company_id)]"/>
+                                    <field name="price_subtotal"/>
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <div>
+                                    <label for="amount_tax"/>
+                                    <!-- <button name="button_reset_taxes"
+                                        string="(update)" class="oe_link oe_edit_only"
+                                        type="object" help="Recompute taxes and total"/> -->
+                                </div>
+                                <field name="amount_tax" nolabel="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_total" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                            <group>
+                                    <field name="payment_term" class="oe_inline"/>
+                            </group>
+                            <div class="oe_clear">
+                                <label for="comment"/>
+                            </div>
+                            <field name="comment" class="oe_inline" placeholder="Additional notes..."/>
+                            <field name='additional_remarks' placeholder='Additional Remarks'/>
+                        </page>
+                        <page string="Other Info">
+                            <group col="4">
+                                <group>
+                                    <field name="company_id" widget="selection" groups="base.group_multi_company"/>
+                                    <field name="user_id" groups="base.group_user"/>
+                                    <!-- <field name="date_due"/> -->
+                                </group>
+                                <group>
+                                    <field name="origin" groups="base.group_user"/>
+                                    <field name="name"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Post Shipment Information">
+                            <group>
+                                <group string='Bill of Lading'>
+                                    <field name='bl_date'/>
+                                    <field name='bl_number' />
+                                    <field name='bl_received_date' />
+                                </group>
+                                <group string='Pemberitahuan Ekspor Barang'>
+                                    <field name='peb_date' />
+                                    <field name='peb_number' />
+                                    <field name='incoterms' />
+                                    <field name='peb_freight' />
+                                    <field name='peb_insurance' />
+                                    <field name='peb_fob' />
+                                    <field name='pe_number' />
+                                    <field name='vessel_name' />
+                                </group>
+                            </group>
+                            <group>
+                                <group string='Certificate of Origin'>
+                                    <field name='co_date' />
+                                    <field name='co_number' />
+                                </group>
+                                <group>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="stock_proforma_invoice_tree" model="ir.ui.view">
+            <field name="name">stock.proforma.invoice.tree</field>
+            <field name="model">stock.proforma.invoice</field>
+            <field name="arch" type="xml">
+                <tree string="Proforma Invoice">
+                    <field name="partner_id"/>
+                    <field name="date_invoice"/>
+                    <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+                    <field name="user_id"/>
+                    <field name="origin"/>
+                    <field name="currency_id" groups="base.group_multi_currency"/>
+                    <field name="amount_untaxed" sum="Untaxed Amount"/>
+                    <field name="amount_total" sum="Total Amount"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_stock_proforma_invoice_filter" model="ir.ui.view">
+            <field name="name">stock.proforma.invoice.select</field>
+            <field name="model">stock.proforma.invoice</field>
+            <field name="arch" type="xml">
+                <search string="Search Proforma Invoice">
+                    <field name="name" string="Invoice" filter_domain="['|','|','|', ('name','ilike',self), ('partner_id', 'child_of', self)]"/>
+                    <separator/>
+                    <filter domain="[('user_id','=',uid)]" help="My Invoices" icon="terp-personal"/>
+                    <field name="partner_id" operator="child_of"/>
+                    <field name="user_id" string="Salesperson"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Partner" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Responsible" icon="terp-personal" domain="[]"  context="{'group_by':'user_id'}"/>
+                        <filter string="Invoice Date" icon="terp-go-month" domain="[]"  context="{'group_by':'date_invoice'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record id="action_stock_proforma_invoice" model="ir.actions.act_window">
+            <field name="name">Proforma Invoices</field>
+            <field name="res_model">stock.proforma.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_stock_proforma_invoice_filter"/>
+        </record>
+
+        <menuitem action="action_stock_proforma_invoice" id="menu_stock_action_proforma_invoice" parent="stock.menu_stock_warehouse_mgmt" sequence='4'/>
+    </data>
+</openerp>

@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+	<record model="ir.ui.view" id="aging_report_wizard_form">
+	  <field name="name">aging.report.wizard.form</field>
+	  <field name="model">aging.report.wizard</field>
+	  <field name="type">form</field>
+	  <field name="arch" type="xml"> 
+		<form string="Aging report" version="7.0">
+		  <group colspan="4" col="4">
+			<field name="account_type" invisible="1" />
+			<field name="as_on_date"/>
+			<field name="period_length" />
+			<field name="show_outstanding_advance" attrs="{'invisible':[('account_type','=','payable')]}"/>
+			<field name="adv_account_id" attrs="{'invisible':['|',('show_outstanding_advance','=',False),('account_type','=','payable')],'required':[('show_outstanding_advance','=',True),('account_type','=','receivable')]}" />
+		  </group>
+		  <notebook>
+		  	<page string="Filter Journal" attrs="{'invisible':[('account_type','=','payable')]}">
+		  		<field name="journal_ids" />
+		  	</page>
+		  	<page string="Filter Partner">
+		  		<field name="partner_ids"/>
+		  	</page>
+		  </notebook>	
+		  <notebook>
+		  	<page string="Filter Account">
+		  		<field name="account_ids" domain="[('type','=',account_type)]"/>
+		  	</page>
+		  </notebook>
+		  <footer>
+			<div>
+			  <button type="object" name="print_report" string="Print" icon="STOCK_PRINT"/> or <button special="cancel" string="Cancel" class="oe_link"/>
+			</div>
+		  </footer>
+		</form>
+	  </field>
+	</record>
+		 
+	<record model="ir.actions.act_window" id="ar_aging_report_action">
+		<field name="name">Account Receivable Aging Report</field>
+		<field name="res_model">aging.report.wizard</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'account_type':'receivable'}</field>
+		<field name="view_id" ref="aging_report_wizard_form"/>
+	</record>
+
+	<record model="ir.actions.act_window" id="ap_aging_report_action">
+		<field name="name">Account Payable Aging Report</field>
+		<field name="res_model">aging.report.wizard</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'account_type':'payable'}</field>
+		<field name="view_id" ref="aging_report_wizard_form"/>
+	</record>
+
+	<menuitem id="aging_report_menu" parent="account.next_id_22" sequence="10" name="Partner Ageing Reports"/>
+	<menuitem id="ar_aging_report_menu" parent="aging_report_menu" sequence="1" action="ar_aging_report_action"/>
+	<menuitem id="ap_aging_report_menu" parent="aging_report_menu" sequence="2" action="ap_aging_report_action"/>
+	<!-- 
+	<report id="pending_sales_report"
+	  name="pending.sales.report"
+	  string="Pending Sales Order"
+	  model="report.pending.sales.wizard"
+	  auto="False"
+	  menu="False"
+	  file="ad_sales_report/report/pending_sales_report.mako" 
+	  usage="default" 
+	  report_type="webkit"
+	  header="True"
+	/> -->
+  </data>
+</openerp>

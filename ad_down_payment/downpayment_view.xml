@@ -1,0 +1,121 @@
+<openerp>
+	<data>
+		<record id="view_downpayment_tree" model="ir.ui.view">
+			<field name="name">downpayment.tree</field>
+			<field name="model">downpayment</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name"/>
+					<field name="partner_id"/>
+					<field name="date"/>
+					<field name="amount_dp_total"/>
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record id="view_downpayment_form" model="ir.ui.view">
+			<field name="name">downpayment.form</field>
+			<field name="model">downpayment</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form>
+					<field name="name" readonly="1"/>
+					<field name="partner_id"/>
+					<field name="journal_id" domain="[('type','in',['bank', 'cash'])]" widget="selection" select="1" attrs="{'readonly': [('state','!=','approve')],'required':[('state','=','approve')]}"/>
+					<field name="ref"/>
+					<field name="date"/>
+					<field name="payment_date" attrs="{'readonly': [('state','!=','approve')],'required':[('state','=','approve')]}"/>
+					<field name="force_period" attrs="{'readonly': [('state','!=','approve')],'required':[('state','=','approve')]}"/>
+					<field name="currency_id" attrs="{'readonly': [('state','!=','draft')],'required':[('state','=','draft')]}"/>
+					<field name="company_id" attrs="{'readonly': [('state','!=','draft')]}"/>
+					<field name="payment_adm" attrs="{'readonly': [('state','!=','approve')],'required':[('state','=','approve')]}"/>
+					<field name="downpayment_used" invisible="1"/>
+					<notebook colspan="4">
+						<page string="Lines">
+							<field name="dp_line" nolabel="1" mode="tree,form">
+								<tree>
+									<field name="name"/>
+									<field name="account_id"/>
+									<field name="amount"/>	
+									<field name="state"/>
+								</tree>
+								<form>
+									<field name="name"/>
+									<field name="account_id"/>
+									<field name="amount"/>
+									<newline />
+									<field name="dp_line_tax_id" nolabel="1" colspan='4'/>
+								</form>		
+							</field>
+						</page>
+						
+						<page string="Payment Administration" attrs="{'invisible': [('payment_adm','=','cash')]}">
+		                    <field name="adm_amount" colspan="4"  
+		                           attrs="{'invisible':[('payment_adm','not in',('transfer','cheque'))]}"/>
+		                    <field name="adm_acc_id" colspan="4"
+		                           attrs="{'invisible':[('payment_adm','not in',('transfer','cheque'))], 'readonly':[('adm_amount','&lt;=',0)], 'required':[('payment_adm','in',('transfer','cheque')),('adm_amount','!=',0)]}" domain="[('type','=','other')]"/>
+		                    <field name="adm_comment" colspan="4"
+		                           attrs="{'invisible':['|',('payment_adm','=','cheque'),('payment_adm','=','cash')], 'required':['|',('payment_adm','=','transfer'),('payment_adm','=','free_transfer')]}"/> 
+		                    <!--<field name="adm_comment" colspan="4"
+		                           attrs="{'invisible':[('payment_adm','!=','transfer')], 'required':[('payment_adm','=','transfer')]}"/> -->
+		                    <field name="cheque_number" colspan="4"
+		                           attrs="{'invisible':[('payment_adm','!=','cheque')]}"/>
+		                    <field name="cheque_start_date" colspan="2"
+		                           attrs="{'invisible':[('payment_adm','!=','cheque')]}" domain="[('type','=','other')]"/> 
+		                    <field name="cheque_end_date" colspan="2"
+		                           attrs="{'invisible':[('payment_adm','!=','cheque')], 'required':[('payment_adm','=','cheque')]}"/>
+		                    <field name="bank_id" colspan="4"
+		                           attrs="{'invisible':[('payment_adm','!=','cheque')]}"/>                     
+                        </page>
+						
+						<page string="Journal Items" groups="base.group_extended" attrs="{'invisible': [('state','!=','approve2')]}">
+                           
+                            <field name="move_ids" colspan="4" nolabel="1" readonly="1">
+                               <tree string="Journal Items">
+                                   <field name="move_id"/>
+                                   <field name="ref"/>
+                                   <field name="date"/>
+                                   <field name="statement_id"/>
+                                   <field name="partner_id"/>
+                                   <field name="account_id"/>
+                                   <field name="name"/>
+                                   <field name="debit"/>
+                                   <field name="credit"/>
+                                   <field name="state"/>
+                                   <field name="reconcile_id"/>
+                                   <field name="amount_currency"/>
+                                   <field name="currency_id"/>
+                               </tree>
+                            </field>
+                        </page>
+						
+					</notebook>
+					<group col="10" colspan="4">
+						<field name="state"/>
+						<button name="cancel" string="Cancel" icon="gtk-cancel" states="draft,confirm,approve,approve2" confirm="Are you sure Cancel this Transaction ?"/>
+						<button name="action_cancel_draft" type='object' states="cancel" string="Set to Draft" icon="gtk-convert" />
+						<button name="confirm" string="Confirm" icon="gtk-ok" states="draft"/>
+						<button name="approve" string="CFO Approve" icon="gtk-ok" states="confirm"/>
+						<button name="approve2" string="Treasury Approve" icon="gtk-ok" states="approve"/>
+					</group>
+				</form>
+			</field>
+		</record>
+		
+		<record id="action_downpayment" model="ir.actions.act_window">
+			<field name="name">Downpayment</field>
+			<field name="res_model">downpayment</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<!--<field name="search_view_id" ref="view_bank_transaction_filter"/>-->
+		</record>
+
+		<menuitem action="action_downpayment" icon="STOCK_JUSTIFY_FILL"
+			id="menu_downpayment"
+			parent="account.menu_finance_bank_and_cash"
+			sequence="1"/>
+		
+	</data>
+</openerp>

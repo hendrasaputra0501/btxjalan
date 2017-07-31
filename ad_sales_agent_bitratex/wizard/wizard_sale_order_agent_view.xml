@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_sale_order_agent" model="ir.ui.view">
+            <field name="name">Wizard Agents Commission</field>
+            <field name="model">wizard.sale.order.agent</field>
+            <field name="arch" type="xml">
+              <form string="Generate Default Agents" version="7.0">
+                  <group string="Generate Default Agents">
+                      <field name="agent_id"/>
+                      <field name="invoice_partner_id" />
+                      <field name="commission_percentage" />
+                  </group>
+                  <footer>
+                      <button name="generate_default_agent" string="Generate" type="object" class="oe_highlight"/>
+                      or
+                      <button string="Cancel" class="oe_link" special="cancel"/>
+                  </footer>
+             </form>
+            </field>
+        </record>
+
+        <act_window name="Generate Default Agents"
+            res_model="wizard.sale.order.agent"
+            src_model="sale.order"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_sale_order_agent_all" context="{'all':True}"/>
+
+        <act_window name="Generate Default Agents"
+            res_model="wizard.sale.order.agent"
+            src_model="sale.order"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_sale_order_agent"/>
+    </data>
+</openerp>

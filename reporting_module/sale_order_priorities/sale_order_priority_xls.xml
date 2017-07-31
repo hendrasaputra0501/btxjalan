@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		<report auto="False" id="report_sale_order_priority_xls" model="sale.order.priority" name="sale.order.priority.print.xls" string="Sale Order Priorities xls" usage="default" report_type="xls" menu="True" header="False" />
+	</data>
+</openerp>

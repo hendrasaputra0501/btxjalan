@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <!-- <report auto="False" 
+        	id="report_purchase_requisition" 
+        	model="purchase.requisition" 
+        	name="purchase.requisition.rpt" 
+        	file="ad_material_requisition/report/supplier_comparison_approval_rpt.py" 
+        	string="Supplier Comparison Approval" 
+        	usage="default" 
+        	report_type="webkit" 
+        	menu="True" /> -->
+    </data>
+</openerp>

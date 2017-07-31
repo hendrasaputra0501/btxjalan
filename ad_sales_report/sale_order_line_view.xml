@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="view_order_line_tree_netfobprice" model="ir.ui.view">
+            <field name="name">sale.order.line.tree.netfobprice</field>
+            <field name="model">sale.order.line</field>
+            <field name="arch" type="xml">
+                <tree string="Sales Order Lines" create="false">
+                    <field name="order_id" invisible="1" />
+                    <field name="sequence_line" />
+                    <field name="product_id" />
+                    <field name="production_location" />
+                    <field name="sale_type" invisible="1" />
+                    <field name="order_partner_id" />
+                    <field name="product_uom" string="Unit of Measure" groups="product.group_uom" />
+                    <field name="product_uom_qty" string="Qty" />
+                    <field name="price_unit" invisible="1" />
+                    <field name="tax_amount" invisible="1" />
+                    <field name="actual_rate" />
+                    <field name="term_rate" />
+                    <field name="commission_rate" />
+                    <field name="insurance_rate" />
+                    <field name="freight_rate" />
+                    <field name="net_fob_price" />
+                    <field name="efisiensi_rate" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_order_line_netfobprice" model="ir.actions.act_window">
+            <field name="name">Net Fob Prices</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_order_line_tree_netfobprice" />
+            <field name="domain">[('state','in', ('confirmed','done'))]</field>
+        </record>
+
+        <menuitem id="menu_order_line_netfobprice" parent="base.menu_sales" sequence="15" action="action_order_line_netfobprice" />
+	</data>
+</openerp>

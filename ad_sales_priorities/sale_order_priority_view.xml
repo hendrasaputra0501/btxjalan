@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="view_sale_order_priority_tree" model="ir.ui.view">
+			<field name="name">sale.order.priority.tree</field>
+			<field name="model">sale.order.priority</field>
+			<field name="arch" type="xml">
+				<tree string="Sale Order Priority">
+					<field name="as_on_date" />
+					<field name="sale_type" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+		<record id="view_sale_order_priority_form" model="ir.ui.view">
+			<field name="name">sale.order.priority.form</field>
+			<field name="model">sale.order.priority</field>
+			<field name="arch" type="xml">
+				<form string="Sale Order Priority" version="7.0">
+						<header>
+						<button name="action_generate" states="draft,cancelled" string="Generate Priority" type="object" />
+						<button name="action_validate" states="draft,cancelled" string="validate" type="object" />
+						<button name="action_cancelled" states="validated" string="Cancel" type="object" />
+						
+						 <field name="state" widget="statusbar" statusbar_visible="draft,validated,cancelled"/>
+						</header>
+					<sheet>
+						<h1>
+	                        <label string="Sale Order Priority" class="oe_center"/>
+	                    </h1>
+							<group>
+								<field name="as_on_date" />
+								<field name="sale_type" />
+								<!-- <field name="state" /> -->
+							</group>
+							<notebook>
+								<page string="Lines">
+									<field name="priority_lines_ids" >
+										<tree string="Lines" editable="bottom" delete="false" create="false">
+											<field name="sequence_line"/>
+											<field name="product_id"/>
+		                                    <field name="goods_actual_date" />
+		                                    <field name="ready_by" />
+		                                    <field name="priority"/>
+		                                    <field name="remark_priorities"/>
+		                                    <field name="state" invisible="1" />
+	                                	</tree>
+									</field>
+								</page>
+								<page string="Sale Order Line">
+									<field name="sale_line_ids">
+										<tree string="Lines" delete="false" create="false">
+											<field name="sequence_line"/>
+											<field name="product_id"/>
+		                                    <field name="goods_actual_date" />
+		                                    <field name="ready_by" />
+		                                    <field name="priority"/>
+		                                    <field name="remark_priorities"/>
+		                                    <field name="state" invisible="1" />
+	                                	</tree>
+	                                </field>
+								</page>
+							</notebook>
+					</sheet>
+
+				</form>
+			</field>
+		</record>
+		<record id="view_saleorder_priority_search" model="ir.ui.view">
+			<field name="name">sale.order.priority.search</field>
+            <field name="model">sale.order.priority</field>
+            <field name="arch" type="xml">
+                <search string="Sale Order Priority">
+                    <!-- <field name="date" string="Search" filter_domain="['|',('date','ilike', self)]"/> -->
+                    <group expand="0" string="Group By...">
+                        <filter string="As On Date" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'as_on_date'}"/>
+                    </group>
+                </search>
+            </field>
+		</record>
+		<record id="action_sale_order_priority" model="ir.actions.act_window">
+            <field name="name">Sale Order Priority</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order.priority</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_saleorder_priority_search"/>
+            <field name="context">{}</field>
+        </record>
+
+		<menuitem action="action_sale_order_priority" id="menu_sale_order_priority" name="Sale Order Priority" parent="base.menu_sales" sequence="20"/>
+	</data>
+</openerp>

@@ -1,0 +1,26 @@
+<openerp>
+	<data>
+		<record id="invoice_charge_form_inhrt_lc" model="ir.ui.view">
+			<field name="name">account.invoice.charge.form.inhrt.lc</field>
+            <field name="model">account.invoice</field>
+			<field name="inherit_id" ref="ad_invoice_charge.invoice_charge_form" />
+			<field name="arch" type="xml">
+				<xpath expr="/form/sheet/notebook/page[@string='Invoice']/field[@name='invoice_line']/tree/field[@name='picking_related_id']" position="after">
+					<field name="lc_id"/>
+				</xpath>
+			</field>
+		</record>
+
+		<record id="invoice_supplier_form_inhrt_lc" model="ir.ui.view">
+			<field name="name">account.invoice.supplier.form.inhrt.lc</field>
+            <field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_supplier_form" />
+			<field name="arch" type="xml">
+				<field name="partner_id" position="after">
+					<field name="lc_id"/>
+				</field>
+			</field>
+		</record>
+		
+	</data>
+</openerp>

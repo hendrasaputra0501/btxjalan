@@ -1,0 +1,25 @@
+<openerp>
+	<data>
+		<record id="view_advance_payment_in_form_inhrt_lc" model="ir.ui.view">
+			<field name="name">account.advance.payment.in.form.inhrt.lc</field>
+			<field name="model">account.advance.payment</field>
+			<field name="inherit_id" ref="ad_advance_payment.view_advance_payment_in_form" />
+			<field name="arch" type="xml">
+				<field name="sale_type" position="after">
+					<field name="lc_id" />
+				</field>
+			</field>
+		</record>
+
+		<record id="view_advance_payment_out_form_inhrt_lc" model="ir.ui.view">
+			<field name="name">account.advance.payment.out.form.inhrt.lc</field>
+			<field name="model">account.advance.payment</field>
+			<field name="inherit_id" ref="ad_advance_payment.view_advance_payment_out_form" />
+			<field name="arch" type="xml">
+				<field name="memo" position="after">
+					<field name="lc_id" />
+				</field>
+			</field>
+		</record>
+	</data>
+</openerp>

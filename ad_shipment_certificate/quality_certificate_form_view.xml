@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	<record id="quality_certificate_form_form" model="ir.ui.view">
+            <field name="name">quality.certificate.form.form</field>
+            <field name="model">quality.certificate.form</field>
+            <field name="arch" type="xml">
+                <form string="Quality Certificate" version="7.0">
+                <header>
+                    <!-- <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,open,paid" statusbar_colors='{"proforma":"blue","proforma2":"blue"}'/> -->
+                </header>
+                <sheet string="Quality Certificate">
+                    <label for='name'/>
+                    <h1>
+                        <div>
+                            <field name="name"/>
+                        </div>
+                    </h1>
+                    <group>
+                        <!-- <group> -->
+                            <!-- <label for="shipper"/>
+                            <div>
+                                <field name="shipper"
+                                    options='{"always_reload": True}'/> -->
+                                <!-- <label for="s_use_custom_address"/>
+                                <field name="s_use_custom_address" on_change="onchange_check(shipper_id,context)" context="{'shipper':True}"/>
+                                <field name="s_address_text" attrs="{'invisible':[('s_use_custom_address','=',False)]}"/> -->
+                            <!-- </div>
+                            <label for="consignee"/>
+                            <div>
+                                <field name="consignee"
+                                    options='{"always_reload": True}'/> -->
+                                <!-- <label for="c_use_custom_address"/>
+                                <field name="c_use_custom_address" on_change="onchange_check(consignee_partner_id,context)" context="{'consignee':True}"/>
+                                <field name="c_address_text" attrs="{'invisible':[('c_use_custom_address','=',False)]}"/>-->
+                            <!-- </div>
+                            <label for="notify"/>
+                            <div>
+                                <field name="notify"
+                                    options='{"always_reload": True}'/> -->
+                                <!-- <label for="n_use_custom_address"/>
+                                <field name="n_use_custom_address" on_change="onchange_check(notify_partner_id,context)" context="{'notify':True}"/>
+                                <field name="n_address_text" attrs="{'invisible':[('n_use_custom_address','=',False)]}"/> -->
+                            <!-- </div> -->
+                        <!-- </group> -->
+                        <group>
+                            <field name="date"/>
+                            <field name="invoice_id" />
+                            <field name="sale_ids" widget="many2many_tags" domain="[('invoice_ids','=',invoice_id)]"/>
+                            <field name="sale_line_ids" widget="many2many_tags" domain="[('order_id','in',sale_ids[0][2])]"/>
+                            <field name="product_id"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                        <group></group>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Uster Lines">
+                            <field name="quality_certificate_line_ids" nolabel="1" widget="one2many_list">
+                                <tree string="Uster Lines" editable="bottom">
+                                    <field name="parameter_id" invisible="1"/>
+                                    <field name="desc"/>
+                                    <field name="value"/>
+                                </tree>
+                            </field>
+                        </page>
+			<page string="Additional Term">
+			    <group>
+				<field name="title_header_form" />
+			    </group>
+			    <field name="remarks" placeholder="Additional Remarks for Header Print Form" />
+			    <field name="note" placeholder="Additional Info for Footer Print Form" />
+			</page>
+                    </notebook>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="quality_certificate_form_tree" model="ir.ui.view">
+            <field name="name">quality.certificate.form.tree</field>
+            <field name="model">quality.certificate.form</field>
+            <field name="arch" type="xml">
+                <tree string="Uster Tree">
+                    <field name="name"/>
+                    <field name="invoice_id" />
+                    <field name="sale_ids"/>
+                    <field name="date"/>
+                    <field name="sale_line_ids"/>
+                    <field name="product_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_quality_certificate_form_filter" model="ir.ui.view">
+            <field name="name">quality.certificate.form.select</field>
+            <field name="model">quality.certificate.form</field>
+            <field name="arch" type="xml">
+                <search string="Search Uster Form">
+                    <field name="invoice_id" string="Invoice" filter_domain="[('invoice_id','ilike',self)]"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record id="action_quality_certificate_form" model="ir.actions.act_window">
+            <field name="name">Quality Control Certificate</field>
+            <field name="res_model">quality.certificate.form</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_quality_certificate_form_filter"/>
+        </record>
+
+        <menuitem name="Declarations/Certificates" id="menu_certificate" parent="stock.menu_stock_warehouse_mgmt" sequence="10"/>
+        <menuitem action="action_quality_certificate_form" id="menu_action_quality_certificate_form" parent="menu_certificate" sequence='1'/>
+
+        <record id="seq_type_quality_certificate_form" model="ir.sequence.type">
+            <field name="name">Uster Form</field>
+            <field name="code">quality.certificate.form</field>
+        </record>
+        
+        <record id="seq_quality_certificate_form" model="ir.sequence">
+            <field name="name">Uster Form</field>
+            <field name="code">quality.certificate.form</field>
+            <field name="prefix">Q-%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</openerp>

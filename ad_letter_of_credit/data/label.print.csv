@@ -1,0 +1,29 @@
+id,key,name
+1,shipper,Shipper/Exporter
+2,consignee,Consignee
+3,applicant,Applicant
+4,buyer,Buyer
+5,notify,Notify Party
+6,invoice,Invoice No
+7,date,Date
+8,sale_order,SC No
+9,lc_number,LC No
+10,delivery_term,Delivery Terms
+11,port_from,Port/Country Of Loading
+12,port_to,Port/Country Of Destination
+13,net_weight,NT.WT
+14,gross_weight,GR.WT
+15,desc_of_goods,Description of Goods
+16,volume,Volume
+17,packing_list,Packing List
+18,surat_jalan_number,"Surat Jalan No,"
+19,payment_terms,Payment Terms
+20,payment_due_date,Payment Due Date
+21,packages,Packages
+22,price_unit,Price
+23,subtotal,Amount''
+24,product,Product
+25,mark_and_nos,Mark & Nos
+26,packing_list_header, Packing List Header
+27,commercial_invoice_header,Commercial Invoice Header
+28,shipping_instruction_header,Shipping Instruction Header

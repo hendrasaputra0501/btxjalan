@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report auto="False" id="report_rfq_form" model="purchase.order" name="rfq.form" file="ad_purchase_order_bitratex/report/rfq_form.mako" string="RFQ Report" usage="default" report_type="webkit" menu="True" header="True"/>
+    </data>
+</openerp>

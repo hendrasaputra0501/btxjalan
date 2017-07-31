@@ -1,0 +1,83 @@
+<openerp>
+	<data>
+		<record id="wizard_pending_shipment_status_register" model="ir.ui.view">
+			<field name="name">wizard.pending.shipment.status.register</field>
+			<field name="model">wizard.pending.shipment.status.register</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Pending Shipment Status Register" version="7.0">
+					<group colspan="4" col="4">
+						<field name='filter_by' />
+						<field name="purchase_type" on_change="onchange_fields(from_date, to_date,purchase_type)"  attrs="{'invisible':[('filter_by','=','po_number')]}" />
+						<field name="from_date" on_change="onchange_fields(from_date, to_date,purchase_type)" attrs="{'invisible':[('filter_by','=','po_number')]}" />
+						<field name="to_date" on_change="onchange_fields(from_date, to_date,purchase_type)" attrs="{'invisible':[('filter_by','=','po_number')]}" />
+						<field name="output_type" attrs="{'invisible':[('filter_by','=','po_number')]}" />
+						<field name="po_number"  on_change="onchange_po(po_number)" attrs="{'invisible':[('filter_by','=','po_date')]}"  />
+
+						<!-- <field name="from_date"  on_change="onchange_fields(from_date, to_date,purchase_type)"/>
+						<field name="to_date"  on_change="onchange_fields(from_date, to_date,purchase_type)"/>
+						<field name="output_type"  />
+						<field name="purchase_type"  on_change="onchange_fields(from_date, to_date,purchase_type)" />
+						<field name="po_number"  on_change="onchange_po(po_number)" /> -->
+						
+					</group>
+					<field name="line_ids">
+						<tree string="Purchase Order" editable="bottom">
+							 <field name="purchase_id" readonly="1" />
+							 <field name="department" readonly="1" />
+							 <field name="partner" readonly="1" />
+							 <field name="pending_itemdesc"/>
+							 <field name="divy_by" />
+								<!-- <field name="shipment_etd_dt" required="1"/> -->
+								<field name="last_shipment_date" />
+								<field name="actual_shipment_date" />
+								<field name="transit_shipment_date"/>
+								<field name="document_ref" />
+								<field name="shipment_remarks" />
+						</tree>
+					</field>
+					<footer>
+                    	<!-- <group> -->
+                    	<button name="save_data" string='Save' icon="gtk-save" type="object" class="oe_highlight" attrs="{'invisible':[('filter_by','=','po_date')]}" />
+	                        <button name="generate_report" string="Print" icon="gtk-print" type="object" class="oe_highlight"/>
+	                        <button string="Cancel" class="oe_highlight" special="cancel"/>
+                    	<!-- </group> -->
+                    </footer>
+				</form>
+			</field>
+		</record>
+		<record id="action_wizard_pending_shipment_status_register" model="ir.actions.act_window">
+			<field name="name">Pending Shipment Status Register</field>
+            <field name="res_model">wizard.pending.shipment.status.register</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+		</record>
+
+
+
+		<!-- <record model="ir.actions.act_window" id="action_wizard_input_export_freight">
+            <field name="name">Input Export Estimated Freight</field>
+            <field name="res_model">wizard.input.export.freight</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="wizard_input_export_freight_form"/>
+        </record> -->
+		<menuitem id="menu_wizard_pending_shipment_status_register" name="reporting" parent="base.menu_purchase_root" sequence="10"/>
+		<menuitem id="reporting_pending_shipment_status_register_po" name="Pending Shipment Status Register" parent="submenu_reporting_purchases" action="action_wizard_pending_shipment_status_register"/>
+		<!-- <menuitem id="menu_purchases_report_bitratex_wizard" name="Purchases Report" parent="reporting_pending_shipment_status_reg" action="action_purchases_report_bitratex_wizard"/> -->
+
+		<report id="pending_shipment_status_register_report"
+			name="pending.shipment.status.register.report"
+			string="Pending Shipment Status Register Report"
+			report_type="webkit"
+			model="wizard.pending.shipment.status.register"
+			file="ad_purchases_report/pending_shipment_status_register.mako" 
+			header="False"
+			auto="False"
+			menu="False"
+		/>
+
+	</data>
+</openerp>

@@ -1,0 +1,16 @@
+<openerp>
+	<data>
+		<record id="view_sale_order_agent_tree" model="ir.ui.view">
+            <field name="name">sale.order.agent.tree</field>
+            <field name="model">sale.order.agent</field>
+            <field name="arch" type="xml">
+                <tree string="Sales Agent Commission" editable="bottom">
+                    <field name="sale_line_id" domain="[('order_id','=',sale_id)]"/>
+                    <field name="agent_id" domain="[('agent','=','True')]"/>
+                    <field name="partner_id" />
+                    <field name="commission_percentage"/>
+                </tree>
+            </field>
+        </record>
+	</data>
+</openerp>

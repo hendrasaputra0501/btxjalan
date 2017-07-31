@@ -1,0 +1,54 @@
+<openerp>
+	<data>
+		<record id="view_audit_doc_pabean_tree" model="ir.ui.view">
+			<field name="name">audit.doc.pabean.tree</field>
+			<field name="model">audit.doc.pabean</field>
+			<field name="arch" type="xml">
+				<tree string="Audit Document" >
+					<field name="name"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record id="view_audit_doc_pabean_form" model="ir.ui.view">
+			<field name="name">audit.doc.pabean.form</field>
+			<field name="model">audit.doc.pabean</field>
+			<field name="arch" type="xml">
+				<form string="Audit Document" version="7.0">
+					<header>
+					
+					</header>
+					<sheet>
+						<h2>
+							<!-- <label string="No" /> -->
+							<field name="name" class="oe_inline" />
+						</h2>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_audit_doc_pabean_search" model="ir.ui.view">
+			<field name="name">audit.doc.pabean.search</field>
+			<field name="model">audit.doc.pabean</field>
+			<field name="arch" type="xml">
+				<search string="Audit Document">
+					<field name="name" string="Search" filter_domain="['|',('name','ilike', self)]"/>
+					<group expand="0" string="Group By...">
+					</group>
+				</search>
+			</field>
+		</record>
+		
+		<record id="action_audit_doc_pabean" model="ir.actions.act_window">
+			<field name="name">Audit Document</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">audit.doc.pabean</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="view_audit_doc_pabean_search"/>
+		</record>
+		
+		<menuitem action="action_audit_doc_pabean" id="menu_audit_doc_pabean" parent="menu_action_wizard_company_profile" sequence="30"/>
+	</data>
+</openerp>

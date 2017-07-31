@@ -1,0 +1,163 @@
+<openerp>
+	<data>
+		<record id="seq_type_rfq" model="ir.sequence.type">
+            <field name="name">RFQ Number</field>
+            <field name="code">rfq_skc</field>
+        </record>
+
+
+        <record id="seq_rfq" model="ir.sequence">
+            <field name="name">RFQ Number</field>
+            <field name="code">rfq_skc</field>
+            <field name="prefix">RFQ-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+			
+
+		<record model="ir.ui.view" id="view_purchase_order_form_mr">
+			<field name="name">purchase.order.form.mr</field>
+			<field name="type">form</field>
+			<field name="model">purchase.order</field>
+			<field name="inherit_id" ref="purchase.purchase_order_form"/>
+			<field name="arch" type="xml">
+<!--				<xpath expr="/form/sheet/div/h1/label[1][@string='Request for Quotation ']" position="replace">-->
+<!--                	<label string="Draft PO " attrs="{'invisible': [('state','not in',('draft','sent'))]}"/>-->
+<!--                </xpath>-->
+				<field name="name" position="replace">
+					<field name="name2" class="oe_inline" readonly="1" attrs="{'invisible': [('state','not in',('draft','sent'))]}"/>
+					<field name="name" class="oe_inline" readonly="1" attrs="{'invisible': [('state','in',('draft','sent'))]}"/>
+				</field>
+				<field name="state" position="replace">
+					<field name="state" widget="statusbar" statusbar_visible="draft,waiting_lvl1,waiting_lvl2,approved,done" />
+				</field>
+				<button name="action_cancel" position="before">
+					<button name="cancel_waiting1" groups="ad_material_req.group_budget_keeper" states="waiting_lvl1" string="Budget Reject" type="workflow"/>
+					<button name="purchase_waiting1" groups="ad_material_req.group_budget_keeper" states="waiting_lvl1" string="Budget Approve" type="workflow"/>
+					<button name="cancel_waiting2" groups="ad_material_req.group_gm" states="waiting_lvl2" string="GM Reject" type="workflow"/>
+					<button name="purchase_waiting2" groups="ad_material_req.group_gm" states="waiting_lvl2" string="GM Approve" type="workflow"/>
+					<button name="wkf_send_rfq" states="approved" string="Send by Email" type="object" context="{'send_rfq':True}"/>
+				</button>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_purchase_order_form_po">
+			<field name="name">purchase.order.form.po</field>
+			<field name="type">form</field>
+			<field name="model">purchase.order</field>
+			<field name="inherit_id" ref="purchase.purchase_order_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="/form/sheet/div/h1/label[1]" position="attributes">
+                	<attribute name="string">Draft PO </attribute>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[2]" position="after">
+                	<page string="Progress">
+                		<group>
+                			<field name="progress_picking" widget="progressbar"/>
+                			<field name="progress_invoicing" widget="progressbar"/>
+                		</group>
+                		<field name="invoice_ids" nolabel="1"/>
+                		<field name="picking_ids" nolabel="1"/>
+                		
+                	</page>
+                </xpath>
+                <!--  -->
+                <field name="payment_term_id" position="attributes">
+                	<attribute name="required">1</attribute>
+                </field>
+                <xpath expr="/form/sheet/notebook/page[@string='Incoming Shipments &amp; Invoices']" position="after">
+                    <page string="Other Technical Information" groups="base.group_no_one">
+                        <separator string="Cancelled Items"/>
+                        <field name="cancelled_order_ids" colspan="4" nolabel="1"/>
+                    </page>
+                </xpath>
+			</field>
+		</record>
+		
+
+		
+	<menuitem action="purchase.purchase_rfq" id="purchase.menu_purchase_rfq"
+        parent="purchase.menu_procurement_management"
+        sequence="1"/>
+
+	
+	
+		<record id="quotation_order_tree" model="ir.ui.view">
+            <field name="name">quotation.order.tree</field>
+            <field name="model">purchase.order</field>
+            <field name="arch" type="xml">
+                <tree fonts="bold:message_unread==True" colors="grey:state=='cancel';blue:state in ('wait','confirmed');red:state in ('except_invoice','except_picking')" string="Purchase Order">
+                    <field name="message_unread" invisible="1"/>
+                    <field name="name2" string="Reference"/>
+                    <field name="date_order" />
+                    <field name="partner_id"/>
+                    <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+                    <field name="minimum_planned_date" invisible="context.get('quotation_only', False)"/>
+<!--                    <field name="origin"/-->
+                    <field name="product_id"/>
+<!--                    <field name="amount_untaxed" sum="Total Untaxed amount" string="Untaxed"/-->
+                    <field name="amount_total" sum="Total amount"/>
+                    <field name="state"/>
+                    
+                </tree>
+            </field>
+        </record>
+        
+		
+        
+		
+        <record id="purchase.purchase_rfq" model="ir.actions.act_window">
+            <field name="name">Quotations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.order</field>
+            <field name="context">{}</field>
+            <field name="domain">[('state','in',('draft','sent','confirmed'))]</field>
+            <field name="view_mode">tree,form,graph,calendar</field>
+            <field name="search_view_id" ref="purchase.view_purchase_order_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a request for quotation.
+              </p><p>
+                The quotation contains the history of the discussion/negociation
+                you had with your supplier. Once confirmed, a request for
+                quotation is converted into a purchase order.
+              </p><p>
+                Most propositions of purchase orders are created automatically
+                by OpenERP based on inventory needs.
+              </p>
+            </field>
+        </record>
+
+        <record id="action_quotation_order" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="quotation_order_tree"/>
+            <field name="act_window_id" ref="purchase.purchase_rfq"/>
+        </record>
+        
+		<record model="ir.ui.view" id="view_purchase_order_line_material_req_form_inherit">
+            <field name="name">purchase.order.line.material.req.form.inherit</field>
+            <field name="type">form</field>
+            <field name="model">purchase.order.line</field>
+            <field name="inherit_id" ref="purchase.purchase_order_line_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/group[1]/group[1]/field[@name='product_id']" position="after">
+                    <field name="machine_number"/>
+                    <field name="part_number"/>
+                    <field name='catalogue_appears'/>
+                    <field name="catalogue_id" attrs="{'invisible':[('catalogue_appears','=',False)]}"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Invoices and Receptions']" position="after">
+                    <page string='Indents &amp; Requisitions'>
+                        <group>
+                            <field name="requisition_id" readonly="1"/>
+                        </group>
+                        <separator string="Purchase Requisition Lines" colspan="4"/>
+                        <field name="pr_lines" nolabel="1" colspan="4" readonly="1"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+		
+	</data>
+</openerp>

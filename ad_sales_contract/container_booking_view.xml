@@ -1,0 +1,22 @@
+<openerp>
+	<data>
+		<record id="view_container_booking_extend" model="ir.ui.view">
+            <field name="name">view.container.booking.extend</field>
+            <field name="model">container.booking</field>
+            <field name="inherit_id" ref="ad_container_booking.view_container_booking_form"/>
+            <field name="arch" type="xml">
+            	<field name="state" position="attributes">
+            		<attribute name="statusbar_visible">cancel,draft,need_approval,booked,instructed</attribute>
+            	</field>
+                <button name="action_booked" position="after">
+                	<button name="action_booked_manager" states="need_approval" string="Manager Approval" type="object"/>
+                </button>
+                <xpath expr="/form/sheet/notebook/page[@string='Pickings']" position="after">
+                	<page string="Approval Reason">
+                		<field name="approval_reason" nolabel="1" colspan="4" placeholder="If this document need to be approved by manager, the reason will be put here...."/>
+                	</page>
+                </xpath>
+            </field>
+        </record>
+	</data>
+</openerp>

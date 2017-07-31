@@ -1,0 +1,101 @@
+<openerp>
+	<data>
+		<!-- activity -->
+		<record id="sale.act_draft" model="workflow.activity">
+			<field name="wkf_id" ref="sale.wkf_sale"/>
+			<field name="name">act_draft</field>
+			<field name="kind">function</field>
+			<field name="action">write({'state':'draft'})</field>
+		</record>
+
+		<record id="act_sale_advance" model="workflow.activity">
+			<field name="wkf_id" ref="sale.wkf_sale"/>
+			<field name="name">wait_advance</field>
+			<field name="kind">function</field>
+			<field name="action">write({'state':'advance'})</field>
+		</record>
+		<record id="act_manual_delivery" model="workflow.activity">
+			<field name="wkf_id" ref="sale.wkf_sale"/>
+			<field name="name">manual_delivery</field>
+			<field name="kind">function</field>
+			<field name="action">force_no_delivery()
+write({'state':'ready_to_deliver','is_on_ship_wkf':False})</field>
+		</record>
+		<record id="sale_stock.act_ship" model="workflow.activity">
+            <field name="wkf_id" ref="sale.wkf_sale"/>
+            <field name="name">ship</field>
+            <field name="kind">function</field>
+            <field name="action">action_ship_create()
+write({'is_on_ship_wkf':True})
+            </field>
+        </record>
+		<!-- transition -->
+		<!-- transition act_ship to manual_delivery -->
+		<record id="trans_act_ship_act_manual_delivery" model="workflow.transition">
+			<field name="act_from" ref="sale_stock.act_ship"/>
+			<field name="act_to" ref="act_manual_delivery"/>
+			<field name="signal">reverse_ship</field>
+		</record>
+
+		<!-- transition router to advance -->
+		<record id="sale_stock.trans_router_wait_ship" model="workflow.transition">
+			<field name="act_from" ref="sale.act_router"/>
+			<field name="act_to" ref="act_sale_advance"/>
+			<field name="condition">payment_method != 'lc'</field>
+		</record>
+		<!-- transition advance to draft -->
+		<record id="sale_stock.trans_advance_draft" model="workflow.transition">
+			<field name="act_from" ref="act_sale_advance"/>
+			<field name="act_to" ref="sale.act_draft"/>
+			<field name="signal">reverse_advance_lc</field>
+		</record>
+		<!-- transition advance to manual delivery -->
+		<record id="trans_advance_manual_delivery" model="workflow.transition">
+			<field name="act_from" ref="act_sale_advance"/>
+			<field name="act_to" ref="act_manual_delivery"/>
+			<field name="condition">is_advance_paid() and payment_method != 'lc'</field>
+		</record>
+		<!-- transition advance to manual delivery -->
+		<record id="trans_advance_manual_delivery_force" model="workflow.transition">
+			<field name="act_from" ref="act_sale_advance"/>
+			<field name="act_to" ref="act_manual_delivery"/>
+			<field name="signal">manual_delivery</field>
+			<field name="condition">payment_method != 'lc'</field>
+		</record>
+		<record id="trans_manual_delivery_advance" model="workflow.transition">
+			<field name="act_from" ref="act_manual_delivery"/>
+			<field name="act_to" ref="act_sale_advance"/>
+			<field name="condition">payment_method != 'lc'</field>
+			<field name="signal">reverse_manual_delivery</field>
+		</record>
+		<!-- transition lc to manual delivery -->
+		<record id="ad_letter_of_credit.trans_lc_1_wait_ship" model="workflow.transition">
+			<field name="act_from" ref="ad_letter_of_credit.act_lc_1"/>
+			<field name="act_to" ref="act_manual_delivery"/>
+			<field name="signal">manual_delivery</field>
+			<field name="condition">check_draft() and payment_method == 'lc'</field>
+		</record>
+		<!-- transition lc to manual delivery force-->
+		<record id="ad_letter_of_credit.trans_lc_1_wait_ship_force" model="workflow.transition">
+			<field name="act_from" ref="ad_letter_of_credit.act_lc_1"/>
+			<field name="act_to" ref="act_manual_delivery"/>
+			<field name="signal">manual_delivery</field>
+			<field name="condition">payment_method == 'lc'</field>
+		</record>
+		<record id="trans_manual_delivery_lc_1" model="workflow.transition">
+			<field name="act_from" ref="act_manual_delivery"/>
+			<field name="act_to" ref="ad_letter_of_credit.act_lc_1"/>
+			<field name="condition">payment_method == 'lc'</field>
+			<field name="signal">reverse_manual_delivery_lc</field>
+		</record>
+
+		<!-- transition manual delivery to wait ship -->
+		<record id="trans_manual_wait_ship" model="workflow.transition">
+			<field name="act_from" ref="act_manual_delivery"/>
+			<field name="act_to" ref="sale_stock.act_wait_ship"/>
+			<field name="signal">manual_delivery_confirmed</field>
+			<field name="condition">True</field>
+		</record>
+
+	</data>
+</openerp>

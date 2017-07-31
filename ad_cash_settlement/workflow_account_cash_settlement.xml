@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="wkf_account_cash_settlement" model="workflow">
+            <field name="name">account.cash.settlement</field>
+            <field name="osv">account.cash.settlement</field>
+            <field name="on_create">True</field>
+        </record>
+        
+        <record id="acs_act_validate" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_account_cash_settlement"/>
+            <field name="flow_start">True</field>
+            <field name="name">validate</field>
+            <field name="action">write({'state':'draft'})</field>
+            <field name="kind">function</field>
+        </record>
+        
+        <record id="acs_act_done" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_account_cash_settlement"/>
+            <field name="name">done</field>
+            <field name="action">validate_settlement()</field>
+            <field name="kind">function</field>
+            <field name="flow_stop">True</field>
+        </record>
+        
+        <record id="acs_act_cancel" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_account_cash_settlement"/>
+            <field name="name">cancel</field>
+            <field name="flow_stop">True</field>
+            <field name="action">cancel_settlement()</field>
+            <field name="kind">function</field>
+        </record>
+        
+        <record id="acs_t2" model="workflow.transition">
+            <field name="act_from" ref="acs_act_validate"/>
+            <field name="act_to" ref="acs_act_done"/>
+            <field name="signal">validate_settlement</field>
+            <field name="condition">True</field>
+        </record>
+        
+        <record id="acs_t6" model="workflow.transition">
+            <field name="act_from" ref="acs_act_validate"/>
+            <field name="act_to" ref="acs_act_cancel"/>
+            <field name="signal">cancel_settlement</field>
+        </record>
+        
+        <record id="acs_t7" model="workflow.transition">
+            <field name="act_from" ref="acs_act_done"/>
+            <field name="act_to" ref="acs_act_cancel"/>
+            <field name="signal">cancel_settlement</field>
+        </record>
+        
+        <record id="acs_t8" model="workflow.transition">
+            <field name="act_from" ref="acs_act_cancel"/>
+            <field name="act_to" ref="acs_act_validate"/>
+            <field name="signal">cancel_to_draft</field>
+        </record>
+    </data>
+</openerp>

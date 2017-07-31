@@ -1,0 +1,1255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<% from datetime import datetime %>
+<% import time %>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>BC 4.1</title>
+        <style type="text/css">
+            body {
+                margin: 0px;
+                padding: 0px;
+                font-size: 10px;
+                font-family: arial;
+                /* text-transform: uppercase;
+                font-weight: 900; */
+            }
+            table {
+                margin: 0px;
+                padding: 0px;
+            }
+            .tab1{
+                border-collapse: collapse;
+                border:1px solid;
+                border-bottom: collapse;
+            }
+            .tab2{
+                border-collapse:none;
+            }
+            table.tab100 tbody tr td{
+                border-collapse: collapse; 
+                border:1px solid;
+            }
+            table.tab100 tbody tr td table.ins-tab2 tr td{
+
+                border:0px solid;
+            }
+            a{
+                opacity:0;
+            }
+            tr, td, th {
+                margin: 0px;
+                padding: 0px;
+            }
+            .main {
+                border: 0px solid;
+            }
+            .main-2 {
+                border: 0px solid;
+                margin-left:20px;
+                margin-right:20px;
+            }
+            .fix-tab {
+                table-layout: fixed;
+            }
+            .main-tab {
+                width: 100%;
+                /* border: 1px solid; */
+            }
+            .main-tab td {
+                border: 0px solid;
+                border-bottom: none;
+                padding: 4px 2px 4px 4px;
+                vertical-align: top;
+            }
+            .main-tab .td1 {
+                border-right: none;
+            }
+            .main-tab .td2 {
+                border-left: none;
+            }
+            .main-tab .td3 {
+                border: 0px solid;
+            }
+            .main-tab .td4 {
+                border-top: none;
+                border-top: none;
+                padding-top:2px;
+                padding-bottom:0px;
+            }
+            .ins-tab td {
+                border: none;
+                padding: 0px;
+                /* vertical-align: top; */
+            }
+            .ins-tab td:first-child {
+                /*width: 100px;*/
+            }
+            .head td {
+                text-align: center;
+            }
+            .ins-tab2 td {
+                border: none;
+                padding: 0px;
+                /* vertical-align: top; */
+            }
+        </style>
+    </head>
+    <body>
+% for o in objects:
+        <div style='min-height:60px'>&nbsp;</div>
+        <div class="main">
+            <table class="head main-tab tab2 fix-tab" style='padding-top:0px'>
+                <tbody>
+                    <tr>
+                        <td style="
+                            font-size: 20px;
+                            font-weight: 900;
+                            width: 100px;
+                            "><a>BC 4.1</a></td>
+                        <td style="font-size: 12px;">
+                            <a>PEMBERITAHUAN PENGELUARAN KEMBALI BARANG ASAL TEMPAT LAIN DALAM DAERAH<br />
+                            PABEAN DARI TEMPAT PENIMBUNAN BERIKAT</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="main-tab tab2 fix-tab">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="font-size: 14px;"><a>HEADER</a></td>
+                    </tr>
+                    <tr>
+                        <!-- <td rowspan="2" class="td1" style="height: 25mm;"> -->
+                        <td rowspan="2" class="td1" style="height: 26mm;">
+                            <table class="ins-tab" style='margin-top:6px;margin-bottom:-6px;margin-left:5px;margin-right:-5px;'>
+                                <tbody>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a>NOMOR PENGAJUAN</a></td>
+                                        <td><a>&nbsp;&nbsp;</a></td>
+                                        <td style="margin-left:-15px;">&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a>A. KANTOR PABEAN</a></td>
+                                        <td><a>&nbsp;:&nbsp;</a></td>
+                                        <td style="margin-left:-15px;">${o.pabean_address and o.pabean_address.replace('\n','<br/>') or ''}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a>B. JENIS TPB</a></td>
+                                        <td><a>&nbsp;:&nbsp;</a></td>
+                                        <td style="margin-left:-15px;">${get_tpb_type(o.tpb_type)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a>C. TUJUAN PENGIRIMAN</a></td>
+                                        <td><a>&nbsp;:&nbsp;</a></td>
+                                        <td style="margin-left:-15px;">${get_purpose(o.purpose)}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <table class="ins-tab" style='margin-top:27px;margin-bottom:-7px;margin-left:20px;margin-right:-20px;'>
+                                <tbody>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td style='padding-top:-0px;padding-left:20px'colspan="3"><a>F. KOLOM KHUSUS BEA CUKAI</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a>Nomor Pendaftaran</a></td>
+                                        <td><a>&nbsp;:&nbsp;</a></td>
+                                        <td style='padding-left:20px;padding-top:10px'>&nbsp;${o.registration_no or ''}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a>Tanggal</a></td>
+                                        <td><a>&nbsp;:&nbsp;</a></td>
+<%
+    regis_date = o.registration_date!='False' and o.registration_date or ''
+%>
+                                        <td style='padding-left:20px'>&nbsp;${regis_date}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="font-size: 12px;"><a>D. DATA PEMBERITAHUAN</a></td>
+                    </tr>
+                    <tr>
+                        <td style='padding-top:0px;padding-bottom:0px'><a>PENGUSAHA TPB</a></td>
+                        <td style='padding-top:0px;padding-bottom:0px'><a>PENERIMA BARANG</a></td>
+                    </tr>
+                    <tr>
+                        <!-- <td style="height: 25mm;"> -->
+                        <td style="height: 22mm;">
+                            <table class="ins-tab" style='margin-top:3px;margin-bottom:-23px;'>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding-left:12mm"><a>1. NPWP</a></td>
+                                        <td><a>&nbsp;:&nbsp;</a></td>
+                                        <td style='margin-top:-3px'>&nbsp;${o.info_npwp}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-left:12mm"><a>2. Nama</a></td>
+                                        <td><a>&nbsp;:&nbsp;</a></td>
+                                        <td>&nbsp;${o.info_partner_id and o.info_partner_id.name or ''}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-left:12mm"><a>3. Alamat</a></td>
+                                        <td><a>&nbsp;:&nbsp;</a></td>
+                                        <td rowspan="2" style=""><div style="position:absolute;width:230px;margin-top:0px,margin-left:0px;">${get_address(o.info_partner_id)}</div><br/>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-left:12mm"><a>4. No Izin TPB</a></td>
+                                        <td><a>&nbsp;:&nbsp;</a></td>
+                                        <td>&nbsp;${o.tpb_certificate  or ''}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>
+                            <table class="ins-tab" style='margin-left:75px;margin-top:4px;margin-bottom:-19px;'>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="3"><a>5. NPWP/KTP/Passport/Lainnya</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td><a>&nbsp;:&nbsp;</a></td>
+                                        <td>${o.dest_npwp} </td>
+                                    </tr>
+                                    <tr>
+                                        <td><a>6. Nama</a></td>
+                                        <td><a>&nbsp;:&nbsp;</a></td>
+                                        <td>${o.dest_partner_id and o.dest_partner_id.name or ''}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a>7. Alamat</a></td>
+                                        <td><a>&nbsp;:&nbsp;</a></td>
+                                        <td style='margin-top:3px;'rowspan="2"><div style="position:absolute;width:200px;margin-top:0px,margin-left:0px;">${get_address(o.dest_partner_id)}</div><br/>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top:0px;padding-bottom:0px"><a>DOKUMEN PELENGKAP PABEAN</a></td><td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="height: 18mm;">
+                            <table class="ins-tab" style='margin-top:-15px;margin-bottom:5px;'>
+                                <tbody>
+                                    <tr>
+                                        <td><a>8. Packing List</a></td>
+                                        <td><a>&nbsp;:&nbsp;</a></td>
+                                        <td>&nbsp;</td>
+                                        <td><a>tgl</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a>9. Kontrak</a></td>
+                                        <% contracts = get_contracts(o) %>
+                                        <td style='padding-left:12mm;margin-top:-5mm'><a>&nbsp;:&nbsp;</a>
+                                        % if len(contracts.get('contracts',[]))<=3:
+                                            % for contract in contracts.get('contracts',[]):
+                                                <br/>${contract}
+                                            % endfor
+                                        % else:
+                                            Terlampir
+                                        % endif
+                                        </td>
+                                        <td>&nbsp;</td>
+                                        <td><a>tgl</a>
+                                        % if len(contracts.get('contracts',[]))<=3:
+                                            % for contract in contracts.get('contracts_date',[]):
+                                                <br/>${contract}
+                                            % endfor
+                                        % else:
+                                            
+                                        % endif
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>
+                            <table class="ins-tab">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 220px;"><a>10. Surat Keputusan/Persetujuan</a></td>
+                                        <td><a>&nbsp;:&nbsp;</a></td>
+                                        <td>&nbsp;</td>
+                                        <td><a>tgl</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a>11. Jenis/Nomor/Tanggal Dokumen Lainnya</a></td>
+                                        <td><a>&nbsp;:&nbsp;</a></td>
+                                        <td>&nbsp;</td>
+                                        <td><a>tgl</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding-top:0px;padding-bottom:0px"><a>RIWAYAT BARANG</a></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <table class="ins-tab">
+                                <tbody>
+                                    <tr>
+                                        <td><a>12. Nomor dan tanggal BC 4.1 asal</a></td>
+                                        <td><a>&nbsp;:&nbsp;</a></td>
+                                        <td>&nbsp;${get_source_bc_number(o.picking_id)}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding-top:0px;padding-bottom:0px"><a>DATA PENGANGKUTAN</a></td>
+                    </tr>
+                    <tr>
+                        <td class="td1">
+                            <table class="ins-tab" style='margin-top:6px;margin-bottom:-9px;'>
+                                <tbody>
+                                    <tr>
+                                        <td><a>13. Jenis Sarana Pengangkut Darat</a></td>
+                                        <td><a>&nbsp;:&nbsp;</a></td>
+                                        <td style='padding-top:9px'>&nbsp;${o.sarana_pengangkutan or ''}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td class="td2">
+                            <table class="ins-tab" style='margin-top:6px;margin-bottom:-9px;'>
+                                <tbody>
+                                    <tr>
+                                        <td><a>14. Nomor Polisi</a></td>
+                                        <td><a>&nbsp;:&nbsp;</a></td>
+                                        <td style='padding-top:9px;padding-left:35px'>&nbsp;${o.voyage_no or ''}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding-top:0px;padding-bottom:0px"><a>DATA PERDAGANGAN</a></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <table class="ins-tab" style='margin-top:14px;margin-bottom:-9px;margin-left:4px'>
+                                <tbody>
+                                    <tr>
+                                        <td><a>15. Harga Penyerahan</a></td>
+                                        <td><a>&nbsp;:&nbsp;</a></td>
+                                        <td>&nbsp;
+                                            % if o.amount_idr:
+                                                ${o.amount_idr or 0.0} ${o.currency_idr and o.currency_idr.name or ''}
+                                            % endif
+
+                                            % if o.original_amount:
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                ${o.original_amount or 0.0} ${o.original_currency and o.original_currency.name or ''}
+                                            % endif
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding-top:0px;padding-bottom:0px"><a>DATA PENGEMAS</a></td>
+                    </tr>
+                    <tr>
+                        <td class="td1">
+                            <table class="ins-tab" style='margin-top:10px;margin-bottom:-5px;'>
+                                <tbody>
+                                    <tr>
+                                        <td><a>16. Jenis Kemasan</a></td>
+                                        <td><a>&nbsp;:&nbsp;</a></td>
+                                        <td style='padding-left:15px;padding-top:3px'>&nbsp;${o.beacukai_product_packages and o.beacukai_product_packages[0].package_id.name or o.Jenis_kemasan or ''}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a>17. Merek Kemasan</a></td>
+                                        <td><a>&nbsp;:&nbsp;</a></td>
+                                        <td style='padding-left:15px;padding-top:3px'>&nbsp;${o.beacukai_product_packages and o.beacukai_product_packages[0].merk or o.merk_kemasan or ''}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td class="td2">
+                            <table class="ins-tab" style="padding-bottom:-8px; padding-top:14px">
+                                <tbody>
+                                    <tr>
+                                        <td><a>18. Jumlah Kemasan</a></td>
+                                        <td><a>&nbsp;:&nbsp;</a></td>
+                                        <td style='padding-left:35px;padding-right:-20px;'>&nbsp;${o.beacukai_product_packages and o.beacukai_product_packages[0].jumlah or o.qty_kemasan or 0.0}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding-top:0px;padding-bottom:0px"><a>DATA BARANG</a></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <table class="ins-tab2 fix-tab" style="width: 100%;margin-top:7px;margin-bottom:-7px;">
+                                <tbody>
+                                    <tr>
+                                        <td style='padding-left:10px'><a>19. Volume (m&sup3;)&nbsp;:&nbsp;</a> ${o.volume or 0.0}</td>
+                                        <td style='padding-left:10px'><a>20. Berat Kotor (Kg)&nbsp;:&nbsp;</a> ${o.gross_weight or 0.0}</td>
+                                        <td style='padding-left:20px;padding-right:-10px'><a>21. Berat Bersih (Kg)&nbsp;:&nbsp;</a> ${o.nett_weight or 0.0}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <table class="main-tab tab2 fix-tab" style="height: 95mm;"> -->
+            <table class="main-tab tab2 fix-tab" style="height: 79mm;margin-top:9px;margin-bottom:-11px;">
+                <tbody style='vertical-align:top'>
+                    <tr style='height:45px'>
+                        <td class="td3" style="width: 45px; height: 45px;">
+                            <table class="ins-tab2" style='margin-top:-15px'>
+                                <tr>
+                                    <td><a>22.&nbsp;</a></td>
+                                    <td><a>No</a></td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="td3" style="width: 350px;">
+                            <table class="ins-tab2">
+                                <tr>
+                                    <td><a>23.&nbsp;</a></td>
+                                    <td><a>
+                                        Uraian jumlah dan jenis barang secarra lengkap, kode barang, merk, tipe, ukuran,
+                                        dan spesifikasi lain</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="td3">
+                            <table class="ins-tab2">
+                                <tr>
+                                    <td><a>24.&nbsp;</a></td>
+                                    <td><a>
+                                        - Jumlah &amp; Jenis Satuan<br/>
+                                        - Berat Bersih (Kg)<br/>
+                                        - Volume (m&sup3;)</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="td3">
+                            <table class="ins-tab2">
+                                <tr>
+                                    <td><a>25.&nbsp;</a></td>
+                                    <td><a>Harga Penyerahan (Rp)</a></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <%  
+                        i = 0
+                        max_i1 = 10
+                        data_barang = get_products(o.detail_packing_id)
+                        n_data_barang = len(data_barang)
+                        if n_data_barang < max_i1 :
+                            max_i1 = n_data_barang
+                        x = 0
+                    %>
+                    % for index in range(i, max_i1):
+                        <tr >
+                            <td class="td4" align='left' style="padding-left:15px;padding-right:-15px;">&nbsp;${ data_barang[index]['index'] }</td>
+                            <td class="td4" align='left' style="padding-left:15px;padding-right:-15px;">&nbsp;${ data_barang[index]['product'] }</td>
+                            <td class="td4" align='right'>&nbsp;${ formatLang(data_barang[index]['qty']) }&nbsp;${ data_barang[index]['uom'] }</td>
+                            <td class="td4" align='right'>&nbsp;${ formatLang(data_barang[index]['price']) }</td>
+                        </tr>
+                        % if data_barang[index]['details']:
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <table width="40%">
+                                        % for x in data_barang[index]['details'].keys():
+                                            <tr>
+                                                <td width="60%" valign="top">${data_barang[index]['details'][x][0]}</td>
+                                                <td width="2%" valign="top">:</td>
+                                                <td width="28%" align="right" valign="top">${data_barang[index]['details'][x][1]}</td>
+                                                <td width="10%" valign="top">${data_barang[index]['details'][x][2]}</td>
+                                            </tr>
+                                            <%
+                                            x+=1
+                                            %>
+                                        % endfor
+                                    </table>
+                                </td>
+                            <tr>
+                        % endif
+                        <%
+                            x+=1
+                        %>
+                    % endfor
+                    <%
+                        next_i = 10
+                    %>
+                    <tr height="${236-x*18}px" >
+                        <td class="td4">&nbsp;</td>
+                        <td class="td4">&nbsp;</td>
+                        <td class="td4">&nbsp;</td>
+                        <td class="td4">&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="main-tab tab2 fix-tab" style="margin-top:-27px;">
+                <tbody>
+                    <tr>
+                        <td style="padding-bottom:0px; padding-top:0px;"><a>G. UNTUK PEJABAT BEA DAN CUKAI</a></td>
+                        <td style="padding-bottom:0px; padding-top:0px;"><a>E. TANDA TANGAN PENGUSAHA TPB</a></td>
+                    </tr>
+                    <tr>
+                        <td style="height: 27mm;">
+                            <table  class="ins-tab" height="100%">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="3" style="height: 14mm;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-left:33mm"><a>Nama</a></td>
+                                        <td><a>&nbsp;:</a></td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-left:35mm"><a>NIP</a></td>
+                                        <td><a>&nbsp;:</a></td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>
+                            <table  class="ins-tab" height="100%;" >
+                                <tbody>
+                                    <tr>
+                                        <td style="padding-left:50px;padding-right:-50px;">
+                                            <a>Dengan ini saya menyatakan bertanggung jawab atas kebenaran hal-hal yang diberitaukan dalam
+                                            pemberitahuan pabean ini.</a>
+                                            <center>
+                                               ${o.place or ''}&nbsp;&nbsp;&nbsp;<a>tgl</a>&nbsp;&nbsp;&nbsp;${o.date or ''}
+                                            </center><br/>&nbsp;<br/>&nbsp;
+                                            <center>&nbsp; ${o.signedby and o.signedby.name or ''} &nbsp;</center>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br />&nbsp;
+        <!-- Halaman 1 End -->
+        <%
+            max_i2 = next_i + 25
+        %>
+        % while next_i < n_data_barang:
+        <br />&nbsp;<br />&nbsp;<br />&nbsp;<br />
+        <div class="main-2" style='border:1px solid;'>
+            <table class="head main-tab tab1 fix-tab" style='padding-top:0px'>
+                <tbody>
+                    <tr>
+                        <td style="
+                            font-size: 20px;
+                            font-weight: 900;
+                            width: 100px;
+                            ">BC 4.1</td>
+                        <td style="font-size: 12px;">
+                            LEMBAR LANJUTAN<br />
+                            DATA BARANG
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="main-tab tab1 fix-tab">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="font-size: 12px;">HEADER</td>
+                    </tr>
+                    <tr>
+                        <!-- <td rowspan="2" class="td1" style="height: 25mm;"> -->
+                        <td rowspan="2" class="td1" style="height: 28mm;">
+                            <table class="ins-tab">
+                                <tbody>
+                                    <tr>
+                                        <td>NOMOR PENGAJUAN</td>
+                                        <td>&nbsp;&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>A. KANTOR PABEAN</td>
+                                        <td>&nbsp;:&nbsp;</td>
+                                        <td>&nbsp;${o.pabean_address and o.pabean_address.replace('\n','<br/>') or ''}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>B. JENIS TPB</td>
+                                        <td>&nbsp;:&nbsp;</td>
+                                        <td>&nbsp;${get_tpb_type(o.tpb_type)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>C. TUJUAN PENGIRIMAN</td>
+                                        <td>&nbsp;:&nbsp;</td>
+                                        <td>&nbsp;${get_purpose(o.purpose)}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td class="td2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style='border:1px solid;'>
+                            <table class="ins-tab">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="3">F. KOLOM KHUSUS BEA CUKAI</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nomor Pendaftaran</td>
+                                        <td>&nbsp;:&nbsp;</td>
+                                        <td>&nbsp;${o.registration_no or ''}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tanggal</td>
+                                        <td>&nbsp;:&nbsp;</td>
+<%
+    regis_date = o.registration_date!='False' and o.registration_date or ''
+%>
+                                        <td>&nbsp;${regis_date}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <table class="main-tab tab1 fix-tab" style="height: 225mm;"> -->
+            <table class="main-tab tab1 fix-tab tab100" style="height: 205mm;">
+                <tbody style="vertical-align:top">
+                    <tr style="height:45px">
+                        <td style="width: 45px; height: 45px;">
+                            <table class="ins-tab2" >
+                                <tr>
+                                    <td>21.&nbsp;</td>
+                                    <td>No</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td  style="width: 303px;">
+                            <table class="ins-tab2">
+                                <tr>
+                                    <td>22.&nbsp;</td>
+                                    <td>
+                                        Uraian jumlah dan jenis barang secara lengkap, kode barang, merk, tipe, ukuran,
+                                        dan spesifikasi lain
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <table class="ins-tab2">
+                                <tr>
+                                    <td>23.&nbsp;</td>
+                                    <td>
+                                        - Jumlah &amp; Jenis Satuan<br/>
+                                        - Berat Bersih (Kg)<br/>
+                                        - Volume (m&sup3;)
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <table class="ins-tab2">
+                                <tr>
+                                    <td>24.&nbsp;</td>
+                                    <td>Harga Penyerahan (Rp)</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <%
+                        if n_data_barang < max_i2 :
+                            max_i2 = n_data_barang
+                        x=0
+                    %>
+                    % for index in range(next_i, max_i2):
+                    <tr>
+                        <td style="border-bottom:0px" class="td4">&nbsp;${ data_barang[index]['index'] }</td>
+                        <td style="border-bottom:0px" class="td4">&nbsp;${ data_barang[index]['product'] }</td>
+                        <td style="border-bottom:0px" class="td4">&nbsp;${ formatLang(data_barang[index]['qty']) }&nbsp;${ data_barang[index]['uom'] }</td>
+                        <td style="border-bottom:0px" class="td4">&nbsp;${ formatLang(data_barang[index]['price']) }</td>
+                    </tr>
+                        <%
+                        x+=1
+                        %>
+                        % if data_barang[index]['details']:
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <table width="40%">
+                                        % for x in data_barang[index]['details'].keys():
+                                            <tr>
+                                                <td width="60%" valign="top">${data_barang[index]['details'][x][0]}</td>
+                                                <td width="2%" valign="top">:</td>
+                                                <td width="28%" align="right" valign="top">${data_barang[index][x]['details'][1]}</td>
+                                                <td width="10%" valign="top">${data_barang[index]['details'][x][2]}</td>
+                                            </tr>
+                                            <%
+                                            x+=1
+                                            %>
+                                        % endfor
+                                    </table>
+                                </td>
+                            <tr>
+                        % endif
+                    % endfor
+                    <%
+                        next_i = max_i2
+                        max_i2 = next_i + 25
+                    %>
+                    <tr>
+                        <td style='height:${720-x*15}px' class='td4'>&nbsp;</td>
+                        <td style='height:${720-x*15}px' class='td4'>&nbsp;</td>
+                        <td style='height:${720-x*15}px' class='td4'>&nbsp;</td>
+                        <td style='height:${720-x*15}px' class='td4'>&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="main-tab tab1 fix-tab tab100">
+                <tbody>
+                    <tr>
+                        <td>G. UNTUK PEJABAT BEA DAN CUKAI</td>
+                        <td>E. TANDA TANGAN PENGUSAHA TPB</td>
+                    </tr>
+                    <tr>
+                        <td style="height: 31mm;vertical-align:bottom;">
+                            <table class="ins-tab2">
+                                <tbody>
+                                    <tr>
+                                        <td>Nama</td>
+                                        <td>&nbsp;:&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>NIP</td>
+                                        <td>&nbsp;:&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td style="border:none;">
+                            <table  class="ins-tab" height="100%" style="border:none;">
+                                <tbody>
+                                    <tr height="100%" style="border:none;">
+                                        <td height="100%" style="border:none;">
+                                            Dengan ini saya menyatakan bertanggung jawab atas kebenaran hal-hal yang diberitaukan dalam
+                                            pemberitahuan pabean ini.
+                                            <center>
+                                               ${o.place or ''}&nbsp;&nbsp;&nbsp;tgl&nbsp;&nbsp;&nbsp;${o.date or ''}
+                                            </center><br/>&nbsp;<br/>&nbsp;
+                                            <center>&nbsp; ${o.signedby and o.signedby.name or ''} &nbsp;</center>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br />&nbsp;<br />
+        % endwhile
+        <!-- Halaman 2 End -->
+        <%
+            i = 0
+            max_i3 = 10
+            data_dokumen = o.beacukai_additional_doc
+            n_data_dokumen = len(data_dokumen)
+        %>
+        % while i < n_data_dokumen:
+        <br />&nbsp;<br />&nbsp;<br />
+        <div class="main-2">
+            <table class="head main-tab tab1 fix-tab" style='padding-top:0px'>
+                <tbody>
+                    <tr>
+                        <td style="
+                            font-size: 20px;
+                            font-weight: 900;
+                            width: 100px;
+                            ">BC 4.1</td>
+                        <td style="font-size: 12px;">
+                            LEMBAR LANJUTAN<br />
+                            DATA PELENGKAP PABEAN
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="main-tab tab1 fix-tab">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="font-size: 12px;">HEADER</td>
+                    </tr>
+                    <tr>
+                        <!-- <td rowspan="2" class="td1" style="height: 25mm;"> -->
+                        <td rowspan="2" class="td1" style="height: 28mm;">
+                            <table class="ins-tab">
+                                <tbody>
+                                    <tr>
+                                        <td>NOMOR PENGAJUAN</td>
+                                        <td>&nbsp;&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>A. KANTOR PABEAN</td>
+                                        <td>&nbsp;:&nbsp;</td>
+                                        <td>&nbsp;${o.pabean_address and o.pabean_address.replace('\n','<br/>') or ''}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>B. JENIS TPB</td>
+                                        <td>&nbsp;:&nbsp;</td>
+                                        <td>&nbsp;${get_tpb_type(o.tpb_type)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>C. TUJUAN PENGIRIMAN</td>
+                                        <td>&nbsp;:&nbsp;</td>
+                                        <td>&nbsp;${get_purpose(o.purpose)}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td class="td2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table class="ins-tab">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="3">F. KOLOM KHUSUS BEA CUKAI</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nomor Pendaftaran</td>
+                                        <td>&nbsp;:&nbsp;</td>
+                                        <td>&nbsp;${o.registration_no or ''}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tanggal</td>
+                                        <td>&nbsp;:&nbsp;</td>
+<%
+    regis_date = o.registration_date!='False' and o.registration_date or ''
+%>
+                                        <td>&nbsp;${regis_date}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <table class="main-tab tab1 fix-tab" style="height: 225mm;"> -->
+            <table class="main-tab tab1 fix-tab" style="height: 205mm;">
+                <tbody>
+                    <tr>
+                        <td class="td3" style="width: 45px; height: 45px;">
+                            <table class="ins-tab2">
+                                <tr>
+                                    <td>No</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="td3" style="width: 304px;">
+                            <table class="ins-tab2">
+                                <tr>
+                                    <td>
+                                        Jenis Dokumen
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="td3">
+                            <table class="ins-tab2">
+                                <tr>
+                                    <td>
+                                        Nomor
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="td3">
+                            <table class="ins-tab2">
+                                <tr>
+                                    <td>Tanggal</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <%
+                        if n_data_dokumen < max_i3 :
+                            max_i3 = n_data_dokumen
+                        p=0
+                    %>
+                    % for index in range(i, max_i3):
+                    <tr>
+                        <td class="td4">&nbsp;${ index+1 }</td>
+                        <td class="td4">&nbsp;${ data_dokumen[index].doc_id and data_dokumen[index].doc_id.name or data_dokumen[index].jenis_doc }</td>
+                        <td class="td4">&nbsp;${ data_dokumen[index].no_doc }</td>
+                        <td class="td4">&nbsp;${ formatLang(data_dokumen[index].tanggal_doc, date=True) }</td>
+                    </tr>
+                        <%
+                        p+=1
+                        %>
+                    % endfor
+                    <tr>
+                        <td style="height:${720-p*15}px" class="td4">&nbsp;</td>
+                        <td style="height:${720-p*15}px" class="td4">&nbsp;</td>
+                        <td style="height:${720-p*15}px" class="td4">&nbsp;</td>
+                        <td style="height:${720-p*15}px" class="td4">&nbsp;</td>
+                    </tr>
+                    <%
+                        i = max_i3
+                        max_i3 = i + 10
+                    %>
+                </tbody>
+            </table>
+            <table class="main-tab tab1 fix-tab tab100">
+                <tbody>
+                    <tr>
+                        <td>G. UNTUK PEJABAT BEA DAN CUKAI</td>
+                        <td>E. TANDA TANGAN PENGUSAHA TPB</td>
+                    </tr>
+                    <tr>
+                        <td style="height: 31mm;vertical-align:bottom;">
+                            <table class="ins-tab2">
+                                <tbody>
+                                    <tr>
+                                        <td>Nama</td>
+                                        <td>&nbsp;:&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>NIP</td>
+                                        <td>&nbsp;:&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td style="border:none;">
+                            <table  class="ins-tab" height="100%" style="border:none;">
+                                <tbody>
+                                    <tr height="100%" style="border:none;">
+                                        <td height="100%" style="border:none;">
+                                            Dengan ini saya menyatakan bertanggung jawab atas kebenaran hal-hal yang diberitaukan dalam
+                                            pemberitahuan pabean ini.
+                                            <center>
+                                               ${o.place or ''}&nbsp;&nbsp;&nbsp;tgl&nbsp;&nbsp;&nbsp;${o.date or ''}
+                                            </center><br/>&nbsp;<br/>&nbsp;
+                                            <center>&nbsp; ${o.signedby and o.signedby.name or ''} &nbsp;</center>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        % endwhile
+        <!-- Halaman 3 End -->
+        <br />&nbsp;<br />&nbsp;<br />&nbsp;<br />
+        <div class="main-2">
+            <table class="head main-tab tab1 fix-tab" style='padding-top:0px'>
+                <tbody>
+                    <tr>
+                        <td style="
+                            font-size: 20px;
+                            font-weight: 900;
+                            width: 100px;
+                            ">BC 4.1</td>
+                        <td style="font-size: 12px;">
+                            LEMBAR LANJUTAN<br />
+                            DATA PELENGKAP PABEAN
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="main-tab tab1 fix-tab">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="font-size: 12px;">HEADER</td>
+                    </tr>
+                    <tr>
+                        <!-- <td rowspan="2" class="td1" style="height: 25mm;"> -->
+                        <td rowspan="2" class="td1" style="height: 28mm;">
+                            <table class="ins-tab">
+                                <tbody>
+                                    <tr>
+                                        <td>NOMOR PENGAJUAN</td>
+                                        <td>&nbsp;&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>A. KANTOR PABEAN</td>
+                                        <td>&nbsp;:&nbsp;</td>
+                                        <td>&nbsp;${o.pabean_address and o.pabean_address.replace('\n','<br/>') or ''}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>B. JENIS TPB</td>
+                                        <td>&nbsp;:&nbsp;</td>
+                                        <td>&nbsp;${get_tpb_type(o.tpb_type)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>C. TUJUAN PENGIRIMAN</td>
+                                        <td>&nbsp;:&nbsp;</td>
+                                        <td>&nbsp;${get_purpose(o.purpose)}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td class="td2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table class="ins-tab">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="3">F. KOLOM KHUSUS BEA CUKAI</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nomor Pendaftaran</td>
+                                        <td>&nbsp;:&nbsp;</td>
+                                        <td>&nbsp;${o.registration_no or ''}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tanggal</td>
+                                        <td>&nbsp;:&nbsp;</td>
+<%
+    regis_date = o.registration_date!='False' and o.registration_date or ''
+%>
+                                        <td>&nbsp;${regis_date}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <table class="main-tab tab1 fix-tab" style="height: 225mm;"> -->
+            <table class="main-tab tab1 fix-tab" style="height: 205mm;">
+                <tbody>
+                    <tr>
+                        <td rowspan="2" class="td3" style="width: 25px; height: 75px;">
+                            <table class="ins-tab2">
+                                <tr>
+                                    <td>No</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td colspan="3" class="td3" style="width: 326px; height: 25px;">
+                            <table class="ins-tab2">
+                                <tr>
+                                    <td>Barang Jadi</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td colspan="3" class="td3">
+                            <table class="ins-tab2">
+                                <tr>
+                                    <td>Bahan baku yg digunakan</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td3" style="height: 50px;">
+                            <table class="ins-tab2">
+                                <tr>
+                                    <td>Pos tarif/ HS, uraian jumlah dan jenis barang secara lengkap, kode barang merek, tipe, ukuran dan spesifikasi lain</td>
+                                </tr>
+                            </table> 
+                        </td>
+                        <td class="td3" align="center">
+                            <table class="ins-tab2">
+                                <tr>
+                                    <td>Jumlah</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="td3" align="center">
+                            <table class="ins-tab2">
+                                <tr>
+                                    <td>Satuan</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="td3">
+                            <table class="ins-tab2">
+                                <tr>
+                                    <td>Pos tarif/ HS, uraian jumlah dan jenis barang secara lengkap, kode barang merek, tipe, ukuran dan spesifikasi lain</td>
+                                </tr>
+                            </table> 
+                        </td>
+                        <td class="td3" align="center">
+                            <table class="ins-tab2">
+                                <tr>
+                                    <td>Jumlah</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="td3" align="center">
+                            <table class="ins-tab2">
+                                <tr>
+                                    <td>Satuan</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <% 
+                    i=0 
+                    n_rows=0
+                    %>
+                    % for konversi in o.konversi_ids:
+                        <%
+                            n_komponen = len(konversi.komponen_ids or [])
+                            i += 1
+                            n_rows +=n_komponen
+                        %>
+                    <tr>
+                        <td rowspan="${n_komponen}" valign="top" class="td4">&nbsp;${ i }</td>
+                        <td rowspan="${n_komponen}" valign="top" class="td4">&nbsp;${ konversi.product_id.name }</td>
+                        <td rowspan="${n_komponen}" valign="top" class="td4">&nbsp;${ konversi.product_qty_kgs or konversi.product_qty or 0.0 }</td>
+                        <td rowspan="${n_komponen}" valign="top" class="td4">&nbsp;${ konversi.product_uom_kgs and  konversi.product_uom_kgs.name or konversi.product_uom and konversi.product_uom.name or '' }</td>
+
+                        % if n_komponen > 0:
+                        <td class="td4" style="height: 10px;">&nbsp;${ konversi.komponen_ids[0].product_id and konversi.komponen_ids[0].product_id.name or konversi.komponen_ids[0].rm_category_id and konversi.komponen_ids[0].rm_category_id.name or '' }</td>
+                        <td class="td4">&nbsp;${ konversi.komponen_ids[0].product_qty_kgs or konversi.komponen_ids[0].product_qty or '' }</td>
+                        <td class="td4">&nbsp;${ konversi.komponen_ids[0].product_uom_kgs and konversi.komponen_ids[0].product_uom_kgs.name or konversi.komponen_ids[0].product_uom and konversi.komponen_ids[0].product_uom.name or '' }</td>
+                        % else:
+                        <td class="td4" style="height: 10px;">&nbsp;</td>
+                        <td class="td4">&nbsp;</td>
+                        <td class="td4">&nbsp;</td>
+                        % endif
+                    </tr>
+                        % if n_komponen > 1:
+                            % for x in range(1,n_komponen):
+                                <tr>
+                                    <td class="td4" style="height: 10px;">&nbsp;${ konversi.komponen_ids[x].product_id and konversi.komponen_ids[x].product_id.name or konversi.komponen_ids[x].rm_category_id and konversi.komponen_ids[x].rm_category_id.name or '' }</td>
+                                    <td class="td4">&nbsp;${ konversi.komponen_ids[x].product_qty_kgs or konversi.komponen_ids[x].product_qty or '' }</td>
+                                    <td class="td4">&nbsp;${ konversi.komponen_ids[x].product_uom_kgs and konversi.komponen_ids[x].product_uom_kgs.name or konversi.komponen_ids[x].product_uom and konversi.komponen_ids[x].product_uom.name }</td>
+                                </tr>
+                            % endfor
+                        % endif
+                    % endfor
+                    % if n_rows>1:
+                    <tr>
+                        <td class="td4">&nbsp;</td>
+                        <td class="td4">&nbsp;</td>
+                        <td class="td4">&nbsp;</td>
+                        <td class="td4">&nbsp;</td>
+                        <td class="td4">&nbsp;</td>
+                        <td class="td4">&nbsp;</td>
+                        <td class="td4">&nbsp;</td>
+                    </tr>
+                    % else:
+                    <tr>
+                        <td style="height:${640-(n_rows*15)}px" class="td4">&nbsp;</td>
+                        <td style="height:${640-(n_rows*15)}px" class="td4">&nbsp;</td>
+                        <td style="height:${640-(n_rows*15)}px" class="td4">&nbsp;</td>
+                        <td style="height:${640-(n_rows*15)}px" class="td4">&nbsp;</td>
+                        <td style="height:${640-(n_rows*15)}px" class="td4">&nbsp;</td>
+                        <td style="height:${640-(n_rows*15)}px" class="td4">&nbsp;</td>
+                        <td style="height:${640-(n_rows*15)}px" class="td4">&nbsp;</td>
+                    </tr>
+                   % endif
+                </tbody>
+            </table>
+            <table class="main-tab tab1 fix-tab tab100">
+                <tbody>
+                    <tr>
+                        <td>G. UNTUK PEJABAT BEA DAN CUKAI</td>
+                        <td>E. TANDA TANGAN PENGUSAHA TPB</td>
+                    </tr>
+                    <tr>
+                        <td style="height: 31mm;vertical-align:bottom;">
+                            <table class="ins-tab2">
+                                <tbody>
+                                    <tr>
+                                        <td>Nama</td>
+                                        <td>&nbsp;:&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>NIP</td>
+                                        <td>&nbsp;:&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td style="border:none;">
+                            <table  class="ins-tab" height="100%" style="border:none;">
+                                <tbody>
+                                    <tr height="100%" style="border:none;">
+                                        <td height="100%" style="border:none;">
+                                            Dengan ini saya menyatakan bertanggung jawab atas kebenaran hal-hal yang diberitaukan dalam
+                                            pemberitahuan pabean ini.
+                                            <center>
+                                               ${o.place or ''}&nbsp;&nbsp;&nbsp;tgl&nbsp;&nbsp;&nbsp;${o.date or ''}
+                                            </center><br/>&nbsp;<br/>&nbsp;
+                                            <center>&nbsp; ${o.signedby and o.signedby.name or ''} &nbsp;</center>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+% endfor
+    </body>
+</html>

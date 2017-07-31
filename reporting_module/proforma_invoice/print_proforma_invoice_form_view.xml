@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+	<report 
+		auto="False" id="report_proforma_invoice" 
+		model="proforma.invoice" name="print.proforma.invoice.form" 
+		file="reporting_module/proforma_invoice/print_proforma_invoice_form.mako" 
+		string=" Proforma Invoice"
+	    usage="default" 
+	    report_type="webkit" 
+	    menu="True"
+	 />
+	<record id="proforma_invoice_form_inherit_reporting_module" model="ir.ui.view">
+    	<field name="name">proforma.invoice.inherit.reporting</field>
+        <field name="model">proforma.invoice</field>
+        <field name="inherit_id" ref="ad_sales_contract.proforma_invoice_form"/>
+		<field name="priority" eval="17"/>
+        <field name="arch" type="xml">
+ 			<xpath expr="/form/header" position="inside">
+                <button name="%(report_proforma_invoice)d" string="Print Pro-Forma Invoice" type="action"/>
+            </xpath>
+        </field>
+    </record>
+</data>
+</openerp>

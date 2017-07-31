@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+	<record model="ir.ui.view" id="wizard_faktur_pajak_reconciliation_form">
+		<field name="name">Faktur Pajak Reconciliation Report</field>
+		<field name="model">wizard.faktur.pajak.reconciliation</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+		<form string="Faktur Pajak Reconciliation Report" version="7.0">
+			<group colspan="4" col="4">
+				<!-- <field name="start_date" required="1"/> -->
+				<!-- <field name="end_date"  required="1"/> -->
+				<field name="fiscalyear_id" />
+				<field name="period_id"  required="1" domain="[('fiscalyear_id','=',fiscalyear_id),('special','=',False)]"/>
+			</group>
+			<footer>
+			<div>
+				<button type="object" name="print_report" string="Print" icon="STOCK_PRINT"/> or <button special="cancel" string="Cancel" class="oe_link"/>
+			</div>
+			</footer>
+		</form>
+		</field>
+	</record>
+		 
+	<record model="ir.actions.act_window" id="advance_wizard_faktur_pajak_reconciliation">
+		<field name="name">Faktur Pajak Reconciliation Report</field>
+		<field name="res_model">wizard.faktur.pajak.reconciliation</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="view_id" ref="wizard_faktur_pajak_reconciliation_form"/>
+	</record>
+
+	<menuitem id="wizard_faktur_pajak_reconciliation_menu" parent="ad_faktur_pajak.menu_tax_report_efaktur" sequence="10" action="advance_wizard_faktur_pajak_reconciliation"/>
+	</data>
+</openerp>

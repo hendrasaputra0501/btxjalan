@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>      
+    <record model="ir.ui.view" id="payment_overdue_wizard_form">
+      <field name="name">payment overdue wizard</field>
+      <field name="model">payment.overdue.wizard</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml"> 
+        <form string="payment overdue" version="7.0">
+          <group colspan="4" col="4">
+            <field name="as_on"/>
+            <field name="sale_type"/>
+            <field name="goods_type"/>
+            <field name="rounding" attrs="{'invisible':[('sale_type','!=','local')],'required':[('sale_type','=','local')]}" on_change="onchange_rounding(rounding)"/>
+          </group>
+          <notebook>
+            <page string="Filter Journal Sales">
+              <field name="journal_ids" />
+            </page>
+          </notebook> 
+          <notebook>
+            <page string="Filter AR Account">
+              <field name="account_ids" />
+            </page>
+          </notebook>
+          <notebook>
+            <page string="Filter Advance Account">
+              <field name="adv_account_ids" />
+            </page>
+          </notebook>
+          <footer>
+            <div>
+              <button type="object" name="print_report" string="Print" icon="STOCK_PRINT"/> or <button special="cancel" string="Cancel" class="oe_link"/>
+            </div>
+          </footer>
+        </form>
+      </field>
+    </record>
+         
+    <record model="ir.actions.act_window" id="payment_overdue_action">
+        <field name="name">Payment Overdue Report</field>
+        <field name="res_model">payment.overdue.wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="payment_overdue_wizard_form"/>
+    </record>
+
+    <menuitem id="payment_overdue_menu" parent="account.next_id_22" sequence="10" action="payment_overdue_action"/>
+    <!-- 
+    <report id="pending_sales_report"
+      name="pending.sales.report"
+      string="Pending Sales Order"
+      model="report.pending.sales.wizard"
+      auto="False"
+      menu="False"
+      file="ad_sales_report/report/pending_sales_report.mako" 
+      usage="default" 
+      report_type="webkit"
+      header="True"
+    /> -->
+  </data>
+</openerp>

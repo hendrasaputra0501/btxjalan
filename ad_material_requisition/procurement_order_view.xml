@@ -1,0 +1,14 @@
+<openerp>
+	<data>
+		<record id="view_procurement_requisition_inherit" model="ir.ui.view">
+			<field name="name">view.procurement.requisition.inherit</field>
+			<field name="model">procurement.order</field>
+			<field name="inherit_id" ref="procurement.procurement_form_view"/>
+			<field name="arch" type="xml">
+				<field name="location_id" position="after">
+					<field name="analytic_account_id"/>
+				</field>
+			</field>
+		</record>
+	</data>
+</openerp>

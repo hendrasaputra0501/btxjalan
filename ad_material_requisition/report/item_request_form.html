@@ -1,0 +1,902 @@
+<html>
+<head>
+	<style type="text/css">
+/*a,
+abbr,
+acronym,
+address,
+applet,
+article,
+aside,
+audio,
+b,
+big,
+blockquote,
+body,
+canvas,
+caption,
+center,
+cite,
+code,
+dd,
+del,
+details,
+dfn,
+dialog,
+div,
+dl,
+dt,
+em,
+embed,
+fieldset,
+figcaption,
+figure,
+font,
+footer,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+header,
+hgroup,
+hr,
+html,
+i,
+iframe,
+img,
+ins,
+kbd,
+label,
+legend,
+li,
+main,
+mark,
+menu,
+meter,
+nav,
+object,
+ol,
+output,
+p,
+pre,
+progress,
+q,
+rp,
+rt,
+ruby,
+s,
+samp,
+section,
+small,
+span,
+strike,
+strong,
+sub,
+summary,
+sup,
+table,
+tbody,
+td,
+tfoot,
+th,
+thead,
+time,
+tr,
+tt,
+u,
+ul,
+var,
+video,
+xmp {
+  /*border: 0;*/
+ /* margin: 0;
+  padding: 0;
+  font-size: 100%;
+}*/
+
+html,
+body {
+  /*height: 90%;*/
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section {
+/*
+  Override the default (display: inline) for
+  browsers that do not recognize HTML5 tags.
+
+  IE8 (and lower) requires a shiv:
+  http://ejohn.org/blog/html5-shiv
+*/
+  display: block;
+}
+
+b,
+strong {
+/*
+  Makes browsers agree.
+  IE + Opera = font-weight: bold.
+  Gecko + WebKit = font-weight: bolder.
+*/
+  font-weight: bold;
+}
+
+img {
+  color: transparent;
+  font-size: 0;
+  vertical-align: middle;
+/*
+  For IE.
+  http://css-tricks.com/ie-fix-bicubic-scaling-for-images
+*/
+  -ms-interpolation-mode: bicubic;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+li {
+/*
+  For IE6 + IE7:
+
+  "display: list-item" keeps bullets from
+  disappearing if hasLayout is triggered.
+*/
+  display: list-item;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+th,
+td,
+caption {
+  font-weight: normal;
+  vertical-align: top;
+  text-align: left;
+}
+
+q {
+  quotes: none;
+}
+
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+
+sub,
+sup,
+small {
+  font-size: 75%;
+}
+
+sub,
+sup {
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+svg {
+/*
+  For IE9. Without, occasionally draws shapes
+  outside the boundaries of <svg> rectangle.
+*/
+  overflow: hidden;
+}
+/* end of reset end of reset end of reset end of reset end of reset end of reset end of reset end of reset end of reset end of reset end of reset end of reset end of reset end of reset end of reset end of reset end of reset */
+
+html,
+	body {
+		margin:0;
+		/*padding:0;*/
+		/*height:90%;*/
+		/*display:inline;*/
+	}
+
+	/*#wrapper {
+		min-height:100%;
+		position:static;
+		font-family: Arial;
+		font-size:10px;
+		display: inline;
+	}*/
+
+	#header {
+		padding:10px;
+		background:#5ee;
+	}
+	#content {
+		padding:10px;
+		width:100%;
+		padding-bottom:50px; /* Height of the footer element */ 
+		/*background:green;*/
+		/*height:910px;*/
+	}
+
+
+
+	#title1 {
+		font-family: Arial;
+		font-size: 15px;
+		font-weight: bold;
+	}
+	.fontall{	
+		font-family: Arial;
+		font-size:10px;
+	}
+	
+	.border1 {
+		/*border:0px solid;*/
+		border:0px ;
+		margin:0 0px 0 0px;
+		/*width:1300px;*/
+	}
+	#jdltbl{
+		text-transform: uppercase;
+		/*text-align: center;*/
+		font-family: Arial;
+		font-weight: bold;
+	}
+	#jdltbl2{
+		text-transform: uppercase;
+		/*text-align: center;*/
+		font-family: Arial;
+		font-weight: bold;
+		padding-left: 7px;
+	}
+	#isitblknn{
+		text-align: right;
+	}
+	#isitblkiri{
+		text-align: left;
+		/*text-indent: 50px;*/
+	}
+	td {
+		vertical-align:top;
+	}
+	#bwhtbl{text-transform: uppercase;
+		font-family: "Arial";
+		font-size:10px;
+		font-weight: bold;
+		padding:5px 20px 5px 20px;
+		border-bottom: 1pt solid #808080;
+	}
+	#sumtbl{text-transform:uppercase;
+		font-family: "Arial";
+		font-size:10px;
+		font-weight: bold;
+		padding:0px 10px 0px 20px;
+	}
+	#bwhsumtbl{text-transform:uppercase;
+		font-family: "Arial";
+		font-size:10px;
+		font-weight: bold;
+		padding:0px 10px 0px 20px;
+		border-bottom: 1pt solid #000000;
+	}
+	#lbl{
+		font-family: "Arial";
+		font-size:10px;
+		font-weight: bold;
+		padding:0px 10px 0px 20px;
+		vertical-align: top;
+		text-transform:uppercase;
+	}
+	#lbl1{
+		font-weight: bold;
+		vertical-align: top;
+		text-transform:uppercase;
+	}
+	#tdtxt{
+		font-size:11px;
+		padding:0px 20px 0px 10px;
+	}
+	#borderwhite{
+		border-top:white;
+		border-left:white;
+		/*border-bottom:white;*/
+	}
+	#borderwhite_rgt{
+		border-right:white;
+		padding-left: 3px;
+		font-weight:bold;
+		text-transform: uppercase;
+	}
+	#borderwhite_rgtbtm{
+		border-right:white;
+		border-bottom:white;
+		padding-left: 3px;	
+	}
+	/*#borderwhite_btm{ Compute Budget￼￼ Cancel￼￼ Submit*/
+	#borderwhite_btm{
+		border-bottom:white;
+		padding-right:3px;
+	}
+	#lblrght{
+		padding-right:3px;
+		font-weight:bold;
+		text-transform: uppercase;
+	}
+	#lbl2{
+		font-weight: bold;
+		vertical-align: top;
+		text-transform:uppercase;
+		text-align: center;
+	}
+	#borderwhite_rgt2{
+		border-right:white;
+		text-align: center;
+		font-weight:bold;
+		text-transform: uppercase;
+	}
+	#borderwhite_btm2{
+		border-bottom:white;
+		text-align: center;
+		font-weight:bold;
+	}
+	#borderwhite_rgtbtm2{
+		border-right:white;
+		border-bottom:white;
+		text-align: center;
+	}
+	#grsbwhtbl{
+		border-bottom: 1px solid #808080;
+	}
+	#jdltblknn{
+		text-transform: uppercase;
+		text-align: right;
+		font-family: Arial;
+		font-weight: bold;
+	}
+	#jdltblpd7{
+		text-transform: uppercase;
+		padding-left:7px;
+		font-family: Arial;
+		font-weight: bold;
+
+	}
+	#isitblpd7{
+		padding-left: 7px;
+	}
+	#hdr1{
+		text-align: center;
+		font-weight: bold;
+		font-size: 15px;
+		margin-top:5px;
+	}
+	#hdr2{
+		text-align: center;
+		/*font-weight: bold;*/
+		font-size: 11px;
+		/*margin-top:40px;*/
+	}
+	#font-capitalize{
+		text-transform:capitalize;
+	}
+	/*#isitbl{
+		padding-top:20px;
+	}*/
+	/*footer*/
+	
+	
+	/*
+	#footer {
+		width:100%;
+		height:50px;
+		position:absolute;
+		bottom:0;
+		left:0;
+		background:#ee5;
+	}*/
+	
+	#bwhtblup1{
+		font-weight:bold;
+		text-align: center;
+		/*text-transform: uppercase;*/
+		border-top: 1px solid #808080;
+		vertical-align:top;
+	}
+	#bwhtblup2{
+		font-weight:bold;
+		text-align: center;
+		vertical-align:top;
+		text-transform: uppercase;
+	}
+	.bottomonly{
+		border-bottom: 0.5px solid grey;
+	}
+	.bottomonly:nth-last-child(1),.bottomonly:nth-last-child(2) {
+    	border-bottom: none;
+    	/*background-color: red*/
+	}
+
+	table{
+		border-collapse: collapse;
+		border-spacing: 0;
+	}
+	tr
+	{
+		page-break-inside:avoid;
+		page-break-after:auto;
+		page-break-before:auto;
+	}
+
+	/*footer*/
+/*html,*/
+		html{
+			padding-top:50px;
+		}
+        body {
+        margin:0;
+        padding-top:8px;
+        height:100%;
+        font-size:10px;
+        /*height:95%;*/
+       /* bottom:0;*/
+       /*background-color:yellow;*/
+        }
+      
+        #wrapper {
+        /*min-height:100%;*/
+        position:static;
+        font-family: Arial;
+		font-size:11px;
+		/*padding-top:20px;*/
+		/*height:100%;*/
+		/*background-color:pink;*/
+		/*z-index: 2;*/
+		bottom:0px;
+		/*margin-top:10px;*/
+        }
+   
+        #header {
+        padding:10px;
+        background:#5ee;
+        }
+        #content {
+	padding-bottom:0px;
+	/*margin-top:20px;*/
+	/*background-color:red;  Height of the footer element */
+		}
+#footer {
+	/*background:blue;*/
+	width:100%;
+	position:absolute;
+	bottom:0;
+	left:0;
+	}
+#break1{
+	position:relative;
+	display: block;
+	}
+ #break2{
+ 		/*background: yellow;*/
+ 		bottom:60;
+ 		height:100px;
+ 		height:40px;
+ 		}
+/* div#pagewidth {
+            margin: 0px auto 0px auto ;
+            overflow: hidden ;
+            width: 500px ;
+            }
+        div#sitecontent {}*/
+	</style>
+</head>
+<body>
+<%
+	import time
+	from datetime import datetime
+%>
+% for o in objects:
+
+<div  id="wrapper">
+	<div id="hdr2">
+		<a>PT. BITRATEX INDUSTRIES</a><br/>
+	</div>
+	<div id="hdr1">
+		<a style="border-bottom:1px solid;">MATERIAL REQUEST</a>
+	</div>
+	<div id="content">
+		<!-- ###############################Detail atas#################################################### -->
+		<table width="100%" >
+			<tr>
+				<td width="55%" style="vertical-align:top;">
+					<table id="borderwhite" width="80%"  style="margin-top:5px;">
+						<tr>
+							<td width="55%"><a id="jdltbl">REQ. DEPARTMENT : </a>&nbsp; <a id="isitbl">${o.department and o.department.name or 'None'}</a> </td>
+				    	</tr>
+					</table>
+					<!-- <table id="borderwhite" width="80%"style="margin-top:5px;">
+						<tr>
+							<td width="55%"><a id="jdltbl">REQ. TYPE :</a> &nbsp;</td>
+						</tr>
+					</table>	 -->				
+					<table id="borderwhite" width="80%"  style="margin-top:5px;">
+						<tr>
+							<td  width="55%" ><a id="jdltbl">Purchase Suggestion :</a> &nbsp; <a id="isitbl" style="text-transform:uppercase;">${o.purchase_suggestion or ''}</a></td>
+						</tr>
+					</table>
+					<table id="borderwhite" width="80%"  style="margin-top:5px;">
+						<tr>
+							<td  width="55%" ><a id="jdltbl">Material Type :</a> &nbsp; <a id="isitbl" style="text-transform:uppercase;">[${o.material_type.name or ''}] ${o.material_type.description or ''}</a></td>
+						</tr>
+					</table>
+				</td>
+				<td width="15%" style="vertical-align:top;"></td>
+				<td width="30%">
+					<table id="borderwhite"  style="float:right;" width="80%"  rules="all">
+						<tr>
+							<td id="lblrght" width="60%" >IR NO.</td>
+							<td id="borderwhite_rgt" width="40%">DATE</td>
+						</tr>
+						<tr>
+							<td id="borderwhite_btm" style="font-size:15px;font-weight:bold;">${o.name or 'None'}</td>
+							<%
+								date_start = o.date_start!='False' and datetime.strptime(o.date_start,"%Y-%m-%d %H:%M:%S").strftime('%d/%m/%Y') or 'None'
+							%>
+							<td id="borderwhite_rgtbtm">${date_start}</td>
+						</tr>
+					</table>
+					<!-- <table id="borderwhite"  width="80%"  rules="all" style="margin-top:5px;float:right;">
+						<tr>
+							<td id="lblrght" width="100%">Reference</td>
+						</tr>
+						<tr>
+							<td id="borderwhite_btm">${o.origin or 'None'}</td>
+						</tr>
+					</table> -->
+				</td>
+			</tr>
+		</table>
+		<!-- ###############################Detail atas#################################################### -->
+		<!-- ###############################Detail header#################################################### -->
+		<table class='border1' style="margin-top:20px;" width='98%' cellspacing="0">
+			<tr>
+				<td width='2%'></td>
+				<td id='jdltbl' width='9%'></td>
+				<td id='jdltbl' style="padding-left:0;" width='19%'></td>
+				<td id='jdltbl' width='7%'></td>
+				<td id='jdltblknn' width='4%'></td>
+				<td id='jdltblknn' width='5%'></td>
+				<td id='jdltblknn' width='8%'></td>
+				<td id='jdltblknn' width='5%'></td>
+				<td id='jdltblknn' width='3%'></td>
+				<td id='jdltblknn' width='5%'></td>
+				<td id='jdltblknn' width='3%'>Last</td>
+				<td id='jdltblknn' width='5%'>Last</td>
+				<td id='jdltblknn' width='5%'></td>
+				<td id='jdltblknn' width='4%'>Last </td>
+				<td id='jdltblknn' width='14%'></td>
+			</tr>
+
+			<tr>
+				<td id='jdltbl' width='2%'>SN</td>
+				<td id='jdltbl'  width='9%'>Item Id</td>
+				<td id='jdltbl'  style="padding-left:5px;padding-right:5px;" width='19%'>Description</td>
+				<td id='jdltbl' width='7%'>Site Id</td>
+				<td id='jdltbl' width='4%' >UOM</td>
+				<td id='jdltblknn' width='5%'>quantity</td>
+				<td id='jdltblknn' width='8%'>Req. Date</td>
+				<td id='jdltblknn' width='5%'>QOH</td>
+				<td id='jdltblknn' width='3%'>On IR</td>
+				<td id='jdltblknn' width='5%'>On PO</td>
+				<td id='jdltblknn' width='3%'>PO</td>
+				<td id='jdltblknn' width='5%'>Vendor</td>
+				<td id='jdltblknn' width='5%'>Cury</td>
+				<td id='jdltblknn' width='4%'>Rate</td>
+				<td id='jdltblknn' width='14%'>Remark</td>
+			</tr>
+		<!-- ###############################End Detail header#################################################### -->
+			<tr>
+				<td id='grsbwhtbl' width='98%'  colspan="15" height='5'></td>
+			</tr>
+		<!-- ###############################isi Detail#################################################### -->
+		
+		<%
+		# grouped=get_matreq_line(o.line_ids)
+		current=false
+		sn=1
+		total_item = 0.0
+		%>
+		<!-- % for key in grouped.keys(): -->
+
+			%for line in o.line_ids:
+
+				<%
+				last_price,last_vendor,last_po,last_date,last_currency=get_product_undefined(line.product_id.id)
+				# cr=self.cr
+				# uid=self.uid
+				# product_id=line.product_id
+				# product_undefined_obj=self.pool.get('product.undefined.info')
+				# puo_ids=product_undefined_obj.search(cr, uid, [('product_id','like',product_id)])
+				# puo_last_price=product_undefined_obj.browse(cr,uid,puo_ids).price_unit
+
+				%>
+				%if line.header_for_print and line.header_for_print.strip():
+						<tr>
+							<td>&nbsp;</td>
+							<td></td>
+							<td colspan="3" style="font-weight:bold;padding-left:5px;">${line.header_for_print.replace('\n','<br/>')}
+							</td>
+							<td></td>
+							<td></td>
+							<td style="border-left:solid 0.5px grey;"></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td id='isitbl' style="padding-top:5px;" >
+								${sn}
+							<td id='isitbl' style="padding-top:5px;" >
+								${line.product_id and line.product_id.default_code or '' }
+								<!-- line.product_id and line.product_id.default_code or'' -->
+							</td>
+							<td id='isitbl' style="padding-top:5px;padding-left:5px;" >
+								${line.product_id and line.product_id.name_template or ''} 
+							
+							</td>
+							<td id='isitbl'style="padding-top:5px;padding-left:5px;" >
+								<!-- ${line.requisition_id and line.requisition_id.location_dest_id and line.requisition_id.location_id.alias or ''} -->
+								${line.location_id and line.location_id.alias or ''}
+								<!-- ${line.account_analytic_id and line.account_analytic_id.code or ''} -->
+							</td>
+							<td id='isitbl'style="padding-top:5px;" >
+								${line.stock_uom_id and line.stock_uom_id.name or ''}
+							</td>
+							<td id='isitblknn' style="padding-top:5px;">
+								${formatLang(line.product_qty,digits=2) or 0.00}
+								
+							</td>
+							<td id='isitblknn' style="padding-top:5px;">
+								${formatLang(line.requisition_id.date_end,date=True) or ''}
+							</td>
+							<td id='isitblknn' style="padding-top:5px;border-left:solid 0.5px grey">
+								${formatLang(line.current_qty_available,digits=2) or 0.00}
+							</td>
+							<td id='isitblknn' style="padding-top:5px;">
+								${formatLang(line.product_qty,digits=2) or 0.00}
+							</td>
+							<td id='isitblknn' style="padding-top:5px;">
+								${formatLang((line.current_qty_virtual or 0.0)-(line.current_qty_available or 0.00),digits=2)}
+							</td>
+							<td id='isitblknn' style="padding-top:5px;">
+								<!-- ${line.last_po_id and line.last_po_id.id and line.last_po_id.name} -->
+
+								${line.product_id and line.product_id.last_order_id and line.product_id.last_order_id.name or last_po or ''}
+							</td>
+							<td id='isitblknn' style="padding-top:5px;">
+								${line.product_id and line.product_id.last_partner_id and line.product_id.last_partner_id.name or last_vendor or ''}
+							</td>
+							<td id='isitblknn' style="padding-top:5px;">
+								%if line.price!=0:
+									${line.currency_id and line.currency_id.name}
+									
+								%else:
+									${last_currency}
+								%endif
+							</td>
+							<td id='isitblknn' style="padding-top:5px;">
+								${line.price or last_price or ''}
+							</td>
+							<td id='isitblknn' style="padding-top:5px;">
+								${(line.remark or '').replace('\n','<br/>')}
+								<!-- ${(line.remark or '').replace('\n','<br/>')} -->
+							</td>
+						</tr>
+						%if line.catalogue_id and line.catalogue_id.catalogue:
+							<tr>
+								<td width="3%"></td>
+								<td width="50%" id='isitblkiri' colspan="6" style="border-right:solid 0.5px grey;">
+									&nbsp; <b>Cat. Number :</b> &nbsp; ${line.catalogue_id and line.catalogue_id.catalogue}
+								</td>
+							</tr>
+						%endif
+						%if line.part_number:
+							<tr>
+								<td width="3%"></td>
+								<td width="50%" id='isitblkiri' colspan="6" style="border-right:solid 0.5px grey;">
+									&nbsp; <b>Part Number :</b> &nbsp; ${line.part_number}
+								</td>
+							</tr>
+						%endif
+						%if line.detail and line.detail != '':
+							
+							<tr>
+								<td width="3%"></td>
+								<td width="50%" id='isitblkiri' colspan="6" style="padding-top:5px;border-right:solid 0.5px grey;">
+									&nbsp; <b>Note :</b> &nbsp;<a style="text-transform:uppercase;"> ${(line.detail or '').replace('\n','<br/>')}</a> &nbsp;
+									
+								</td>
+								<td colspan="8" style="padding-top:5px;border-left:solid 0.5px grey"></td>
+							
+							</tr>
+						%endif
+				%else:
+						<tr>
+							<td id='isitbl' style="padding-top:5px;" >
+								${sn}
+							<td id='isitbl' style="padding-top:5px;" >
+								${line.product_id and line.product_id.default_code or '' }
+								<!-- line.product_id and line.product_id.default_code or'' -->
+							</td>
+							<td id='isitbl' style="padding-top:5px;padding-left:5px;" >
+								${line.product_id and line.product_id.name_template or ''} 
+							
+							</td>
+							<td id='isitbl'style="padding-top:5px;padding-left:5px;" >
+								<!-- ${line.requisition_id and line.requisition_id.location_dest_id and line.requisition_id.location_id.alias or ''} -->
+								${line.location_id and line.location_id.alias or ''}
+								<!-- ${line.account_analytic_id and line.account_analytic_id.code or ''} -->
+							</td>
+							<td id='isitbl'style="padding-top:5px;" >
+								${line.stock_uom_id and line.stock_uom_id.name or ''}
+							</td>
+							<td id='isitblknn' style="padding-top:5px;">
+								${formatLang(line.product_qty,digits=2) or 0.00}
+								
+							</td>
+							<td id='isitblknn' style="padding-top:5px;">
+								${formatLang(line.requisition_id.date_end,date=True) or ''}
+							</td>
+							<td id='isitblknn' style="padding-top:5px;border-left:solid 0.5px grey">
+								${formatLang(line.current_qty_available,digits=2) or 0.00}
+							</td>
+							<td id='isitblknn' style="padding-top:5px;">
+								${formatLang(line.product_qty,digits=2) or 0.00}
+							</td>
+							<td id='isitblknn' style="padding-top:5px;">
+								${formatLang((line.current_qty_virtual or 0.0)-(line.current_qty_available or 0.00),digits=2)}
+							</td>
+							<td id='isitblknn' style="padding-top:5px;">
+								<!-- ${line.last_po_id and line.last_po_id and line.last_po_id.name} -->
+								${line.product_id and line.product_id.last_order_id and line.product_id.last_order_id.name or last_po or ''}
+							</td>
+							<td id='isitblknn' style="padding-top:5px;">
+								<!-- ${line.last_po_id and line.last_po_id.partner_id and (line.last_po_id.partner_id.partner_alias or line.last_po_id.partner_id.name) or ''} -->
+								${line.product_id and line.product_id.last_partner_id and line.product_id.last_partner_id.name or last_vendor or ''}
+							</td>
+							<td id='isitblknn' style="padding-top:5px;">
+								%if line.price!=0:
+									${line.currency_id and line.currency_id.name}
+								%else:
+									${last_currency}
+								%endif
+							</td>
+							<td id='isitblknn' style="padding-top:5px;">
+								${line.price or last_price or ''}
+							</td>
+							<td id='isitblknn' style="padding-top:5px;">
+								${(line.remark or '').replace('\n','<br/>')}
+								<!-- ${(line.remark or '').replace('\n','<br/>')} -->
+							</td>
+						</tr>
+						%if line.catalogue_id and line.catalogue_id.catalogue:
+							<tr>
+								<td width="3%"></td>
+								<td width="50%" id='isitblkiri' colspan="6" style="border-right:solid 0.5px grey;">
+									&nbsp; <b>Cat. Number :</b> &nbsp; ${line.catalogue_id and line.catalogue_id.catalogue}
+								</td>
+							</tr>
+						%endif
+						%if line.part_number:
+							<tr>
+								<td width="3%"></td>
+								<td width="50%" id='isitblkiri' colspan="6" style="border-right:solid 0.5px grey;">
+									&nbsp; <b>Part Number :</b> &nbsp; ${line.part_number}
+								</td>
+							</tr>
+						%endif
+						%if line.detail and line.detail != '':
+							
+							<tr>
+								<td width="3%"></td>
+								<td width="50%" id='isitblkiri' colspan="6" style="padding-top:5px;border-right:solid 0.5px grey;">
+									&nbsp; <b>Note :</b> &nbsp; <a style="text-transform:uppercase;"> ${(line.detail or '').replace('\n','<br/>')}</a>  &nbsp;
+								</td>
+								<td colspan="8" style="padding-top:5px;border-left:solid 0.5px grey"></td>
+							
+							</tr>
+						%endif
+				%endif		
+						<% 
+							sn+=1 
+							total_item+=1
+						%>
+			%endfor
+			%if key and key[0]!='-':
+				<tr class="bottomonly">
+					<td colspan="15"></td>
+				</tr>
+			%endif			
+		<!-- %endfor -->
+		<!-- ###############################end isi Detail#################################################### -->	
+			<tr>	
+				<td id='grsbwhtbl' width='98%'   colspan="15"></td><!--  garis dibawah detail -->
+			</tr>	
+		</table>
+		<!-- ###############################Summary#################################################### -->
+		<table>
+			<tr>
+				<td id='isitbl' width='100%' style='font-size:10px;padding-left:5px;'>
+					Total Item : ${total_item}
+				</td>
+			</tr>
+		</table>
+		<!-- ###############################end Summary#################################################### -->
+
+		<!-- ###############################end wrapper Detail#################################################### -->
+	</div>
+	<!-- end of content -->
+	<div id="break2" style="vertical-align:top;">&nbsp;</div>
+	<div id="break1" style="page-break-before: always;">
+	<div id="footer">					
+		<table width="100%" align="top">
+			<tr>
+				<td id="bwhtblup2" width="15%">
+					<span style='text-transform: capitalize;'>${o.req_employee and o.req_employee.name or 'None'}</span>
+				</td>
+				<td width="5%" style="border-top:none;">&nbsp;</td>
+				<td id="bwhtblup2" width="15%">
+					<span style='text-transform: capitalize;'>-</span>
+				</td>
+				<td width="5%" style="border-top:none;">&nbsp;</td>
+				<td id="bwhtblup2" width="15%">
+					<span style='text-transform: capitalize;'>-</span>
+				</td>
+				<td width="5%" style="border-top:none;">&nbsp;</td>
+				<td id="bwhtblup2" width="15%">
+					<span style='text-transform: capitalize;'>-</span>
+				</td>
+			</tr>
+			<tr>
+				<td id="bwhtblup1" width="15%">Prepared By</td>
+				<td width="5%" style="border-top:none;">&nbsp;</td>
+				<td id="bwhtblup1" width="15%">Deptt. Head</td>
+				<td width="5%" style="border-top:none;">&nbsp;</td>
+				<td id="bwhtblup1" width="15%">Approved By</td>
+				<td width="5%" style="border-top:none;">&nbsp;</td>
+				<td id="bwhtblup1" width="15%">MMD</td>
+			</tr>
+			<tr style="page-break-after:always;">
+				<td id="bwhtbl2" colspan="9" width="100%"></td>
+			</tr>
+		</table>					
+	</div>
+</div>
+</div> <!-- end of wrapper -->
+%endfor
+</body>
+</html>

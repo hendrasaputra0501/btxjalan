@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+<report 
+	auto="False" id="report_packing_list"
+	model="container.booking" name="print.packinglist.form" 
+	file="reporting_module/packing_list/packinglist_print_form_ok.html" 
+	string="Packing List"
+    usage="default" 
+    report_type="webkit" 
+    menu="True"
+ />
+</data>
+</openerp>

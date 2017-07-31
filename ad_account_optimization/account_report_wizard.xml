@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+		# Report account move
+		<wizard string="Journal by Entries" model="account.journal.period"
+			name="ad.account.journal.entries.report" menu="False"
+			id="wizard_ad_journal_entries_report" />
+		<menuitem name="Journal by Entries" parent="account.menu_finance_generic_reporting"
+			action="wizard_ad_journal_entries_report" type="wizard" icon="STOCK_PRINT"
+			id="menu_journal_entries_report" />
+
+		# Report full account balance
+
+		<wizard string="Full Account Balance" keyword="client_print_multi"
+			model="account.account" name="wizard.ad.account.balance.full.report.send" id="wizard_ad_account_balance_full_report_send" />
+		<wizard string="Full Account Balance" keyword="client_print_multi"
+			model="account.account" name="ad.account.balance.full.report" id="wizard_ad_account_balance_full_report" />
+		<wizard string="Full Account Balance" model="account.account"
+			name="ad.account.balance.full.report" menu="False"
+			id="wizard_ad_account_balance_full_report_menu" />
+		<menuitem name="Full Account Balance" parent="account.menu_finance_generic_reporting"
+			action="wizard_ad_account_balance_full_report_menu" type="wizard"
+			icon="STOCK_PRINT" id="menu_account_balance_full_report" />
+
+		# Report cumulative general ledger
+<!-- 		<wizard string="AD Cum. general ledger" keyword="client_print_multi" -->
+<!-- 			model="account.account" name="ad.account.general.ledger.cumulative.report" -->
+<!-- 			id="wizard_ad_account_general_ledger_cumulative_report" /> -->
+
+<!-- 		<wizard string="AD Cumulative general ledger" model="account.account" -->
+<!-- 			name="ad.account.general.ledger.cumulative.report" menu="False" -->
+<!-- 			id="wizard_ad_account_general_ledger_cumulative_report_menu" /> -->
+<!-- 		<menuitem name="AD Cumulative general ledger" parent="account.menu_finance_generic_reporting" -->
+<!-- 			action="wizard_ad_account_general_ledger_cumulative_report_menu" -->
+<!-- 			type="wizard" icon="STOCK_PRINT" id="menu_account_general_ledger_cumulative_report" /> -->
+
+		# Report account chart
+		<wizard string="Chart of Accounts" model="account.account"
+			name="ad.account.account.chart.report" menu="False"
+			id="wizard_ad_account_chart_report" />
+		<menuitem name="Chart of Accounts" parent="account.menu_finance_generic_reporting"
+			action="wizard_ad_account_chart_report" type="wizard" icon="STOCK_PRINT"
+			id="menu_account_chart_report" />
+
+		# Report invoice list
+<!-- 		<wizard string="AD Print invoice list" model="account.invoice" -->
+<!-- 			name="ad.account.invoice.list.report" menu="False" -->
+<!-- 			id="wizard_ad_invoice_list_report" /> -->
+<!-- 		<menuitem name="AD Print invoice list" parent="account.menu_finance_generic_reporting" -->
+<!-- 			action="wizard_ad_invoice_list_report" type="wizard" icon="STOCK_PRINT" -->
+<!-- 			id="menu_invoice_list_report" /> -->
+
+
+	</data>
+</openerp>

@@ -1,0 +1,20 @@
+<openerp>
+	<data>
+		<record id="view_account_tax_extra_info_form" model="ir.ui.view">
+        	<field name="name">view.account.tax.extra.info.form</field>
+			<field name="model">account.tax</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="account.view_tax_form" />
+			<field name="arch" type="xml">
+				<field name="active" position="after">
+					<field name="inside_berikat"/>
+					<field name="reported_unreturned"/>
+				</field>
+
+				<field name="python_compute" position="before">
+					<field name="tax_amount_kb" attrs="{'invisible':[('inside_berikat','=',False)],'attrs':[('inside_berikat','=',True)]}"/>
+				</field>
+			</field>
+		</record>
+	</data>
+</openerp>

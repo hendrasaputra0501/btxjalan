@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_nomor_faktur_pajak_tree" model="ir.ui.view">
+            <field name="name">nomor.faktur.pajak.tree</field>
+            <field name="model">nomor.faktur.pajak</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Nomor Faktur">
+                    <field name="name"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_anomor_faktur_pajak_form" model="ir.ui.view">
+            <field name="name">nomor.faktur.pajak.form</field>
+            <field name="model">nomor.faktur.pajak</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Nomor Faktur" version="7.0">
+                    <group>
+                        <label string="Faktur Pajak"/>
+                        <div>
+                            <field name="nomor_perusahaan" nolabel="1" style="width: 8%%"/>
+                            <field name="tahun_penerbit" nolabel="1" style="width: 8%%"/>
+                            <field name="nomor_urut" nolabel="1" style="width: 8%%"/>
+                        </div>
+                        <field name="status" readonly="1"/>
+                        <field name="active" readonly="0"/>
+                        <field name="account_invoice_ids" readonly="1"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record id="action_account_nomor_faktur_pajak" model="ir.actions.act_window">
+            <field name="name">Nomor Faktur Pajak</field>
+            <field name="res_model">nomor.faktur.pajak</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="faktur_pajak_menu" name="Faktur Pajak" parent="account.menu_finance_configuration"
+            sequence="5"/>
+        <menuitem id="ad_menu_nomor_faktur_pajak" parent="faktur_pajak_menu" action="action_account_nomor_faktur_pajak"/>
+    </data>
+</openerp>

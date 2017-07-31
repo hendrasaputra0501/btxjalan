@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- <record id="extra_taxes_invoice_form2" model="ir.ui.view">
+            <field name="name">extra.taxes.invoice.form2</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form" />
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@string='Invoice']" position="after">
+                    <page string="Extra Taxes">
+                        <field name="extra_taxes" nolabel="1" colspan="4">
+                            <tree string="Extra Taxes Applied">
+                                <field name="name"/>
+                                <field name="doc_source"/>
+                                <field name="tax_id"/>
+                                <field name="multicurrency"/>
+                                <field name="currency_id"/>
+                                <field name="faktur_pajak_no"/>
+                                <field name="base_amount"/>
+                                <field name="tax_amount"/>
+                                <field name="amount_currency"/>
+                                <field name="doc_source_invoice"/>
+                                <field name="doc_source_ext"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record> -->
+
+        <record id="view_extra_taxes_tree" model="ir.ui.view">
+            <field name="name">account.invoice.extra.taxes.tree</field>
+            <field name="model">account.invoice.extra.taxes</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Extra Taxes">
+                    <field name="name"/>
+                    <field name="journal_id"/>
+                    <field name="entry_date"/>
+                    <field name="partner_id"/>
+                    <field name="rate_used"/>
+                    <field name="invoice_type"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_extra_taxes_form" model="ir.ui.view">
+            <field name="name">account.invoice.extra.taxes.form</field>
+            <field name="model">account.invoice.extra.taxes</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Extra Taxes" version="7.0">
+                    <header>
+                        <button name="action_cancel" type="object" states="draft,posted" string="Cancel"/>
+                        <button name="action_post_tax" type="object" states="draft" string="Create Entries"/>
+                        <button name="action_draft" type="object" states="cancel" string="Set to Draft"/>
+                        <field name="state" widget="statusbar" statusbar_visible="cancel,draft,posted"/>
+                    </header>
+                    <sheet>
+                        <group colspan="4" col="4">
+                            <field name="name"/>
+                            <field name="company_id"/>
+                            <field name="journal_id" on_change="onchange_journal_id(journal_id)" domain="[('type','in',context.get('type',('sale','sale_refund')))]"/>
+                            <field name="account_id"/>
+                            <field name="entry_date"/>
+                            <field name="effective_date"/>
+                            <field name="period_id"/>
+                            <field name="partner_id"/>
+                            <field name="rate_used"/>
+                            <field name="invoice_type" domain="[('type','=',context.get('invoice_type','out_invoice'))]"/>
+                            <field name="parent_doc_source" on_change="onchange_parent_doc_source(parent_doc_source)"/>
+                            <field name="move_id" attrs="{'invisible':[('move_id','=',False)]}"/>
+                        </group>
+                        <notebook>
+                            <page string="Extra Taxes">
+                                <field name="line_ids" nolabel="1" context="{'parent_doc_source':False,'type':context.get('invoice_type','out_invoice')}">
+                                    <tree string="Taxes Lines">
+                                        <field name="name"/>
+                                        <field name="doc_source"/>
+                                        <field name="tax_id"/>
+                                        <field name="multicurrency"/>
+                                        <field name="currency_id"/>
+                                        <field name="faktur_pajak_no"/>
+                                        <field name="base_amount"/>
+                                        <field name="tax_amount"/>
+                                        <field name="amount_currency"/>
+                                        <field name="doc_source_invoice"/>
+                                        <field name="doc_source_ext"/>
+                                    </tree>
+                                    <form string="Taxes Lines">
+                                        <field name="name"/>
+                                        <field name="tax_id"/>
+                                        <field name="multicurrency"/>
+                                        <field name="currency_id" attrs="{'invisible':[('multicurrency','=',False)],'required':[('multicurrency','=',True)]}"/>
+                                        <field name="doc_source" domain="[('invoice_id','=',18)]"/>
+                                        <field name="doc_source_invoice"/>
+                                        <field name="doc_source_ext"/>
+                                        <field name="faktur_pajak_no"/>
+                                        <field name="kmk_rate_id" attrs="{'invisible':[('multicurrency','=',False)],'required':[('multicurrency','=',True)]}"/>
+                                        <field name="bank_rate_id" attrs="{'invisible':[('multicurrency','=',False)],'required':[('multicurrency','=',True)]}"/>
+                                        <field name="base_amount"/>
+                                        <field name="tax_amount"/>
+                                        <field name="amount_currency" attrs="{'invisible':[('multicurrency','=',False)]}"/>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Journal Items" attrs="{'invisible':[('move_id','=',False)]}">
+                                <field name="move_ids" nolabel="1" colspan="4"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_extra_taxes_cust" model="ir.actions.act_window">
+            <field name="name">Extra Taxes for Charges</field>
+            <field name="res_model">account.invoice.extra.taxes</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'invoice_type':'out_invoice','type':('sale','sale_refund')}</field>
+            <field name="domain">[('invoice_type','=','out_invoice')]</field>
+        </record>
+        
+        <record id="action_view_extra_taxes_supp" model="ir.actions.act_window">
+            <field name="name">Extra Taxes for Charges</field>
+            <field name="res_model">account.invoice.extra.taxes</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'invoice_type':'in_invoice','type':('purchase','purchase_refund')}</field>
+            <field name="domain">[('invoice_type','=','in_invoice')]</field>
+        </record>
+
+
+        <menuitem id="menu_action_view_extra_taxes_cust" name="Sale Charge Extra Taxes" parent="account.menu_finance_receivables" sequence="10" action="action_view_extra_taxes_cust"/>
+
+        <menuitem id="menu_action_view_extra_taxes_supp" name="Purchase Charge Extra Taxes" parent="account.menu_finance_payables" sequence="10" action="action_view_extra_taxes_supp"/>
+
+
+
+        <record id="view_extra_taxes_references_tree" model="ir.ui.view">
+            <field name="name">account.invoice.tax.reference.tree</field>
+            <field name="model">account.invoice.tax.reference</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Extra Taxes Reference">
+                    <field name="name"/>
+                    <field name="model"/>
+                    <field name="domain_eval"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_extra_taxes_references_form" model="ir.ui.view">
+            <field name="name">account.invoice.tax.reference.form</field>
+            <field name="model">account.invoice.tax.reference</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Extra Taxes Reference" version="7.0">
+                    <group>
+                        <field name="name"/>
+                        <field name="model"/>
+                        <field name="domain_eval"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_tax_reference" model="ir.actions.act_window">
+            <field name="name">Extra Taxes References</field>
+            <field name="res_model">account.invoice.tax.reference</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_action_view_tax_reference" name="Extra Taxes Reference" parent="account.menu_finance_configuration" sequence="10" action="action_view_tax_reference"/>
+
+    </data>
+</openerp>

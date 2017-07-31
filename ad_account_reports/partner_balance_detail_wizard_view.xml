@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>      
+    <record model="ir.ui.view" id="partner_balance_detail_form">
+      <field name="name">Partner Balance_Detail</field>
+      <field name="model">partner.balance.detail</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml"> 
+        <form string="advance report" version="7.0">
+          <group colspan="4" col="4">
+            <field name="invoice_type"/>
+            <!-- <field name="sale_type"/> -->
+            <field name="start_date" />
+            <field name="end_date" />
+          </group>
+          <footer>
+            <div>
+              <button type="object" name="print_report" string="Print" icon="STOCK_PRINT"/> or <button special="cancel" string="Cancel" class="oe_link"/>
+            </div>
+          </footer>
+        </form>
+      </field>
+    </record>
+         
+    <record model="ir.actions.act_window" id="action_ar_partner_balance_detail">
+        <field name="name">AR Sales Details</field>
+        <field name="res_model">partner.balance.detail</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'invoice_type':'out_invoice'}</field>
+        <field name="view_id" ref="partner_balance_detail_form"/>
+    </record>
+    <record model="ir.actions.act_window" id="action_ap_partner_balance_detail">
+        <field name="name">AP Purchase Details</field>
+        <field name="res_model">partner.balance.detail</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'invoice_type':'in_invoice'}</field>
+        <field name="view_id" ref="partner_balance_detail_form"/>
+    </record>
+
+    <menuitem id="menu_ar_partner_balance_detail" parent="account.next_id_22" sequence="20" action="action_ar_partner_balance_detail"/>
+    <!-- <menuitem id="menu_ap_partner_balance_detail" parent="account.next_id_22" sequence="21" action="action_ap_partner_balance_detail"/> -->
+
+    <report auto="False" id="ar_sales_detail_xls" 
+      model="account.invoice" name="ar.sales.detail" 
+      string="AR Details" usage="default" report_type="xls" 
+      menu="False" header="False" />
+  </data>
+</openerp>

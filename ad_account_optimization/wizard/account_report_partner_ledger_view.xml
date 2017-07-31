@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="account_partner_ledger_opti_view">
+        <field name="name">Partner Ledger (opti)</field>
+        <field name="model">account.partner.ledger</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="account.account_partner_ledger_view"/>
+        <field name="arch" type="xml">
+            <field name="page_split" position="after">
+                <field name="type" required="True"/>
+                <newline/>
+            </field>
+        </field>
+    </record>
+
+</data>
+</openerp>

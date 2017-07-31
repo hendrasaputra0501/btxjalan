@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report auto="False" 
+        	id="report_stuffing_memo" 
+        	model="stuffing.memo" 
+        	name="stuffing.memo.form" 
+        	file="ad_container_booking/report/stuffing_memo_form.mako" 
+        	string="Stuffing Memo" 
+        	usage="default" 
+        	report_type="webkit" 
+        	menu="True" />
+    </data>
+</openerp>

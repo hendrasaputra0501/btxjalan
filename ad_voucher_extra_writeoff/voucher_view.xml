@@ -1,0 +1,170 @@
+<openerp>
+	<data>
+		<record id="inherit_view_vendor_receipt_form_writeoff" model="ir.ui.view">
+            <field name="name">inherit.view.vendor.receipt.form.writeoff</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_vendor_receipt_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/h1" position="replace">
+                    <div class="oe_title">
+                        <div>
+                            <field name="use_new_sequence" class="oe_inline"/>
+                            <label for="use_new_sequence"/>
+                        </div>
+                        <h1>
+                            <field name="number"/>
+                        </h1>
+                    </div>
+                </xpath>
+                <field name="date" position="after">
+                    <field name="date_create"/>
+                </field>
+                <field name="journal_id" position="after">
+                    <field name="payment_type" required="True"/>
+                </field>
+                <!-- <field name="payment_option" position="after">
+                    <field name="extra_writeoff" attrs="{'invisible':['|',('payment_option','!=','with_writeoff'),('writeoff_amount','=',0.0)]}"/>   
+                </field> -->
+                <!-- <field name="writeoff_acc_id" position="attributes">
+                    <attribute name="attrs">{'required':[('payment_option','=','with_writeoff'),('extra_writeoff','=',False)],'invisible':['|','|',('extra_writeoff','!=',False),('payment_option','!=','with_writeoff'),('writeoff_amount','=',0.0)]}</attribute>
+                </field> -->
+                <!-- <field name="comment" position="attributes">
+                    <attribute name="attrs">{'required':[('payment_option','=','with_writeoff'),('extra_writeoff','=',False)],'invisible':['|','|',('extra_writeoff','!=',False),('payment_option','!=','with_writeoff'),('writeoff_amount','=',0.0)]}</attribute>
+                </field> -->
+                <!-- <field name="analytic_id" position="attributes">
+                    <attribute name="attrs">{'invisible':['|','|',('extra_writeoff','!=',False),('payment_option','!=','with_writeoff'),('writeoff_amount','=',0.0)]}</attribute>
+                </field> -->
+
+                <xpath expr="/form/sheet/notebook/page[@string='Payment Information']/group/group[3]" position="replace">
+                    <group>
+                    </group>
+                </xpath>
+                <xpath expr="/form/sheet/group" position="after">
+                    <group>
+                        <group></group>
+                        <group>
+                            <separator string="Payment Options" colspan="2"/>
+                            <field name="writeoff_amount" widget='monetary' options='{"currency_field": "currency_id"}'/>
+                            <field name="payment_option" required="1"/>
+                            <field name="extra_writeoff" attrs="{'invisible':['|',('payment_option','!=','with_writeoff'),('writeoff_amount','=',0.0)]}" on_change="onchange_writeoff_lines(writeoff_lines, line_dr_ids, line_cr_ids, amount, type, context)"/>
+                            <field name="writeoff_acc_id"
+                                attrs="{'required':[('payment_option','=','with_writeoff'),('extra_writeoff','=',False)],'invisible':['|','|',('extra_writeoff','!=',False),('payment_option','!=','with_writeoff'),('writeoff_amount','=',0.0)]}"
+                                domain="[('type','=','other')]"/>
+                            <field name="comment"
+                                attrs="{'required':[('payment_option','=','with_writeoff'),('extra_writeoff','=',False)],'invisible':['|','|',('extra_writeoff','!=',False),('payment_option','!=','with_writeoff'),('writeoff_amount','=',0.0)]}"/>
+                            <field name="analytic_id"
+                                attrs="{'invisible':['|','|',('extra_writeoff','!=',False),('payment_option','!=','with_writeoff'),('writeoff_amount','=',0.0)]}"
+                                groups="analytic.group_analytic_accounting"/>
+                        </group>
+                    </group>
+                </xpath>
+                <page string="Payment Information" position="after">
+                    <page string="Writeoff Lines" attrs="{'invisible':['|','|',('extra_writeoff','=',False),('payment_option','!=','with_writeoff'),('writeoff_amount','=',0.0)]}">
+                        <label for="total_writeoff" />
+                        <field name="total_writeoff" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <field name="writeoff_lines" colspan="4" nolabel="4" attrs="{'required':[('payment_option','=','with_writeoff'),('extra_writeoff','!=',False),('writeoff_amount','!=',0.0)]}" on_change="onchange_writeoff_lines(writeoff_lines, line_dr_ids, line_cr_ids, amount, type, context)">
+                            <tree string="Writeoff Lines" editable="bottom">
+                                <field name="invoice_related_id" domain="[('partner_id','=',parent.partner_id)]"/>
+                                <field name="name"/>
+                                <field name="type" on_change="onchange_charge(type)"/>
+                                <field name="account_id" domain="[('type','=','other')]"/>
+                                <field name="analytic_id"/>
+                                <field name="analytic_journal_id" attrs="{'required':[('analytic_id','!=',False)]}"/>
+                                <field name="amount"/>
+                            </tree>
+                            <form string="Writeoff Lines">
+                                <field name="name"/>
+                                <field name="type" on_change="onchange_charge(type)"/>
+                                <field name="account_id" domain="[('type','=','other')]"/>
+                                <field name="analytic_id"/>
+                                <field name="analytic_journal_id" attrs="{'required':[('analytic_id','!=',False)]}"/>
+                                <field name="amount"/>
+                            </form>
+                        </field>
+                    </page>
+                </page>
+            </field>
+        </record>
+        <record id="inherit_view_vendor_payment_form_writeoff" model="ir.ui.view">
+            <field name="name">inherit.view.vendor.payment.form.writeoff</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_vendor_payment_form"/>
+            <field name="arch" type="xml">
+                <field name="number" position='replace'>
+                </field>
+                <xpath expr="/form/sheet/field[@name='account_id']" position="before">
+                    <div class="oe_title">
+                        <div>
+                            <field name="use_new_sequence" class="oe_inline"/>
+                            <label for="use_new_sequence"/>
+                        </div>
+                        <h1>
+                            <field name="number"/>
+                        </h1>
+                    </div>
+                </xpath>
+                <field name="date" position="after">
+                    <field name="date_create"/>
+                </field>
+                <!-- <field name="payment_option" position="after">
+                    <field name="extra_writeoff" attrs="{'invisible':['|',('payment_option','!=','with_writeoff'),('writeoff_amount','=',0.0)]}"/>   
+                </field> -->
+                <!-- <field name="writeoff_acc_id" position="attributes">
+                    <attribute name="attrs">{'required':[('payment_option','=','with_writeoff'),('extra_writeoff','=',False)],'invisible':['|','|',('extra_writeoff','!=',False),('payment_option','!=','with_writeoff'),('writeoff_amount','=',0.0)]}</attribute>
+                </field> -->
+                <!-- <field name="comment" position="attributes">
+                    <attribute name="attrs">{'required':[('payment_option','=','with_writeoff'),('extra_writeoff','=',False)],'invisible':['|','|',('extra_writeoff','!=',False),('payment_option','!=','with_writeoff'),('writeoff_amount','=',0.0)]}</attribute>
+                </field> -->
+                <!-- <field name="analytic_id" position="attributes">
+                    <attribute name="attrs">{'invisible':['|','|',('extra_writeoff','!=',False),('payment_option','!=','with_writeoff'),('writeoff_amount','=',0.0)]}</attribute>
+                </field> -->
+                <xpath expr="/form/sheet/notebook/page[@string='Payment Information']/group/group[2]/group[2]" position="replace">
+                    <group col="2">
+                    </group>
+                </xpath>
+                <xpath expr="/form/sheet/group" position="after">
+                    <group>
+                        <group></group>
+                        <group>
+                            <separator string="Payment Options" colspan="2"/>
+                            <field name="writeoff_amount" widget='monetary' options='{"currency_field": "currency_id"}'/>
+                            <field name="payment_option" required="1"/>
+                            <field name="extra_writeoff" attrs="{'invisible':['|',('payment_option','!=','with_writeoff'),('writeoff_amount','=',0.0)]}" on_change="onchange_writeoff_lines(writeoff_lines, line_dr_ids, line_cr_ids, amount, type, context)"/>
+                            <field name="writeoff_acc_id"
+                                attrs="{'required':[('payment_option','=','with_writeoff'),('extra_writeoff','=',False)],'invisible':['|','|',('extra_writeoff','!=',False),('payment_option','!=','with_writeoff'),('writeoff_amount','=',0.0)]}"
+                                domain="[('type','=','other')]"/>
+                            <field name="comment"
+                                attrs="{'required':[('payment_option','=','with_writeoff'),('extra_writeoff','=',False)],'invisible':['|','|',('extra_writeoff','!=',False),('payment_option','!=','with_writeoff'),('writeoff_amount','=',0.0)]}"/>
+                            <field name="analytic_id"
+                                attrs="{'invisible':['|','|',('extra_writeoff','!=',False),('payment_option','!=','with_writeoff'),('writeoff_amount','=',0.0)]}"
+                                groups="analytic.group_analytic_accounting"/>
+                        </group>
+                    </group>
+                </xpath>
+                <page string="Payment Information" position="after">
+                    <page string="Writeoff Lines" attrs="{'invisible':['|','|',('extra_writeoff','=',False),('payment_option','!=','with_writeoff'),('writeoff_amount','=',0.0)]}">
+                        <label for="total_writeoff" />
+                        <field name="total_writeoff" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                         <field name="writeoff_lines" colspan="4" nolabel="4" attrs="{'required':[('payment_option','=','with_writeoff'),('extra_writeoff','!=',False),('writeoff_amount','!=',0.0)]}" on_change="onchange_writeoff_lines(writeoff_lines, line_dr_ids, line_cr_ids, amount, type, context)">
+                            <tree string="Writeoff Lines" editable="bottom">
+                                <field name="invoice_related_id" domain="[('partner_id','=',parent.partner_id)]"/>
+                                <field name="name"/>
+                                <field name="type" on_change="onchange_charge(type)"/>
+                                <field name="account_id" domain="[('type','=','other')]"/>
+                                <field name="analytic_id"/>
+                                <field name="amount"/>
+                            </tree>
+                            <form string="Writeoff Lines">
+                                <field name="name"/>
+                                <field name="type"/>
+                                <field name="account_id" domain="[('type','=','other')]"/>
+                                <field name="analytic_id"/>
+                                <field name="amount"/>
+                            </form>
+                        </field>
+                    </page>
+                </page>
+            </field>
+        </record>
+	</data>
+</openerp>

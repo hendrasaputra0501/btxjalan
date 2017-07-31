@@ -1,0 +1,33 @@
+<openerp>
+	<data>
+		<record id="view_si_wizard_change_label_form" model="ir.ui.view">
+			<field name="name">si.wizard.change.label.form</field>
+			<field name="model">si.wizard.change.label</field>
+			<field name="arch" type="xml">
+				<form string="Wizard Change Label" version="7.0" >
+					<group>
+						<field name="field_ids" nolabel="1" context="{'model':context.get('model',False)}">
+							<tree string="Label" editable="bottom">
+								<field name="field_id"/>
+								<field name="label"/>
+							</tree>
+						</field>
+					</group>
+					<footer>
+						<button name="set_label_print" string="Generate" class="oe_highlight" type="object" />
+                      	or
+                      	<button string="Cancel" class="oe_link" special="cancel"/>
+                  	</footer>
+				</form> 
+			</field>
+		</record>
+
+		<act_window name="Wizard Change Label"
+            res_model="si.wizard.change.label"
+            src_model="container.booking"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_si_wizard_change_label" />
+	</data>
+</openerp>

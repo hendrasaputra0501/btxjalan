@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		 <record id="stock_return_memory_tree_in_inherit_container_booking" model="ir.ui.view">
+			<field name="name">stock.return.picking.memory.tree.inherit.container.booking</field>
+			<field name="model">stock.return.picking.memory</field>
+			<field name="inherit_id" ref="stock.stock_return_memory_tree_in" />
+			<field name="arch" type="xml">
+				<field name="quantity" position="after">
+					<field name="product_uop_qty" />
+				</field>
+			</field>
+		</record>
+		
+		<record id="stock_return_memory_form_in_inherit_container_booking" model="ir.ui.view">
+			<field name="name">stock.return.picking.memory.from.inherit.container.booking</field>
+			<field name="model">stock.return.picking.memory</field>
+			<field name="inherit_id" ref="stock.stock_return_memory_form_in" />
+			<field name="arch" type="xml">
+				<field name="quantity" position="after">
+					<field name="product_uop_qty" />
+				</field>
+			</field>
+		</record>
+		 
+	</data>
+</openerp>

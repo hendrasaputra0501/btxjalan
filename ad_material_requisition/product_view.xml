@@ -1,0 +1,358 @@
+<openerp>
+	<data>
+		<record id="view_po_product_inherit" model="ir.ui.view">
+			<field name="name">view.po.product.inherit</field>
+			<field name="model">product.product</field>
+			<field name="inherit_id" ref="product.product_normal_form_view"/>
+			<field name="arch" type="xml">
+				<xpath expr="/form/sheet/notebook/page[@string='Sales']" position="after">
+					<page string="Histories">
+						<group string="Last Purchase Price">
+							<field name="last_price"/>
+							<field name="last_order_id"/>
+							<field name="last_partner_id"/>
+							<field name="last_date_order"/>
+						</group>
+						<group string="Maximum Purchase Price">
+							<field name="max_price"/>
+							<field name="max_order_id"/>
+							<field name="max_partner_id"/>
+							<field name="max_date_order"/>
+						</group>
+						<group string="Minimum Purchase Price">
+							<field name="min_price"/>
+							<field name="min_order_id"/>
+							<field name="min_partner_id"/>
+							<field name="min_date_order"/>
+						</group>
+					</page>
+				</xpath>
+			</field>
+		</record>
+
+		<record id="view_po_product_inherit_product_info_bitratex" model="ir.ui.view">
+			<field name="name">view.po.product.inherit.product.info.bitratex</field>
+			<field name="model">product.product</field>
+			<field name="inherit_id" ref="ad_product_info_bitratex.view_product_info_inherit"/>
+			<field name="arch" type="xml">
+				<field name="internal_type" position="after">
+					<field name="first_segment_code" attrs="{'invisible':[('internal_type','not in',['Stores','Packing'])],'required':[('internal_type','in',['Stores','Packing'])]}" on_change="onchange_segment_code(internal_type,first_segment_code,second_segment_code,third_segment_code,name,dimension_code,quality_code)"/>
+					<field name="second_segment_code" attrs="{'invisible':[('internal_type','not in',['Stores','Packing'])],'required':[('internal_type','in',['Stores','Packing'])]}" on_change="onchange_segment_code(internal_type,first_segment_code,second_segment_code,third_segment_code,name,dimension_code,quality_code)"/>
+					<field name="dimension_code" attrs="{'invisible':[('internal_type','not in',['Packing'])],'required':[('internal_type','in',['Packing'])]}" on_change="onchange_segment_code(internal_type,first_segment_code,second_segment_code,third_segment_code,name,dimension_code,quality_code)"/>
+					<field name="quality_code" attrs="{'invisible':[('internal_type','not in',['Packing'])],'required':[('internal_type','in',['Packing'])]}" on_change="onchange_segment_code(internal_type,first_segment_code,second_segment_code,third_segment_code,name,dimension_code,quality_code)"/>
+					<field name="third_segment_code" attrs="{'invisible':[('internal_type','not in',['Stores','Packing'])],'required':[('internal_type','in',['Stores','Packing'])]}" on_change="onchange_segment_code(internal_type,first_segment_code,second_segment_code,third_segment_code,name,dimension_code,quality_code)"/>
+				</field>
+			</field>
+		</record>
+
+		<record id="view_po_product_manufacturer_form" model="ir.ui.view">
+            <field name="name">product.po.product.manufacturer</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product_manufacturer.view_product_form_expiry"/>
+            <field name="arch" type="xml">
+                <group string="Manufacturer" position="after">
+					<group string="Catalogue" attrs="{'invisible':[('internal_type','not in',['Stores','Packing'])]}">
+						<field name='catalogue_lines' nolabel="1">
+							<tree string="Catalogue">
+								<field name="from_year"/>
+								<field name="to_year"/>
+								<field name="catalogue"/>
+								<field name="part_number"/>
+							</tree>
+							<form string="Catalogue">
+								<field name="from_year"/>
+								<field name="to_year"/>
+								<field name="catalogue" on_change="onchange_catalogue(catalogue)"/>
+								<field name="part_number"/>
+							</form>
+						</field>
+					</group>
+                </group>
+                <field name="manufacturer_pref" position="replace">
+                	<field name='catalogue_numbers' invisible="1"/>
+					<field name='part_numbers' invisible="1"/>
+					<field name='catalogue_number_id' readonly="1"/>
+					<field name='part_number' readonly="1"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_product_first_segment_code_tree" model="ir.ui.view">
+			<field name="name">product.first.segment.code.tree</field>
+			<field name="model">product.first.segment.code</field>
+			<field name="arch" type="xml">
+				<tree string="First Segment" >
+					<field name="code"/>
+					<field name="name"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_product_first_segment_code_search" model="ir.ui.view">
+			<field name="name">product.first.segment.code.search</field>
+			<field name="model">product.first.segment.code</field>
+			<field name="arch" type="xml">
+				<search string="First Segment">
+					<field name="code"/>
+					<field name="name" filter_domain="['|',('name','ilike', self),('ref','ilike',self)]"/>
+				</search>
+			</field>
+		</record>
+		
+		<record id="view_product_first_segment_code_form" model="ir.ui.view">
+			<field name="name">product.first.segment.code.form</field>
+			<field name="model">product.first.segment.code</field>
+			<field name="arch" type="xml">
+				<form string="First Segment" version="7.0">
+					<sheet>
+						<group>
+		                    <field name="code"/>
+		                    <field name="name"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_product_first_segment_code" model="ir.actions.act_window">
+			<field name="name">First Segment</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">product.first.segment.code</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="view_product_first_segment_code_search"/>
+		</record>
+
+		<record id="view_product_second_segment_code_tree" model="ir.ui.view">
+			<field name="name">product.second.segment.code.tree</field>
+			<field name="model">product.second.segment.code</field>
+			<field name="arch" type="xml">
+				<tree string="Second Segment" >
+					<field name="code"/>
+					<field name="name"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_product_second_segment_code_search" model="ir.ui.view">
+			<field name="name">product.second.segment.code.search</field>
+			<field name="model">product.second.segment.code</field>
+			<field name="arch" type="xml">
+				<search string="Second Segment">
+					<field name="code"/>
+					<field name="name" filter_domain="['|',('name','ilike', self),('ref','ilike',self)]"/>
+				</search>
+			</field>
+		</record>
+		
+		<record id="view_product_second_segment_code_form" model="ir.ui.view">
+			<field name="name">product.second.segment.code.form</field>
+			<field name="model">product.second.segment.code</field>
+			<field name="arch" type="xml">
+				<form string="Second Segment" version="7.0">
+					<sheet>
+						<group>
+		                    <field name="code"/>
+		                    <field name="name"/>
+		                    <field name="active"/>
+                		</group>
+                	</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_product_second_segment_code" model="ir.actions.act_window">
+			<field name="name">Second Segment</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">product.second.segment.code</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="view_product_second_segment_code_search"/>
+		</record>
+
+		<record id="view_product_reason_code_tree" model="ir.ui.view">
+			<field name="name">product.reason.code.tree</field>
+			<field name="model">product.reason.code</field>
+			<field name="arch" type="xml">
+				<tree string="Reason Code" >
+					<field name="code"/>
+					<field name="name"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_product_reason_search" model="ir.ui.view">
+			<field name="name">product.reason.code.search</field>
+			<field name="model">product.reason.code</field>
+			<field name="arch" type="xml">
+				<search string="Reason Code">
+					<field name="code"/>
+					<field name="name" filter_domain="['|',('name','ilike', self),('ref','ilike',self)]"/>
+				</search>
+			</field>
+		</record>
+		
+		<record id="view_product_reason_code_form" model="ir.ui.view">
+			<field name="name">product.reason.code.form</field>
+			<field name="model">product.reason.code</field>
+			<field name="arch" type="xml">
+				<form string="Reason Code" version="7.0">
+					<sheet>
+						<group>
+		                    <field name="code"/>
+		                    <field name="name"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_product_reason_code" model="ir.actions.act_window">
+			<field name="name">Reason Code</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">product.reason.code</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="view_product_first_segment_code_search"/>
+		</record>
+		
+		<record id="action_product_catalogue" model="ir.actions.act_window">
+			<field name="name">Catalogue Number</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">product.catalogue</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<!-- <field name="search_view_id" ref="view_product_first_segment_code_search"/> -->
+		</record>
+		<record id="action_product_catalogue_part_history" model="ir.actions.act_window">
+			<field name="name">Part Number</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">product.catalogue.part.history</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<!-- <field name="search_view_id" ref="view_product_first_segment_code_search"/> -->
+		</record>
+
+
+		<record id="view_product_material_type_tree" model="ir.ui.view">
+			<field name="name">product.material.type.tree</field>
+			<field name="model">product.material.type</field>
+			<field name="arch" type="xml">
+				<tree string="Material Type">
+					<field name="name"/>
+					<field name="description"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_product_material_type_search" model="ir.ui.view">
+			<field name="name">product.material.type.search</field>
+			<field name="model">product.material.type</field>
+			<field name="arch" type="xml">
+				<search string="Material Type">
+					<field name="name" filter_domain="['|',('name','ilike', self),('description','ilike',self)]"/>
+					<field name="description"/>
+				</search>
+			</field>
+		</record>
+		
+		<record id="view_product_material_type_form" model="ir.ui.view">
+			<field name="name">product.material.type.form</field>
+			<field name="model">product.material.type</field>
+			<field name="arch" type="xml">
+				<form string="Material Type" version="7.0">
+					<sheet>
+						<group>
+		                    <field name="name"/>
+		                    <field name="description"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_product_material_type" model="ir.actions.act_window">
+			<field name="name">Material Type</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">product.material.type</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="view_product_material_type_search"/>
+		</record>
+
+		<record id="view_product_undefined_info_tree" model="ir.ui.view">
+			<field name="name">product.undefined.info.tree</field>
+			<field name="model">product.undefined.info</field>
+			<field name="arch" type="xml">
+				<tree string="Product Information" version="7.0">
+                    <field name="name"/>
+                    <field name="product_id"/>
+                    <field name="po_number"/>
+                    <field name="po_date"/>
+                    <field name="partner_id"/>
+                    <field name="partner_name"/>
+                    <field name="currency_id"/>
+                    <field name="price_unit"/>
+				</tree>
+			</field>
+		</record>
+		<record id="view_product_undefined_info_form" model="ir.ui.view">
+			<field name="name">product.undefined.info.form</field>
+			<field name="model">product.undefined.info</field>
+			<field name="arch" type="xml">
+				<form string="Product Information" version="7.0">
+					<sheet>
+						<group>
+							<group>
+			                    <field name="name"/>
+			                    <field name="product_id"/>
+			                    <field name="po_number"/>
+			                    <field name="po_date"/>
+							</group>
+							<group>
+			                    <field name="partner_id"/>
+			                    <field name="partner_name"/>
+			                    <field name="currency_id"/>
+			                    <field name="price_unit"/>
+		                   	</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="view_product_undefined_info_search" model="ir.ui.view">
+			<field name="name">product.undefined.info.form</field>
+			<field name="model">product.undefined.info</field>
+			<field name="arch" type="xml">
+				<search string="Product Information" version="7.0">
+                    <field name="name"/>
+                    <field name="product_id"/>
+                    <field name="po_number"/>
+                    <field name="po_date"/>
+                    <field name="partner_id"/>
+                    <field name="partner_name"/>
+                    <field name="currency_id"/>
+                    <field name="price_unit"/>
+				</search>
+			</field>
+		</record>
+
+		<record id="action_product_undefined_info" model="ir.actions.act_window">
+			<field name="name">Product Undefined Information</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">product.undefined.info</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="view_product_undefined_info_search"/>
+		</record>
+
+        <menuitem id="menu_product_segment_code" parent="purchase.menu_purchase_config_purchase" sequence="12" name="Segment Codes"/>
+		<menuitem action="action_product_first_segment_code" id="menu_product_first_segment_code" parent="menu_product_segment_code" sequence="1" string="First Segment"/>
+		<menuitem action="action_product_second_segment_code" id="menu_product_second_segment_code" parent="menu_product_segment_code" sequence="2" string="Second Segment"/>
+		<menuitem action="action_product_reason_code" id="menu_product_reason_code" parent="menu_product_segment_code" sequence="3" string="Reason Code"/>
+		<menuitem action="action_product_material_type" id="menu_product_material_type" parent="menu_product_segment_code" sequence="4" string="Material Type"/>
+		<menuitem action="action_product_catalogue" id="menu_action_product_catalogue" parent="purchase.menu_product_in_config_purchase" sequence="30" string="Catalogue Number"/>
+		<menuitem action="action_product_catalogue_part_history" id="menu_action_product_catalogue_part_history" parent="purchase.menu_product_in_config_purchase" sequence="31" string="Part Number"/>
+		<menuitem action="action_product_undefined_info" id="menu_action_product_undefined_info" parent="purchase.menu_product_in_config_purchase" sequence="32" string="Product Undefined Info"/>
+	</data>
+</openerp>

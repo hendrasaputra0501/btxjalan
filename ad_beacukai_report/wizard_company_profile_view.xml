@@ -1,0 +1,29 @@
+<openerp>
+	<data>
+		<record id="view_wizard_company_profile" model="ir.ui.view">
+			<field name="name">Company Profile</field>
+			<field name="model">wizard.company.profile</field>
+			<field name="arch" type="xml">
+			   <form string="Company Profile" version="7.0">
+					<footer>
+						<button name="action_open_window" string="Go to Website" type="object" class="oe_highlight"/>
+						or
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_wizard_company_profile" model="ir.actions.act_window">
+			<field name="name">Company Profile</field>
+			<field name="res_model">wizard.company.profile</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_wizard_company_profile"/>
+			<field name="target">new</field>
+		</record>
+
+		<menuitem id="menu_action_wizard_company_profile" name="Company" parent="menu_pabean_board" sequence="4"  />
+		<menuitem id="submenu_action_wizard_company_profile" parent="menu_action_wizard_company_profile" sequence="0" action="action_wizard_company_profile" />
+	</data>
+</openerp>

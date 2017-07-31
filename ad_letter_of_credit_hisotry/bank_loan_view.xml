@@ -1,0 +1,14 @@
+<openerp>
+	<data>
+		<record id="view_bank_loan_form_inhrt_lc" model="ir.ui.view">
+			<field name="name">account.bank.loan.form.inhrt.lc</field>
+            <field name="model">account.bank.loan</field>
+			<field name="inherit_id" ref="ad_bank_loan.view_bank_loan_form" />
+			<field name="arch" type="xml">
+				<field name="memo" position="after">
+					<field name="lc_id" attrs="{'invisible':[('loan_type','!=','tr')]}"/>
+				</field>
+			</field>
+		</record>
+	</data>
+</openerp>

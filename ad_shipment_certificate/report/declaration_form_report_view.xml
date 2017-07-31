@@ -1,0 +1,7 @@
+<openerp>
+	<data>
+		<report auto="False" id="declaration_form_report" model="declaration.form" name="declaration.form.report"
+            file="ad_shipment_certificate/report/declaration_form_report.mako" string="Declaration Form"
+            usage="default" report_type="webkit" header="False"/>
+	</data>
+</openerp>

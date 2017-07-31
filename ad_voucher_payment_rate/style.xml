@@ -1,0 +1,147 @@
+<openerp>
+	<data>
+		<record id="surat_kuasa_header_webkit" model="ir.header_webkit">
+			<field name="name">Header Surat Kuasa</field>
+			<field name="company_id" ref="base.main_company"/>
+			<field name="orientation" eval="&quot;&quot;&quot;Portrait&quot;&quot;&quot;"/>
+			<field name="format" eval="&quot;&quot;&quot;A4&quot;&quot;&quot;"/>
+			<field name="margin_top" eval="30.0"/>
+			<field name="margin_bottom" eval="0.0"/>
+			<field name="margin_left" eval="20.0"/>
+			<field name="margin_right" eval="0.0"/>
+			<field name="css"><![CDATA[body { font-family:helvetica; font-size:10; }   .dest_address { margin-left:60%; font-size:10; } .header { margin-left:0; text-align:left; width:300px; font-size:10; }  .title { font-size:14; font-weight: bold;  }   .basic_table{ text-align:center; border:1px solid lightGrey; border-collapse: collapse; } .basic_table td { border:1px solid lightGrey; font-size:10;   }  .list_table { border-color:black; text-align:center; border-collapse: collapse;  } .list_table td { border-color:gray; border-top:1px solid gray; text-align:left; font-size:10; padding-right:3px padding-left:3px padding-top:3px padding-bottom:3px }  .list_table th { border-bottom:2px solid black; text-align:left; font-size:10; font-weight:bold; padding-right:3px padding-left:3px }  .list_tabe thead {	 display:table-header-group; }   .total { width:100%; } .lib { width:10.3%; } .tot { text-align:right; width:15%; } .lefttot { width:74%; } .tax { width:50%; }]]></field>
+			<field name="html"><![CDATA[<html><head><meta content="text/html; charset=UTF-8" http-equiv="content-type"/><style type="text/css">${css}</style></head><body style="border:0; margin: 0;" onload="subst()"><table style="text-align: left; width: 100%;" border="0" cellpadding="0" cellspacing="0"><tbody><tr><td colspan="1" rowspan="3" style="vertical-align: top; width: 13%;">${helper.embed_logo_by_name('Bitratex Logo')}</td><td style="vertical-align: top; width: 71%; font-family:arial; font-size:26px; font-weight: bold;">${company.partner_id.name |entity}</td><td colspan="1" rowspan="3" style="vertical-align: top; width: 8%;">${helper.embed_logo_by_name('ISO 9001 - 2008 - 94 - 2 - 0315 Logo')}</td><td colspan="1" rowspan="3" style="vertical-align: top; width: 8%;">${helper.embed_logo_by_name('ISO 14001 - 2004 - 97-0014 Logo')}</td>				 </tr>				 <tr>					 <td style="vertical-align: top; width: 71%; font-family:arial; font-size:10px;">Jl. Brigjend. S. Sudiarto KM 11, Semarang 50193, Indonesia</td>				 </tr>				 <tr>					 <td style="vertical-align: top; width: 71%; font-family:arial; font-size:10px;">Tel: +62 24 6713585 | Fax: +62 24 6713588 | eMail: bitrasmg@bitratex.com | www.bitratex.com</td>				 </tr>			 </tbody>		  </table>${_debug or ''|n} </body> </html>]]></field>
+			<field name="footer_html"><![CDATA[<html>
+	<head>
+		<meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+		<script>
+			function subst() {
+			var vars={};
+			var pg_var={};
+			var x=document.location.search.substring(1).split('&');
+			for(var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);}
+			var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
+			for(var i in x) {
+			var y = document.getElementsByClassName(x[i]);
+			for(var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
+				}
+		   
+			var nsiggy = document.getElementsByClassName("signature");
+			var curr = document.location.search.substring(1).split('&');
+			for(var pg in curr) {var zk=curr[pg].split('=',2);pg_var[zk[0]] = unescape(zk[1]);}
+			
+			if (pg_var['page']==pg_var['topage']){
+				nsiggy[0].style.border="0px";
+				}
+			else{
+				nsiggy[0].textContent="";
+				}
+			
+			}
+		</script>
+	</head>
+	<body style="border:0; margin: 0;" onload="subst()">
+		<div class="signature" style="text-align:center;border:0px dotted black;float:right;bottom:50px;width:200px;min-height:100px;right:5px;">
+		</div>
+		<table style="border-top: 1px solid black; width: 100%">
+			<tr >
+				<td style="text-align:right;font-size:12;" width="95%">Page <span class="page"/></td><td style="text-align:left;font-size:12;">  of <span class="topage"/></td>
+			</tr>
+		</table>
+	</body>
+</html>]]></field>
+		</record>
+
+		<record id="check_preview_header_webkit" model="ir.header_webkit">
+			<field name="name">Header Check Preview</field>
+			<field name="company_id" ref="base.main_company"/>
+			<field name="orientation" eval="&quot;&quot;&quot;Landscape&quot;&quot;&quot;"/>
+			<field name="format" eval="&quot;&quot;&quot;A4&quot;&quot;&quot;"/>
+			<field name="margin_top" eval="20.0"/>
+			<field name="margin_bottom" eval="10.0"/>
+			<field name="margin_left" eval="20.0"/>
+			<field name="margin_right" eval="0.0"/>
+			<field name="css">
+				<![CDATA[body { font-family:helvetica; font-size:10; }   .dest_address { margin-left:60%; font-size:10; } .header { margin-left:0; text-align:left; width:300px; font-size:10; }  .title { font-size:14; font-weight: bold;  }   .basic_table{ text-align:center; border:1px solid lightGrey; border-collapse: collapse; } .basic_table td { border:1px solid lightGrey; font-size:10;   }  .list_table { border-color:black; text-align:center; border-collapse: collapse;  } .list_table td { border-color:gray; border-top:1px solid gray; text-align:left; font-size:10; padding-right:3px padding-left:3px padding-top:3px padding-bottom:3px }  .list_table th { border-bottom:2px solid black; text-align:left; font-size:10; font-weight:bold; padding-right:3px padding-left:3px }  .list_tabe thead {  display:table-header-group; }   .total { width:100%; } .lib { width:10.3%; } .tot { text-align:right; width:15%; } .lefttot { width:74%; } .tax { width:50%; }]]>
+            </field>
+			<field name="html">
+				<![CDATA[<html>
+					<head>
+						<meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+						<style type="text/css">${css}</style>
+						<script>
+							function subst() {
+                                var vars={};
+                                var x=document.location.search.substring(1).split('&');
+                                for(var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);}
+                                var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
+                                for(var i in x) {
+                                    var y = document.getElementsByClassName(x[i]);
+                                    for(var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
+								}
+                            }
+                        </script>
+					</head>
+					<body style="border:0; margin: 0;" onload="subst()">
+                        % for o in objects:
+						<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+							<tbody>
+                                <tr>
+    								<td width="33%" rowspan="3" valign="top">
+                                        <table class="ins-header-table" >
+                                            <tr><td style="font-size:9px;" width="30%">Date</td><td style="font-size:9px;" width="70%">: &nbsp; ${time.strftime('%A, %B %d, %y')}</td></tr>
+                                            <tr><td style="font-size:9px;" width="30%">Time</td><td style="font-size:9px;" width="70%">: &nbsp; ${time.strftime('%H:%M')}</td></tr>
+                                            <tr><td style="font-size:9px;" width="30%">User</td><td style="font-size:9px;" width="70%">: &nbsp; ${get_user_name()}</td></tr>
+                                        </table>
+    								</td>
+    								<td width="33%" align="center" style="font-size:13px;"  valign="bottom">
+    									<b>${company.partner_id.name |entity}</b>
+    								</td>
+    								<td width="33%" align="right" rowspan="3" valign="top">
+    									<table class="ins-header-table">
+                                            <tr><td style="font-size:9px;" width="30%">Page </td><td style="font-size:9px;" width="70%">: &nbsp; <a class="page"/> <a> of </a> <a class="topage"/></td></tr>
+                                            <tr><td style="font-size:9px;" width="30%">Company</td><td style="font-size:9px;" width="70%">: &nbsp; ${company.partner_id.name |entity}</td></tr>
+                                        </table>
+    								</td>				 
+    							</tr>
+    							<tr>
+    								<td style="font-size:11px" align="center" >
+                                        <b><u>Check Preview</u></b>
+                                    </td>
+    							</tr>
+    							<tr>
+    								<td style="font-size:9px;" align="center" >
+                                        <b>Period As of : ${formatLang(o.date, date=True)}</b>
+                                    </td>
+    							</tr>
+                            </tbody>
+						</table>${_debug or ''|n}
+                        % endfor
+					</body>
+				</html>]]>
+            </field>
+			<field name="footer_html"><![CDATA[<html>
+                <head>
+                    <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+                    <script>
+                        function subst() {
+                                var vars={};
+                                var x=document.location.search.substring(1).split('&');
+                                for(var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);}
+                                var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
+                                for(var i in x) {
+                                    var y = document.getElementsByClassName(x[i]);
+                                    for(var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
+                                }
+                            }
+                    </script>
+                </head>
+                <body style="border:0; margin: 0;" onload="subst()">
+                    <br/>
+                    <br/>
+                </body>
+                </html>]]>
+            </field>
+		</record>
+	</data>
+</openerp>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		<report 
+			auto="False" id="land_in_transit__exp_report" 
+			model="insurance.polis" 
+			header="False"
+			name="land.transit.exp.rpt" 
+			file="reporting_module/land_in_transit/land_in_transit_exp_report.mako" 
+			string="Land In Transit Export Reports"
+			usage="default"
+			report_type="webkit"
+			menu="True" />
+	</data>
+</openerp>

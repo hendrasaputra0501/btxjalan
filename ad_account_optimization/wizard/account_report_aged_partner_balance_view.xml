@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="account_aged_balance_opti_view">
+        <field name="name">Aged Partner Balance (opti)</field>
+        <field name="model">account.aged.trial.balance</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="account.account_aged_balance_view"/>
+        <field name="arch" type="xml">
+            <field name="direction_selection" position="after">
+                <field name="type" required="True"/>
+                <newline/>
+            </field>
+        </field>
+    </record>
+
+</data>
+</openerp>

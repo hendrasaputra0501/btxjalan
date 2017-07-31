@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report auto="False" id="report_production_memo" model="production.memo" name="production.memo.form" file="ad_production_memo/report/production_memo_form.mako" string="Production Plan Instruction" usage="default" report_type="webkit" menu="True" header="True"/>
+    </data>
+</openerp>

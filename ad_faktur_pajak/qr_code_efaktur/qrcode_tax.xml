@@ -1,0 +1,218 @@
+<openerp>
+	<data>
+		<record id="efaktur_head_search_view" model="ir.ui.view">
+			<field name="name">efaktur.head.search.view</field>
+			<field name="model">efaktur.head</field>
+			<field name="type">search</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name='nomor_faktur' filter_domain="[('nomor_faktur','ilike',self)]"/>
+					<field name='tanggal_faktur' filter_domain="[('tanggal_faktur','ilike',self)]"/>
+					<field name='npwp_penjual' filter_domain="[('npwp_penjual','ilike',self)]"/>
+					<field name='nama_penjual' filter_domain="[('nama_penjual','ilike',self)]"/>
+					<field name='jumlah_dpp' filter_domain="[('jumlah_dpp','ilike',self)]"/>
+					<field name='jumlah_ppn' filter_domain="[('jumlah_ppn','ilike',self)]"/>
+					<field name='related_invoice_id' filter_domain="[('related_invoice_id','ilike',self)]"/>
+					<field name='report_period' filter_domain="[('report_period','ilike',self)]"/>
+					<group expand="0" string="Group By...">
+                        <filter string="NPWP Penjual" icon="terp-folder-orange" domain="" context="{'group_by':'npwp_penjual'}"/>
+                        <filter string="Kode Jenis transaksi" icon="terp-folder-orange" domain="" context="{'group_by':'kode_jenis_transaksi'}"/>
+                        <filter string="Vendor" icon="terp-stock_symbol-selection" domain="" context="{'group_by':'nama_penjual'}"/>
+                        <filter string="Related Invoice" icon="terp-stock_symbol-selection" domain="" context="{'group_by':'related_invoice_id'}"/>
+                        <filter string="Masa Pelaporan" icon="terp-stock_symbol-selection" domain="" context="{'group_by':'report_period'}"/>
+                    </group>
+				</search>
+			</field>
+		</record>
+
+		<record id="efaktur_head_editable_tree_view" model="ir.ui.view">
+			<field name="name">efaktur.head.editable.tree.view</field>
+			<field name="model">efaktur.head</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="EFaktur Datas" create="false">
+					<field name="company_id" invisible="1"/>
+					<field name="kode_jenis_transaksi" invisible="1"/>
+					<field name="nomor_faktur" invisible="1"/>
+					<field name="tanggal_faktur" invisible="1"/>
+					<field name="nama_penjual" invisible="1"/>
+					<field name="nama_lawan_transaksi" invisible="1"/>
+					<field name="jumlah_dpp" invisible="1"/>
+					<field name="jumlah_ppn" invisible="1"/>
+					<field name="jumlah_ppnbm" invisible="1"/>
+					<field name="type"/>
+					<field name="related_invoice_id"/>
+					<field name="nomorFaktur"/>
+					<field name="tanggalFaktur"/>
+					<field name="batch_id"/>
+					<field name="report_period"/>
+					<field name="namaPenjual"/>
+					<field name="namaLawanTransaksi"/>
+					<field name="jumlahDpp"/>
+					<field name="jumlahPpn"/>
+					<field name="jumlahPpnBm"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="efaktur_head_tree_view" model="ir.ui.view">
+			<field name="name">efaktur.head.tree.view</field>
+			<field name="model">efaktur.head</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="EFaktur Datas" create="false" delete="false">
+					<field name="company_id" invisible="1"/>
+					<field name="kode_jenis_transaksi" invisible="1"/>
+					<field name="nomor_faktur" invisible="1"/>
+					<field name="tanggal_faktur" invisible="1"/>
+					<field name="report_period" invisible="1"/>
+					<field name="nama_penjual" invisible="1"/>
+					<field name="nama_lawan_transaksi" invisible="1"/>
+					<field name="jumlah_dpp" invisible="1"/>
+					<field name="jumlah_ppn" invisible="1"/>
+					<field name="jumlah_ppnbm" invisible="1"/>
+					<field name="type"/>
+					<field name="related_invoice_id"/>
+					<field name="nomorFaktur"/>
+					<field name="tanggalFaktur"/>
+					<field name="report_period"/>
+					<field name="namaPenjual"/>
+					<field name="namaLawanTransaksi"/>
+					<field name="jumlahDpp"/>
+					<field name="jumlahPpn"/>
+					<field name="jumlahPpnBm"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="efaktur_head_form_view" model="ir.ui.view">
+			<field name="name">efaktur.head.form.view</field>
+			<field name="model">efaktur.head</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="EFaktur Datas" version="7.0">
+					<sheet>
+						<group>
+							<group string="Document Info" colspan="4" col="4">
+								<field name="nomorFaktur"/>
+								<field name="tanggalFaktur"/>
+								<field name="kode_jenis_transaksi"/>
+								<field name="report_period" domain="[('date_stop','>=',tanggalFaktur),('special','=',False)]"/>
+								<field name="related_invoice_id"/>
+								<field name="type"/>
+								<field name="fgPengganti"/>
+								<field name="statusApproval"/>
+								<field name="batch_id" readonly="1"/>
+								<field name="statusFaktur"/>
+							</group>
+							<group colspan="4" col="4">
+								<group colspan="2" col="2" string="Info Penjual">
+									<field name="namaPenjual"/>
+									<field name="npwpPenjual"/>
+									<field name="alamatPenjual" colspan="4"/>
+								</group>
+								<group colspan="2" col="2" string="Info Pembeli">
+									<field name="namaLawanTransaksi"/>
+									<field name="npwpLawanTransaksi"/>
+									<field name="alamatLawanTransaksi"/>
+								</group>
+							</group>
+							<group string="Amount Information" colspan="4" col="4">
+								<field name="jumlahDpp"/>
+								<field name="jumlahPpn"/>
+								<field name="jumlahPpnBm"/>
+							</group>
+						</group>
+						<notebook>
+							<page string="Detail Transaksi">
+								<field name="efaktur_lines" colspan="4" nolabel="1">
+									<tree string="Detail Transaksi">
+										<field name="nama"/>
+										<field name="jumlahBarang"/>
+										<field name="hargaSatuan"/>
+										<field name="diskon"/>
+										<field name="hargaTotal"/>
+										<field name="dpp"/>
+										<field name="ppn"/>
+										<field name="tarifPpnbm"/>
+										<field name="ppnbm"/>
+									</tree>
+									<form string="Detail Transaksi">
+										<field name="nama"/>
+										<field name="jumlahBarang"/>
+										<field name="hargaSatuan"/>
+										<field name="diskon"/>
+										<field name="hargaTotal"/>
+										<field name="dpp"/>
+										<field name="ppn"/>
+										<field name="tarifPpnbm"/>
+										<field name="ppnbm"/>
+									</form>
+								</field>
+							</page>
+							<page string="URL">
+								<field name="url" colspan="4" nolabel="1"/>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+
+		<record id="efaktur_batch_form_view" model="ir.ui.view">
+			<field name="name">efaktur.batch.form.view</field>
+			<field name="model">efaktur.batch</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Batch Scan E-Faktur" version="7.0">
+					<header>
+						<button type="object" name="get_tax_data" string="Get Tax Data"/>
+					</header>
+					<sheet>
+						<label for="name" class="oe_edit_only" string="Batch Description"/>
+						<label for="period_id" class="oe_edit_only" string="Period Planning for Report"/>
+	                    <h1>
+	                        <field name="name" required="1" class="oe_inline" placeholder="Put your batch description here..." style="width: 6em"/>
+	                    </h1>
+						<group colspan="4" col="4">
+							<group colspan="4" col="4">
+								<field name="period_id"/>
+								<field name="company_id"/>
+								<field name="date_input"/>
+								<field name="date_min"/>
+								<field name="date_max"/>
+							</group>
+						</group>
+						<notebook>
+							<page string="URL(s)">
+								<field nolabel="1" name="qr_urls" colspan="4" placeholder="Place cursor focus on this field while scanning...."/>
+							</page>
+							<page string="Faktur Pajak" colspan="4" col="4">
+								<field name="batch_lines" nolabel="1" colspan="4" context="{'tree_view_ref':'ad_faktur_pajak.efaktur_head_tree_view'}"/>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<record id="action_efaktur_batch_form_view" model="ir.actions.act_window">
+            <field name="name">E-Faktur Batch Form</field>
+            <field name="res_model">efaktur.batch</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+		<menuitem id="menu_action_efaktur_batch_form_view" name="E-Faktur Batch Import" parent="menu_tax_report_efaktur" action="action_efaktur_batch_form_view" sequence="2"/>
+		
+		<record id="action_efaktur_head_form_view" model="ir.actions.act_window">
+            <field name="name">E-Faktur Scanned Data</field>
+            <field name="res_model">efaktur.head</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="efaktur_head_editable_tree_view" />
+        </record>
+
+        <menuitem id="menu_action_efaktur_head_form_view" name="E-Faktur Scanned Data" parent="menu_tax_report_efaktur" action="action_efaktur_head_form_view" sequence="3"/>
+	</data>
+</openerp>

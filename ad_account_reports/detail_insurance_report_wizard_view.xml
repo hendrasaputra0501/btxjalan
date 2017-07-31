@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+	<record model="ir.ui.view" id="detail_insurance_report_wizard_form">
+	  <field name="name">detail.insurance.report.wizard.form</field>
+	  <field name="model">detail.insurance.report.wizard</field>
+	  <field name="type">form</field>
+	  <field name="arch" type="xml"> 
+		<form string="Detail Insurance Report" version="7.0">
+			<group>
+				<group>
+					<field name="from_date" required="1"/>
+				</group>
+				<group>
+					<field name="to_date" required="1"/>
+				</group>
+			</group>
+		  <footer>
+			<div>
+			  <button type="object" name="print_report" string="Print" icon="STOCK_PRINT"/> or <button special="cancel" string="Cancel" class="oe_link"/>
+			</div>
+		  </footer>
+		</form>
+	  </field>
+	</record>
+		 
+	<record model="ir.actions.act_window" id="detail_insurance_report_action">
+		<field name="name">Detail Insurance Report</field>
+		<field name="res_model">detail.insurance.report.wizard</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="view_id" ref="detail_insurance_report_wizard_form"/>
+	</record>
+
+	<menuitem id="detail_insurance_report_menu" parent="account.menu_finance_generic_reporting" sequence="10" action="detail_insurance_report_action"/>
+  </data>
+</openerp>

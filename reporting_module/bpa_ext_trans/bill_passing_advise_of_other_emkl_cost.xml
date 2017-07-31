@@ -1,0 +1,14 @@
+<openerp>
+	<data>
+		<report id="report_bill_passing_advise_of_other_emkl_cost"
+			name="bpa.report"
+			string="Bill Passing Advice"
+			model="ext.transaksi"
+			auto="False"
+			menu="True"
+			file="reporting_module/bpa_ext_trans/bill_passing_advise_of_other_emkl_cost.mako"
+			usage="default" 
+			report_type="webkit"
+			header="True"/>
+	</data>
+</openerp>

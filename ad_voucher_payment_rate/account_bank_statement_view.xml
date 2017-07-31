@@ -1,0 +1,154 @@
+<openerp>
+	<data>
+		<record id="view_bank_statement_form_account_inherit1" model="ir.ui.view">
+			<field name="name">account.bank.statement.account.form.inherit1</field>
+			<field name="model">account.bank.statement</field>
+			<field name="inherit_id" ref="account.view_bank_statement_form"/>
+			<field name="arch" type="xml">
+				<field name="journal_id" position="before">
+					<field name="journal_type" invisible="1"/>
+				</field>
+				<field name="journal_id" position="attributes">
+					<attribute name="widget">many2one</attribute>
+					<attribute name="domain">[('type','=',journal_type)]</attribute>
+				</field>
+			</field>
+		</record>
+		<record id="view_bank_statement_form_voucher_inherit1" model="ir.ui.view">
+			<field name="name">account.bank.statement.voucher.form.inherit1</field>
+			<field name="model">account.bank.statement</field>
+			<field name="inherit_id" ref="account_voucher.view_bank_statement_form_voucher"/>
+			<field name="arch" type="xml">
+				<field name="company_id" position="before">
+					<field name="document_date"/>
+				</field>
+				<xpath expr="//page[@name='statement_line_ids']/field[@name='line_ids']/tree/field[@name='voucher_id']" position="replace">
+					<field name="move_line_id" invisible="1"/>
+					<field name="voucher_id" string="" widget="many2onebutton" options="{'label':{'create':'Reconcile','edit':'Edit Reconciliation'}}" context="{'line_type': type, 'default_type': amount &lt; 0 and 'payment' or 'receipt', 'type': amount &lt; 0 and 'payment' or 'receipt', 'default_partner_id': partner_id, 'default_journal_id': parent.journal_id, 'default_amount': abs(amount), 'default_reference': ref, 'default_date': date, 'default_name': name, 'default_active': False, 'account_id': account_id, 'st_move_line_id':move_line_id}"/>
+				</xpath>
+				<xpath expr="//form/header/button[@name='button_dummy']" position="after">
+					<button name="button_create_voucher" states="draft" string="Create Voucher Payment" type="object" />
+				</xpath>
+				<xpath expr="//page[@name='statement_line_ids']" position="after">
+					<page name="surat_kuasa_info" string="Additional Information" > 
+						<group>
+							<group>
+								<field name="company_bank_id"/>
+							</group>
+							<group>
+								<field name="attention"/>
+								<field name="cc"/>
+							</group>
+						</group>
+						<!-- <label for="header_note" />
+						<field name="header_note" />
+						<label for="note" />
+						<field name="note" /> -->
+					</page>
+				</xpath>
+				<field name="partner_id" position="after">
+					<field name="partner_bank_id" domain="[('partner_id','=',partner_id)]"/>
+				</field>
+				<xpath expr="//page[@name='statement_line_ids']/field[@name='line_ids']/form/group/field[@name='voucher_id']" position="replace">
+					<field name="move_line_id" invisible="1"/>
+					<field name="voucher_id" widget="many2onebutton" options="{'label':{'create':'Reconcile','edit':'Edit Reconciliation'}}" context="{'line_type': type, 'default_type': amount &lt; 0 and 'payment' or 'receipt', 'type': amount &lt; 0 and 'payment' or 'receipt', 'default_partner_id': partner_id, 'default_journal_id': parent.journal_id, 'default_amount': abs(amount), 'default_reference': ref, 'default_date': date, 'default_name': name, 'default_active': False, 'account_id': account_id, 'st_move_line_id':move_line_id}"/>
+				</xpath>
+				<field name="amount" position="attributes">
+					<attribute name="on_change">onchange_amount(amount)</attribute>
+					<attribute name="sum">Total Amount</attribute>
+				</field>
+			</field>
+		</record>
+
+		<record id="view_cash_statement_tree_voucher_inherit1" model="ir.ui.view">
+			<field name="name">account.cash.statement.voucher.tree.inherit1</field>
+			<field name="model">account.bank.statement</field>
+			<field name="inherit_id" ref="account_voucher.view_cash_statement_tree_voucher"/>
+			<field name="arch" type="xml">
+				<xpath expr="//page/field[@name='line_ids']/tree/field[@name='amount']" position="attributes">
+					<attribute name="sum">Total Amount</attribute>
+				</xpath>
+				<xpath expr="//page/field[@name='line_ids']/tree/field[@name='voucher_id']" position="replace">
+					<field name="move_line_id" invisible="1"/>
+					<field name="voucher_id" context="{'line_type': type, 'default_type': amount &lt; 0 and 'payment' or 'receipt', 'type': amount &lt; 0 and 'payment' or 'receipt', 'default_partner_id': partner_id, 'default_journal_id': parent.journal_id, 'default_amount': abs(amount), 'default_reference': ref, 'default_date': date, 'default_name': name, 'account_id': account_id, 'st_move_line_id':move_line_id}"/>
+				</xpath>
+			</field>
+		</record>
+
+		<record id="view_bank_statement_form_invoice_inherit1" model="ir.ui.view">
+			<field name="name">account.bank.statement.invoice.form.inherit1</field>
+			<field name="model">account.bank.statement</field>
+			<field name="inherit_id" ref="account_voucher.view_bank_statement_form_invoice"/>
+			<field name="arch" type="xml">
+				<field name="company_id" position="after" >
+					<field name="current_move_line_selected" invisible="1" widget="many2many_tags"/>
+				</field>
+				<xpath expr="//div[@name='import_buttons']/button[@string='Import Invoices']" position="replace">
+                    <button name="%(account_voucher.action_view_account_statement_from_invoice_lines)d"
+                            string="Import Invoices" type="action"
+                            attrs="{'invisible':[('state','=','confirm')]}" context="{'current_move_line_selected':current_move_line_selected[0][2]}"/>
+                </xpath>
+			</field>
+		</record>
+
+		<report 
+			auto="False" id="report_surat_kuasa" 
+			model="account.bank.statement" 
+			name="surat.kuasa" 
+			file="ad_voucher_payment_rate/report/surat_kuasa.mako" 
+			string="Print Surat Kuasa"
+			header="False"
+			usage="default" 
+			report_type="webkit" 
+			webkit_header="ad_voucher_payment_rate.surat_kuasa_header_webkit"
+			menu="True" />
+
+		<report 
+			auto="False" id="report_check_preview" 
+			model="account.bank.statement" 
+			name="check.preview" 
+			file="ad_voucher_payment_rate/report/check_preview.mako" 
+			string="Print Check Preview"
+			header="True"
+			usage="default" 
+			report_type="webkit" 
+			webkit_header="ad_voucher_payment_rate.check_preview_header_webkit"
+			menu="True" />
+
+		<record id="action_cash_statement_tree" model="ir.actions.act_window">
+			<field name="name">Cash Statements</field>
+			<field name="res_model">account.bank.statement</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form,graph</field>
+			<field name="domain">[('journal_id.type', '=', 'cash')]</field>
+			<field name="context">{'journal_type':'cash'}</field>
+			<field name="search_view_id" ref="account.view_bank_statement_search"/>
+			<field name="help" type="html">
+			  <p class="oe_view_nocontent_create">
+				Click to register a bank statement.
+			  </p><p>
+				A bank statement is a summary of all financial transactions
+				occurring over a given period of time on a bank account. You
+				should receive this periodicaly from your bank.
+			  </p><p>
+				OpenERP allows you to reconcile a statement line directly with
+				the related sale or puchase invoices.
+			  </p>
+			</field>
+		</record>
+		<record model="ir.actions.act_window.view" id="action_cash_statement_tree_bank">
+			<field name="sequence" eval="1"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="account.view_bank_statement_tree"/>
+			<field name="act_window_id" ref="action_cash_statement_tree"/>
+		</record>
+		<record model="ir.actions.act_window.view" id="action_cash_statement_form_bank">
+			<field name="sequence" eval="1"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="account.view_bank_statement_form"/>
+			<field name="act_window_id" ref="action_cash_statement_tree"/>
+		</record>
+
+		<menuitem string="Cash Statements" action="action_cash_statement_tree" id="menu_cash_statement_tree" parent="account.menu_finance_bank_and_cash" sequence="8"/>
+	</data>
+</openerp>

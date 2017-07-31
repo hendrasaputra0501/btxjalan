@@ -1,0 +1,48 @@
+<openerp>
+	<data>
+		<record model="ir.ui.view" id="detail_freight_cost_form_view">
+			<field name="name">Detail Freight Cost</field>
+			<field name="model">detail.freight.cost</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml"> 
+				<form string="Detail Freight Cost Report" version="7.0">
+					<group colspan="4" col="4">
+						<field name="filter_by"/>
+						<field name="outstanding"/>
+						<field name="period_id" attrs="{'invisible':[('filter_by','=','dt')],'required':[('filter_by','=','period')]}"/>
+						<field name="date_start" attrs="{'invisible':['|',('filter_by','!=','dt'),('outstanding','=',True)],'required':[('filter_by','!=','period'),('outstanding','=',False)]}"/>
+						<field name="date_stop" attrs="{'invisible':[('filter_by','!=','dt')],'required':[('filter_by','!=','period')]}" on_change="onchange_date(date_start,date_stop,outstanding)"/>
+					</group>
+					<notebook>
+						<page string="Filter by Currency">
+							<field name="currency_filters" colspan="4" nolabel="1">
+								<tree string="Currencies to be shown">
+									<field name="name"/>
+									<field name="symbol"/>
+								</tree>
+							</field>
+						</page>
+					</notebook>
+					<footer>
+						<div>
+							<button type="object" name="generate_report" string="Print" icon="STOCK_PRINT"/> or <button special="cancel" string="Cancel" class="oe_link"/>
+						</div>
+					</footer>
+				</form>
+			</field>
+		</record>
+	        
+	    <record model="ir.actions.act_window" id="detail_freight_cost_form_action_view">
+	      <field name="name">Detail Freight Cost</field>
+	      <field name="res_model">detail.freight.cost</field>
+	      <field name="type">ir.actions.act_window</field>
+	      <field name="view_type">form</field>
+	      <field name="view_mode">form</field>
+	      <field name="target">new</field>
+	      <field name="view_id" ref="detail_freight_cost_form_view"/>
+	    </record>
+	         
+		  
+	    <menuitem name="Detail Freight Cost" id="menu_detail_freight_cost" parent="ad_sales_report.sales_report_monthly" sequence="10" action="detail_freight_cost_form_action_view"/>
+	</data>
+</openerp>

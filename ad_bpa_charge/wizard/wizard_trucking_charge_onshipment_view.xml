@@ -1,0 +1,144 @@
+<openerp>
+	<data>
+        <record id="view_wizard_trucking_charge_onshipment" model="ir.ui.view">
+            <field name="name">Wizard Trucking Charge OnShipment</field>
+            <field name="model">wizard.trucking.charge.onshipment</field>
+            <field name="arch" type="xml">
+              <form string="Create Trucking Invoice" version="7.0">
+                  <group string="Create Trucking Invoice">
+                      <field name="journal_id"/>
+                      <field name="number" />
+                      <field name="group"/>
+                      <field name="invoice_date" />
+                      <field name="currency_id" />
+                  </group>
+                  <footer>
+                      <button name="open_trucking_invoice" string="Create" type="object" class="oe_highlight"/>
+                      or
+                      <button string="Cancel" class="oe_link" special="cancel"/>
+                  </footer>
+             </form>
+            </field>
+        </record>
+
+
+        <act_window name="Create Draft Trucking/EMKL Invoice"
+            res_model="wizard.trucking.charge.onshipment"
+            src_model="stock.picking.out"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_wizard_trucking_charge_onshipment"/>
+
+        <act_window name="Create Draft Trucking/EMKL Invoice"
+            res_model="wizard.trucking.charge.onshipment"
+            src_model="stock.picking.out"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_wizard_trucking_charge_onshipment_1"/>
+
+        <act_window name="Create Draft BPA Transport"
+            res_model="wizard.trucking.charge.onshipment"
+            src_model="stock.picking.out"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            context="{'transport':True}"
+            id="action_wizard_trucking_charge_onshipment_2"/>
+
+        <act_window name="Create Draft BPA Transport"
+            res_model="wizard.trucking.charge.onshipment"
+            src_model="stock.picking.out"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            context="{'transport':True}"
+            id="action_wizard_trucking_charge_onshipment_3"/>
+
+        <act_window name="Create Draft BPA Transport Less Load"
+            res_model="wizard.trucking.charge.onshipment"
+            src_model="stock.picking.out"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            context="{'transport_less_load':True}"
+            id="action_wizard_trucking_charge_onshipment_2_1"/>
+
+        <act_window name="Create Draft BPA Transport Less Load"
+            res_model="wizard.trucking.charge.onshipment"
+            src_model="stock.picking.out"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            context="{'transport_less_load':True}"
+            id="action_wizard_trucking_charge_onshipment_3_1"/>
+
+        <act_window name="Create Draft BPA Transport Dispensation"
+            res_model="wizard.trucking.charge.onshipment"
+            src_model="stock.picking.out"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            context="{'dispensation':True}"
+            id="action_wizard_trucking_charge_onshipment_2_2"/>
+
+        <act_window name="Create Draft BPA Transport Dispensation"
+            res_model="wizard.trucking.charge.onshipment"
+            src_model="stock.picking.out"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            context="{'dispensation':True}"
+            id="action_wizard_trucking_charge_onshipment_3_2"/>
+
+        <act_window name="Create Draft BPA Transport"
+            res_model="wizard.trucking.charge.onshipment"
+            src_model="stock.picking.in"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            context="{'transport':True}"
+            id="action_wizard_trucking_charge_onshipment_4"/>
+
+        <act_window name="Create Draft BPA Transport"
+            res_model="wizard.trucking.charge.onshipment"
+            src_model="stock.picking.in"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            context="{'transport':True}"
+            id="action_wizard_trucking_charge_onshipment_5"/>
+
+        <act_window name="Create Draft BPA Transport Less Load"
+            res_model="wizard.trucking.charge.onshipment"
+            src_model="stock.picking.in"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            context="{'transport_less_load':True}"
+            id="action_wizard_trucking_charge_onshipment_4_1"/>
+
+        <act_window name="Create Draft BPA Transport Less Load"
+            res_model="wizard.trucking.charge.onshipment"
+            src_model="stock.picking.in"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            context="{'transport_less_load':True}"
+            id="action_wizard_trucking_charge_onshipment_5_1"/>
+
+	</data>
+</openerp>

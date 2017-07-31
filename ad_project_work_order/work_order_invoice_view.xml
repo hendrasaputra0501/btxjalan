@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="work_order_invoice_form" model="ir.ui.view">
+            <field name="name">work.order.invoice.form</field>
+            <field name="model">work.order.invoice</field>
+            <field name="arch" type="xml">
+                <form string="Create Invoice Work Order" version="7.0">
+                    <div class="oe_right oe_button_box" name="import_loan_buttons">
+                       <button name="%(action_wizard_import_work_order)d"
+                            string="Choose Work Orders" type="action"/>
+                    </div>
+                    <group>
+	                    <group>
+	                    	<field name="date" />
+	                    </group>
+	                    <group>
+	                    	<field name="project_id" invisible="0" />
+	                    </group>
+	                </group>
+	                <notebook>
+	                	<page string="Work Orders" >
+                    		<field name="line_ids" >
+                    			<tree string="Work Orders" editable="bottom" create="false">
+                    				<field name="product_id" />
+                    				<field name="name" />
+                    				<field name="unit_price" />
+                    			</tree>
+                    		</field>
+	                	</page>
+	                </notebook>
+                    <footer>
+                        <button string="Import Loans" name="populate_statement" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="action_work_order_invoice" model="ir.actions.act_window">
+            <field name="name">Invoice Work Orders</field>
+            <field name="res_model">work.order.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="work_order_invoice_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem action="action_work_order_invoice" id="menu_work_order_invoice" parent="project.menu_project_management" sequence="3"/>
+    </data>
+</openerp>

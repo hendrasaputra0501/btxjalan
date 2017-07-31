@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="account_partner_balance_opti_view">
+        <field name="name">Partner Balance (opti)</field>
+        <field name="model">account.partner.balance</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="account.account_partner_balance_view"/>
+        <field name="arch" type="xml">
+            <data>
+                <field name="display_partner" position="before">
+                    <field name="type" required="True"/>
+                </field>
+                <field name="display_partner" position="after">
+                    <field name="reconciled"/>
+                </field>
+            </data>
+        </field>
+    </record>
+
+</data>
+</openerp>

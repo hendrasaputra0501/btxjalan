@@ -1,0 +1,67 @@
+<openerp>
+	<data>
+		<menuitem id="menu_tax_report_efaktur" name="Tax Reporting" parent="account.menu_finance" sequence="4"/>
+		<record id="efaktur_wizard_form_view" model="ir.ui.view">
+			<field name="name">efaktur.wizard.form.view</field>
+			<field name="model">efaktur.wizard</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Export Data for E-Faktur" version="7.0">
+					<group colspan="4" col="4">
+						<field name="filter_by"/>
+						<field name="type_data"/>
+						<field name="type"/>
+						<field name="sale_type" attrs="{'required':[('type','=','out')],'invisible':[('type','=','in')]}"/>
+						<field name="goods_type" attrs="{'invisible':[('type','=','in')]}"/>
+						<field name="period_id" on_change="onchange_period_id(period_id)" attrs="{'required':[('filter_by','=','period')],'invisible':[('filter_by','!=','period')]}"/>
+						<field name="date_start" attrs="{'required':[('filter_by','=','date_range')],'invisible':[('filter_by','!=','date_range')]}"/>
+						<field name="date_end" attrs="{'required':[('filter_by','=','date_range')],'invisible':[('filter_by','!=','date_range')]}"/>
+						<newline attrs="{'invisible':[('type','=','out')]}"/>
+						<field name="use_force_period" attrs="{'invisible':[('type','=','out')]}"/>
+						<field name="force_period" attrs="{'invisible':['|',('type','=','out'),('use_force_period','=',False)],'required':[('use_force_period','=',True)]}"/>
+					</group>
+					<notebook>
+						<page string="Invoices" colspan="4" col="4">
+							<field name="invoice_ids" nolabel="1" colspan="4" 
+							 domain="[('goods_type','=',goods_type),('date_invoice','&gt;=',date_start),('date_invoice','&lt;=',date_end),('type','=',type+'_invoice'),('sale_type','=',sale_type)]">
+								<tree string="Invoices">
+									<field name="partner_id"/>
+									<field name="date_invoice"/>
+									<field name="number"/>
+									<field name="nomor_faktur_id"/>
+									<field name="currency_id"/>
+									<field name="amount_untaxed"/>
+									<field name="amount_tax"/>
+									<field name="amount_total"/>
+									<field name="state"/>
+								</tree>
+							</field>
+						</page>
+						<page string="EFaktur Scanned Exceptions" colspan="4" col="4" attrs="{'invisible':[('type','=','out')]}">
+							<field name="efaktur_heads_exception" nolabel="1" colspan="4" 
+							 domain="[('type','=','in'),('tanggalFaktur','&gt;=',date_start),('tanggalFaktur','&lt;=',date_end)]"/>
+						</page>
+						<page string="EFaktur Scanned Forced " colspan="4" col="4" attrs="{'invisible':[('type','=','out')]}">
+							<field name="efaktur_heads_forced" nolabel="1" colspan="4" 
+							 domain="[('type','=','in'),('tanggalFaktur','&gt;=',date_start),('tanggalFaktur','&lt;=',date_end)]"/>
+						</page>
+					</notebook>
+					
+					<footer>
+						<button name="export_files" string="Export" type="object" class="oe_highlight"/>
+						<button string="Cancel" class="oe_highlight" special="cancel"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+		
+		<record id="action_efaktur_wizard_form_view" model="ir.actions.act_window">
+			<field name="name">Export Data for E-Faktur</field>
+			<field name="res_model">efaktur.wizard</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+		
+		<menuitem id="menu_action_efaktur_wizard_form_view" name="E-Faktur Export" parent="menu_tax_report_efaktur" action="action_efaktur_wizard_form_view" sequence="1"/>
+	</data>
+</openerp>

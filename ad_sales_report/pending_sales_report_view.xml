@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>      
+    <record model="ir.ui.view" id="pending_sales_report_form_view">
+      <field name="name">Pending Sales Report</field>
+      <field name="model">report.pending.sales.wizard</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml"> 
+        <form string="Pending Sales Order" version="7.0">
+          <group col="4">
+            <field name="report_type"/>
+            <field name="file_type"/>
+            <newline/>
+            <field name="sale_type" on_change="get_domain_partner_id(sale_type)"/>
+            <field name="locale_sale_type" attrs="{'invisible':[('sale_type','!=','local')],'required':[('sale_type','=','local')]}"/>
+            <field name="goods_type"/>
+            <newline/>
+            <field name="as_on"/>
+            <field name="partner_type" attrs="{'invisible':True}"/>
+          </group>
+          <notebook tabpos="up" colspan="4">
+            <page string="Filters" name="filters">
+              <group>
+                <field name="filter" on_change="onchange_filter(filter)"/>
+              </group>
+              <group string="Customers"  attrs="{'invisible':[('filter', '!=', 'filter_cust')], 'required':[('filter', '=', 'filter_cust')]}">
+                  <field name="partner_id" colspan="4" col="4" nolabel="1" />
+              </group>
+              <group string="Currencies"  attrs="{'invisible':[('filter', '!=', 'currency')], 'required':[('filter', '=', 'currency')]}">
+                  <field name="currency_ids" colspan="4" col="4" nolabel="1" />
+              </group>
+              <group string="Product"  attrs="{'invisible':[('filter', '!=', 'product')], 'required':[('filter', '=', 'product')]}">
+                  <field name="product_id" colspan="4" col="4" nolabel="1" />
+              </group>
+            </page>
+          </notebook>
+          <footer>
+            <div>
+              <button type="object" name="print_report" string="Print" icon="STOCK_PRINT"/> or <button special="cancel" string="Cancel" class="oe_link"/>
+            </div>
+          </footer>
+        </form>
+      </field>
+    </record>
+         
+    <record model="ir.actions.act_window" id="pending_sales_report_action_view">
+        <field name="name">Pending Sales Order</field>
+        <field name="res_model">report.pending.sales.wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="pending_sales_report_form_view"/>
+    </record>
+
+    <menuitem name="Pending Sales Order" id="menu_pending_sales_report" parent="sales_report_daily" sequence="10" action="pending_sales_report_action_view"/>
+    
+    <report id="pending_sales_report"
+      name="pending.sales.report"
+      string="Pending Sales Order"
+      model="report.pending.sales.wizard"
+      auto="False"
+      menu="False"
+      file="ad_sales_report/report/pending_sales_report.mako" 
+      usage="default" 
+      report_type="webkit"
+      header="True"
+    />
+  </data>
+</openerp>

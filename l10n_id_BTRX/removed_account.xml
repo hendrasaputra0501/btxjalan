@@ -1,0 +1,27 @@
+<openerp>
+	<data>
+		<delete id="account.conf_a_expense" model="account.account.template"/>
+		<delete id="account.conf_a_pay" model="account.account.template"/>
+		<delete id="account.conf_a_recv" model="account.account.template"/>
+		<delete id="account.conf_a_reserve_and_surplus" model="account.account.template"/>
+		<delete id="account.conf_a_salary_expense" model="account.account.template"/>
+		<delete id="account.conf_a_sale" model="account.account.template"/>
+		<delete id="account.conf_bal" model="account.account.template"/>
+		<delete id="account.conf_bnk" model="account.account.template"/>
+		<delete id="account.conf_cas" model="account.account.template"/>
+		<delete id="account.conf_cli" model="account.account.template"/>
+		<delete id="account.conf_cog" model="account.account.template"/>
+		<delete id="account.conf_cos" model="account.account.template"/>
+		<delete id="account.conf_fas" model="account.account.template"/>
+		<delete id="account.conf_gpf" model="account.account.template"/>
+		<delete id="account.conf_iva" model="account.account.template"/>
+		<delete id="account.conf_nca" model="account.account.template"/>
+		<delete id="account.conf_o_expense" model="account.account.template"/>
+		<delete id="account.conf_o_income" model="account.account.template"/>
+		<delete id="account.conf_ova" model="account.account.template"/>
+		<delete id="account.conf_ovr" model="account.account.template"/>
+		<delete id="account.conf_rev" model="account.account.template"/>
+		<delete id="account.conf_stk" model="account.account.template"/>
+		<delete id="account.conf_xfa" model="account.account.template"/>
+	</data>
+</openerp>

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report auto="False" id="report_shipping_instruction" model="container.booking" name="shipping.instruction.form" file="ad_container_booking/report/shipping_instruction_form.mako" string="Shipping Instruction" usage="default" report_type="webkit" menu="True" />
+    </data>
+</openerp>

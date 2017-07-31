@@ -1,0 +1,132 @@
+<openerp>
+	<data noupdate="0">
+		<record id="charge_type_1" model="charge.type">
+            <field name="code"></field>
+            <field name="name">Freight</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_722110" />
+        </record>
+        <record id="charge_type_2" model="charge.type">
+            <field name="code"></field>
+            <field name="name">Lift On Lift Off</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_722190" />
+        </record>
+        <record id="charge_type_3" model="charge.type">
+            <field name="code"></field>
+            <field name="name">Transport</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_721110" />
+        </record>
+        <record id="charge_type_4" model="charge.type">
+            <field name="code"></field>
+            <field name="name">Trucking/EMKL</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_722130" />
+        </record>
+        <record id="charge_type_6" model="charge.type">
+            <field name="code"></field>
+            <field name="name">Insurance</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_714120" />
+        </record>
+        <!-- Finish Good Handling (KBKB) -->
+        <record id="charge_type_7" model="charge.type">
+            <field name="code">FGHE</field>
+            <field name="name">Finish Good Handling Export</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_722120" />
+        </record>
+        <record id="charge_type_8" model="charge.type">
+            <field name="code">FGHL</field>
+            <field name="name">Finish Good Handling Local</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_721120" />
+        </record>
+        <!-- END Finish Good Handling (KBKB) -->
+        <!-- Bank Charge -->
+        <record id="charge_type_9" model="charge.type">
+            <field name="code">BNL</field>
+            <field name="name">BC Nego Comm Local</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_714310" />
+        </record>
+        <record id="charge_type_10" model="charge.type">
+            <field name="code">BCL</field>
+            <field name="name">BC Courier Local</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_714310" />
+        </record>
+        <record id="charge_type_11" model="charge.type">
+            <field name="code">BAL</field>
+            <field name="name">BC Amendment Local</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_714310" />
+        </record>
+        <record id="charge_type_12" model="charge.type">
+            <field name="code">BDL</field>
+            <field name="name">BC Discrepancy Local</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_714310" />
+        </record>
+        <record id="charge_type_13" model="charge.type">
+            <field name="code">BOL</field>
+            <field name="name">BC Other Local</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_714310" />
+        </record>
+        <record id="charge_type_14" model="charge.type">
+            <field name="code">BQL</field>
+            <field name="name">BC Commission Local</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_714310" />
+        </record>
+        <record id="charge_type_15" model="charge.type">
+            <field name="code">BTL</field>
+            <field name="name">BC Telex Local</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_714310" />
+        </record>
+
+        <record id="charge_type_16" model="charge.type">
+            <field name="code">BNE</field>
+            <field name="name">BC Nego Comm Export</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_722150" />
+        </record>
+        <record id="charge_type_17" model="charge.type">
+            <field name="code">BCE</field>
+            <field name="name">BC Courier Export</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_722150" />
+        </record>
+        <record id="charge_type_18" model="charge.type">
+            <field name="code">BAE</field>
+            <field name="name">BC Amendment Export</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_722150" />
+        </record>
+        <record id="charge_type_19" model="charge.type">
+            <field name="code">BDE</field>
+            <field name="name">BC Discrepancy Export</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_722150" />
+        </record>
+        <record id="charge_type_20" model="charge.type">
+            <field name="code">BOE</field>
+            <field name="name">BC Other Export</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_722150" />
+        </record>
+        <record id="charge_type_21" model="charge.type">
+            <field name="code">BQE</field>
+            <field name="name">BC Commission Export</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_714310" />
+        </record>
+        <record id="charge_type_22" model="charge.type">
+            <field name="code">BTE</field>
+            <field name="name">BC Telex Export</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_722150" />
+        </record>
+        <!-- END Bank Charge -->
+        
+        <!-- Interest -->
+        <record id="charge_type_23" model="charge.type">
+            <field name="code">ISE</field>
+            <field name="name">Interest Sight</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_722160" />
+        </record>
+        <record id="charge_type_24" model="charge.type">
+            <field name="code">IUE</field>
+            <field name="name">Interest Usance</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_722160" />
+        </record>
+        <record id="charge_type_25" model="charge.type">
+            <field name="code">IPE</field>
+            <field name="name">Interest Prepaid</field>
+            <field name="account_id" ref="l10n_id_BTRX.chart_722160" />
+        </record>
+        <!-- END Interest -->
+	</data>
+</openerp>

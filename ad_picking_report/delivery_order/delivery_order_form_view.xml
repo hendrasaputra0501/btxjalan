@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report auto="False" id="delivery.report_shipping" model="stock.picking.out" name="sale.shipping.x" file="ad_picking_report/delivery_order/delivery_order_form.mako" string="Delivery Order" usage="default" report_type="webkit" menu="True" header="True"/>
+    </data>
+</openerp>

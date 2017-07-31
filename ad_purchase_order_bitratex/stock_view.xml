@@ -1,0 +1,84 @@
+<openerp>
+	<data>
+        <!-- stock picking in -->
+        <record id="view_picking_in_extend_form" model="ir.ui.view">
+            <field name="name">stock.picking.in.extend.form</field>
+            <field name="model">stock.picking.in</field>
+            <field name="inherit_id" ref="stock.view_picking_in_form"/>
+            <field name="arch" type="xml">
+                <field name='origin' position='before'>
+                    <field name='contract_purchase_number' />
+                    <field name='supplier_delicery_slip' />
+                    <field name='date_delivery_slip' />
+                    <field name='supplier_bc_reference' />
+                    <!-- <field name='goods_type' /> -->
+                </field>
+                <field name='origin' position='after'>
+                    <field name="purchase_type" attrs="{'invisible':[('purchase_id','=',False)],'required':['&amp;',('type','=','in'),('purchase_id','!=',False)]}"/>
+                </field>
+                <xpath expr="/form/sheet/notebook/page[@string='Additional Info']" position="before">
+                    <page string="Transporter">
+                        <group>
+                            <group>
+                                <field name="forwading" domain="[('type','=','container')]" attrs="{'invisible':[('purchase_type','=','local')]}" />
+                                <field name="forwading_charge" domain="[('transporter_id','=',forwading)]" attrs="{'invisible':[('purchase_type','=','local')]}" />
+                                <field name="shipping_lines" domain="[('type','=','container')]" attrs="{'invisible':[('purchase_type','=','local')]}"/>
+                                <field name="trucking_company" domain="[('type','=','trucking')]" on_change="onchange_trucking_company(trucking_company)" string="Transport Vendor"/>
+                                <field name="truck_type" domain="[('transporter_id','=',trucking_company)]"/>
+                                <!-- <label for="transport_rate" attrs="{'invisible':[('type','!=','in')]}"/>
+                                <div attrs="{'invisible':[('type','!=','in')]}">
+                                    <field style="width:60%%" name="transport_rate" attrs="{'invisible':[('type','!=','in')]}"/>
+                                    <field style="width:40%%" name="transport_rate_uom" attrs="{'invisible':[('type','!=','in')]}"/>
+                                </div> -->
+                                <field name="trucking_charge" domain="[('transporter_id','=',trucking_company)]" string="Transport Rate"/>
+                                <field name="porters" />
+                                <field name="porters_charge" />
+                            </group>
+                            <group>
+                                <field name="teus" />
+                                <field name="container_number" />
+                                <field name="seal_number" />
+                                <field name="truck_number" />
+                                <field name="driver_id" />
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="view_picking_withweight_inherit_purchase_order_form" model="ir.ui.view">
+            <field name="name">stock.picking_withweight.inherit.purchase.order.view</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="ad_container_booking.view_picking_withweight_inherit_container_booking_form"/>
+            <field name="arch" type="xml">
+                <field name="net_weight" position="after">
+                    <field name="moisturity" attrs="{'invisible':[('type','!=','in')]}"/>
+                </field>
+            </field>
+        </record>
+        
+        <record id="view_picking_withcarrier_out_inherit_form" model="ir.ui.view">
+            <field name="name">delivery.stock.picking_withcarrier.out.inherit.form.view</field>
+            <field name="model">stock.picking.out</field>
+            <field name="inherit_id" ref="delivery.view_picking_withcarrier_out_form"/>
+            <field name="arch" type="xml">
+                <field name="carrier_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="carrier_tracking_ref" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="number_of_packages" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="weight" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="weight_net" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+	</data>
+</openerp>

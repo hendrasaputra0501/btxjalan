@@ -1,0 +1,106 @@
+<openerp>
+	<data>
+		<record id="act_draft_adv_po" model="workflow.activity">
+            <field name="wkf_id" ref="purchase.purchase_order"/>
+            <field name="name">draft_adv</field>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'adv_created'})</field>
+        </record>
+
+		<record id="purchase.trans_sent_confirmed" model="workflow.transition">
+            <field name="act_from" ref="purchase.act_sent"/>
+            <field name="act_to" ref="purchase.act_confirmed"/>
+            <field name="condition">payment_method not in ('lc','cash','tt')</field>
+            <field name="signal">purchase_confirm</field>
+        </record>
+
+        <record id="purchase.trans_draft_confirmed" model="workflow.transition">
+            <field name="act_from" ref="purchase.act_draft"/>
+            <field name="act_to" ref="purchase.act_confirmed"/>
+            <field name="condition">payment_method not in ('lc','cash','tt')</field>
+            <field name="signal">purchase_confirm</field>
+        </record>
+
+        <record id="trans_draft_draft_adv_po" model="workflow.transition">
+            <field name="act_from" ref="purchase.act_draft"/>
+            <field name="act_to" ref="act_draft_adv_po"/>
+            <field name="condition">payment_method in ('cash','tt')</field>
+            <field name="signal">purchase_confirm</field>
+        </record>
+
+        <record id="trans_sent_draft_adv_po" model="workflow.transition">
+            <field name="act_from" ref="purchase.act_sent"/>
+            <field name="act_to" ref="act_draft_adv_po"/>
+            <field name="condition">payment_method in ('cash','tt')</field>
+            <field name="signal">purchase_confirm</field>
+        </record>
+
+        <record id="trans_draft_adv_po_confirmed" model="workflow.transition">
+            <field name="act_from" ref="act_draft_adv_po"/>
+            <field name="act_to" ref="purchase.act_confirmed"/>
+            <field name="condition">(force_release == True or is_advance_paid() ) and payment_method in ('cash','tt')</field>
+            <field name="signal">purchase_confirm</field>
+        </record>
+
+        <!-- <record id="act_knock_off_po" model="workflow.activity">
+            <field name="wkf_id" ref="purchase.purchase_order"/>
+            <field name="name">knock_off</field>
+            <field name="kind">function</field>
+            <field name="action">write({'knock_of_picking':1})</field>
+        </record>
+
+        <record id="trans_sent_draft_adv_po" model="workflow.transition">
+            <field name="act_from" ref="purchase.act_sent"/>
+            <field name="act_to" ref="act_draft_adv_po"/>
+            <field name="condition"></field>
+            <field name="signal">knock_off</field>
+        </record> -->
+
+        <record id="act_knock_off" model="workflow.activity">
+            <field name="wkf_id" ref="purchase.purchase_order"/>
+            <field name="name">knock_off</field>
+            <field name="action">knock_off()</field>
+            <field name="kind">function</field>
+            <!-- <field name="signal_send">subflow.delivery_done</field> -->
+        </record>
+
+        <record id="trans_except_picking_knock_off" model="workflow.transition">
+            <field name="act_from" ref="purchase.act_except_picking"/>
+            <field name="act_to" ref="act_knock_off"/>
+            <field name="signal">knock_off_ok</field>
+        </record>
+
+        <record id="trans_picking_knock_off" model="workflow.transition">
+            <field name="act_from" ref="act_knock_off"/>
+            <field name="act_to" ref="purchase.act_picking_done"/>
+        </record>
+
+        <record id="act_knock_off_revise" model="workflow.activity">
+            <field name="wkf_id" ref="purchase.purchase_order"/>
+            <field name="name">knock_off_revise</field>
+            <field name="action">knock_off_revise()</field>
+            <field name="kind">function</field>
+            <!-- <field name="signal_send">subflow.delivery_done</field> -->
+        </record>
+
+        <record id="trans_except_picking_knock_off_revise" model="workflow.transition">
+            <field name="act_from" ref="purchase.act_except_picking"/>
+            <field name="act_to" ref="act_knock_off_revise"/>
+            <field name="signal">knock_off_revise_ok</field>
+        </record>
+
+        <record id="trans_picking_knock_off_revise" model="workflow.transition">
+            <field name="act_from" ref="act_knock_off_revise"/>
+            <field name="act_to" ref="purchase.act_picking_done"/>
+        </record>
+
+        <record id="purchase.act_done" model="workflow.activity">
+            <field name="wkf_id" ref="purchase.purchase_order"/>
+            <field name="name">done</field>
+            <field name="action">action_done()</field>
+            <field name="kind">function</field>
+            <field name="flow_stop">True</field>
+            <field name="join_mode">AND</field>
+        </record>
+	</data>
+</openerp>

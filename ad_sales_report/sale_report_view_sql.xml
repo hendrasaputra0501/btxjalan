@@ -1,0 +1,83 @@
+<openerp>
+	<data>
+		<record model="ir.ui.view" id="sale_report_view_sql_tree">
+			<field name="name">sale.report.view.sql.tree</field>
+			<field name="model">sale.report.view.sql</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml"> 
+				<tree string="Sales Report View">
+					<field name="blend_id" invisible="1"/>
+					<field name="delivery_date" invisible="1"/>
+					<field name="parent_location_id" invisible="1"/>
+					<field name="location_id" invisible="1"/>
+					<field name="sale_type" invisible="1"/>
+					<field name="locale_sale_type" invisible="1"/>
+					<field name="goods_type" invisible="1"/>
+					<field name="currency_id" invisible="1"/>
+					<field name="product_id"/>
+					<field name="partner_id"/>
+					<field name="sm_qty_kgs"/>
+					<field name="net_price_unit_kgs"/>
+					<field name="net_amount_kgs"/>
+					<field name="gross_price_unit_kgs"/>
+					<field name="gross_amount_kgs"/>
+					<field name="sm_qty_bales"/>
+					<field name="net_price_unit_bales"/>
+					<field name="net_amount_bales"/>
+					<field name="gross_price_unit_bales"/>
+					<field name="gross_amount_bales"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="sale_report_view_sql_search" model="ir.ui.view">
+            <field name="name">sale.report.view.sql.search</field>
+            <field name="model">sale.report.view.sql</field>
+            <field name="arch" type="xml">
+                <search string="Sales Report View">
+                	<field name="blend_id"/>
+					<field name="delivery_date"/>
+					<field name="parent_location_id"/>
+					<field name="location_id"/>
+					<field name="sale_type"/>
+					<field name="locale_sale_type"/>
+					<field name="goods_type"/>
+					<field name="currency_id"/>
+					<field name="product_id"/>
+					<field name="partner_id"/>
+                	<group col="10" colspan="4" string="Sales Filter">
+						<filter icon="terp-sale" string="Finish Goods" domain="[('goods_type','=','finish')]"/>
+						<filter icon="terp-sale" string="Local Sales" domain="[('sale_type','=','local')]"/>
+						<filter icon="terp-sale" string="Export Sales" domain="[('sale_type','=','export')]"/>
+					</group>
+					<group string="Local Sales Filter">
+						<filter icon="terp-sale" string="Outside KB" domain="[('locale_sale_type','=','okb')]"/>
+						<filter icon="terp-sale" string="Inside KB" domain="[('locale_sale_type','=','ikb')]"/>
+					</group>
+					<newline/>
+          			<group expand="0" string="Group By...">
+          				<filter string="Blend" icon="terp-stock_effects-object-colorize" context="{'group_by':'blend_id'}"/>
+          				<filter string="Parent Source Location" icon="terp-stock_effects-object-colorize" context="{'group_by':'parent_location_id'}"/>
+          				<filter string="Source Location" icon="terp-stock_effects-object-colorize" context="{'group_by':'location_id'}"/>
+          				<filter string="Sale Type" icon="terp-stock_effects-object-colorize" context="{'group_by':'sale_type'}"/>
+          				<filter string="Local Sale Type" icon="terp-stock_effects-object-colorize" context="{'group_by':'locale_sale_type'}"/>
+          				<filter string="Goods Type" icon="terp-stock_effects-object-colorize" context="{'group_by':'goods_type'}"/>
+          				<filter string="Currency" icon="terp-stock_effects-object-colorize" context="{'group_by':'currency_id'}"/>
+          				<filter string="Product" icon="terp-stock_effects-object-colorize" context="{'group_by':'product_id'}"/>
+          				<filter string="Partner" icon="terp-stock_effects-object-colorize" context="{'group_by':'partner_id'}"/>
+          			</group>
+                </search>
+            </field>
+        </record>
+
+		<record id="action_sale_report_view_sql_tree" model="ir.actions.act_window">
+            <field name="name">Sales Report View</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.report.view.sql</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="search_view_id" ref="sale_report_view_sql_search"/>
+        </record>
+        <menuitem name="Sales Report View" id="menu_sales_report_view_sql" parent="sales_report_monthly" sequence="10" action="action_sale_report_view_sql_tree"/>
+	</data>
+</openerp>

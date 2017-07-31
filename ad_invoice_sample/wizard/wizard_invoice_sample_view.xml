@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_wizard_invoice_sample" model="ir.ui.view">
+            <field name="name">Wizard Invoice Sample</field>
+            <field name="model">wizard.invoice.sample</field>
+            <field name="arch" type="xml">
+              <form string="Create Invoice Sample" version="7.0">
+                  <group string="Create Invoice Sample">
+                      <!-- <field name="group"/> -->
+                      <field name="date" />
+                  </group>
+                  <footer>
+                      <button name="invoice_sample" string="Create" type="object" class="oe_highlight"/>
+                      or
+                      <button string="Cancel" class="oe_link" special="cancel"/>
+                  </footer>
+             </form>
+            </field>
+        </record>
+
+
+        <act_window name="Create Invoice Sample"
+            res_model="wizard.invoice.sample"
+            src_model="stock.picking.out"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_wizard_invoice_sample"/>
+    </data>
+</openerp>
+
+
+
+
+

@@ -1,0 +1,30 @@
+{
+    "name": "Sale Order Priority",
+    "version": "7.0",
+    "depends": ["base",
+        "sale",
+        "sale_set_to_draft",
+        "product",
+        "ad_port",
+        "account",
+        "stock",
+        "sale_stock",
+        "mrp",
+        "ad_letter_of_credit",
+        "ad_advance_payment",
+        "ad_container_booking",
+        "ad_product_info_bitratex"],
+    "author": "Jhony - Bitratex",
+    "category": "Sales",
+    "description": """
+     This modules is aimed to provide information and also sales business workflow in Bitratex Industries
+    """,
+    "init_xml": [],
+    'update_xml': [
+        "sale_order_priority_view.xml",
+                   ],
+    'demo_xml': [],
+    'installable': True,
+    'active': False,
+    'application':True,
+}

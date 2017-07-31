@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+<report 
+	auto="False" id="report_sale_order_priority_report" 
+	model="sale.order.priority" 
+	name="sale.order.priority.print.form" 
+	file="reporting_module/sale_order_priorities/sale_order_priority_report.mako" 
+	string="Sale Order Priorities"
+	header="True"
+    usage="default" 
+    report_type="webkit" 
+    menu="True" />
+</data>
+</openerp>

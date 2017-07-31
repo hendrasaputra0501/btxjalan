@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+<report 
+	auto="False" id="report_lc_verification" 
+	model="letterofcredit" name="lc.verification.cheklist.form" 
+	file="reporting_module/lc_verification/lc_verification_cheklist_form.mako" 
+	string=" L/C Verification"
+    usage="default" 
+    report_type="webkit" 
+    menu="True"
+ />
+</data>
+</openerp>

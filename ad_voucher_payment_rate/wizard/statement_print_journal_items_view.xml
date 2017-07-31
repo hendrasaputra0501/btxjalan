@@ -1,0 +1,27 @@
+<openerp>
+	<data>
+        <record id="statement_print_journal_items_view" model="ir.ui.view">
+            <field name="name">statement.print.journal.items.form</field>
+            <field name="model">statement.print.journal.items</field>
+            <field name="arch" type="xml">
+                <form string="Print Journal Items" version="7.0">
+                    <footer>
+                        <button string="Print" name="print_journal_item" type="object" default_focus="1" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Print Journal Items"
+            res_model="statement.print.journal.items" 
+            src_model="account.bank.statement" 
+            view_mode="form" 
+            view_type="form" 
+            target="new" 
+            key2="client_action_multi"
+            multi="True"
+            id="action_statement_print_journal_items"/>
+    </data>
+</openerp>

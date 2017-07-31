@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_account_invoice_inherit_filter" model="ir.ui.view">
+            <field name="name">account.invoice.inherit.select</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter" />
+            <field name="arch" type="xml">
+                <field name="number" position="replace">
+                    <field name="number" string="Invoice" filter_domain="['|','|','|','|', ('internal_number','ilike',self), ('number','ilike',self), ('origin','ilike',self), ('supplier_invoice_number', 'ilike', self), ('partner_id', 'child_of', self)]"/>
+                </field>
+                <xpath expr="/search/group/filter[@string='Status']" position="after">
+                    <filter string="Currency" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'currency_id'}"/>
+                    <filter string="Account" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'account_id'}"/>
+                    <filter string="Sale Type" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'sale_type'}"/>
+                    <filter string="Goods Type" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'goods_type'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="invoice_form_cancel_inherit_1" model="ir.ui.view">
+            <field name="name">account.invoice.inherit.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account_cancel.invoice_form_cancel_inherit" />
+            <field name="arch" type="xml">
+                <xpath expr="/form/header/button[@name='invoice_cancel']" position="replace">
+                    <button name="invoice_cancel" states="draft,proforma2,sale" string="Cancel Invoice" groups="base.group_no_one"/>
+                    <button name="invoice_cancel" states="open" string="Cancel Invoice" groups="account.group_account_user"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="invoice_inherit_form" model="ir.ui.view">
+            <field name="name">account.invoice.inherit.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form" />
+            <field name="arch" type="xml">
+                <xpath expr="/form/header/button[@name='invoice_proforma2']" position="attributes">
+                    <attribute name="string">Release Commercial Invoice</attribute>
+                </xpath>
+                <xpath expr="/form/sheet/h1/label[3]" position="replace">
+                    <label string="Invoice " attrs="{'invisible': [('state','not in',('proforma','proforma2'))]}"/>
+                </xpath>
+                <xpath expr="/form/sheet/h1" position="before">
+                    <div class="oe_right oe_button_box" name="update_desc_buttons" attrs="{'invisible': [('state','not in',('draft','proforma','proforma2','open'))]}">
+                        <button name="update_description" type="object" string="Update Desc" /> 
+                    </div>
+                </xpath>        
+                <xpath expr="/form/sheet/h1/field[@name='number']" position="replace">
+                    <field name="internal_number" class="oe_inline" readonly="1"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Invoice Lines']/field[@name='invoice_line']/tree/field[@name='name']" position="after">
+                    <button name="%(action_desc_invoice_line_wizard)d" string="" type="action"
+                                    icon="STOCK_JUSTIFY_FILL"
+                                    />
+                </xpath>
+                <field name='date_invoice' position='attributes'>
+                    <attribute name="on_change">onchange_date(date_invoice,date_effective)</attribute>
+                </field>
+                <field name='date_invoice' position='after'>
+                    <field name='date_effective' attrs="{'invisible':[('date_effective','=',False)]}" on_change="onchange_date(date_invoice,date_effective)"/>
+                </field>
+                <xpath expr="/form/sheet/notebook/page[@string='Other Info']" position="after">
+                    <page string="Post Shipment Information">
+                        <group>
+                            <group string='Bill of Lading'>
+                                <field name='bl_date' attrs="{'required':[('due_date_from_bl_date','=',True),('state','=','proforma2'),('sale_type','=','export')]}"/>
+                                <field name='bl_number' />
+                                <field name='bl_received_date' />
+                                <field name='courier_number' />
+                            </group>
+                            <group string='Pemberitahuan Ekspor Barang'>
+                                <field name='peb_date' />
+                                <field name='peb_number' on_change="onchange_peb_number(peb_number)"/>
+                                <field name='incoterms' />
+                                <field name='peb_freight' />
+                                <field name='peb_insurance' />
+                                <field name='peb_fob' />
+                                <field name='pe_number' />
+                                <field name='vessel_name' />
+                            </group>
+                        </group>
+                        <group>
+                            <group string='Certificate of Origin'>
+                                <field name='co_date' />
+                                <field name='co_number' />
+                            </group>
+                            <group string='Bank Submission Document'>
+                                <field name='bank_submission' />
+                                <field name='bank_submission_date' />
+                                <!-- <field name='bank_negotiation_no' /> -->
+                                <!-- <field name='bank_negotiation_date' /> -->
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+                <field name='sent' position='after'>
+                    <group>
+                        <group>
+                            <label for='default_expense_account_id' />
+                            <div>
+                                <field name='default_expense_account_id' nolable='1'/>
+                                <button name="button_set_expense_account" states="draft,proforma2"
+                                        string="(set account)" class="oe_link oe_edit_only"
+                                        type="object" help="Set expense account each invoice line"/>
+                            </div>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <group string="Change Label" colspan="4" col="2">
+                        <field name="model_id" invisible="1"/>
+                        <button name="%(action_ai_wizard_change_label)d" type="action" string="Add Additional Change Label" context="{'label':label_print,'model':model_id}"/>
+                        <field name="label_print" nolabel="1" colspan="4" readonly="1"/>
+                    </group>
+                </field>
+                <!-- buyer consignee notify applicant -->
+                <field name='partner_id' position='after'>
+                    <label for="shipper"/>
+                    <div>
+                        <div>
+                            <field name="shipper" />
+                            <label for="show_shipper_address"/>
+                            <field name="show_shipper_address"/>
+                        </div>
+                        <field name="s_address_text" placeholder="Input Shipper Customs Address here..."  attrs="{'invisible':[('show_shipper_address','=',False)]}" />
+                    </div>
+                    <label for="buyer"/>
+                    <div>
+                        <div>
+                            <field name="buyer" />
+                            <label for="show_buyer_address"/>
+                            <field name="show_buyer_address"/>
+                        </div>
+                        <field name="address_text" placeholder="Input Buyer Customs Address here..."  attrs="{'invisible':[('show_buyer_address','=',False)]}" />
+                    </div>
+                    <label for="consignee" attrs="{'invisible':[('sale_type','=','local')]}"/>
+                    <div attrs="{'invisible':[('sale_type','=','local')]}">
+                        <div>
+                            <field name="consignee" />
+                            <label for="show_consignee_address"/>
+                            <field name="show_consignee_address"/>
+                        </div>
+                        <field name="c_address_text" placeholder="Input Consignee Customs Address here..."  attrs="{'invisible':[('show_consignee_address','=',False)]}" />
+                    </div>
+                    <label for="notify" attrs="{'invisible':[('sale_type','=','local')]}"/>
+                    <div attrs="{'invisible':[('sale_type','=','local')]}">
+                        <div>
+                            <field name="notify" />
+                            <label for="show_notify_address"/>
+                            <field name="show_notify_address"/>
+                        </div>
+                        <field name="n_address_text" placeholder="Input Notify Customs Address here..."  attrs="{'invisible':[('show_notify_address','=',False)]}" />
+                    </div>
+                    <label for="applicant" attrs="{'invisible':[('sale_type','=','local')]}"/>
+                    <div attrs="{'invisible':[('sale_type','=','local')]}">
+                        <div>
+                            <field name="applicant"/>
+                            <label for="show_applicant_address"/>
+                            <field name="show_applicant_address"/>
+                        </div>
+                        <field name="a_address_text" placeholder="Input Applicant Customs Address here..."  attrs="{'invisible':[('show_applicant_address','=',False)]}" />
+                    </div>
+                </field>
+                <!-- buyer consignee notify applicant -->
+                <field name='date_due' position='after'>
+                    <field name='due_date_from_bl_date' readonly='1'/>
+                    <field name='payment_date' readonly='1'/>
+                </field>
+
+                <field name='price_subtotal' position='after'>
+                    <field name='state' readonly='1' invisible='1'/>
+                </field>
+
+                <field name='comment' position='after'>
+                    <field name='additional_remarks' placeholder='Additional Remarks'/>
+                    <field name="print_inv_grouping" placeholder='Invoice Line Grouping format, available field: product_id,price_unit,account_id,packing_type,product_uop,sale_line_id,tracking_id,move_line_id'/>
+                </field>
+
+                <field name="sequence" position="replace">
+                    <field name="sequence" string='Seq'/>
+                </field>
+            </field>
+        </record>
+        
+        <record id="invoice_inherit_tree" model="ir.ui.view">
+            <field name="name">account.invoice.inherit.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree" />
+            <field name="arch" type="xml">
+                <field name='number' position='replace'>
+                    <field name='internal_number' />
+                </field>
+                <field name='partner_id' position='after'>
+                    <field name='account_id' />
+                    <field name='default_expense_account_id' />
+                </field>
+            </field>
+        </record>
+
+        <menuitem action="account.action_invoice_tree3" id="account.menu_action_invoice_tree3" parent="account.menu_finance_receivables" name="Customer Returns"/>
+
+        <record id="account.action_invoice_tree1_view1" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="invoice_inherit_tree" />
+            <field name="act_window_id" ref="account.action_invoice_tree1"/>
+        </record>
+        
+        <record id="invoice_supplier_inherit_form" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.inherit.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form" />
+            <field name="arch" type="xml">
+                <field name='date_invoice' position='attributes'>
+                    <attribute name="on_change">onchange_date(date_invoice,date_effective)</attribute>
+                </field>
+                <field name='date_invoice' position='before'>
+                    <field name='creation_date' />
+                </field>
+                <field name='date_invoice' position='after'>
+                    <field name='date_effective' attrs="{'invisible':[('date_effective','=',False)]}" on_change="onchange_date(date_invoice,date_effective)"/>
+                </field>
+                <field name='price_subtotal' position='after'>
+                    <field name='state' readonly='1' invisible='1'/>
+                </field>
+            </field>
+        </record>
+        <record id="view_invoice_line_inherit_tree" model="ir.ui.view">
+            <field name="name">account.invoice.line.inherit.tree</field>
+            <field name="model">account.invoice.line</field>
+            <field name="inherit_id" ref="account.view_invoice_line_tree" />
+            <field name="arch" type="xml">
+                <field name='price_subtotal' position='after'>
+                    <field name='state' readonly='1' invisible='1'/>
+                </field>
+            </field>
+        </record>
+        <record id="view_invoice_line_inherit_form" model="ir.ui.view">
+            <field name="name">account.invoice.line.inherit.form</field>
+            <field name="model">account.invoice.line</field>
+            <field name="inherit_id" ref="account.view_invoice_line_form" />
+            <field name="arch" type="xml">
+                <field name='name' position='after'>
+                    <field name='state' readonly='1' invisible='1'/>
+                </field>
+            </field>
+        </record>
+
+
+        <!-- finish good sales -->
+        <record id="seq_type_invoice_export_finish" model="ir.sequence.type">
+            <field name="name">Invoice Export Finish Good Sales</field>
+            <field name="code">invoice.export.finish</field>
+        </record>
+        
+        <record id="seq_invoice_export_finish" model="ir.sequence">
+            <field name="name">Invoice Expor Finish Good Salest</field>
+            <field name="code">invoice.export.finish</field>
+            <field name="prefix">EI-1%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_type_invoice_local_finish" model="ir.sequence.type">
+            <field name="name">Invoice Local Finish Good Sales</field>
+            <field name="code">invoice.local.finish</field>
+        </record>
+        
+        <record id="seq_invoice_local_finish" model="ir.sequence">
+            <field name="name">Invoice Local Finish Good Sales</field>
+            <field name="code">invoice.local.finish</field>
+            <field name="prefix">LI-1%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- finish good others sales -->
+        <record id="seq_type_invoice_export_finish_others" model="ir.sequence.type">
+            <field name="name">Invoice Export Finish Good Others Sales</field>
+            <field name="code">invoice.export.finish_others</field>
+        </record>
+        
+        <record id="seq_invoice_export_finish_others" model="ir.sequence">
+            <field name="name">Invoice Expor Finish Good Others Salest</field>
+            <field name="code">invoice.export.finish_others</field>
+            <field name="prefix">EI-2%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_type_invoice_local_finish_others" model="ir.sequence.type">
+            <field name="name">Invoice Local Finish Good Others Sales</field>
+            <field name="code">invoice.local.finish_others</field>
+        </record>
+        
+        <record id="seq_invoice_local_finish_others" model="ir.sequence">
+            <field name="name">Invoice Local Finish Good Others Sales</field>
+            <field name="code">invoice.local.finish_others</field>
+            <field name="prefix">LI-2%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_type_invoice_local_service" model="ir.sequence.type">
+            <field name="name">Invoice Local Service Sales</field>
+            <field name="code">invoice.local.service</field>
+        </record>
+        
+        <record id="seq_invoice_local_service" model="ir.sequence">
+            <field name="name">Invoice Local Service Sales</field>
+            <field name="code">invoice.local.service</field>
+            <field name="prefix">LI-7%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- raw material sales -->
+        <record id="seq_type_invoice_export_raw" model="ir.sequence.type">
+            <field name="name">Invoice Export Raw Material Sales</field>
+            <field name="code">invoice.export.raw</field>
+        </record>
+        
+        <record id="seq_invoice_export_raw" model="ir.sequence">
+            <field name="name">Invoice Expor Raw Material Salest</field>
+            <field name="code">invoice.export.raw</field>
+            <field name="prefix">EI-3%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_type_invoice_local_raw" model="ir.sequence.type">
+            <field name="name">Invoice Local Raw Material Sales</field>
+            <field name="code">invoice.local.raw</field>
+        </record>
+        
+        <record id="seq_invoice_local_raw" model="ir.sequence">
+            <field name="name">Invoice Local Raw Material Sales</field>
+            <field name="code">invoice.local.raw</field>
+            <field name="prefix">LI-3%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- fix asset sales -->
+        <record id="seq_type_invoice_export_asset" model="ir.sequence.type">
+            <field name="name">Invoice Export Fixed Asset Sales</field>
+            <field name="code">invoice.export.asset</field>
+        </record>
+        
+        <record id="seq_invoice_export_asset" model="ir.sequence">
+            <field name="name">Invoice Expor Fixed Asset Salest</field>
+            <field name="code">invoice.export.asset</field>
+            <field name="prefix">EI-4%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_type_invoice_local_asset" model="ir.sequence.type">
+            <field name="name">Invoice Local Fixed Asset Sales</field>
+            <field name="code">invoice.local.asset</field>
+        </record>
+        
+        <record id="seq_invoice_local_asset" model="ir.sequence">
+            <field name="name">Invoice Local Fixed Asset Sales</field>
+            <field name="code">invoice.local.asset</field>
+            <field name="prefix">LI-4%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- stores sales -->
+        <record id="seq_type_invoice_export_stores" model="ir.sequence.type">
+            <field name="name">Invoice Export Stores Sales</field>
+            <field name="code">invoice.export.stores</field>
+        </record>
+        
+        <record id="seq_invoice_export_stores" model="ir.sequence">
+            <field name="name">Invoice Expor Stores Salest</field>
+            <field name="code">invoice.export.stores</field>
+            <field name="prefix">EI-5%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_type_invoice_local_stores" model="ir.sequence.type">
+            <field name="name">Invoice Local Stores Sales</field>
+            <field name="code">invoice.local.stores</field>
+        </record>
+        
+        <record id="seq_invoice_local_stores" model="ir.sequence">
+            <field name="name">Invoice Local Stores Sales</field>
+            <field name="code">invoice.local.stores</field>
+            <field name="prefix">LI-5%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- packing sales -->
+        <record id="seq_type_invoice_export_others" model="ir.sequence.type">
+            <field name="name">Invoice Export PM Sales</field>
+            <field name="code">invoice.export.packing</field>
+        </record>
+        
+        <record id="seq_invoice_export_others" model="ir.sequence">
+            <field name="name">Invoice Expor PM Salest</field>
+            <field name="code">invoice.export.packing</field>
+            <field name="prefix">EI-6%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_type_invoice_local_others" model="ir.sequence.type">
+            <field name="name">Invoice Local PM Sales</field>
+            <field name="code">invoice.local.packing</field>
+        </record>
+        
+        <record id="seq_invoice_local_others" model="ir.sequence">
+            <field name="name">Invoice Local PM Sales</field>
+            <field name="code">invoice.local.packing</field>
+            <field name="prefix">LI-6%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- others sales -->
+        <record id="seq_type_invoice_export_others" model="ir.sequence.type">
+            <field name="name">Invoice Export others Sales</field>
+            <field name="code">invoice.export.others</field>
+        </record>
+        
+        <record id="seq_invoice_export_others" model="ir.sequence">
+            <field name="name">Invoice Expor others Salest</field>
+            <field name="code">invoice.export.others</field>
+            <field name="prefix">EI-9%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_type_invoice_local_others" model="ir.sequence.type">
+            <field name="name">Invoice Local others Sales</field>
+            <field name="code">invoice.local.others</field>
+        </record>
+        
+        <record id="seq_invoice_local_others" model="ir.sequence">
+            <field name="name">Invoice Local Misc Sales</field>
+            <field name="code">invoice.local.others</field>
+            <field name="prefix">LI-9%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</openerp>

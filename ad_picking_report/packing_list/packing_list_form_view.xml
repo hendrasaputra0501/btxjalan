@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report auto="False" id="report_packing_list" model="stock.picking" name="packing.list.form" file="ad_picking_report/packing_list/packing_list_form.mako" string="Packing List" usage="default" report_type="webkit" menu="True" />
+    </data>
+</openerp>

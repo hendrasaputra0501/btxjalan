@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+	<record model="ir.ui.view" id="apvendor_report_wizard_form">
+	  <field name="name">apvendor.report.wizard.form</field>
+	  <field name="model">apvendor.report.wizard</field>
+	  <field name="type">form</field>
+	  <field name="arch" type="xml"> 
+		<form string="AP Vendor Report" version="7.0">
+			<group>
+				<field name="filter" />
+				<field name="fiscalyear_id" required="True"/>
+			</group>
+			<group attrs="{'invisible':[('filter','=','filter_no')]}">
+				<group>
+					<field name="from_date" attrs="{'invisible':[('filter','=','filter_period')],'required':[('filter','=','filter_date')]}"/>
+					<field name="period_from" attrs="{'invisible':[('filter','=','filter_date')],'required':[('filter','=','filter_period')]}" domain="[('fiscalyear_id','=',fiscalyear_id)]"/>
+				</group>
+				<group>
+					<field name="to_date" attrs="{'invisible':[('filter','=','filter_period')],'required':[('filter','=','filter_date')]}"/>
+					<field name="period_to" attrs="{'invisible':[('filter','=','filter_date')],'required':[('filter','=','filter_period')]}" domain="[('fiscalyear_id','=',fiscalyear_id)]"/>
+				</group>
+			</group>
+		  <notebook>
+		  	<page string="Filter Supplier">
+		  		<field name="partner_ids" />
+		  	</page>
+		  	<page string="Filter Journal"  attrs="{'invisible':True}">
+		  		<field name="journal_ids" />
+		  	</page>
+		  </notebook>	
+		  <notebook>
+		  	<page string="Filter Account">
+		  		<field name="account_ids" />
+		  	</page>
+		  </notebook>
+		  <footer>
+			<div>
+			  <button type="object" name="print_report" string="Print" icon="STOCK_PRINT"/> or <button special="cancel" string="Cancel" class="oe_link"/>
+			</div>
+		  </footer>
+		</form>
+	  </field>
+	</record>
+		 
+	<record model="ir.actions.act_window" id="apvendor_report_action">
+		<field name="name">AP Vendor Report</field>
+		<field name="res_model">apvendor.report.wizard</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="view_id" ref="apvendor_report_wizard_form"/>
+	</record>
+
+	<menuitem id="apvendor_report_menu" parent="account.next_id_22" sequence="10" action="apvendor_report_action"/>
+  </data>
+</openerp>

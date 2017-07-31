@@ -1,0 +1,7 @@
+<openerp>
+	<data>
+		<report auto="False" id="certificate_fumigation_form_report" model="declaration.form" name="certificate.fumigation.form"
+            file="ad_shipment_certificate/report/certificate_fumigation_form.mako" string="Certificate Fumigation"
+            usage="default" report_type="webkit" header="True"/>
+	</data>
+</openerp>

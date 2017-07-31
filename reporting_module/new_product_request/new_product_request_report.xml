@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+<report 
+	auto="False" id="new_product_request_report" 
+	model="product.requisition" 
+	name="new.product.request.report"
+	file="reporting_module/new_product_request/new_product_request_report.mako" 
+	string="new Product Request"
+	header="True"
+    usage="default" 
+    report_type="webkit" 
+    menu="True" />
+</data>
+</openerp>

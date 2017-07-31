@@ -1,0 +1,697 @@
+<html>
+<!--
+<% import base64 %>
+<% import mx.DateTime %>
+<%
+def oe_datetime_format(obj,format='%Y-%m-%d %H:%M:%S'):
+    if obj.val:
+        if hasattr(obj,'name') and (obj.name):
+            return mx.DateTime.strptime(obj.name,format)
+%>
+-->
+
+<head>
+	<style type="text/css">
+	#title1 {
+		font-family: Arial;
+		font-size: 15px;
+		font-weight: bold;
+	}
+	.fontall{	
+		font-family: Arial;
+		font-size:10px;
+	}
+
+	.border1 {
+		border:0px solid;
+		margin:0 0px 0 0px;
+		/*width:1300px;*/
+	}
+	#jdltbl{
+		text-transform: uppercase;
+		/*text-align: center;*/
+		font-family: Verdana;
+		font-weight: bold;
+	}
+	#jdltbl2{
+		text-transform: uppercase;
+		/*text-align: center;*/
+		font-family: Arial;
+		font-weight: bold;
+		padding-left: 7px;
+	}
+	#isitblknn{
+		text-align: right;
+	}
+	td {
+		vertical-align:top;
+	}
+	#bwhtbl{text-transform: uppercase;
+		font-family: "Arial";
+		font-size:10px;
+		font-weight: bold;
+		padding:5px 20px 5px 20px;
+		border-bottom: 1pt solid #808080;
+	}
+	#sumtbl{text-transform:uppercase;
+		font-family: "Arial";
+		font-size:10px;
+		font-weight: bold;on
+		padding:0px 10px 0px 20px;
+	}
+	#bwhsumtbl{text-transform:uppercase;
+		font-family: "Arial";
+		font-size:10px;
+		font-weight: bold;
+		padding:0px 10px 0px 20px;
+		border-bottom: 1pt solid #000000;
+	}
+	#lbl{
+		font-family: "Arial";
+		font-size:10px;
+		font-weight: bold;
+		padding:0px 10px 0px 20px;
+		vertical-align: top;
+		text-transform:uppercase;
+	}
+	#lbl1{
+		font-weight: bold;
+		vertical-align: top;
+		text-transform:uppercase;
+	}
+	#tdtxt{
+		font-size:11px;
+		padding:0px 20px 0px 10px;
+	}
+	#borderwhite{
+		border-top:white;
+		border-left:white;
+	}
+	#borderwhite_rgt{
+		border-right:white;
+		padding-left: 3px;
+		font-weight:bold;
+		text-transform: uppercase;
+	}
+	#borderwhite_rgtbtm{
+		border-right:white;
+		border-bottom:white;
+		padding-left: 3px;	
+	}
+	#borderwhite_btm{
+		border-bottom:white;
+		padding-right:3px;
+	}
+	#lblrght{
+		padding-right:3px;
+		font-weight:bold;
+		text-transform: uppercase;
+	}
+	#lbl2{
+		font-weight: bold;
+		vertical-align: top;
+		text-transform:uppercase;
+		text-align: center;
+	}
+	#borderwhite_rgt2{
+		border-right:white;
+		text-align: center;
+		font-weight:bold;
+		text-transform: uppercase;
+	}
+	#borderwhite_btm2{
+		border-bottom:white;
+		text-align: center;
+		font-weight:bold;
+	}
+	#borderwhite_rgtbtm2{
+		border-right:white;
+		border-bottom:white;
+		text-align: center;
+	}
+	#grsbwhtbl{
+		border-bottom: 1px solid #808080;
+	}
+
+	#grsatastbl{
+		border-top: 1px solid #808080;
+		text-align: center;
+		font-size: 10px;
+		font-weight: bold;
+	}
+	#jdltblknn{
+		text-transform: uppercase;
+		text-align: right;
+		font-family: Arial;
+		font-weight: bold;
+	}
+	#jdltblpd7{
+		text-transform: uppercase;
+		padding-left:7px;
+		font-family: Arial;
+		font-weight: bold;
+
+	}
+	#isitblpd7{
+		padding-left: 7px;
+	}
+	#hdr1{
+		text-align: center;
+		font-weight: bold;
+		font-size: 15px;
+	}
+	#font-capitalize{
+		text-transform:capitalize;
+	}
+	#uppertext{
+		text-transform: uppercase;
+	}
+	#uppertext2{
+		text-transform: uppercase;
+		font-weight: bold;
+	}
+	/*footer*/
+	/*footer*/
+	html,body {
+		margin:0;
+		padding:0;
+		height:100%;
+	}
+	#wrapper {
+		/*padding-top:10px;*/
+		/*min-height:100%;*/
+		position:static;
+		font-family: Verdana;
+		font-size:10px;
+	}
+	#header {
+		padding:10px;
+		background:#5ee;
+	}
+	#content {
+		padding-bottom:10px; /* Height of the footer element */
+	}
+	#footer {
+		/*background:blue;*/
+		width:100%;
+		/*height:130px;*/
+		position:absolute;
+		bottom:0;
+		left:0;
+	}
+	#break1{
+		position:relative;
+		display: block;
+
+	}
+	#break2{
+		/*background: yellow;*/
+		bottom:60;
+		height:70px;
+	}
+
+	.btsprg{
+		/*width:30em; */
+		width: 100%;
+		/*border: 1px solid #000000;*/
+		word-wrap: break-word;
+		vertical-align:top;
+		margin-top:5px;
+	}
+	/*table {
+		border-collapse: collapse;
+		} */
+
+		.btsprg{
+			width:22em; 
+			/*border: 1px solid #000000;*/
+			word-wrap: break-word;
+			vertical-align:top;
+			margin-top:5px;
+		}
+
+		</style>
+	</head>
+	<%
+	def get_desc(y):
+		try:
+			type(eval(y))==tuple
+			return eval(y)[0]
+		except:
+			return y
+	%>
+	
+	% for o in objects:
+	<%
+		# label_print="{}"
+		# if o.picking_ids and o.picking_ids[0].sale_id and o.picking_ids[0].sale_id.payment_method=="lc":
+		# 	if len(o.picking_ids.sale_id.lc_ids[0])>1:
+		# 		if o.picking_ids and o.picking_ids.sale_id and o.picking_ids.sale_id.lc_ids.state=='draft':
+		# 			label_print = o.picking_ids and o.picking_ids.sale_id and o.picking_ids.sale_id.lc_ids and o.picking_ids[0].sale_id.lc_ids[0].label_print or '{}'
+		# 		elif o.picking_ids and o.picking_ids.sale_id and o.picking_ids.sale_id.lc_ids.state=='nonactive':
+		# 			False
+		# 		endif
+		# 	else:
+		# 		label_print = o.picking_ids and o.picking_ids.sale_id and o.picking_ids.sale_id.lc_ids and o.picking_ids[0].sale_id.lc_ids[0].label_print or '{}'
+		# 	endif
+		# endif
+		# label = eval(label_print)
+		label = get_label(o)
+		qty_digit = 2
+		if o.picking_ids and o.picking_ids[0].move_lines and o.picking_ids[0].move_lines[0].product_uom and o.picking_ids[0].move_lines[0].product_uom.name == 'BALES':
+			qty_digit = 4
+	%>
+	<body>
+		<div  id="wrapper">
+			<div id="hdr1">
+				<a style="border-bottom:1px solid;text-transform:uppercase;">
+					${o.packinglist_title or 'PACKING LIST'}
+
+				</a> <br/>
+			</div>
+			<div id="content">
+				<table width="100%" >
+					<tr width="100%">
+						<td width="35%" style="vertical-align:top;">
+							% if o.show_shipper_address:
+							<div class="btsprg" style="vertical-align:top;">
+								<a id="lbl1">${label.get('shipper','Shipper/EXPORTER')} </a> <br/>
+								<span style="text-transform:uppercase;">
+									${(o.s_address_text or get_address(o.shipper.partner_id) or '').replace('\n','<br/>')}
+								</span>
+							</div>
+							% else :
+							<div class="btsprg" style="vertical-align:top;">
+								<a id="lbl1">${label.get('shipper','Shipper/EXPORTER')} </a> <br/>
+								<span style="text-transform:uppercase;">
+									${o.shipper and o.shipper.partner_id and o.shipper.partner_id.name or ''} </br>
+									${(get_address(o.shipper and o.shipper.partner_id) or '').replace('\n','<br/>')}
+								</span>
+							</div>
+							% endif
+							
+							% if o.show_buyer_address:
+							<div class="btsprg" style="vertical-align:top;margin-top:5px;">
+								<a id="lbl1"> ${label.get('buyer','Buyer:')}  </a> <br/>
+								<span style="text-transform:uppercase;">${o.b_address_text or get_address(o.buyer) or ''}
+								</span>
+							</div>
+							% endif
+							
+							%if o.show_applicant_address_pl:
+							<div class="btsprg" style="vertical-align:top;margin-top:5px;">
+								<a id="lbl1"> ${label.get('applicant','Applicant')}  </a> <br/>
+								<span style="text-transform:uppercase;">${(o.a_address_text_pl or '').replace('\n','<br/>') or get_address(o.applicant_pl) or ''}
+								</span>
+							</div>
+							%endif
+
+							% if o.show_consignee_address_pl:
+							<div class="btsprg" style="vertical-align:top;margin-top:5px;">
+								<a id="lbl1">  ${label.get('consignee','Consignee')}  </a> <br/>
+								<span style="text-transform:uppercase;">${(o.c_address_text_pl or '').replace('\n','<br/>') or get_address(o.consignee_pl) or ''}
+								</span>
+							</div>
+							% endif
+							
+							% if o.show_notify_address_pl:
+							<div class="btsprg" style="vertical-align:top;margin-top:5px;">
+								<a id="lbl1"> ${label.get('notify','Notify:')}  </a> <br/>
+								<span style="text-transform:uppercase;">${(o.n_address_text_pl or '').replace('\n','<br/>') or get_address(o.notify_party_pl) or ''}
+								</span>
+							</div>
+							% endif
+							
+						</td> 
+						<td width="30%">
+							<div class="btsprg" style="vertical-align:top;margin-top:5px;">
+								<a id="lbl1"> ${label.get('','Container Nos.')} </a> <br/>
+								<span style="text-transform:uppercase;">
+									%for container in o.picking_ids:
+									${container.container_number or ''} </br>
+									%endfor
+								</span>
+							</div>
+							%if o.picking_ids and o.picking_ids[0] and o.picking_ids[0].sale_id and o.picking_ids[0].sale_id.payment_method in ('lc','tt'):
+								%if o.picking_ids and o.picking_ids[0] and o.picking_ids[0].lc_ids and o.picking_ids[0].lc_ids[0].packing_list_header:
+								<div class="btsprg" style="vertical-align:top;margin-top:5px;">
+									<a id="lbl1"> ${label.get('packing_list_header','Info LC')} </a> <br/>
+									<span style="text-transform:uppercase;">
+										${(o.picking_ids and o.picking_ids[0] and o.picking_ids[0].lc_ids and o.picking_ids[0].lc_ids[0].packing_list_header or '').replace('\n','<br/>')}
+									</span>
+								</div>
+								%endif
+							%endif
+						</td>
+						<td width="35%">
+							<table id="borderwhite"  width="100%"  rules="all">
+								<tr>
+									<td id="lblrght" width="50%" >${label.get('invoice','Invoice No.')}</td>
+									<td id="borderwhite_rgt" width="50%">${label.get('date','Date ')}</td>
+								</tr>
+								<tr>
+									<td id="borderwhite_btm">${ o.picking_ids and o.picking_ids[0].invoice_id and o.picking_ids[0].invoice_id.internal_number or ''	 } </td>
+									<td id="borderwhite_rgtbtm">
+										<% 
+											date_invoice = []
+										%>
+										% for date_line in set([x.invoice_id.date_invoice for x in o.picking_ids if x.invoice_id]):
+											% if date_line:
+												<% date_invoice.append(oe_datetime_format(date_line, '%Y-%m-%d').strftime('%d/%m/%Y')) %>
+											% endif
+										% endfor
+										${date_invoice and '<br/>'.join(set(date_invoice)) or ''}
+									</td>
+									
+								</tr>
+							</table>
+							<!--##############################################################-->
+							<table id="borderwhite"  width="100%"  rules="all" style="margin-top:5px;">
+								<tr>
+									<td id="lblrght" width="50%" >${label.get('sale_order','Sc No.')}</td>
+									<td id="borderwhite_rgt" width="50%">${label.get('lc_number','LC No.')}</td>
+								</tr>
+								<tr>
+									<td id="borderwhite_btm">
+										<% 
+											sale_order = []
+										%>
+										% for sale_line in set([move.sale_line_id for picking in o.picking_ids if picking.move_lines for move in picking.move_lines if move.sale_line_id]):
+											% if sale_line.order_id:
+												<% sale_order.append(sale_line.order_id.name) %>
+											% endif
+										% endfor
+										${sale_order and '<br/>'.join(set(sale_order)) or ''}
+									</td>
+									<td id="borderwhite_rgtbtm">${ get_lc_number(o)}</td>
+								</tr>
+							</table>
+	<!-- 
+							<table id="borderwhite"  width="100%" rules="all">
+								<tr>
+									<td id="borderwhite_rgt" width="100%" style="padding-top:5px;">${label.get('delivery_term','Delivery Terms')}</td>
+								</tr>
+								<tr>
+									<td id="borderwhite_rgtbtm">
+
+										${o.picking_ids and o.picking_ids[0].lc_ids and o.picking_ids[0].move_lines and o.picking_ids[0].move_lines[0].lc_product_line_id and o.picking_ids[0].move_lines[0].lc_product_line_id.delivery_term_txt or (o.picking_ids and o.picking_ids[0].sale_id and o.picking_ids[0].sale_id.incoterm and o.picking_ids[0].sale_id.incoterm.code or '')}
+										
+									</br>
+
+									</td>
+								</tr>
+							</table> -->
+							<!--##############################################################-->
+							<table id="borderwhite" width="100%" rules="all">
+								<tr>
+									<td id="borderwhite_rgt" width="100%" style="padding-top:5px;">${label.get('port_from','Port/Country of Loading')}</td>
+								</tr>
+								<tr>
+									<td id="borderwhite_rgtbtm">
+										${o.port_from_desc or ''}
+									</td>
+								</tr>
+							</table>
+							<!--##############################################################-->
+							<table id="borderwhite" width="100%" rules="all">
+								<tr>
+									<td id="borderwhite_rgt" width="100%" style="padding-top:5px;">${label.get('port_to','Port/Country of Destination')}</td>
+								</tr>
+								<tr>
+									<td id="borderwhite_rgtbtm">
+										${o.port_to_desc or ''}
+									</td>
+								</tr>
+							</table>
+							<!--##############################################################-->
+						</td>
+					</tr>
+				</table>
+			</br>
+
+			<table  width='100%' >
+				<!-- <table class='border1'  width='98%' cellspacing="0"> -->
+				<tr width='100%'>
+					<!-- <td id='jdltbl' width='2%'></td> -->
+					<td id='jdltbl' width='14%'></td>
+					<td id='jdltbl' width='45%'></td>
+					<td id='jdltbl' width='7%'  colspan="2"></td>
+					<td id='jdltblknn' width='13%'>GR.WT</td>   
+					<td id='jdltblknn' width='13%'>NT.WT</td>
+					<td id='jdltblknn' width='8%'>VOLUME</td>
+				</tr>
+				<tr>
+					<!-- <td id='jdltbl' width='2%'>SR.</td> -->
+					<td id='jdltbl' width='14%' style="padding-left:5px;">Mark & NOS.</td>
+					<td id='jdltbl' width='45%'>DESCRIPTION OF GOODS</td>
+					<td id='jdltblknn' width='7%'  colspan="2">PACKAGES</td>
+					<td id='jdltblknn' width='13%'>${o.picking_ids and o.picking_ids[0].move_lines and o.picking_ids[0].move_lines[0].product_uom and o.picking_ids[0].move_lines[0].product_uom.name or ''}</td>
+					<td id='jdltblknn' width='13%'>${o.picking_ids and o.picking_ids[0].move_lines and o.picking_ids[0].move_lines[0].product_uom and o.picking_ids[0].move_lines[0].product_uom.name or ''}</td>
+					<td id='jdltblknn' width='8%'>cbm</td>
+				</tr>
+				<tr>
+
+					<td id='grsbwhtbl' width='100%'  colspan="7"></td>
+				</tr>
+				<%
+				totgross = 0.0
+				totnet = 0.0
+				totvol = 0.0
+				srno1 = 0
+				goods_lines = sorted([(x.sequence,x) for x in o.goods_lines],key=lambda k:k[0])
+				%>
+				% for line in [g[1] for g in goods_lines]:
+				<%
+				tracking=get_tracking(line)
+				srno1 +=1
+				%>
+				<tr>
+						<!-- <td id='isitbl' style="padding-top:5px;" width='2%'>
+							{srno1}
+						</td> -->
+						<td id='isitbl' style="padding-top:5px;padding-left:5px;" >
+							${ line.marks_nos_pl or '' }
+						</td>
+						<td id='isitbl' style="padding-top:5px;" >
+							<!--	<%x=get_desc(line.product_desc)%> -->
+							%if line.product_desc_pl: 
+							<a style="text-transform:uppercase;">${line.product_desc_pl.replace('\n','<br/>')}</a></br>
+							%endif
+							<span id="uppertext2">Lot :</span> ${tracking or ''}</br>
+							<span id="uppertext2">CONE WEIGHT : </span>
+							${formatLang(line.cone_weight and line.cone_weight or (line.product_uop and line.product_uop.cone_weight or 0),digits=3)}KGS </br>
+							<span id="uppertext2">No Of. CONES/${(line.product_uop and line.product_uop.packing_type and line.product_uop.packing_type.name)[:-1] or ''}: </span>
+							${line.cones and line.cones or (line.product_uop and line.product_uop.cones or 0)} </br>
+							<span id="uppertext2">${(line.product_uop and line.product_uop.packing_type and line.product_uop.packing_type.name)[:-1] or ''} weight (KGS):</span>
+							${formatLang(line.gross_weight_per_uop and line.gross_weight_per_uop or (line.product_uop and line.product_uop.gross_weight or 0),digits=3)} GROSS, 
+							${formatLang(line.net_weight_per_uop and line.net_weight_per_uop or (line.product_uop and line.product_uop.net_weight or 0),digits=3)} NET </br>
+							<!-- <span id="uppertext2">${(line.product_uop and line.product_uop.packing_type and line.product_uop.packing_type.name)[:-1] or ''} Dimension (${(line.product_uop and line.product_uop.dimension_uom and line.product_uop.dimension_uom.name) or ''}):</span> ${line.length or 0}Lx${line.width or 0}Wx${line.height or 0}H </br> -->
+						</td>
+						<td id='isitblknn' width='3%' style="padding-top:5px;">
+							${ int(line.packages) or '' } 
+						</td>
+						<td id='isitbl' width='4%' style="padding-top:5px;">
+							%if line.packing_type:
+							${line.packing_type}
+							%elif line.packing_type==False and (line.product_uop and line.product_uop.packing_type.name):
+							${ line.product_uop and line.product_uop.packing_type.name or ''} 
+							%else:
+							''
+							%endif
+						</td>
+
+						<td id='isitblknn' width='13%' style="padding-top:5px;" >${ formatLang(line.gross_weight,digits=qty_digit)}</td>
+						<td id='isitblknn' width='13%' style="padding-top:5px;">
+							${ formatLang(line.net_weight,digits=qty_digit)}
+						</td>
+						<td id='isitblknn' width='8%' style="padding-top:5px;">
+							${ line.volume or '' }
+						</td>
+					</tr>
+					<%
+					totgross = totgross + line.gross_weight
+					totnet = totnet + line.net_weight
+					totvol = totvol + line.volume
+					%>
+					%endfor
+					%if o.desc_for_packinglist :
+					<tr>
+						<!-- <td></td> -->
+						<td></td><td></td><td width='35%' colspan="5">&nbsp;</td>
+					</tr>
+					<tr>
+						<!-- <td></td> -->
+						<td></td><td style="border-top: 1px dashed #808080;">${(o.desc_for_packinglist or '').replace('\n','<br/>')}</td><td width='35%' colspan="5"></td>
+					</tr>
+					%endif
+					<tr>
+						<!-- <td></td> -->
+						<td></td><td></td><td id='grsbwhtbl' width='35%' colspan="5"></td>
+					</tr>
+					
+					<tr>
+						<!-- <td width='2%'></td> -->
+						<td width='17%'></td>
+						<!-- <td id="jdltbl" style="text-align:left;">total :</td> -->
+						<td width='46%'></td>
+						<td id="jdltbl">total</td><td></td>
+						<td id="jdltbl" style="text-align:right;">${formatLang(totgross,digits=qty_digit)}</td>
+						<td id="jdltbl" style="text-align:right;">${formatLang(totnet,digits=qty_digit)}</td>
+						<td id="jdltbl" style="text-align:right;">${formatLang(totvol,digits=qty_digit)}</td>
+					</tr>
+
+					<tr>
+						<td id='grsatastbl' width='98%' colspan="7">PLEASE DO NOT MIX YARNS HAVING DIFFERENT LOT NUMBERS AT ANY STAGE OF PROCESSING.</td>
+					</tr>
+
+				</table>
+					<!-- <div  style="font-weight:bold;text-transform:capitalize;">
+						TOTAL AMOUNT terbilang
+					</div> -->
+				</br>
+				<!-- <div clas="subdetail"> -->
+			<!-- <table width="100%" >
+
+				<tr>
+					<td width="45%" style="vertical-align:top font-size:8px;">
+						<table class="deepdetail " >
+							<thead>
+								<tr class='garisbawah'>
+									<th align=left WIDTH=2% ></th>
+									<th align=left WIDTH=7% ></th>
+									<th  align=right WIDTH=5% ></th>
+									<th  align=right WIDTH=9% >GR.WT</th>
+									<th id="jdltbl" align=right WIDTH=9%>NT.WT</th>
+									<th  id="jdltbl" align=right WIDTH=13%>Dimension</th>
+								</tr>
+								<tr class='garisbawah'>
+									<th id="jdltbl" align=left WIDTH=2% >Sr.</th>
+									<th id="jdltbl" align=left WIDTH=7% > Details </th>
+									<th id="jdltbl" align=right WIDTH=5% >Nos</th>
+									<th id="jdltbl" align=right WIDTH=9% >(KGS)</th>
+									<th id="jdltbl" align=right WIDTH=9%>(KGS)</th>
+									<th id="jdltbl" align=right WIDTH=13%>(CM)</th>
+								</tr>
+							</thead>
+							<td id='grsbwhtbl' width='69%'  colspan="9"></td>
+					
+							<tbody>
+								<% srno =0 %>
+								% for list in o.goods_lines:
+								<%	srno +=1 %>	
+								
+								<tr style="padding-bottom:5px;">
+								%if list.product_uop and list.product_uop.packing_type.name:
+									<td align=left id="uppertext2"> ${ srno}</td>
+									<td align=left style="padding-bottom:5px;">
+										<span id="uppertext2">${list.product_uop and list.product_uop.uom_alias or ''} weight</span></br>
+										${list.product_uop and list.product_uop.packing_type.name and list.product_uop.packing_type.name.upper() or ''}</br>
+										CONE WEIGHT</br>
+										<span id="uppertext">CONES/${list.product_uop and list.product_uop.uom_alias or ''} </span>		
+									</td>
+									<td  align=right > 
+										<span id="uppertext2">-</span></br>
+										${int(list.packages)}</br>
+										-</br>
+										${list.product_uop and list.product_uop.cones} 
+									</td>
+									<td  align=right > 
+										<span id="uppertext2"> ${formatLang(list.product_uop and list.product_uop.gross_weight or 0,digits=3)}</span></br>
+										${formatLang((list.product_uop and list.product_uop.gross_weight or 0)*int(list.packages),digits=3)}</br>
+										-</br>
+										-
+									</td>
+									<td  align=right > 
+										<span id="uppertext2">${formatLang(list.product_uop and list.product_uop.net_weight or 0,digits=3)}</span></br>
+										${formatLang((list.product_uop and list.product_uop.net_weight or 0) *int(list.packages),digits=3)}</br>
+										${formatLang(list.product_uop and list.product_uop.cone_weight or 0,digits=3)}</br>
+										${formatLang((list.product_uop and list.product_uop.cones or 0)*int(list.packages)*((list.product_uop and list.product_uop.cone_weight or 0)),digits=3)} 
+									</td>
+									<td align=right>
+										<span id="uppertext2">${list.product_uop and list.product_uop.width or 0} X ${list.product_uop and list.product_uop.height or 0} X ${list.product_uop and list.product_uop.length or 0}</span>
+									</td>
+								%endif
+								</tr>	
+								% endfor
+								<tr>
+									<td id='grsbwhtbl' colspan="6"></td>
+								</tr>
+
+							</tbody>
+						</table>
+					</td>
+					<td width="8%">
+					</td>
+					<td width="15%" style="vertical-align:top;">
+						&nbsp;
+					</td>
+					<td width="22%"></td>
+				</tr>
+			</table>	  -->
+		</br>
+		%if o.note_for_packinglist:
+		<div>
+			<span id="jdltbl">${label.get('','Note:')}</span></br>
+			${o.note_for_packinglist.replace('\n','<br/>')}
+		</div>
+		%endif
+
+	</div> <!-- end of clas="subdetail" -->
+	<div id="break2" style="vertical-align:top;">&nbsp;</div>
+	<div id="break1" style="page-break-before: always;">
+
+		<div id="footer">
+
+
+			<table width='100%'>
+				<tr width='100%'>
+					<td id='lbl1' width='30%' align='center'>
+					</td>
+					<td width='40%'>
+					</td>
+					<td  width='30%' align='center' style="font-weight:bold;">
+						<a id='lbl1' style="text-align: left;">${o.shipper.name} </a>
+					</td>
+				</tr>
+				<tr width='100%'>
+					<td align='center'><br/><br/><br/></br>
+						<b></b>
+					</td>
+					<td><br/><br/><br/></br>
+					</td>
+					<td align='center'><br/><br/><br/></br>
+						<!-- <b>(SELLER)</b> -->
+					</td>
+				</tr>
+				<tr width='100%'>
+					<td>
+					</td>
+
+					<td>
+					</td>
+
+					<td Style="border-bottom:1pt solid #808080; text-align:center;">
+						${o.authorized_by and o.authorized_by.name or ''}
+					</td>
+				</tr>
+				<tr width='100%'>
+					<td width='30%' align='center'>
+					</td>
+
+					<td width='40%'>
+					</td>
+
+					<td width='30%' align='center'>
+						${o.authorized_by and o.authorized_by.job_id and o.authorized_by.job_id.name or 'Authorized Signatory (Stamp & Sign)'}
+					</td>
+				</tr>
+			</table>
+
+		</div>
+	</div>
+
+</div>
+
+</body>
+%endfor
+</html>	

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report auto="False" 
+        	id="report_bc41_form" 
+        	model="beacukai" 
+        	name="bc41.form" 
+        	file="ad_beacukai/report/bc41_form.mako" 
+        	string="BC 4.1" 
+        	usage="default" 
+        	report_type="webkit" 
+        	menu="True" 
+        	header="False"/> 
+    </data>
+</openerp>
+ 

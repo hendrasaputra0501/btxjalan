@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="invoice_inherit_agent_form" model="ir.ui.view">
+            <field name="name">account.invoice.inherit.agent.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="ad_account_invoice.invoice_inherit_form" />
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@string='Post Shipment Information']/group[2]" position="after">
+                    <group colspan="2" cols="4" string="Shipment Charge">
+                        <field name="amount_freight" readonly="1"/>
+                        <field name="amount_insurance" readonly="1"/>
+                        <field name="amount_fob" readonly="1"/>
+                    </group>
+                    <label for="charge_invoice_ids" />
+                    <field name="charge_invoice_ids" colspan="4" readonly="1">
+                        <tree string="Invoice Charge" create="0" delete="0" >
+                            <field name="invoice_id" />
+                            <field name="type_of_charge" />
+                            <field name="partner_id" />
+                            <field name="invoice_line_tax_id" widget="many2many_tags"/>
+                            <field name="tax_amount"/>
+                            <field name="vat_non_pph_amt" invisible="1"/>
+                            <field name="price_subtotal" string="Charge Amount" />
+                            <field name="currency_id" />
+                            <field name="state" />
+                            <field name="payment_date" />
+                        </tree>
+                    </field>
+                    <label for="charge_bpa_ids" />
+                    <field name="charge_bpa_ids" colspan="4" readonly="1">
+                        <tree string="BPA Charge" create="0" delete="0" >
+                            <field name="ext_transaksi_id" />
+                            <field name="type_of_charge" />
+                            <field name="partner_id" />
+                            <field name="debit" string="Charge Amount" />
+                            <field name="parent_currency_id" />
+                            <field name="state" />
+                            <field name="transaction_date" />
+                        </tree>
+                    </field>
+                    
+                    <group colspan="2" cols="4" string="Agent Commission">
+                        <field name="amount_commission_without_fob" readonly="1"/>
+                        <field name="amount_commission" readonly="1"/>
+                        <field name="amount_paid" readonly="1"/>
+                        <field name="commission_outstanding" readonly="1"/>
+                    </group>
+                    <button name="action_commission_open" string="Re-generate Commission" type="object" class="oe_left"/>
+                    <field name="commission_ids" colspan="4">
+                        <tree string="Agent's Commission" create="0" delete="1" editable="bottom">
+                            <field name="agent_id" />
+                            <field name="invoice_partner_id" />
+                            <field name="commission_amount" readonly="1"/>
+                            <field name="commission_amount_without_fob" readonly="1"/>
+                            <field name="state" readonly="1"/>
+                        </tree>
+                    </field>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="sales_commission_form" model="ir.ui.view">
+            <field name="name">account.invoice.commission.form</field>
+            <field name="model">account.invoice.commission</field>
+            <field name="arch" type="xml">
+                <form string="Commission" version="7.0">
+                    <group>
+                    <field name="invoice_id" readonly="1"/>
+                    <field name="bill_prov_id" readonly="1"/>
+                    <field name="invoice_prov_id" readonly="1"/>
+                    <field name="invoice_prov_line_id" readonly="1"/>
+                    <field name="agent_id" />
+                    <field name="invoice_partner_id" />
+                    <field name="commission_amount" readonly="1"/>
+                    <field name="commission_amount_without_fob" readonly="1"/>
+                    <field name="amount_invoiced" readonly="1"/>
+                    <field name="amount_paid" readonly="1"/>
+                    <field name="amount_outstanding" readonly="1"/>
+                    <field name="state" readonly="1"/>
+                    <field name="date_done" readonly="1"/>
+                    <field name="knock_off" readonly="1" attrs="{'invisible':[('knock_off','=',False)]}"/>
+                    <field name="date_knock_off" readonly="1" attrs="{'invisible':[('knock_off','=',False)]}"/>
+                    </group>
+                    <field name="bill_ids" readonly="1">
+                        <tree string="Bill Passing Lines" editable="bottom">
+                            <field name="bill_id" invisible="0"/>
+                            <field name="invoice_id" invisible="0"/>
+                            <field name="invoice_line_id" invisible="0"/>
+                            <field name="comm_id" invisible="0"/>
+                            <field name="invoice_related_id" />
+                            <field name="type_of_charge" />
+                            <field name="desciption" />
+                            <field name="partner_id" />
+                            <field name="account_id" />
+                            <field name="amount" />
+                            <field name="bill_line_tax_id" widget="many2many_tags"/>
+                            <field name="tax_amount" />
+                        </tree>
+                    </field>
+                    <field name="commission_lines" readonly="1">
+                        <tree string="Detail Comm">
+                            <field name="agent_id" invisible="0"/>
+                            <field name="invoice_partner_id" invisible="0"/>
+                            <field name="commission_percentage" invisible="0"/>
+                            <field name="commission_amount_fob" invisible="0"/>
+                            <field name="commission_amount_actual" invisible="0"/>
+                            <field name="sale_order_agent_id" />
+                        </tree>
+                    </field>
+                </form>
+            </field>
+        </record>
+
+        <record id="sales_commission_tree" model="ir.ui.view">
+            <field name="name">account.invoice.commission.tree</field>
+            <field name="model">account.invoice.commission</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state == 'draft';black:state in ('provision','open','paid');gray:state == 'knock_off'" string="Commission">
+                    <field name="invoice_id" />
+                    <field name="bill_prov_id" invisible="1"/>
+                    <field name="invoice_prov_id" invisible="1"/>
+                    <field name="invoice_prov_line_id" invisible="1"/>
+                    <field name="agent_id" />
+                    <field name="invoice_partner_id" invisible="1"/>
+                    <field name="commission_amount" readonly="1"/>
+                    <field name="commission_amount_without_fob" readonly="1"/>
+                    <field name="amount_invoiced" readonly="1"/>
+                    <field name="amount_paid" readonly="1"/>
+                    <field name="amount_outstanding" readonly="1"/>
+                    <field name="state" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sales_commission_search" model="ir.ui.view">
+            <field name="name">account.invoice.commission.search</field>
+            <field name="model">account.invoice.commission</field>
+            <field name="arch" type="xml">
+                <search string="Bill Passing">
+                    <field name="invoice_id" string="Invoice Related" filter_domain="[('invoice_id','ilike',self)]"/>
+                    <field name="agent_id" string="Agent" filter_domain="[('agent_id','ilike',self)]"/>
+                    <filter icon="terp-dialog-close" string="Paid" name="paid" domain="[('state','=','paid')]" />
+                    <filter icon="terp-stock" string="Open" name="open" domain="[('state','=','open')]" />
+                    <group expand="0" string="Group By...">
+                        <filter string="Status" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Agent" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'agent_id'}"/>
+                        <filter string="Payment to" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'invoice_partner_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_sales_commission_tree" model="ir.actions.act_window">
+            <field name="name">Outstanding Commission</field>
+            <field name="res_model">account.invoice.commission</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="sales_commission_tree"/>
+            <field name="search_view_id" ref="sales_commission_search"/>
+        </record>
+
+        <menuitem action="action_sales_commission_tree" id="menu_action_sales_commission_tree" parent="account.menu_finance_receivables" sequence="10"/>
+    </data>
+</openerp>

@@ -1,0 +1,345 @@
+<?xml version="1.0"?>
+<openerp>
+	<data> 
+    <record id="view_bpa_summary_tree" model="ir.ui.view">
+          <field name="name">bpa.summary.tree</field>
+          <field name="model">bpa.summary</field>
+          <field name="arch" type="xml">
+              <tree string="BPA" create="false">
+                  <field name="type_of_charge" invisible="0" />
+                  <field name="invoice_id" invisible="1"/>
+                  <field name="reference" invisible="0"/>
+                  <field name="state" invisible="1"/>
+                  <field name="bill_date" invisible="0"/>
+                  <field name="due_date" invisible="0"/>
+                  <field name="invoice_related_id" invisible="0"/>
+                  <field name="bl_number" invisible="0" />
+                  <field name="bl_date" invisible="0"/>
+                  <field name="picking_related_id" invisible="0"/>
+                  <field name="date_done" invisible="1"/>
+                  <field name="partner_id" invisible="0"/>
+                  <field name="currency_id"/>
+                  <field name="amount" sum="Total"/>
+             </tree>
+          </field>
+    </record>
+
+    <record id="view_bpa_summary_search" model="ir.ui.view">
+          <field name="name">bpa.summary.search</field>
+          <field name="model">bpa.summary</field>
+          <field name="arch" type="xml">
+              <search string="BPA">
+                  <field name="partner_id" context="{'contact_display':'partner'}"/>
+                  <filter string="Draft" name="paid" icon="terp-dialog-close" domain="[('state','=','draft')]" />
+                  <filter string="Open" name="paid" icon="terp-dialog-close" domain="[('state','=','open')]" />
+                  <filter string="Paid" name="paid" icon="terp-dialog-close" domain="[('state','=','paid')]" />
+                  <group expand="0" string="Extended Filters...">
+                      <field name="bill_date"/>
+                  </group>
+                  <group expand="1" string="Group By...">
+                      <filter name="group_partner" string="Partner" icon="terp-partner" context="{'group_by':'partner_id'}"/>
+                      <filter name="group_currency" string="Currency" icon="terp-stock_symbol-selection" context="{'group_by':'currency_id'}"/>
+                      <filter name="group_type" string="Type Charge" icon="terp-accessories-archiver" context="{'group_by':'type_of_charge'}"/>
+                      <filter name="group_picking" string="Shipment" icon="terp-accessories-archiver" context="{'group_by':'picking_id'}"/>
+                      <filter string="Bill Date" icon="terp-go-month" context="{'group_by':'bill_date'}" />
+                  </group>
+              </search>
+          </field>
+    </record>
+
+    <record id="action_bpa_summary" model="ir.actions.act_window">
+          <field name="name">BPA Report</field>
+          <field name="res_model">bpa.summary</field>
+          <field name="view_type">form</field>
+          <field name="view_mode">tree</field>
+          <field name="search_view_id"  ref="view_bpa_summary_search"/>
+          <field name="view_id" ref="view_bpa_summary_tree"/>      
+    </record>
+
+    <menuitem id="menu_bpa_summary" parent="ad_ext_transaksi.menu_bpa" sequence="20" action="action_bpa_summary"/>
+
+    <record model="ir.ui.view" id="wizard_bpa_report_form">
+      <field name="name">wizard.bpa.report.form</field>
+      <field name="model">wizard.bpa.report</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml"> 
+        <form string="commision detail" version="7.0">
+          <group colspan="4" col="4">
+            <field name="type_of_charge"/>
+            <field name="reference"/>
+          </group>
+          <footer>
+            <div>
+              <button type="object" name="print_report" string="Print" icon="STOCK_PRINT"/> or <button special="cancel" string="Cancel" class="oe_link"/>
+            </div>
+          </footer>
+        </form>
+      </field>
+    </record>
+         
+    <record model="ir.actions.act_window" id="action_wizard_bpa_report">
+        <field name="name">Print BPA</field>
+        <field name="res_model">wizard.bpa.report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="wizard_bpa_report_form"/>
+    </record>
+
+    <menuitem id="menu_wizard_bpa_report" parent="ad_ext_transaksi.menu_bpa" sequence="20" action="action_wizard_bpa_report"/>
+
+    <record id="header_bpa_a4_portrait" model="ir.header_webkit">
+        <field name="footer_html"><![CDATA[
+            <html>
+              <head>
+                  <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+                  <script>
+                      function subst() {
+                      var vars={};
+                      var x=document.location.search.substring(1).split('&');
+                      for(var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);}
+                      var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
+                      for(var i in x) {
+                      var y = document.getElementsByClassName(x[i]);
+                      for(var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
+                          }
+                      }
+                  </script>
+              </head>
+              <body style="border:0; margin: 0;" onload="subst()">
+                  <table style="border-top: 1px solid black; width: 100%">
+                      <tr >
+                          <td style="text-align:right;font-size:6;" width="95%">&nbsp;</td>
+                          <td style="text-align:left;font-size:6;">&nbsp;</td>
+                      </tr>
+                      <tr >
+                          <td style="text-align:right;font-size:6;" width="95%">Page <span class="page"/></td>
+                          <td style="text-align:left;font-size:6;">  of <span class="topage"/></td>
+                      </tr>
+                  </table>
+              </body>
+            </html>]]>
+        </field>
+        <field name="css" ><![CDATA[body { font-family:helvetica; font-size:10; }   .dest_address { margin-left:60%; font-size:10; } .header { margin-left:0; text-align:left; width:300px; font-size:10; }  .title { font-size:14; font-weight: bold;  }   .basic_table{ text-align:center; border:1px solid lightGrey; border-collapse: collapse; } .basic_table td { border:1px solid lightGrey; font-size:10;   }  .list_table { border-color:black; text-align:center; border-collapse: collapse;  } .list_table td { border-color:gray; border-top:1px solid gray; text-align:left; font-size:10; padding-right:3px padding-left:3px padding-top:3px padding-bottom:3px }  .list_table th { border-bottom:2px solid black; text-align:left; font-size:10; font-weight:bold; padding-right:3px padding-left:3px }  .list_tabe thead {     display:table-header-group; }   .total { width:100%; } .lib { width:10.3%; } .tot { text-align:right; width:15%; } .lefttot { width:74%; } .tax { width:50%; } ]]></field>
+        <field name="html" ><![CDATA[
+          <html>
+            <head>
+              <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+              <script>
+                function subst() {
+                  var vars={};
+                  var x=document.location.search.substring(1).split('&');
+                  for(var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);}
+                  var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
+                  for(var i in x) {
+                    var y = document.getElementsByClassName(x[i]);
+                    for(var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
+                    }
+                  }
+              </script>
+              <style type="text/css">
+                ${css}
+              </style>
+            </head>
+            <body style="border:0; margin: 0;" onload="subst()">
+              <table style="text-align: center; width: 100%;" border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                  <tr>
+                    <td style="vertical-align: top; width: 100%; font-family:arial; font-size:14px; font-weight: bold;">${company.partner_id.name |entity}</td>
+                  </tr>
+                  <tr>
+                    <td style="vertical-align: top; width: 100%; font-family:arial; font-size:10px;">BILL PASSING ADVICE ${report_title(data,objects).upper()}</td>
+                  </tr>
+                  <tr>
+                    <td style="vertical-align: top; width: 100%; font-family:arial; font-size:10px;">BPA No : ${report_number(data,objects)} Date : ${formatLang(report_date(data,objects),date=True)}</td>
+                  </tr>
+                  <tr>
+                    <td style="vertical-align: top; width: 100%; font-family:arial; font-size:10px;">&nbsp;</td>
+                  </tr>
+                </tbody>
+              </table>${_debug or ''|n}
+            </body>
+          </html>]]></field>
+        <field eval="&quot;&quot;&quot;Portrait&quot;&quot;&quot;" name="orientation"/>
+        <field eval="&quot;&quot;&quot;A4&quot;&quot;&quot;" name="format"/>
+        <field eval="20" name="margin_top"/>
+        <field eval="0.0" name="margin_bottom"/>
+        <field eval="0.0" name="margin_right"/>
+        <field eval="0.0" name="margin_left"/>
+        <field eval="&quot;&quot;&quot;BPA A4 Portrait&quot;&quot;&quot;" name="name"/>
+    </record>
+
+    <record id="header_bpa_a4_landscape" model="ir.header_webkit">
+        <field name="footer_html"><![CDATA[
+            <html>
+              <head>
+                  <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+                  <script>
+                      function subst() {
+                      var vars={};
+                      var x=document.location.search.substring(1).split('&');
+                      for(var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);}
+                      var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
+                      for(var i in x) {
+                      var y = document.getElementsByClassName(x[i]);
+                      for(var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
+                          }
+                      }
+                  </script>
+              </head>
+              <body style="border:0; margin: 0;" onload="subst()">
+                  <table style="border-top: 1px solid black; width: 100%">
+                      <tr >
+                          <td style="text-align:right;font-size:6;" width="95%">&nbsp;</td>
+                          <td style="text-align:left;font-size:6;">&nbsp;</td>
+                      </tr>
+                      <tr >
+                          <td style="text-align:right;font-size:6;" width="95%">Page <span class="page"/></td>
+                          <td style="text-align:left;font-size:6;">  of <span class="topage"/></td>
+                      </tr>
+                  </table>
+              </body>
+            </html>]]>
+        </field>
+        <field name="css" ><![CDATA[body { font-family:helvetica; font-size:10; }   .dest_address { margin-left:60%; font-size:10; } .header { margin-left:0; text-align:left; width:300px; font-size:10; }  .title { font-size:14; font-weight: bold;  }   .basic_table{ text-align:center; border:1px solid lightGrey; border-collapse: collapse; } .basic_table td { border:1px solid lightGrey; font-size:10;   }  .list_table { border-color:black; text-align:center; border-collapse: collapse;  } .list_table td { border-color:gray; border-top:1px solid gray; text-align:left; font-size:10; padding-right:3px padding-left:3px padding-top:3px padding-bottom:3px }  .list_table th { border-bottom:2px solid black; text-align:left; font-size:10; font-weight:bold; padding-right:3px padding-left:3px }  .list_tabe thead {     display:table-header-group; }   .total { width:100%; } .lib { width:10.3%; } .tot { text-align:right; width:15%; } .lefttot { width:74%; } .tax { width:50%; } ]]></field>
+        <field name="html" ><![CDATA[
+          <html>
+            <head>
+              <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+              <script>
+                function subst() {
+                  var vars={};
+                  var x=document.location.search.substring(1).split('&');
+                  for(var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);}
+                  var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
+                  for(var i in x) {
+                    var y = document.getElementsByClassName(x[i]);
+                    for(var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
+                    }
+                  }
+              </script>
+              <style type="text/css">
+                ${css}
+              </style>
+            </head>
+            <body style="border:0; margin: 0;" onload="subst()">
+              <table style="text-align: center; width: 100%;" border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                  <tr>
+                    <td style="vertical-align: top; width: 100%; font-family:arial; font-size:14px; font-weight: bold;">${company.partner_id.name |entity}</td>
+                  </tr>
+                  <tr>
+                    <td style="vertical-align: top; width: 100%; font-family:arial; font-size:10px;">BILL PASSING ADVICE ${report_title(data,objects).upper()}</td>
+                  </tr>
+                  <tr>
+                    <td style="vertical-align: top; width: 100%; font-family:arial; font-size:10px;">BPA No : ${report_number(data,objects)} Date : ${formatLang(report_date(data,objects),date=True)}</td>
+                  </tr>
+                  <tr>
+                    <td style="vertical-align: top; width: 100%; font-family:arial; font-size:10px;">&nbsp;</td>
+                  </tr>
+                </tbody>
+              </table>${_debug or ''|n}
+            </body>
+          </html>]]></field>
+        <field eval="&quot;&quot;&quot;Landscape&quot;&quot;&quot;" name="orientation"/>
+        <field eval="&quot;&quot;&quot;A4&quot;&quot;&quot;" name="format"/>
+        <field eval="20" name="margin_top"/>
+        <field eval="0.0" name="margin_bottom"/>
+        <field eval="0.0" name="margin_right"/>
+        <field eval="0.0" name="margin_left"/>
+        <field eval="&quot;&quot;&quot;BPA A4 Landscape&quot;&quot;&quot;" name="name"/>
+    </record>
+    
+    <report id="bpa_report_mako"
+      name="bpa.report.mako"
+      string="Bill Passing Advice"
+      model="wizard.bpa.report"
+      auto="False"
+      menu="False"
+      file="ad_bpa_charge/report/bpa_report.mako" 
+      usage="default" 
+      report_type="webkit"
+      header="True"
+      webkit_header="header_bpa_a4_landscape"
+    />
+
+    <report id="bpa_report_freight_mako"
+      name="bpa.report.freight.mako"
+      string="Bill Passing Advice"
+      model="wizard.bpa.report"
+      auto="False"
+      menu="False"
+      file="ad_bpa_charge/report/bpa_report_freight.mako" 
+      usage="default" 
+      report_type="webkit"
+      header="True"
+      webkit_header="header_bpa_a4_landscape"
+    />
+
+    <report id="bpa_report_emkl_mako"
+      name="bpa.report.emkl.mako"
+      string="Bill Passing Advice"
+      model="wizard.bpa.report"
+      auto="False"
+      menu="False"
+      file="ad_bpa_charge/report/bpa_report_emkl.mako" 
+      usage="default" 
+      report_type="webkit"
+      header="True"
+      webkit_header="header_bpa_a4_portrait"
+    />
+
+    <report id="bpa_report_comm_mako"
+      name="bpa.report.comm.mako"
+      string="Bill Passing Advice"
+      model="wizard.bpa.report"
+      auto="False"
+      menu="False"
+      file="ad_bpa_charge/report/bpa_report_comm.mako" 
+      usage="default" 
+      report_type="webkit"
+      header="True"
+      webkit_header="header_bpa_a4_landscape"
+    />
+
+    <report id="bpa_report_kbkb_mako"
+      name="bpa.report.kbkb.mako"
+      string="Bill Passing Advice"
+      model="wizard.bpa.report"
+      auto="False"
+      menu="False"
+      file="ad_bpa_charge/report/bpa_report_kbkb.mako" 
+      usage="default" 
+      report_type="webkit"
+      header="True"
+      webkit_header="header_bpa_a4_portrait"
+    />
+
+    <report id="bpa_report_kbkb_ext"
+      name="bpa.report.kbkb.ext.mako"
+      string="Bill Passing Advice KBKB"
+      model="ext.transaksi"
+      auto="False"
+      menu="True"
+      file="ad_bpa_charge/report/bpa_report_kbkb_ext.mako" 
+      usage="default" 
+      report_type="webkit"
+      header="True"
+      webkit_header="header_bpa_a4_portrait"
+    />
+
+    <report id="bpa_summary_mako"
+      name="bpa.summary.mako"
+      string="Print BPA"
+      model="bpa.summary"
+      auto="False"
+      menu="True"
+      file="ad_bpa_charge/report/bpa_summary.mako" 
+      usage="default" 
+      report_type="webkit"
+      header="True"
+      webkit_header="header_bpa_a4_landscape"
+    />
+  </data>
+</openerp>

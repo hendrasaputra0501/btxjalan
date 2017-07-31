@@ -1,0 +1,8 @@
+<openerp>
+	<data>
+		<record id="commission_precision" model="decimal.precision">
+            <field name="name">Commission Amount</field>
+            <field name="digits" eval="4" />
+        </record>
+    </data>
+</openerp>

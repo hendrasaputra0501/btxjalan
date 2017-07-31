@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="wizard_set_picking_related_form" model="ir.ui.view">
+            <field name="name">Set Picking Related</field>
+            <field name="model">wizard.set.picking.related</field>
+            <field name="arch" type="xml">
+            <form string="Set Picking Related" version="7.0">
+                <separator string="Set Picking Related"/>
+                <group>
+                    <field name="picking_related_id" domain="[('type','=','out')]"/>
+                </group>
+                <footer>
+                    <button name="set_picking_related_id" string="Set" type="object" class="oe_highlight" />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+            </field>
+        </record>
+        <record id="action_wizard_set_picking_related" model="ir.actions.act_window">
+            <field name="name">Set Picking Related</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard.set.picking.related</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</openerp>

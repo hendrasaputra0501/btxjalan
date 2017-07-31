@@ -1,0 +1,39 @@
+<openerp>
+	<data>
+		<record id='btrx_good_type1' model='goods.type'>
+			<field name='name'>Finish Goods</field>
+			<field name='description'>Finish Goods Type</field>
+			<field name="code">Finish</field>
+		</record>
+		<record id='btrx_good_type2' model='goods.type'>
+			<field name='name'>Finish Goods Other</field>
+			<field name='description'>Finish Goods Other Type</field>
+			<field name="code">Finish_others</field>
+		</record>
+		<record id='btrx_good_type3' model='goods.type'>
+			<field name='name'>Raw Material</field>
+			<field name='description'>Raw Material Goods Type</field>
+			<field name="code">Raw Material</field>
+		</record>
+		<record id='btrx_good_type4' model='goods.type'>
+			<field name='name'>Scrap</field>
+			<field name='description'>Scrap Goods Type</field>
+			<field name="code">Scrap</field>
+		</record>
+		<record id='btrx_good_type5' model='goods.type'>
+			<field name='name'>Stores &amp; Spares</field>
+			<field name='description'>Store &amp; Spares Goods Type</field>
+			<field name="code">Stores</field>
+		</record>
+		<record id='btrx_good_type6' model='goods.type'>
+			<field name='name'>Fixed Assets</field>
+			<field name='description'>Fixed Assets Type</field>
+			<field name="code">Fixed</field>
+		</record>
+		<record id='btrx_good_type7' model='goods.type'>
+			<field name='name'>Packing Material</field>
+			<field name='description'>Packing Material</field>
+			<field name="code">Packing</field>
+		</record>
+	</data>
+</openerp>

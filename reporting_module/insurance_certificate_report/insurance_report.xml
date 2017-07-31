@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		<report 
+			auto="False" id="insc_cer_report" 
+			model="insurance.polis"
+			header="False"
+			name="insc.mako.rept" 
+			file="reporting_module/insurance_certificate_report/insurance.mako" 
+			string="Insurance Policy Reports"
+			report_type="webkit" 
+			menu="True" />
+
+		<report 
+			auto="False" id="insc_cer_report_2" 
+			model="insurance.polis"
+			header="False"
+			name="insc2.mako.rept" 
+			file="reporting_module/insurance_certificate_report/insurance_2.mako" 
+			string="Insurance Policy Reports New"
+			report_type="webkit" 
+			menu="True" />
+	</data>
+</openerp>

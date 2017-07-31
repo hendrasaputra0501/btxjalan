@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<record id="blank_header_a4_portrait" model="ir.header_webkit">
+			<field name="name">Blank Header A4 Portrait</field>
+			<field name="format">A4</field>
+			<field name="orientation">Portrait</field>
+			<field name="html">&lt;br /&gt;</field>
+			<field name="footer_html">&lt;br /&gt;</field>
+		</record>
+		<record id="blank_header_a4_landscape" model="ir.header_webkit">
+			<field name="name">Blank Header A4 Landscape</field>
+			<field name="format">A4</field>
+			<field name="orientation">Landscape</field>
+			<field name="html">&lt;br /&gt;</field>
+			<field name="footer_html">&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;</field>
+		</record>
+		<record id="blank_header_folio_portrait" model="ir.header_webkit">
+			<field name="name">Blank Header BC Folio Portrait</field>
+			<field name="format">Folio</field>
+			<field name="orientation">Portrait</field>
+			<field name="html">&lt;br /&gt;</field>
+			<field name="footer_html"><![CDATA[<html>
+				<body>
+				<br />
+				</body>
+			</html>]]></field>
+			<field name="css" ><![CDATA[body { font-family:helvetica; font-size:5; } ]]></field>
+		</record>
+		<record id="blank_header_folio_landscape" model="ir.header_webkit">
+			<field name="name">Blank Header Folio Landscape</field>
+			<field name="format">Folio</field>
+			<field name="orientation">Landscape</field>
+			<field name="html">&lt;br /&gt;</field>
+			<field name="footer_html">&lt;br /&gt;</field>
+		</record>
+
+		<record id="blank_header_germany_portrait" model="ir.header_webkit">
+			<field name="name">Blank Header German Std Fanfold Portrait</field>
+			<field name="format">custom</field>
+			<field name="orientation">Portrait</field>
+			<field name="html"></field>
+			<field name="footer_html"></field>
+			<field name="paper_width">215</field>
+			<field name="paper_height">305</field>
+		</record>
+	</data>
+</openerp>

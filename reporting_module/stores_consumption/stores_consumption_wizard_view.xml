@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>      
+		<record model="ir.ui.view" id="stores_consumption_wizard_form">
+			<field name="name">Stores Consumption wizard</field>
+			<field name="model">stores.consumption.wizard</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml"> 
+				<form string="Stores Consumption" version="7.0">
+					<group colspan="4" col="4">
+						<field name="start_date"/>
+						<field name="end_date"/>
+						<!-- <field name="department_id"/> -->
+					</group>
+					<notebook>
+						<page string="Goods Type" colspan="4">
+							<field name="goods_type" colspan="4" col="4" nolabel="1"/>
+						</page>
+						<page string="Force Location" colspan="4" invisible="1">
+							<field name="location_force" colspan="4" col="4" nolabel="1"/>
+						</page>
+						<page string="Force Analytic Account" colspan="4">
+							<field name="analytic_account_force" colspan="4" col="4" nolabel="1"/>
+						</page>
+					</notebook>
+					<footer>
+						<div>
+							<button type="object" name="print_report" string="Export Excel File" icon="STOCK_PRINT"/> or <button special="cancel" string="Cancel" class="oe_link"/>
+						</div>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="stores_consumption_action">
+			<field name="name">Stores Consumption</field>
+			<field name="res_model">stores.consumption.wizard</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+			<field name="view_id" ref="stores_consumption_wizard_form"/>
+		</record>
+
+		<menuitem id="stores_consumption_menu" parent="ad_stock_report.reporting_stock_monthly" sequence="10" action="stores_consumption_action"/>
+	</data>
+</openerp>

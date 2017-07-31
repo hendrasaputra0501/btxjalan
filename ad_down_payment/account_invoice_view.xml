@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+     <data>
+
+        <record id="invoice_supplier_form_view" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.form.view</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form" />
+            <field name="arch" type="xml">
+	             <xpath expr="//form/notebook/page[@string='Payments']" position="after">
+	            	<page string="Down Payments">
+	            		<field name="account_voc_line" nolabel="1">
+	            			<tree colors="blue:(state == 'draft');" string="Downpayment">
+		                		<field name="dp" invisible="True"/>
+		                		<field name="name_dp" />
+		                		<field name="date_dp" />
+		                		<field name="partner_id_dp" />
+		                		<field name="amount_dp" />
+		                		<field name="state" />
+	                		</tree>
+	                	</field>
+	            	</page>
+	            </xpath>
+	            <xpath expr="//form/notebook/page[@string='Other Info']/field[@name='company_id']" position="after">
+	            	<field name="downpayment_id" domain="[('partner_id', '=', partner_id)]" readonly="0"/>            
+	            </xpath>
+	            <xpath expr="//form/notebook/page[@string='Invoice']/group[2]/field[@name='residual']" position="after">
+	                <field name="amount_dp" attrs="{'readonly':[('state','!=','draft')]}" on_change="on_change_check_dp(amount_dp)"/>
+<!--	                <field name="downpayment_id"/-->
+	                <field name="dp_residual" />
+	            </xpath>
+	            <!--
+<field name="reconciled" position="replace">
+	            	<group colspan="2" col="4">
+	            		<field name="reconciled" />
+	            		<field name="retention_check" on_change="onchange_retention_check()"/>
+	            	</group>
+	            </field>-->
+	            <field name="reconciled" position="after">
+            		<field name="retention_check" on_change="onchange_retention_check()"/>
+	            </field>
+
+	            <xpath expr="//form/notebook/page[@string='Invoice']/group/field[@name='tax_line']/tree/field[@name='account_id']" position="after">
+	           		<field name="account_analytic_id" />
+	            </xpath>
+	            
+	            <xpath expr="//form/notebook/page[@string='Payments']" position="after">
+	            	<page string="Budget Info">
+	                	<group colspan="2" col="2">
+							<separator string="Budget" colspan="4"/>
+							<group colspan="2" col="2">
+								<button name="compute_budget_info" type='object' states="draft" string="Compute Budget" icon="gtk-convert" />
+							
+								<field name="budget_info_ids_inv" nolabel="1" height="300" widget="many2many" readonly="1">
+									<tree string="Budget Info">
+										<field name="account_analytic_id"/>
+										<field name="amount_budget" string="Total Budget"/>
+										<field name="amount_spent" string="Budget Spent"/>			
+										<field name="amount_current" string="Current Request"/>		
+										<field name="amount_utilized" string="Current Utilization"/>			
+										<field name="amount_remain" string="Budget Remain"/>		
+									</tree>							
+								</field>
+							</group>
+						</group>
+                	</page>
+                </xpath>
+	            
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_account_invoice_retention_form">
+	        <field name="name">view.account.invoice.retention.form</field>
+	        <field name="model">account.invoice.line</field>
+	        <field name="inherit_id" ref="account.view_invoice_line_form"/>
+	        <field name="type">form</field>
+	        <field name="arch" type="xml">
+	            <field name="discount" position="after">
+	                <field name="retention" />
+	            </field>
+	            
+	        </field>
+	    </record>
+	    
+	</data>
+</openerp>

@@ -1,0 +1,411 @@
+<openerp>
+	<data>
+		<record id="view_bank_loan_tree" model="ir.ui.view">
+			<field name="name">account.bank.loan.tree</field>
+			<field name="model">account.bank.loan</field>
+			<field name="arch" type="xml">
+				<tree string="Bank Loan" >
+					<field name="name" />
+					<field name="partner_id" />
+					<field name="date_request" />
+                    <field name="ref" />
+					<!-- <field name="date_end" /> -->
+					<field name="effective_date" />
+                    <field name="total_amount" />
+                    <field name="residual_amount" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_bank_loan_search" model="ir.ui.view">
+			<field name="name">account.bank.loan.search</field>
+			<field name="model">account.bank.loan</field>
+			<field name="arch" type="xml">
+				<search string="Bank Loan">
+					<field name="name" string="Search" filter_domain="['|',('name','ilike', self),('ref','ilike',self)]"/>
+                    <filter string="My Transaction" name="create_by" icon="terp-dialog-close" domain="[('create_by','=',uid)]" />
+					<field name="invoice_related_id" string="Invoice" filter_domain="[('invoice_related_id','ilike',self)]"/>
+                    <field name="loan_type_id" string="Others Loan" filter_domain="[('loan_type_id','ilike',self)]"/>
+                    <field name="partner_id" string="Applicant" filter_domain="[('partner_id','child_of',self)]"/>
+					<group expand="0" string="Group By...">
+						<filter string="Status" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+						<!-- <filter string="LC Type" icon="terp-folder-orange" domain="[]" context="{'group_by':'type'}"/> -->
+                        <filter name="nego_loan" string="Invoice Negotiation" icon="terp-accessories-archiver" domain="[('loan_type','=','nego')]"/>
+                        <filter name="tr_loan" string="Transfer Receipt" icon="terp-accessories-archiver" domain="[('loan_type','=','tr')]"/>
+                        <filter name="other_loan" string="Other Loan" icon="terp-accessories-archiver" domain="[('loan_type','=','others')]"/>
+					</group>
+				</search>
+			</field>
+		</record>
+
+        <record id="view_bank_loan_type_tree" model="ir.ui.view">
+            <field name="name">account.bank.loan.type.tree</field>
+            <field name="model">account.bank.loan.type</field>
+            <field name="arch" type="xml">
+                <tree string="Bank Loan Classification">
+                    <field name="name" />
+                    <field name="account_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_bank_loan_type_form" model="ir.ui.view">
+            <field name="name">account.bank.loan.type.form</field>
+            <field name="model">account.bank.loan.type</field>
+            <field name="arch" type="xml">
+				<form string="Bank Loan Classification" version="7.0">
+                    <group>
+                        <group>
+                            <field name="name" />
+                        </group>
+                        <group>
+                            <field name="account_id" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Interest Rate" invisible="0">
+                            <field name="int_rate_line" attrs="" context="" >
+                                <tree string="Interest Rate" editable="bottom">
+                                    <field name="rate" required='1'/>
+                                    <field name="date_from" required='1' />
+                                    <field name="date_to" invisible='1'/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_bank_loan_type" model="ir.actions.act_window">
+            <field name="name">Bank Loan Classification</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.bank.loan.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <!-- <field name="search_view_id" ref="view_bank_loan_search"/> -->
+        </record>
+
+        <menuitem action="action_bank_loan_type" id="menu_bank_loan_type" parent="account.menu_configuration_misc" sequence="20"/>
+        
+        <record id="view_bank_loan_form" model="ir.ui.view">
+            <field name="name">account.bank.loan.form</field>
+            <field name="model">account.bank.loan</field>
+            <field name="arch" type="xml">
+                <form string="Bank Loan" version="7.0">
+					<header>
+						<button name="loan_cancel" type="workflow" states="open" string="Cancel"/>
+                        <button name="loan_open" type="workflow" states="confirm" string="Validate"/>
+                        <button name="open_test" type="workflow" states="paid" string="Re-Open"/>
+                        <button name="test_paid" type="workflow" states="open" string="Check Status"/>
+                        <button name="action_set_to_draft" type="object" states="confirm,cancel" string="Set to Draft"/>
+                        <button name="loan_confirm" type="workflow" states="draft" string="Confirm"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,confirm,open,paid"/>
+					</header>
+					<sheet>
+					<h1>
+						<field name="name" class="oe_inline"/>
+					</h1>
+					<group>
+						<group>
+                            <field name="loan_type" />
+                            <field name="loan_type_id" attrs="{'invisible':[('loan_type','!=','others')],'required':[('loan_type','=','others')]}"/>
+							<field name="partner_id" attrs="{'required':[('loan_type','in',['nego','tr'])]}" />
+                            <field name="invoice_related_id" domain="[('partner_id','=',partner_id)]" attrs="{'required':[('loan_type','=','nego')]}" on_change="onchange_invoice(invoice_related_id, journal_id)"/>
+							<field name="date_request" />
+							<field name="effective_date" />
+                            <field name="move_id" attrs="{'invisible':[('state','in',['draft','confirm'])]}"/>
+                            <field name="liability_move_line_id" attrs="{'invisible':[('state','in',['draft','confirm'])]}"/>
+						</group>
+						<group>
+                            <field name="memo" />
+                            <field name="ref" />
+							<field name="journal_id" domain="[('type','in',['bank','cash'])]" on_change="onchange_journal(journal_id)"/>
+                            <field name="account_id" domain="[('type','!=','view')]" />
+                            <field name="account_payable" domain="[('type','!=','view'),('user_type.code','=','liability')]" />
+                            <!-- <field name="currency_id" /> -->
+                            <field name="total_amount" on_change="onchange_total_amount(total_amount)" />
+                            <field name="residual_amount" />
+                            <field name="company_id" />
+						</group>
+					</group>
+                    <group >
+                        <group>
+                            <field name="config_type" />
+                            <field name="use_scheduler" invisible='0'/>
+                            <label for='voucher_id' />
+                            <div>
+                                <field name="voucher_id" invisible='0' nolable='1'/>
+                                <button name="button_test_paid"
+                                        string="Check Payment Voucher"
+                                        type="object" help="Check if the Payment Voucher is related with this Loan"
+                                        attrs="{'invisible':['|',('voucher_id','=',False),('state','!=','open')]}" />
+                            </div>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <group attrs="{'invisible':[('config_type','=','manual')]}">
+                        <group string="Installment Term">
+                            <field name="payment_control" attrs="{'required':[('config_type','=','auto')]}"/>
+                            <field name="date_start" attrs="{'required':[('config_type','=','auto')]}" />
+                            <field name="method_number" attrs="{'required':[('config_type','=','auto')]}"/>
+                            <!-- <field name="method_period"/> -->
+                        </group>
+                        <group string="Interest Term">
+                        	<field name="intr_calc_method" attrs="{'required':[('config_type','=','auto')]}"/>
+                        	<field name="interest_for" attrs="{'required':[('config_type','=','auto')]}"/>
+                        	<field name="interest_perc" attrs="{'required':[('config_type','=','auto')]}" />
+                        </group>
+                    </group>
+					<notebook>
+						<page string="Repayment" >
+							<button type="object" name="recompute_real_amount" string="Re-Compute Amount" icon="terp-stock_format-scientific" attrs="{'invisible':[('use_scheduler','=',False)]}"/>
+							<field name="repayment_line" attrs="" context="" >
+                                <form string="Repayment" version="7.0"  >
+                                    <header>
+                                        <!-- <button name="compute_interest" type="object" states="draft" string="Compute Interest"/> -->
+                                        <!-- <button name="action_set_draft" type="object" states="open,cancel" string="Set To Draft"/> -->
+                                        <button name="action_confirm" type="object" states="draft" string="Confirm"/>
+                                        <button name="action_set_to_draft" type="object" states="confirmed,cancel" string="Set to Draft"/>
+                                        <button name="action_validate" type="object" states="confirmed" string="Validate Payment"/>
+                                        <button name="action_unreconcile" type="object" states="paid" string="Unreconcile"/>
+                                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
+                                    </header>
+                                    <group string="Repayment Planning">
+                                        <group>
+                                            <field name="use_scheduler" invisible='0'/>
+                                            <field name="planning_amount" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                        </group>
+                                        <group>
+                                            <field name="schedule_payment" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                        </group>
+                                    </group>
+                                    <group string="Payment" attrs="{'invisible':[('state','=','draft')]}">
+                                        <group>
+                                            <field name="revision_amount" attrs="{'readonly':[('state','!=','confirmed')]}"/>
+                                            <field name="lastest_revision" />
+                                            <field name="liability_move_line_id" attrs="{'readonly':[('state','!=','confirmed')]}"/>
+                                            <field name="journal_id" domain="[('type','in',['bank','cash'])]" attrs="{'required':[('state','=','confirmed')],'readonly':[('state','!=','confirmed')]}"/>
+                                            <field name='move_id' attrs="{'invisible':[('state','not in',['paid','paid2'])]}"/>
+                                        </group>
+                                        <group>
+                                            <field name="payment_memo" />
+                                            <field name="payment_date" attrs="{'required':[('state','=','confirmed')],'readonly':[('state','!=','confirmed')]}"/>
+                                            <field name="real_amount" readonly="1" />
+                                        </group>
+                                    </group>
+                                    <notebook>
+                                        <page string="Journal Items" attrs="{'invisible':[('state','not in',['paid','paid2'])]}">
+                                            <field name="move_ids"/>
+                                        </page>
+                                    </notebook>
+                                </form>
+                                <tree string="Repayment" >
+                                    <field name="schedule_payment"/>
+                                    <field name="planning_amount"/>
+
+                                    <field name="payment_date"/>
+                                    <field name="real_amount"/>
+                                    
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Interest" >
+                            <field name="int_line" attrs="" context="" >
+                                <form string="Interest" version="7.0"  >
+                                    <header>
+                                        <button name="compute_interest" type="object" states="draft,computed" string="Compute Interest"/>
+                                        <button name="action_set_to_draft" type="object" states="computed,cancel" string="Set to Draft"/>
+                                        <button name="action_validate" type="object" states="computed" string="Validate Payment"/>
+                                        <button name="action_provision_settlement" type="object" states="provision" string="Validate Payment"/>
+                                        <button name="action_unreconcile_provision" type="object" states="provision" string="Cancel Provision Entry"/>
+                                        <button name="action_unreconcile" type="object" states="paid" string="Unreconcile"/>
+                                        <field name="state" widget="statusbar" statusbar_visible="draft,computed,paid"/>
+                                    </header>
+                                    <group>
+                                        <group>
+                                            <field name="compute_type" attrs="{'required':[('state','=','draft')],'readonly':[('state','!=','draft')]}"/>
+                                            <field name="date_from" attrs="{'required':[('state','=','draft')],'readonly':[('state','!=','draft')]}"/>
+                                            <field name="date_to" attrs="{'required':[('state','=','draft')],'readonly':[('state','!=','draft')]}"/>
+                                        </group>
+                                        <group>
+                                            <field name="use_loan_type_rate" attrs="{'readonly':[('state','!=','draft')],'invisible':[('compute_type','!=','multi')]}"/>
+                                            <field name="rate" attrs="{'required':[('state','=','draft'),('compute_type','=','single')],'readonly':[('state','!=','draft')],'invisible':[('compute_type','!=','single')]}"/>
+                                        </group>
+                                    </group>
+                                    <group string="Payment" attrs="{'invisible':[('state','not in',['computed','provision','paid','paid2'])]}">
+                                        <group>
+                                            <field name="is_provision" />
+                                            <field name="journal_id" domain="[('type','in',['bank','cash','general'])]" attrs="{'required':['|','&amp;',('state','=','computed'),('is_provision','!=',True),('state','=','provision')],'readonly':[('state','not in',['computed','provision'])]}"/>
+                                            
+                                            <field name="interest_amount" attrs="{'readonly':[('state','!=','computed')]}"/>
+                                            <field name="total_paid_amount" />
+                                            <field name='move_id' attrs="{'invisible':[('state','not in',['provision','paid','paid2'])]}"/>
+                                        </group>
+                                        <group>
+                                            <field name="payment_memo" />
+                                            <field name="payment_date" attrs="{'required':['|','&amp;',('state','=','computed'),('is_provision','!=',True),('state','=','provision')],'readonly':[('state','not in',['computed','provision'])]}"/>
+                                            
+                                            <field name="prov_account_id" attrs="{'required':[('state','=','computed'),('is_provision','=',True)],'invisible':[('is_provision','=',False)]}" domain="[('type','!=','view')]"/>
+                                            <field name="account_interest" attrs="{'required':[('state','=','computed')]}" domain="[('type','!=','view')]"/>
+                                            <field name="type_of_charge" />
+                                        </group>
+                                    </group>
+                                    <group string="Provision Payment" attrs="{'invisible':[('is_provision','=',False)]}">
+                                        <group>
+                                            <field name="payment_prov_journal_id" domain="[('type','=','general')]" attrs="{'required':[('state','=','computed'),('is_provision','=',True)],'readonly':[('state','!=','computed')], 'invisible':[('is_provision','=',False)]}"/>
+                                            <field name='move_provision_id' attrs="{'invisible':[('state','not in',['provision','paid','paid2'])]}"/>
+                                            <field name='liability_move_prov_id' attrs="{'invisible':[('state','not in',['provision','paid','paid2'])]}"/>
+                                        </group>
+                                        <group>
+                                            <field name="payment_prov_date" attrs="{'required':[('state','=','computed'),('is_provision','=',True)],'readonly':[('state','!=','computed')]}"/>
+                                        </group>
+                                    </group>
+                                    <notebook>
+                                        <page string="Interest Rate" >
+                                            <field name="interest_line" readonly="1">
+                                                <tree string="Interest Rate">
+                                                    <field name="date_from"/>
+                                                    <field name="date_to"/>
+                                                    <field name="n_days"/>
+                                                    <field name="outstanding"/>
+                                                    <field name="rate"/>
+                                                    <field name="amount" sum="amount"/>
+                                                </tree>
+                                            </field>     
+                                        </page>
+                                        <page string="Other Charge" >
+                                            <field name="writeoff_lines">
+                                                <tree string="Other Charge" editable="bottom">
+                                                    <field name="invoice_related_id" domain=""/>
+                                                    <field name="name"/>
+                                                    <field name="type" string='Charge Type' on_change="onchange_charge(type)"/>
+                                                    <field name="account_id" domain="[('type','=','other')]"/>
+                                                    <field name="analytic_id"/>
+                                                    <field name="analytic_journal_id" attrs="{'required':[('analytic_id','!=',False)]}"/>
+                                                    <field name="amount" sum="Amount" string='Amount'/>
+                                                </tree>
+                                            </field>
+                                        </page>
+                                        <page string="Journal Items" attrs="{'invisible':[('state','not in',['paid','paid2'])]}">
+                                            <field name="move_ids"/>
+                                        </page>
+                                        <page string="Provision Journal Items" attrs="{'invisible':[('state','not in',['provision','paid','paid2'])]}">
+                                            <field name="move_prov_ids"/>
+                                        </page>
+                                    </notebook>
+                                </form>
+                                <tree string="Interest">
+                                    <field name="date_from"/>
+                                    <field name="date_to"/>
+                                    <field name="interest_amount"/>
+                                    <field name="payment_date"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Interest Rate" invisible="0">
+                            <field name="int_rate_line" attrs="" context="" >
+                                <tree string="Interest Rate" editable="bottom">
+                                    <field name="rate" required='1'/>
+                                    <field name="date_from" required='1' />
+                                    <field name="date_to" invisible='1'/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Installment" invisible='1'>
+                            <button type="object" name="recompute_interest" string="Re-Compute Interest" icon="terp-stock_format-scientific" attrs="{'invisible':[('intr_calc_method','!=','custom')]}"/>
+                            <field name="installment_line" attrs="{'create':[('config_type','=','manual')],'delete':[('config_type','=','manual')]}" context="{'config_type':config_type}" >
+                                <form string="Installment" version="7.0"  >
+                                    <header>
+                                        <button name="compute_interest" type="object" states="draft" string="Compute Interest"/>
+                                        <button name="action_set_draft" type="object" states="open,cancel" string="Set To Draft"/>
+                                        <button name="action_pay" type="object" states="open" string="Confirm"/>
+                                        <button name="action_post_payment" type="object" states="payment" string="Validate Payment"/>
+                                        <button name="action_unreconcile" type="object" states="paid" string="Unreconcile"/>
+                                        <field name="state" widget="statusbar" statusbar_visible="draft,open,payment,paid"/>
+                                    </header>
+                                    <group string="Installment">
+                                        <group>
+                                            <field name="config_type" invisible='1' />
+                                            <field name="installment_amount" attrs="{'readonly':['|',('state','not in',['draft','open']),('config_type','=','auto')]}"/>
+                                            <!-- <field name="residual_amount" attrs="{'invisible':[('config_type','=','auto')]}" /> -->
+                                            <field name="interest_perc" attrs="{'required':[('config_type','=','manual')],'invisible':[('config_type','=','auto')]}" />
+                                        </group>
+                                        <group>
+                                            <field name="date_from" attrs="{'readonly':[('state','not in',['draft','open'])]}"/>
+                                            <!-- <field name="date_to" attrs="{'readonly':[('state','not in',['draft','open'])]}"/> -->
+                                        </group>
+                                    </group>
+                                    <group string="Payment" attrs="{'invisible':[('state','not in',['payment','paid'])]}">
+                                        <group>
+                                            <field name="liability_move_line_id"/>
+                                            <field name="journal_id" domain="[('type','in',['bank','cash'])]" attrs="{'required':[('state','=','payment')]}"/>
+                                            <field name='move_id' attrs="{'invisible':[('state','!=','paid')]}"/>
+                                        </group>
+                                        <!-- <group>
+                                            <field name="date_payment" attrs="{'required':[('state','=','payment')]}"/>
+                                        </group> -->
+                                    </group>
+                                        <notebook>
+                                            <!-- <page string="Additional Cost">
+                                                <group>
+                                                    <group>
+                                                        <field name='interest_cost' attrs="{'required':[('state','=','payment')]}"/>
+                                                    </group>
+                                                    <group>
+                                                        <field name='account_interest' attrs="{'required':[('state','=','payment')]}"/>
+                                                    </group>
+                                                </group>
+                                                <label for="adm_cost_ids" />
+                                                <field name='adm_cost_ids' attrs="{'required':[('state','=','payment')]}">
+                                                    <tree string='Cost' editable='bottom'>
+                                                        <field name='name' required='1'/>
+                                                        <field name='account_id' required='1'/>
+                                                        <field name='expense_amount' required='1'/>
+                                                    </tree>
+                                                </field>
+                                            </page> -->
+                                            <page string="Journal Items" attrs="{'invisible':[('state','!=','paid')]}">
+                                                <field name="move_ids"/>
+                                            </page>
+                                        </notebook>
+                                </form>
+                                <tree string="Installment" >
+                                    <field name="name"/>
+                                    <field name="date_from"/>
+                                    <!-- <field name="date_to"/> -->
+                                    <field name="installment_amount"/>
+                                    <!-- <field name="interest_cost"/> -->
+                                    <!-- <field name="total_amount"/> -->
+                                    <field name="remain_amount"/>
+                                    <!-- <field name="journal_id"/>
+                                    <field name="date_payment"/> -->
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Term and Condition">
+                            <field name="note" />
+                        </page>
+					</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_bank_loan" model="ir.actions.act_window">
+			<field name="name">Bank Loan</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">account.bank.loan</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="view_bank_loan_search"/>
+		</record>
+
+		<menuitem action="action_bank_loan" id="menu_bank_loan" parent="account.menu_finance_bank_and_cash" sequence="11"/>
+	</data>
+</openerp>

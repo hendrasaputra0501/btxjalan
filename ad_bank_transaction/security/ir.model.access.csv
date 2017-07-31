@@ -1,0 +1,5 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_bank_transaction_manager","bank.transaction.manager","model_bank_transaction","account.group_account_manager",1,1,1,1
+"access_bank_transaction_line_manager","bank.transaction.line.manager","model_bank_transaction_line","account.group_account_manager",1,1,1,1
+"access_bank_transaction_user","bank.transaction.user","model_bank_transaction","account.group_account_user",1,0,1,0
+"access_bank_transaction_line_user","bank.transaction.line.user","model_bank_transaction_line","account.group_account_user",1,0,1,0

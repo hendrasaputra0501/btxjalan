@@ -1,0 +1,38 @@
+<openerp>
+	<data>
+		<!-- activity -->
+		<record id="act_lc_1" model="workflow.activity">
+            <field name="wkf_id" ref="sale.wkf_sale"/>
+            <field name="name">lc_draft</field>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'lc_draft'})</field>
+        </record>
+        <!-- transition -->
+
+        <record id="trans_router_lc_1" model="workflow.transition">
+            <field name="act_from" ref="sale.act_router"/>
+            <field name="act_to" ref="act_lc_1"/>
+            <field name="condition">payment_method == 'lc'</field>
+        </record>
+
+        <record id="sale_stock.trans_router_wait_ship" model="workflow.transition">
+            <field name="act_from" ref="sale.act_router"/>
+            <field name="act_to" ref="sale_stock.act_wait_ship"/>
+            <field name="condition">payment_method != 'lc'</field>
+        </record>
+
+        <record id="trans_lc_1_wait_ship" model="workflow.transition">
+            <field name="act_from" ref="act_lc_1"/>
+            <field name="act_to" ref="sale_stock.act_wait_ship"/>
+            <field name="signal">manual_delivery</field>
+            <field name="condition">check_draft() and payment_method == 'lc'</field>
+        </record>
+
+        <record id="trans_lc_1_wait_ship_force" model="workflow.transition">
+            <field name="act_from" ref="act_lc_1"/>
+            <field name="act_to" ref="sale_stock.act_wait_ship"/>
+            <field name="signal">manual_delivery</field>
+            <field name="condition">payment_method == 'lc'</field>
+        </record>
+	</data>
+</openerp>

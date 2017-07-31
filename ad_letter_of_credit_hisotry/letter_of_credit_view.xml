@@ -1,0 +1,24 @@
+<openerp>
+	<data>
+		<record id="view_letterofcredit_purchase_form_inhrt_history" model="ir.ui.view">
+            <field name="name">letterofcredit.purchase.form.inhrt.history</field>
+            <field name="model">letterofcredit</field>
+            <field name="inherit_id" ref="ad_letter_of_credit.view_letterofcredit_purchase_form" />
+            <field name="arch" type="xml">
+            	<xpath expr="/form/notebook/page[@string='Products']" position="after">
+					<page string="Payments">
+                        <field name="lc_history_ids" nolabel="1">
+                            <tree string="Product Lines" >
+                                <field name="name" />
+                                <field name="value_ref"/>
+                                <field name="value_currency"/>
+                                <field name="value_amount"/>
+                                <field name="value_date" />
+                            </tree>
+                        </field>
+                    </page>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</openerp>

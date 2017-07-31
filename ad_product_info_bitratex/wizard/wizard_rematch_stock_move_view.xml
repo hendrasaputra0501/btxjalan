@@ -1,0 +1,29 @@
+<openerp>
+	<data>
+		<record id="wizard_rematch_stock_move_form" model="ir.ui.view">
+            <field name="name">wizard.rematch.stock.move.form</field>
+            <field name="model">wizard.rematch.stock.move</field>
+            <field name="arch" type="xml">
+                <form string="Re-Match Stock Move" version="7.0">
+                	<group>
+	                </group>
+                    <footer>
+	                    <button name="do_rematch" string="Re-match Stock Move" type="object" class="oe_highlight"/>
+	                    or
+	                    <button string="Cancel" class="oe_link" special="cancel" />
+	                </footer>
+                </form>
+            </field>
+        </record>
+		
+		<record id="action_wizard_rematch_stock_move" model="ir.actions.act_window">
+            <field name="name">Re-Match Stock Move</field>
+            <field name="res_model">wizard.rematch.stock.move</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!-- <menuitem id="menu_action_wizard_rematch_stock_move" name="Re-Match Stock Move" parent="stock.menu_traceability" action="action_wizard_rematch_stock_move" sequence="10"/> -->
+	</data>
+</openerp>

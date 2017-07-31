@@ -1,0 +1,43 @@
+<openerp>
+	<data>
+        <record id="view_wizard_freight_charge_onshipment" model="ir.ui.view">
+            <field name="name">Wizard Freight Charge OnShipment</field>
+            <field name="model">wizard.freight.charge.onshipment</field>
+            <field name="arch" type="xml">
+              <form string="Create Freight Invoice" version="7.0">
+                  <group string="Create Freight Invoice">
+                      <field name="journal_id"/>
+                      <field name="number" />
+                      <field name="group"/>
+                      <field name="invoice_date" />
+                      <field name="currency_id" />
+                  </group>
+                  <footer>
+                      <button name="open_freight_invoice" string="Create" type="object" class="oe_highlight"/>
+                      or
+                      <button string="Cancel" class="oe_link" special="cancel"/>
+                  </footer>
+             </form>
+            </field>
+        </record>
+
+
+        <act_window name="Create Draft Freight Invoice"
+            res_model="wizard.freight.charge.onshipment"
+            src_model="stock.picking.out"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_wizard_freight_charge_onshipment"/>
+
+        <act_window name="Create Draft Freight Invoice"
+            res_model="wizard.freight.charge.onshipment"
+            src_model="stock.picking.out"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_wizard_freight_charge_onshipment_1"/>
+	</data>
+</openerp>

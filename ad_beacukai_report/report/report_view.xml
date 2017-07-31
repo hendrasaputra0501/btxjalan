@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		<report auto="False" id="pabean_beacukai_report_xls_id" model="report.stock.move.pabean" name="pabean.report.xls" string="Report Excel" usage="default" report_type="xls" menu="True" header="False" />
+	</data>
+</openerp>

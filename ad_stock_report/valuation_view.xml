@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+        <record id="stock_valuation_value_tree" model="ir.ui.view">
+            <field name="name">stock.valuation.value.tree</field>
+            <field name="model">stock.valuation.value</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Parameters">
+                    <field name="location_id" invisible="True"/>
+                    <field name="product_id"/>
+                    <field name="closing_qty"/>
+                    <field name="closing_qty_bale"/>
+                    <field name="value"/>
+                    <field name="qty_process"/>
+                    <field name="uom_id"/>
+                    <field name="period_id" invisible="True"/>
+                    <field name="start_date" invisible="True"/>
+                    <field name="end_date" invisible="True"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="stock_valuation_value_form" model="ir.ui.view">
+            <field name="name">stock.valuation.value.form</field>
+            <field name="model">stock.valuation.value</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <form string="Stock Valuation Parameter Lines" version="7.0">
+                    <sheet>
+                        <group colspan="4" col="4">
+                            <field name="location_id" domain="[('usage','=','internal')]"/>
+                            <field name="product_id"/>
+                            <field name="closing_qty"/>
+                            <field name="closing_qty_bale"/>
+                            <field name="uom_id"/>
+                            <field name="value"/>
+                            <field name="qty_process"/>
+                            <field name="period_id" domain="[('special','=',False)]" on_change="onchange_period(period_id)"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+		<record id="stock_value_monthly_lines_tree" model="ir.ui.view">
+            <field name="name">stock.value.monthly.lines.tree</field>
+            <field name="model">stock.value.monthly.lines</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Parameters">
+					<field name="location_id"/>
+                    <field name="valuation_type"/>
+                    <field name="period_id"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+				</tree>
+            </field>
+        </record>
+
+        <record id="stock_value_monthly_lines_form" model="ir.ui.view">
+            <field name="name">stock.value.monthly.lines.form</field>
+            <field name="model">stock.value.monthly.lines</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <form string="Stock Valuation Parameter Lines" version="7.0">
+                	<sheet>
+						<group colspan="4" col="4">
+                            <field name="period_id" domain="[('special','=',False)]" on_change="onchange_period(period_id)"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="location_id" domain="[('usage','=','internal')]" on_change="onchange_location_id(location_id,period_id)"/>
+                            <field name="valuation_type"/>
+                        </group>
+                        <notebook>
+                            <page string="Product Value Parameters">
+	    						<field name="valuation_lines" colspan="4" nolabel="1" context="{'location_id':location_id,'start_date':start_date}">
+                                    <tree string="Value Parameter" editable="bottom">
+                                        <field name="location_id" invisible="True"/>
+                                        <field name="product_id"/>
+                                        <field name="opening_qty"/>
+                                        <field name="opening_qty_bale"/>
+                                        <field name="closing_qty"/>
+                                        <field name="closing_qty_bale"/>
+                                        <field name="value"/>
+                                        <field name="qty_process"/>
+                                        <field name="uom_id"/>
+                                        <field name="period_id" invisible="True"/>
+                                        <field name="start_date" invisible="True"/>
+                                        <field name="end_date" invisible="True"/>
+                                    </tree>
+                                </field>
+                            </page>
+						</notebook>
+					</sheet>
+                </form>
+            </field>
+        </record>
+
+		<record id="stock_value_monthly_tree" model="ir.ui.view">
+            <field name="name">stock.value.monthly.tree</field>
+            <field name="model">stock.value.monthly</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Stock Valuation">
+                	<field name="name"/>
+                    <field name="period_id"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                	<field name="state" widget="statusbar"/>
+                </tree>
+            </field>
+        </record>
+		<record id="stock_value_monthly_form" model="ir.ui.view">
+            <field name="name">stock.value.monthly.form</field>
+            <field name="model">stock.value.monthly</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Stock Value Parameter" version="7.0">
+                    <header>
+                    	<button name="set_draft" type="object" states="cancel" string="Set to Draft"/>
+                    	<button class="oe_highlight" name="set_approved" type="object" states="draft" string="Approve"/>
+                    	<button name="set_cancel" type="object" states="draft,approved" string="Cancel"/>
+                    	<field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+	                    <group colspan="4" col="4">
+	                    	<field name="name"/>
+	                        <field name="period_id" domain="[('special','=',False)]" on_change="onchange_period(period_id)"/>
+	                        <field name="start_date"/>
+	                        <field name="end_date"/>
+	                    </group>
+	                	<notebook>
+	                		<page string="Valuation Lines" colspan="4">
+	                			<field name="line_ids" colspan="4" col="4" nolabel="1" context="{'start_date':start_date}"/>
+	                		</page>
+	                	</notebook>
+	                </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_stock_value_monthly" model="ir.actions.act_window">
+            <field name="name">Stock Valuation Parameter</field>
+            <field name="res_model">stock.value.monthly</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="action_stock_value_monthly_lines" model="ir.actions.act_window">
+            <field name="name">Stock Valuation Parameter Lines</field>
+            <field name="res_model">stock.value.monthly.lines</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="action_stock_valuation_value" model="ir.actions.act_window">
+            <field name="name">Stock Valuation Value</field>
+            <field name="res_model">stock.valuation.value</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <menuitem id="menu_action_stock_value_monthly" name="Stock Valuation Parameter" parent="stock.menu_product_in_config_stock"
+            action="action_stock_value_monthly"/>
+        <menuitem id="menu_action_stock_value_monthly_lines" name="Stock Valuation Parameter Lines" parent="stock.menu_product_in_config_stock"
+            action="action_stock_value_monthly_lines"/>
+        <menuitem id="menu_action_stock_valuation_value" name="Stock Valuation Value" parent="stock.menu_product_in_config_stock"
+            action="action_stock_valuation_value"/>
+	</data>
+</openerp>

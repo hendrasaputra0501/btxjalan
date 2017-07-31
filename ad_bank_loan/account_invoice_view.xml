@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="invoice_inherit_form_inherit_bank_loan" model="ir.ui.view">
+            <field name="name">account.invoice.inherit.form.inherit.bank.loan</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="ad_account_invoice.invoice_inherit_form" />
+            <field name="arch" type="xml">
+            	<field name='bank_submission_date' position="after" >
+            		<field name='bank_negotiation_no' />
+                    <field name='bank_negotiation_date' />
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

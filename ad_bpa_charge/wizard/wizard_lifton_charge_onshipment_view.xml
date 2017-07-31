@@ -1,0 +1,43 @@
+<openerp>
+	<data>
+        <record id="view_wizard_lifton_charge_onshipment" model="ir.ui.view">
+            <field name="name">Wizard Lift On Charge OnShipment</field>
+            <field name="model">wizard.lifton.charge.onshipment</field>
+            <field name="arch" type="xml">
+              <form string="Create Lift On BPA" version="7.0">
+                  <group string="Create Lift On BPA">
+                      <field name="journal_id"/>
+                      <field name="bpa_date" />
+                      <field name="due_date" />
+                      <field name="number" />
+                      <field name="currency_id" invisible='1'/>
+                  </group>
+                  <footer>
+                      <button name="open_lifton_bpa" string="Create" type="object" class="oe_highlight"/>
+                      or
+                      <button string="Cancel" class="oe_link" special="cancel"/>
+                  </footer>
+             </form>
+            </field>
+        </record>
+
+
+        <act_window name="Create Draft Lift On BPA"
+            res_model="wizard.lifton.charge.onshipment"
+            src_model="stock.picking.out"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_wizard_lifton_charge_onshipment"/>
+
+        <act_window name="Create Draft Lift On BPA"
+            res_model="wizard.lifton.charge.onshipment"
+            src_model="stock.picking.out"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_wizard_lifton_charge_onshipment_1"/>
+	</data>
+</openerp>

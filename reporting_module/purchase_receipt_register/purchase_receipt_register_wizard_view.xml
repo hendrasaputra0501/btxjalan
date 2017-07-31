@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>      
+		<record model="ir.ui.view" id="purchase_receipt_register_form_view">
+			<field name="name">Purchase Receipt Register</field>
+			<field name="model">purchase.receipt.register.wizard</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml"> 
+				<form string="Purchase Receipt Register Report" version="7.0">
+					<notebook>
+						<page string="General Filter">
+							<group>
+								<group>
+									<field name="purchase_type"/>
+									<field name="report_type"/>
+									<field name="goods_type"/>
+									<field name="header_group_by"/>
+									<field name="foc"/>
+									<field name="with_invoice_information"/>
+									<field name="mrr_pending_ap_voucher"/>
+								</group>
+								<group>
+									<field name="filter_date" readonly="1"/>
+									<field name="as_of_date" attrs="{'invisible':[('filter_date','!=','as_of')]}"/>
+									<field name="start_date" attrs="{'invisible':[('filter_date','!=','period_of_date')]}"/>
+									<field name="end_date" attrs="{'invisible':[('filter_date','!=','period_of_date')]}"/>
+								</group>
+							</group>
+						</page>
+						<page string="Force Incoming Shipments">
+							<field name="force_picking_ids" />
+						</page>
+					</notebook>
+					<footer>
+						<div>
+							<button type="object" name="generate_report" string="Print" icon="STOCK_PRINT"/> or <button special="cancel" string="Cancel" class="oe_link"/>
+						</div>
+					</footer>
+				</form>
+			</field>
+		</record>
+				
+		<record model="ir.actions.act_window" id="purchase_receipt_register_action_view">
+			<field name="name">Purchase Receipt Register</field>
+			<field name="res_model">purchase.receipt.register.wizard</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+			<field name="view_id" ref="purchase_receipt_register_form_view"/>
+		</record>
+				 
+		
+		<menuitem name="Purchase Receipt Register" id="menu_purchase_receipt_register" parent="ad_stock_report.reporting_stock_monthly" sequence="10" action="purchase_receipt_register_action_view"/>
+
+		<report id="purchase_receipt_register_report"
+			name="purchase.receipt.register.report"
+			string="Purchase Receipt Register"
+			report_type="webkit"
+			model="purchase.receipt.register.wizard"
+			file="reporting_module/purchase_receipt_register/purchase_receipt_register.mako" 
+			header="False"
+			auto="False"
+			menu="False"
+		/>
+	 
+				</data>
+</openerp>

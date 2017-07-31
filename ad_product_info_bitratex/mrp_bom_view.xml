@@ -1,0 +1,185 @@
+<openerp>
+	<data>
+        <record id="view_product_rm_type_form" model="ir.ui.view">
+            <field name="name">product.rm.type.form</field>
+            <field name="model">product.rm.type</field>
+            <field name="arch" type="xml">
+                  <form string="Raw Material Type" version="7.0">
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="category_id"/>
+                        </group>
+                        <group>
+                            <field name="description"/>
+                        </group>
+                  </form>
+            </field>
+        </record>
+
+        <record id="view_product_rm_type_tree" model="ir.ui.view">
+            <field name="name">product.rm.type.tree</field>
+            <field name="model">product.rm.type</field>
+            <field name="arch" type="xml">
+                  <tree string="Raw Material Type">
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="category_id"/>
+                        <field name="description"/>
+                  </tree>
+            </field>
+        </record>
+
+        <record id="view_product_rm_type_search" model="ir.ui.view">
+            <field name="name">product.rm.type.search</field>
+            <field name="model">product.rm.type</field>
+            <field name="arch" type="xml">
+                  <search string="Raw Material Type">
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="category_id"/>
+                        <field name="description"/>
+                  </search>
+            </field>
+        </record>
+
+        <record id="action_product_rm_type" model="ir.actions.act_window">
+            <field name="name">Product RM Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.rm.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <menuitem
+            action="action_product_rm_type"
+            id="menu_action_product_rm_type"
+            parent="stock.menu_product_in_config_stock"
+            sequence="3"/>
+
+        <record id="view_product_rm_type_category_form" model="ir.ui.view">
+            <field name="name">product.rm.type.category.form</field>
+            <field name="model">product.rm.type.category</field>
+            <field name="arch" type="xml">
+                  <form string="Raw Material Type Category" version="7.0">
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="uom_id"/>
+                        </group>
+                  </form>
+            </field>
+        </record>
+
+        <record id="view_product_rm_type_category_tree" model="ir.ui.view">
+            <field name="name">product.rm.type.category.tree</field>
+            <field name="model">product.rm.type.category</field>
+            <field name="arch" type="xml">
+                  <tree string="Raw Material Type Category">
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="uom_id"/>
+                  </tree>
+            </field>
+        </record>
+
+        <record id="view_product_rm_type_category_search" model="ir.ui.view">
+            <field name="name">product.rm.type.category.search</field>
+            <field name="model">product.rm.type.category</field>
+            <field name="arch" type="xml">
+                  <search string="Raw Material Type Category">
+                        <field name="name"/>
+                        <field name="code"/>
+                  </search>
+            </field>
+        </record>
+
+        <record id="action_product_rm_type_category" model="ir.actions.act_window">
+            <field name="name">Product RM Type Category</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.rm.type.category</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <menuitem
+            action="action_product_rm_type_category"
+            id="menu_action_product_rm_type_category"
+            parent="stock.menu_product_in_config_stock"
+            sequence="3"/>
+
+	    <record id="view_mrp_bom_prod_info_inherit" model="ir.ui.view">
+            <field name="name">view.mrp.bom.product.info.inherit</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+            <field name="arch" type="xml">
+            	<xpath expr="/form/notebook/page[@string='Components']/field[@name='bom_lines']/tree[@string='Components']/field[@name='product_id']" position="after">
+            		<field name='comp_percentage' required="1"/>
+            	</xpath>
+            	<xpath expr="/form/notebook/page[@string='Components']/field[@name='bom_lines']/tree[@string='Components']/field[@name='product_qty']" position="after">
+            		<field name='waste_product_id' required="0"/>
+                        <field name='waste_qty' required="0"/>
+            	</xpath>
+                  <xpath expr="/form/group/group[2]/field[@name='code']" position="replace">
+                        <field name='blend_code' widget="selection" />
+                  </xpath>
+            </field>
+        </record>
+
+        <record id="view_mrp_blend_code_tree" model="ir.ui.view">
+            <field name="name">mrp.blend.code.tree</field>
+            <field name="model">mrp.blend.code</field>
+            <field name="arch" type="xml">
+                  <tree string="Blend Code">
+                        <field name="name"/>
+                  </tree>
+            </field>
+        </record>
+
+        <record id="view_mrp_blend_code_form" model="ir.ui.view">
+            <field name="name">mrp.blend.code.form</field>
+            <field name="model">mrp.blend.code</field>
+            <field name="arch" type="xml">
+                  <form string="Blend Code" version="7.0">
+                        <group>
+                            <field name="name"/>
+                            <field name="desc"/>
+                        </group>
+                        <notebook>
+                            <page string="Composition">
+                                <field name="blend_lines" nolabel="1" colspan="4">
+                                    <tree string="Blend Lines">
+                                        <field name="rm_type_id"/>
+                                        <field name="percentage"/>
+                                        <field name="waste_percentage"/>
+                                    </tree>
+                                    <form string="Blend Lines">
+                                        <field name="rm_type_id"/>
+                                        <field name="percentage"/>
+                                        <field name="waste_percentage"/>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                  </form>
+            </field>
+        </record>
+
+        <record id="action_mrp_blend_code" model="ir.actions.act_window">
+            <field name="name">Blend Code</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.blend.code</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <menuitem
+            action="action_mrp_blend_code"
+            id="menu_action_mrp_blend_code"
+            parent="mrp.menu_mrp_configuration"
+            sequence="0"/>
+	</data>
+</openerp>

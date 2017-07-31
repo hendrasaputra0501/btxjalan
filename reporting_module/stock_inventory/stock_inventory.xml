@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report auto="False" id="stock_inventory_report" model="stock.inventory" name="stock.inventory.report" file="reporting_module/stock_inventory/stock_inventory.mako" string="Stock Inventory Report" usage="default" report_type="webkit" menu="True" />
+    </data>
+</openerp>

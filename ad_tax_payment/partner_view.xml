@@ -1,0 +1,14 @@
+<openerp>
+	<data>
+		<record id="view_partner_tax_information" model="ir.ui.view">
+            <field name="name">view.partner.tax.information</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form[@string='Partners']/sheet/notebook/page[@string='Sales &amp; Purchases']/group/group[2]/field[@name='supplier']" position="after">
+                    <field name="government_tax_partner" />
+                </xpath>
+            </field>
+        </record>
+	</data>
+</openerp>

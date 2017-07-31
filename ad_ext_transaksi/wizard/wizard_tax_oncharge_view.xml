@@ -1,0 +1,28 @@
+<openerp>
+	<data>
+		<record id="wizard_tax_oncharge_form" model="ir.ui.view">
+			<field name="name">wizard.tax.oncharge.form</field>
+			<field name="model">wizard.tax.oncharge</field>
+			<field name="arch" type="xml">
+				<form string="Generate Tax" version="7.0" >
+					<group>
+						<field name="tax_ids"  />
+					</group>
+					<footer>
+						<button name="create_extra_tax" string="Generate" class="oe_highlight" type="object" />
+                      	or
+                      	<button string="Cancel" class="oe_link" special="cancel"/>
+                  	</footer>
+				</form> 
+			</field>
+		</record>
+
+        <act_window name="Generate Tax"
+            res_model="wizard.tax.oncharge"
+            src_model="ext.transaksi"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_wizard_tax_oncharge" />
+	</data>
+</openerp>

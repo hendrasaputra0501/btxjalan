@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+		<!--
+<report auto="False" 
+			id="account_trial_balance_pt" 
+			menu="False" 
+			model="account.account" 
+			name="account.trial.balance.pt" 
+			rml="ad_account_optimization/report/account_trial_balance_pt.rml" 
+			string="Trial Balance"/>
+		
+		<report auto="False" 
+			id="account_trial_balance_pt_cur" 
+			menu="False" 
+			model="account.account"  
+			name="account.trial.balance.pt.cur" 
+			rml="ad_account_optimization/report/account_trial_balance_pt_currency.rml" 
+			string="Trial Balance"/>-->
+
+	# Report full account balance
+        
+		<report
+            id="ad_account_balance_full"
+            string="Full account balance"
+            model="account.account"
+            name="ad.account.balance.full"
+            rml="ad_account_optimization/report/account_balance_full.rml"
+			header="False"
+			auto="False"
+			menu="False"/>
+
+	# Report account chart
+
+		<report 
+            id="ad_account_account_chart_report"
+			string="Chart of accounts"
+			model="account.account"
+			name="ad.account.account.chart.report"
+			rml="ad_account_optimization/report/account_chart.rml"
+			header="False"
+			auto="False"
+			menu="True"/>
+
+	# Report account move line
+
+        <report
+            id="ad_report_account_move_line"
+            string="Entry lines"
+            model="account.move.line"
+            name="ad.account.move.line.report"
+            rml="ad_account_optimization/report/account_move_line.rml"
+            header="False"
+            auto="True"/>
+
+
+	# Report account move
+        
+		<report
+            id="ad_report_account_move_line_record"
+            string="Entry"
+            model="account.move"
+            name="ad.account.move.report"
+            rml="ad_account_optimization/report/account_move_line_record.rml"
+            header="False"
+            auto="True"/>
+		
+        <report 
+            id="ad_report_account_move_line_record_h"
+            string="Entry landscape"
+            model="account.move"
+            name="ad.account.move.report.h"
+            rml="ad_account_optimization/report/account_move_line_record_h.rml"
+            header="False"
+            auto="True"/>
+
+        <report  
+            id="ad_account_print_journal_entries"
+            string="Journal by Entries"
+            model="account.journal.period"
+            name="ad.account.print.journal.entries"
+            rml="ad_account_optimization/report/account_move_line_record.rml"
+            header="False"
+            auto="False"/>
+        
+        <report
+            id="ad_account_print_journal_entriesh"
+            string="Journal by Entries (landscape)"
+            model="account.journal.period"
+            name="ad.account.print.journal.entriesh"
+            rml="ad_account_optimization/report/account_move_line_record_h.rml"
+            header="False"
+            auto="False"/>
+
+
+	# Report invoice list
+<!-- 		<report -->
+<!--             id="ad_account_invoice_list_report" -->
+<!-- 			string="AD Invoice list" -->
+<!-- 			model="account.invoice" -->
+<!-- 			name="ad.account.invoice.list.report" -->
+<!-- 			rml="ad_account_optimization/report/invoice_list.rml" -->
+<!-- 			header="False" -->
+<!-- 			auto="False" -->
+<!-- 			menu="True"/> -->
+
+
+	# Report cumulative general ledger
+<!--         <report -->
+<!--             id="ad_account_general_ledger_cumulative" -->
+<!--             string="AD Cumulative general ledger" -->
+<!--             model="account.account" -->
+<!--             name="ad.account.general.ledger.cumulative" -->
+<!--             rml="ad_account_optimization/report/general_ledger.rml" -->
+<!-- 			header="False" -->
+<!-- 			auto="False" -->
+<!-- 			menu="False"/> -->
+
+	# Report cumulative general ledger landscape
+<!--         <report -->
+<!--             id="ad_account_general_ledger_cumulative_landscape" -->
+<!--             string="AD Cumulative general ledger landscape" -->
+<!--             model="account.account" -->
+<!--             name="ad.account.general.ledger.cumulative.landscape" -->
+<!--             rml="ad_account_optimization/report/general_ledger_landscape.rml" -->
+<!-- 			header="False" -->
+<!-- 			auto="False" -->
+<!-- 			menu="False"/> -->
+
+
+            
+  </data>
+</openerp>

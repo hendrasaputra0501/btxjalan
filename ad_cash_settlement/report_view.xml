@@ -1,0 +1,19 @@
+<openerp>
+	<data>
+		
+		<!--REPORT-->
+		<report auto="False" id="report_webkit_cash_advance" 
+	        model="cash.advance"  
+	        name="webkit.cash.advance"       
+	        file="ad_cash_settlement/report/cash_advance.mako" 
+        	string="Kas Bon" report_type="webkit"/>
+		
+        <!--REPORT-->
+		<report auto="False" id="report_webkit_cash_settlement" 
+	        model="cash.settlement"  
+	        name="webkit.cash.settlement"         
+	        file="ad_cash_settlement/report/cash_settlement.mako" 
+        	string="Pertanggungjawaban Kas" report_type="webkit"/>
+		
+	</data>
+</openerp>

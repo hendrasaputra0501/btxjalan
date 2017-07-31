@@ -1,0 +1,10 @@
+<templates>
+    <t t-name="VisualExport">
+        <a href="#" class="oe_bold oe_list_button_export">Visual export</a>
+    </t>
+    <t t-extend="ListView.buttons">
+        <t t-jquery="div.oe_list_buttons" t-operation="append">
+            <t t-call="VisualExport"/>
+        </t>
+    </t>
+</templates>

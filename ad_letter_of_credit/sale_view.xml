@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="view_sale_order_lc_inherit" model="ir.ui.view">
+            <field name="name">view.sale.order.lc.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                
+                <xpath expr="/form/header/button[@name='action_button_confirm']" position="attributes">
+                    <attribute name="string">Confirm by Staff</attribute>
+                </xpath>
+                <xpath expr="/form/header/button[@name='action_button_confirm' and @class='oe_highlight']" position="attributes">
+                    <attribute name="states">draft,sent</attribute>
+                    <attribute name="string">Negotiated</attribute>
+                    <attribute name="groups">base.group_sale_manager</attribute>
+                </xpath>
+                <xpath expr="/form/header/button[@name='action_button_confirm' and @class='oe_highlight']" position="after">
+                    <button name="manual_delivery" type="workflow" string="Authorize LC" groups="base.group_sale_manager" class="oe_highlight" states="lc_draft"/>
+                </xpath>
+                <xpath expr="/form/header/field[@name='state']" position="attributes">
+                    <attribute name="statusbar_visible">draft,sent,progress,lc_draft,done</attribute>
+                    <!-- 
+                    <attribute name="statusbar_colors">{"shipping_except":"red","invoice_except":"red","lc_c_draft":"yellow","waiting_date":"blue"}</attribute>-->
+                </xpath>
+                <xpath expr="//page[@string='Other Information']/group/group[@name='sale_pay']/field[@name='payment_term']" position="before">
+                    <field name="payment_method" required="True" on_change="onchange_payment_method(payment_method)"/>
+                    <field name="new_lc" attrs="{'invisible':[('payment_method','!=','lc')]}"/>
+                </xpath>
+                <xpath expr="//page[@string='Other Information']" position="after">
+                    <page string="LC List">
+                        <field name="lc_ids" colspan="4" nolabel="1" context="{'lc_type':'in','form_view_ref':'ad_letter_of_credit.view_letterofcredit_form'}">
+                            <tree>
+                                <field name="partner_id"/>
+                                <field name="lc_number"/>
+                                <field name="lc_amount"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+	</data>
+</openerp>

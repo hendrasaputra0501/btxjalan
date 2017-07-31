@@ -1,0 +1,68 @@
+<openerp>
+	<data>
+        <record id="act_book" model="workflow.activity">
+            <field name="wkf_id" ref="stock.wkf_picking"/>
+            <field name="name">book</field>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'booked'})</field>
+        </record>
+
+        <record id="act_instruct" model="workflow.activity">
+            <field name="wkf_id" ref="stock.wkf_picking"/>
+            <field name="name">instruct</field>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'instructed'})</field>
+        </record>
+        
+        <record id="trans_confirm_booked" model="workflow.transition">
+            <field name="act_from" ref="stock.act_confirmed"/>
+            <field name="act_to" ref="act_book"/>
+            <field name="condition">True</field>
+            <field name="signal">booked</field>
+        </record>
+
+        <record id="trans_confirm_booked_back" model="workflow.transition">
+            <field name="act_from" ref="act_book"/>
+            <field name="act_to" ref="stock.act_confirmed"/>
+            <field name="condition">True</field>
+            <field name="signal">cancel_booked</field>
+        </record>
+
+        <record id="trans_confirm_instructed" model="workflow.transition">
+            <field name="act_from" ref="act_book"/>
+            <field name="act_to" ref="act_instruct"/>
+            <field name="condition">True</field>
+            <field name="signal">instructed</field>
+        </record>
+
+        <record id="trans_confirm_instructed_back" model="workflow.transition">
+            <field name="act_from" ref="act_instruct"/>
+            <field name="act_to" ref="act_book"/>
+            <field name="condition">True</field>
+            <field name="signal">cancel_instructed</field>
+        </record>
+		
+		<record id="trans_confirmed_book" model="workflow.transition">
+            <field name="act_from" ref="stock.act_confirmed"/>
+            <field name="act_to" ref="act_book"/>
+            <field name="condition">type = 'out' and test_assigned()</field>
+        </record>
+        <record id="trans_book_confirmed" model="workflow.transition">
+            <field name="act_from" ref="act_book"/>
+            <field name="act_to" ref="stock.act_confirmed"/>
+            <field name="condition">type = 'out' and not test_assigned()</field>
+        </record>
+        
+		<record id="stock.trans_confirmed_assigned_back" model="workflow.transition">
+            <field name="act_from" ref="stock.act_assigned"/>
+            <field name="act_to" ref="stock.act_confirmed"/>
+            <field name="condition">type in ('in','internal') and not test_assigned()</field>
+        </record>
+        <record id="stock.trans_confirmed_assigned" model="workflow.transition">
+            <field name="act_from" ref="stock.act_confirmed"/>
+            <field name="act_to" ref="stock.act_assigned"/>
+            <field name="condition">type in ('in','internal') and test_assigned()</field>
+        </record>
+        
+	</data>
+</openerp>

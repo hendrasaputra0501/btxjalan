@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+<report 
+	auto="False" id="report_transfer_note_form" 
+	model="stock.picking" 
+	name="transfer.note.form" 
+	file="reporting_module/transfer_note/transfer_note.mako" 
+	string="Transfer Note"
+	usage="default" 
+	report_type="webkit"
+	menu="True"
+	header="False" />
+
+</data>
+</openerp>

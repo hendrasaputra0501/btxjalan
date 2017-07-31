@@ -1,0 +1,25 @@
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="header_webkit_inherit">
+            <field name="name">res.company.header.html.inherit</field>
+            <field name="model">ir.header_webkit</field>
+            <field name="inherit_id" ref="report_webkit.header_webkit" />
+            <field name="arch" type="xml">
+                <field name="format" position="after">
+                    <field name="paper_width" attrs="{'invisible': [('format', '!=', 'custom')], 'required': [('format', '=', 'custom')]}" />
+                    <field name="paper_height" attrs="{'invisible': [('format', '!=', 'custom')], 'required': [('format', '=', 'custom')]}" />
+                </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="ir_actions_report_xml_inherit">
+            <field name="name">ir.actions.report.xml.inherit</field>
+            <field name="model">ir.actions.report.xml</field>
+            <field name="inherit_id" ref="base.act_report_xml_view" />
+            <field name="arch" type="xml">
+                <field name="report_file" position="after">
+                    <field name="override_name"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

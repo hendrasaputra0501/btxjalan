@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	<record id="declaration_form_form" model="ir.ui.view">
+            <field name="name">declaration.form.form</field>
+            <field name="model">declaration.form</field>
+            <field name="arch" type="xml">
+                <form string="Declaration Form" version="7.0">
+                <sheet string="Declaration Form">
+                    <group>
+                        <group>
+                            <field name="partner_id" />
+                            <field name="invoice_id" />
+                        </group>
+                        <group>
+                            <field name="city" />
+                            <field name="date_declaration" />
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="declaration_template_id" on_change="onchange_declaration_template(declaration_template_id)" domain="[('partner_id','=',partner_id)]"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <group col="3" string="Legend(for input parameter)">
+                        <group>
+                            <label colspan="2" string="City: {city}"/>
+                            <label colspan="2" string="Date Declaration: {date}"/>
+                            <label colspan="2" string="Title: {title}"/>
+                        </group>
+                        <group>
+                            <label colspan="2" string="Invoice Number: {invoice}"/>
+                            <label colspan="2" string="Invoice Date: {date_invoice}"/>
+                            <label colspan="2" string="LC Numbers: {lc_number}"/>
+                            <label colspan="2" string="Delivery Order Numbers: {do_number}"/>
+                            <label colspan="2" string="Date of Deliverys: {date_deliver}"/>
+                            <label colspan="2" string="Contract Numbers: {so_number}"/>
+                            <label colspan="2" string="Contract Dates: {so_date}"/>
+                        </group>
+                        <group>
+                            <!-- <label colspan="2" string="List of Products: {list_invoice_line}"/>
+                            <label colspan="2" string="Column Desc: {desc_product}"/>
+                            <label colspan="2" string="Column Net Quantity: {quantity}"/>
+                            <label colspan="2" string="Column Unit of Measure: {uom}"/> -->
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Declaration Form Info">
+                            <label for="declaration_title" />
+                            <field name="declaration_title" />
+                            <label for="declaration_header" />
+                            <field name="declaration_header" widget="ckeditor" />
+                            <label for="declaration_content" />
+                            <field name="declaration_content" widget="ckeditor" />
+                            <label for="declaration_footer" />
+                            <field name="declaration_footer" widget="ckeditor" />
+                        </page>
+                        <page string="Fumigation Certificate Info">
+                            <label for="fumigation_title" />
+                            <field name="fumigation_title" />
+                            <group>
+                                <group>
+                                    <field name="fax" />
+                                    <field name="to" />
+                                    <field name="attn" />
+                                </group>
+                                <group>
+                                    <field name="source_person" />
+                                    <field name="sn" />
+                                    <field name="type_of_wood_packaging" />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="declaration_form_tree" model="ir.ui.view">
+            <field name="name">declaration.form.tree</field>
+            <field name="model">declaration.form</field>
+            <field name="arch" type="xml">
+                <tree string="Declaration Form">
+                    <field name="invoice_id"/>
+                    <field name="partner_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="declaration_form_search" model="ir.ui.view">
+            <field name="name">declaration.form.search</field>
+            <field name="model">declaration.form</field>
+            <field name="arch" type="xml">
+                <search string="Declaration Document">
+                    <!-- <field name="lc_number" string="Search" filter_domain="['|',('lc_number','ilike', self),('name','ilike',self)]"/> -->
+                    <field name="invoice_id" string="Invoice" filter_domain="[('invoice_id','ilike',self)]"/>
+                    <field name="partner_id" string="Customer" filter_domain="[('partner_id','ilike',self)]"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Partner" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'partner_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_declaration_form" model="ir.actions.act_window">
+            <field name="name">Declaration Document</field>
+            <field name="res_model">declaration.form</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="declaration_form_search"/>
+        </record>
+
+        <menuitem action="action_declaration_form" id="menu_action_declaration_form" parent="menu_certificate" sequence='2'/>
+
+        <record id="declaration_template_form" model="ir.ui.view">
+            <field name="name">declaration.template.form</field>
+            <field name="model">declaration.template</field>
+            <field name="arch" type="xml">
+                <form string="Declaration Template" version="7.0">
+                <sheet string="Declaration Template">
+                    <group>
+                        <group>
+                            <field name="partner_id" />
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <group col="3" string="Legend(for input parameter)">
+                        <group>
+                            <label colspan="2" string="City: {city}"/>
+                            <label colspan="2" string="Date Declaration: {date}"/>
+                            <label colspan="2" string="Title: {title}"/>
+                        </group>
+                        <group>
+                            <label colspan="2" string="Invoice Number: {invoice}"/>
+                            <label colspan="2" string="Invoice Date: {date_invoice}"/>
+                            <label colspan="2" string="LC Numbers: {lc_number}"/>
+                            <label colspan="2" string="Delivery Order Numbers: {do_number}"/>
+                            <label colspan="2" string="Date of Deliverys: {date_deliver}"/>
+                            <label colspan="2" string="Contract Numbers: {so_number}"/>
+                            <label colspan="2" string="Contract Dates: {so_date}"/>
+                        </group>
+                        <group>
+                            <label colspan="2" string="List of Products: {list_invoice_line}"/>
+                            <label colspan="2" string="Column Desc: {desc_product}"/>
+                            <label colspan="2" string="Column Net Quantity: {quantity}"/>
+                            <label colspan="2" string="Column Unit of Measure: {uom}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="declaration_title_template" />
+                        <field name="declaration_header_template" widget="ckeditor" />
+                        <field name="declaration_content_template" widget="ckeditor" />
+                        <field name="declaration_footer_template" widget="ckeditor" />
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="declaration_template_tree" model="ir.ui.view">
+            <field name="name">declaration.template.tree</field>
+            <field name="model">declaration.template</field>
+            <field name="arch" type="xml">
+                <tree string="Declaration Template">
+                    <field name="partner_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="declaration_template_search" model="ir.ui.view">
+            <field name="name">declaration.template.search</field>
+            <field name="model">declaration.template</field>
+            <field name="arch" type="xml">
+                <search string="Declaration Template">
+                    <field name="partner_id" string="Customer" filter_domain="[('partner_id','ilike',self)]"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Partner" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'partner_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <record id="action_declaration_template" model="ir.actions.act_window">
+            <field name="name">Declaration Template</field>
+            <field name="res_model">declaration.template</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="declaration_template_search"/>
+        </record>
+
+        <menuitem action="action_declaration_template" id="menu_action_declaration_template" parent="menu_certificate" sequence='7'/>
+    </data>
+</openerp>

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report auto="False" id="report_info_bank_purchase_form" model="purchase.order" name="info.bank.purchase.report" file="ad_purchase_order_bitratex/report/info_bank_purchase_report.mako" string="Info Bank Purchase Order" usage="default" report_type="webkit" menu="True" header="True"/>
+    </data>
+</openerp>

@@ -1,0 +1,83 @@
+<openerp>
+	<data>
+        <record id="view_stock_move_composition_form" model="ir.ui.view">
+            <field name="name">stock.move.composition.form</field>
+            <field name="model">stock.move.composition</field>
+            <field name="arch" type="xml">
+                  <form string="Stock Move Composition" version="7.0">
+                        <header>
+                            <field name="state" widget="statusbar" statusbar_visible="draft, done" statusbar_colors='{"done":"blue"}'/>
+                        </header>
+                        <group>
+                            <group>
+                                <!-- <field name="rm_type_id" on_change="onchange_rm_type(rm_type_id)"/> -->
+                                <field name="rm_category_id"/>
+                                <label for='product_qty'/>
+                                <div>
+                                    <field name="product_qty"/>
+                                    <field name="product_uom"/>
+                                </div>
+                            </group>
+                            <group>
+                                <field name="move_id"/>
+                                <field name="date"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="location_id"/>
+                            </group>
+                            <group>
+                                <field name="location_dest_id"/>
+                            </group>
+                        </group>
+                  </form>
+            </field>
+        </record>
+
+        <record id="view_stock_move_composition_tree" model="ir.ui.view">
+            <field name="name">stock.move.composition.tree</field>
+            <field name="model">stock.move.composition</field>
+            <field name="arch" type="xml">
+                  <tree string="Stock Move Composition">
+                        <!-- <field name="rm_type_id"/> -->
+                        <field name="rm_category_id"/>
+                        <field name="product_qty"/>
+                        <field name="product_uom"/>
+                        <field name="date"/>
+                        <field name="location_id"/>
+                        <field name="location_dest_id"/>
+                        <field name="state"/>
+                  </tree>
+            </field>
+        </record>
+
+        <record id="view_stock_move_composition_search" model="ir.ui.view">
+            <field name="name">stock.move.composition.search</field>
+            <field name="model">stock.move.composition</field>
+            <field name="arch" type="xml">
+                  <search string="Stock Move Composition">
+                        <!-- <field name="rm_type_id"/> -->
+                        <field name="rm_category_id"/>
+                        <field name="date"/>
+                        <!-- <field name="description"/> -->
+                  </search>
+            </field>
+        </record>
+
+        <record id="action_stock_move_composition" model="ir.actions.act_window">
+            <field name="name">Stock Move Composition</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.move.composition</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <!-- <field name="domain">[]</field> -->
+        </record>
+
+        <menuitem
+            action="action_stock_move_composition"
+            id="menu_action_stock_move_composition"
+            parent="stock.menu_traceability"
+            sequence="10"/>
+    </data>
+</openerp>

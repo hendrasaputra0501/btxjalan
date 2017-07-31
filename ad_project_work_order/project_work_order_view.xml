@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="project_work_order_search" model="ir.ui.view">
+			<field name="name">project.work.order.search</field>
+			<field name="model">project.work.order</field>
+			<field name="arch" type="xml">
+			   <search string="Work Orders">
+					<field name="project_id"/>
+				</search>
+			</field>
+		</record>
+		
+		<record id="project_work_order_tree" model="ir.ui.view">
+			<field name="name">project.work.order.tree</field>
+			<field name="model">project.work.order</field>
+			<field name="arch" type="xml">
+				<tree string="Work Order Progress" create="false" >
+					<field name="name" />
+					<field name="unit_price" /> 
+					<field name="amount_subtotal" /> 
+				</tree>
+			</field>
+		</record>
+
+		<record id="action_project_work_order" model="ir.actions.act_window">
+			<field name="name">Work Orders</field>
+			<field name="res_model">project.work.order</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,from</field>
+			<field name="context">{'search_default_project_id': [active_id], 'default_project_id': active_id, 'active_test': False}</field>
+			<field name="search_view_id" ref="project_work_order_search"/>
+		</record>
+
+		<record id="project_inherit_work_order_form" model="ir.ui.view">
+			<field name="name">project.inherit.work.order.form</field>
+			<field name="model">project.project</field>
+			<field name="inherit_id" ref="project.edit_project"/>
+			<field name="arch" type="xml">
+
+				<xpath expr='/form/sheet/field[@name="analytic_account_id"]' position='before'>
+					<div class="oe_right oe_button_box" name="import_loan_buttons">
+					   <button name="%(action_project_work_order)d"
+							string="Create Invoice from Work Orders" type="action"
+							attrs="{'invisible':[('is_work_order','=', 0)]}"/>
+					</div>
+				</xpath>
+
+				<xpath expr='//div[@name="options_active"]' position='inside'>
+					<field name="is_work_order" class="oe_inline"/>
+					<label for="is_work_order"/>
+				</xpath>
+				<xpath expr='//page[@string="Team"]' position="after">
+					<page string="Work Order Progress" attrs="{'invisible': [('is_work_order', '=', False)]}">
+						<field name="work_order_ids" >
+							<tree string="Work Order Progress" create="false">
+							<!-- <tree string="Work Order Progress" editable="bottom" create="false"> -->
+								<field name="name" />
+								<field name="unit_price" /> 
+								<field name="amount_subtotal" />
+								<field name="progress_payment_rate" widget="progressbar"/> 
+							</tree>
+							<form string="Work Order Progress">
+								<field name="name" />
+								<field name="unit_price" /> 
+								<field name="amount_subtotal" />
+								<field name="invoice_line_ids" /> 
+							</form>
+						</field>
+					</page>
+					<!-- <page string="Invoice" attrs="{'invisible': [('is_work_order', '=', False)]}">
+						<field name="wo_invoice_ids" context="{'form_view_ref':'stock.view_move_picking_form', 'tree_view_ref':'stock.view_move_picking_tree', 'picking_type': 'internal'}"/>
+					</page> -->
+				</xpath>
+			</field>
+		</record>
+	</data>
+</openerp>

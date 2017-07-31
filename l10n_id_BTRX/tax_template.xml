@@ -1,0 +1,207 @@
+<openerp>
+	<data noupdate="1">
+		
+		<!-- TAXABLE AMOUNTS -->
+		
+		<record id="tc_base" model="account.tax.code.template">
+		    <field name="name">Taxable amounts</field>
+		    <field name="parent_id" ref="tc_root"/>
+		</record>
+		
+		<!-- VAT -->
+		
+		<record id="tc_tax" model="account.tax.code.template">
+		    <field name="name">Taxes to be paid</field>
+		    <field name="parent_id" ref="tc_base"/>
+		</record>
+		
+		<record id="tc_base_vat" model="account.tax.code.template">
+		    <field name="name">Value Added Tax</field>
+		    <field name="parent_id" eval="tc_tax"/>
+		</record>
+		
+		<record id="tc_base_output" model="account.tax.code.template">
+		    <field name="name">Output VAT</field>
+		    <field name="code">VATOUT</field>
+		    <field name="parent_id" ref="tc_base_vat"/>
+		</record>
+	
+		<record id="tc_base_input" model="account.tax.code.template">
+		    <field name="name">Input VAT</field>
+		    <field name="code">VATIN</field>
+		    <field name="parent_id" ref="tc_base_vat"/>
+		</record>
+		
+		
+		<record id="tc_tax_vat" model="account.tax.code.template">
+		    <field name="name">Value Added Tax</field>
+		    <field name="parent_id" eval="tc_tax"/>
+		</record>
+		
+		<record id="tc_tax_vat_output" model="account.tax.code.template">
+		    <field name="name">Output VAT</field>
+		    <field name="code">VATOUT</field>
+		    <field name="parent_id" ref="tc_tax_vat"/>
+		</record>
+
+		<record id="tc_tax_vat_output_kb" model="account.tax.code.template">
+		    <field name="name">Output VAT Kawasan Berikat</field>
+		    <field name="code">VATOUT KB</field>
+		    <field name="parent_id" ref="tc_tax_vat"/>
+		</record>
+		
+		<record id="tc_tax_vat_input" model="account.tax.code.template">
+		    <field name="name">Input VAT</field>
+		    <field name="code">VATIN</field>
+		    <field name="parent_id" ref="tc_tax_vat"/>
+		    <field name="sign" eval="-1"/>
+		</record>
+
+		<!-- TAXES -->
+		<record id="tax_output_vat_incl" model="account.tax.template">
+		    <field name="chart_template_id" ref="configurable_chart_template"/>
+		    <field name="name">PPN 10%</field>
+		    <field name="description">(INCL) VATOUT</field>
+		    <field name="price_include">True</field>
+		    <field name="type">percent</field>
+		    <field name="amount" eval="0.10"/>
+		    <field name="account_collected_id" ref="chart_261110"/>
+		    <field name="account_paid_id" ref="chart_261110"/>
+		    <field name="base_code_id" ref="tc_base_output"/>
+		    <field name="tax_code_id" ref="tc_tax_vat_output"/>
+		    <field name="type_tax_use">sale</field>
+		</record>
+		<record id="tax_output_vat_excl" model="account.tax.template">
+		    <field name="chart_template_id" ref="configurable_chart_template"/>
+		    <field name="name">PPN 10% </field>
+		    <field name="description">(EXCL) VATOUT</field>
+		    <field name="price_include">False</field>
+		    <field name="type">percent</field>
+		    <field name="amount" eval="0.10"/>
+		    <field name="account_collected_id" ref="chart_261110"/>
+		    <field name="account_paid_id" ref="chart_261110"/>
+		    <field name="base_code_id" ref="tc_base_output"/>
+		    <field name="tax_code_id" ref="tc_tax_vat_output"/>
+		    <field name="type_tax_use">sale</field>
+		</record>
+		<record id="tax_output_vat_kb" model="account.tax.template">
+		    <field name="chart_template_id" ref="configurable_chart_template"/>
+		    <field name="name">PPN 10%  </field>
+		    <field name="inside_berikat">True</field>
+		    <field name="description">VATOUT KB</field>
+		    <field name="price_include">False</field>
+		    <field name="type">percent</field>
+		    <field name="amount" eval="0.00"/>
+		    <field name="base_code_id" ref="tc_base_output"/>
+		    <field name="tax_code_id" ref="tc_tax_vat_output_kb"/>
+		    <field name="type_tax_use">sale</field>
+		</record>
+
+
+		<record id="tax_input_vat_local_incl" model="account.tax.template">
+		    <field name="chart_template_id" ref="configurable_chart_template"/>
+		    <field name="name">PPN 10% Masukan</field>
+		    <field name="description">(INCL) VATIN Local</field>
+		    <field name="price_include">True</field>
+		    <field name="type">percent</field>
+		    <field name="amount" eval="0.10"/>
+		    <field name="account_collected_id" ref="chart_261120"/>
+		    <field name="account_paid_id" ref="chart_261120"/>
+		    <field name="base_code_id" ref="tc_base_input"/>
+		    <field name="tax_code_id" ref="tc_tax_vat_input"/>
+		    <field name="type_tax_use">purchase</field>
+		</record>
+		<record id="tax_input_vat_local_excl" model="account.tax.template">
+		    <field name="chart_template_id" ref="configurable_chart_template"/>
+		    <field name="name">PPN 10% Masukan </field>
+		    <field name="description">(EXCL) VATIN Local</field>
+		    <field name="type">percent</field>
+		    <field name="amount" eval="0.10"/>
+		    <field name="account_collected_id" ref="chart_261120"/>
+		    <field name="account_paid_id" ref="chart_261120"/>
+		    <field name="base_code_id" ref="tc_base_input"/>
+		    <field name="tax_code_id" ref="tc_tax_vat_input"/>
+		    <field name="type_tax_use">purchase</field>
+		</record>
+		<record id="tax_input_vat_import_incl" model="account.tax.template">
+		    <field name="chart_template_id" ref="configurable_chart_template"/>
+		    <field name="name">PPN 10% Masukan  </field>
+		    <field name="description">(INCL) VATIN Import</field>
+		    <field name="price_include">True</field>
+		    <field name="type">percent</field>
+		    <field name="amount" eval="0.10"/>
+		    <field name="account_collected_id" ref="chart_261130"/>
+		    <field name="account_paid_id" ref="chart_261130"/>
+		    <field name="base_code_id" ref="tc_base_input"/>
+		    <field name="tax_code_id" ref="tc_tax_vat_input"/>
+		    <field name="type_tax_use">purchase</field>
+		</record>
+		<record id="tax_input_vat_import_excl" model="account.tax.template">
+		    <field name="chart_template_id" ref="configurable_chart_template"/>
+		    <field name="name">PPN 10% Masukan   </field>
+		    <field name="description">(EXCL) VATIN Import</field>
+		    <field name="type">percent</field>
+		    <field name="amount" eval="0.10"/>
+		    <field name="account_collected_id" ref="chart_261130"/>
+		    <field name="account_paid_id" ref="chart_261130"/>
+		    <field name="base_code_id" ref="tc_base_input"/>
+		    <field name="tax_code_id" ref="tc_tax_vat_input"/>
+		    <field name="type_tax_use">purchase</field>
+		</record>
+		<record id="tax_input_vat_import_other" model="account.tax.template">
+		    <field name="chart_template_id" ref="configurable_chart_template"/>
+		    <field name="name">PPN 1% Import Other</field>
+		    <field name="description">VATIN Other</field>
+		    <field name="reported_unreturned">True</field>
+		    <field name="type">percent</field>
+		    <field name="amount" eval="0.01"/>
+		    <field name="type_tax_use">all</field>
+		</record>
+		
+		<record id="tax_ps_23" model="account.tax.template">
+		    <field name="chart_template_id" ref="configurable_chart_template"/>
+		    <field name="name">PPH 23</field>
+		    <field name="type">percent</field>
+		    <field name="amount" eval="-0.02"/>
+		    <field name="account_collected_id" ref="chart_262130"/>
+		    <field name="account_paid_id" ref="chart_262130"/>
+		    <!-- <field name="base_code_id" ref="tc_base_input"/>
+		    <field name="tax_code_id" ref="tc_tax_vat_input"/> -->
+		    <field name="type_tax_use">all</field>
+		</record>
+		<record id="tax_ps_26" model="account.tax.template">
+		    <field name="chart_template_id" ref="configurable_chart_template"/>
+		    <field name="name">PPH 26</field>
+		    <field name="type">percent</field>
+		    <field name="amount" eval="-0.02"/>
+		    <field name="account_collected_id" ref="chart_262140"/>
+		    <field name="account_paid_id" ref="chart_262140"/>
+		    <!-- <field name="base_code_id" ref="tc_base_input"/>
+		    <field name="tax_code_id" ref="tc_tax_vat_input"/> -->
+		    <field name="type_tax_use">all</field>
+		</record>
+
+		<record id="tax_ps_25" model="account.tax.template">
+		    <field name="chart_template_id" ref="configurable_chart_template"/>
+		    <field name="name">PPH 25 Monthly</field>
+		    <field name="type">percent</field>
+		    <field name="amount" eval="-0.02"/>
+		    <field name="account_collected_id" ref="chart_440120"/>
+		    <field name="account_paid_id" ref="chart_440120"/>
+		    <!-- <field name="base_code_id" ref="tc_base_input"/>
+		    <field name="tax_code_id" ref="tc_tax_vat_input"/> -->
+		    <field name="type_tax_use">all</field>
+		</record>
+		<record id="tax_ps_22" model="account.tax.template">
+		    <field name="chart_template_id" ref="configurable_chart_template"/>
+		    <field name="name">PPH 22 Import</field>
+		    <field name="type">percent</field>
+		    <field name="amount" eval="-0.02"/>
+		    <field name="account_collected_id" ref="chart_440110"/>
+		    <field name="account_paid_id" ref="chart_440110"/>
+		    <!-- <field name="base_code_id" ref="tc_base_input"/>
+		    <field name="tax_code_id" ref="tc_tax_vat_input"/> -->
+		    <field name="type_tax_use">all</field>
+		</record>
+	</data>
+</openerp>

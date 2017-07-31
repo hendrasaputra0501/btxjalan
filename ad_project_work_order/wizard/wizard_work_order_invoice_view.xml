@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="wizard_work_order_invoice_form" model="ir.ui.view">
+			<field name="name">wizard.work.order.invoice.form</field>
+			<field name="model">wizard.work.order.invoice</field>
+			<field name="arch" type="xml">
+				<form string="Import Entries" version="7.0">
+					<group>
+						<group>
+							<field name="date" />
+						</group>
+						<group>
+							<field name="project_id" invisible="1" />
+						</group>
+					</group>
+					<notebook>
+						<page string="Work Orders" >
+							<field name="line_ids" >
+								<tree string="Work Orders" editable="bottom" create="false">
+									<field name="product_id" />
+									<field name="name" />
+									<field name="unit_price" string="Amount" />
+								</tree>
+							</field>
+						</page>
+					</notebook>
+					<footer>
+						<button string="Create Invoice" name="create_invoice" type="object" class="oe_highlight"/>
+						or
+						<button string="Cancel" class="oe_link" special="cancel"/>
+					</footer>
+			   </form>
+			</field>
+		</record>
+
+		<act_window name="Create Invoice"
+			res_model="wizard.work.order.invoice"
+			src_model="project.work.order"
+			key2="client_action_multi"
+            multi="True"
+			view_mode="form"
+			view_type="form"
+			target="new"
+			id="action_wizard_work_order_invoice"/>
+	</data>
+</openerp>

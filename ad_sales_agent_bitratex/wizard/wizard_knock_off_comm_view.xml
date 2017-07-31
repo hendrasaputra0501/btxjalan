@@ -1,0 +1,29 @@
+<openerp>
+    <data>
+
+        <record id="commission_knock_off_form" model="ir.ui.view">
+            <field name="name">commission.knock.off.form</field>
+            <field name="model">commission.knock.off</field>
+            <field name="arch" type="xml">
+                <form string="Commision" version="7.0">
+                    <p class="oe_grey">
+                        Once Commision are knock off, you will not be able
+                        to modify them
+                    </p>
+                    <footer>
+                        <button string="Knock Off" name="comm_knock_off" type="object" default_focus="1" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_commission_knock_off"
+            multi="True"
+            key2="client_action_multi" name="Knock Off Commision"
+            res_model="commission.knock.off" src_model="account.invoice.commission"
+            view_mode="form" target="new" view_type="form" />
+
+    </data>
+</openerp>

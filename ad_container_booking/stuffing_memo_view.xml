@@ -1,0 +1,173 @@
+<openerp>
+	<data>
+		<record id="view_stuffing_memo_tree" model="ir.ui.view">
+            <field name="name">stuffing.memo.tree</field>
+            <field name="model">stuffing.memo</field>
+            <field name="arch" type="xml">
+                <tree string="Stuffing Memo" colors="gray:state == 'cancel';">
+                    <field name="creation_date"/>
+                    <field name="stuffing_date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+		<record id="view_stuffing_memo_form" model="ir.ui.view">
+			<field name="name">stuffing.memo.form</field>
+			<field name="model">stuffing.memo</field>
+			<field name="arch" type="xml">
+				<form string="Stuffing Memo" version="7.0">
+					<header>
+						<button name="action_confirm1" type="object" states="draft" string="Confirm" class="oe_highlight"/>
+						<button name="action_confirm2" type="object" states="confirm1" string="Confirm" class="oe_highlight"/>
+						<button name="%(report_stuffing_memo)d" type="action" string="Print Stuffing Memo" class="oe_highlight"/>
+						<!-- <button name="action_cancel" type="object" states="draft" string="Cancel" /> -->
+						<field name="state" widget="statusbar" statusbar_visible="draft,confirm1,confirm2"/>
+					</header>
+					<sheet>
+						<h1>
+	                        <label string="Stuffing Memo" class="oe_center"/>
+	                    </h1>
+	                    <h2>
+	                        <label string="To" attrs="{'invisible':[('manufacturer','=',False)]}" />
+	                        <field name="manufacturer" class="oe_inline" />
+	                        <label string="Ref" />
+	                        <field name="name" class="oe_inline" />
+	                    </h2>
+					    <group>
+	                        <group >
+	                        	<field name="creation_date" />
+	                        	<field name="stuffing_date" />
+	                        </group>
+	                        <group >
+	                        	<field name="pic_id_1" />
+	                        	<field name="pic_id_2" />
+	                        </group>
+	                    </group>
+	                    <notebook>
+	                    	<page string="Goods">
+	                    		<field name="goods_lines">
+	                    			<form string="Goods" version='7.0'>
+	                    				<group string='Priority'>
+	                    					<group>
+	                    						<field name="priority" />
+	                    					</group>
+	                    					<group>
+	                    						<field name="priority_reason" />
+	                    					</group>
+	                    				</group>
+	                    				<group>
+	                    					<group>
+	                    						<field name='picking_id' />
+	                    						<field name='stock_move_id' domain="[('picking_id','=',picking_id)]"/>
+	                    						<field name='booking_id' />
+	                    						<field name='sale_id' />
+	                    						<field name='partner_id' />
+	                    					</group>
+	                    					<group>
+	                    						<field name="manufacturer"/>
+	                    						<field name='dest_port_id' />
+	                    					</group>
+	                    				</group>
+	                    				<group >
+	                    					<group string='Product Info'>
+	                    						<field name="product_id"/>
+	                    						<label for='product_qty'/>
+	                    						<div>
+	                    							<field name="product_qty"/>
+	                    							<field name="product_uom"/>
+	                    						</div>
+	                    						<label for='product_uop_qty'/>
+	                    						<div>
+	                    							<field name="product_uop_qty"/>
+	                    							<field name="product_uop"/>
+	                    						</div>
+	                    					</group>
+	                    					<group string='Traceability'>
+	                    						<field name="prodlot_id" />
+	                    						<field name="tracking_id"/>
+	                    						<field name="container_size"/>
+	                    						<field name='remark'/>
+	                    					</group>
+	                    				</group>
+	                    				<label for="name" />
+	                    				<field name="name"/>
+	                    			</form>
+	                    			<tree string="Goods" colors="red:priority == 'red';orange:priority == 'orange';">
+	                    				<field name="stock_move_id" invisible="1"/>
+	                    				<field name="picking_id" invisible="1"/>
+	                    				<field name="booking_id"  invisible="1"/>
+	                    				<field name="sale_id"  invisible="1"/>
+	                    				<field name="partner_id"  invisible="1"/>
+	                    				<field name="dest_port_id" invisible="1"/>
+	                    				<field name="manufacturer"/>
+	                    				<field name="product_id"/>
+	                    				<field name="name" invisible="0"/>
+	                    				<field name="product_qty"/>
+	                    				<field name="product_uom"/>
+	                    				<field name="product_uop_qty"/>
+	                    				<field name="product_uop"/>
+	                    				<field name="prodlot_id" />
+	                    				<field name="tracking_id"/>
+	                    				<field name="priority" />
+	                    				<field name="container_size"/>
+	                    				<field name='remark'/>
+	                    			</tree>
+	                    		</field>
+	                    	</page>
+	                    	<page string="Related Picking(s)">
+	                    		<field name='picking_ids' />
+	                    	</page>
+	                    </notebook>
+	                    <field name="note" placeholder="Additional Notes Here .."/>
+	                </sheet>
+					<!-- <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div> -->
+				</form>
+			</field>
+		</record>
+
+		<record id="view_stuffing_memo_search" model="ir.ui.view">
+            <field name="name">stuffing.memo.search</field>
+            <field name="model">stuffing.memo</field>
+            <field name="arch" type="xml">
+                <search string="Stuffing Memo">
+                    <field name="name" string="Search" filter_domain="['|',('name','ilike', self)]"/>
+                    <!-- <field name="notify_party" string="Applicant" filter_domain="[('notify_party','child_of',self)]"/> -->
+                    <group expand="0" string="Group By...">
+                        <filter string="Stuffing Date" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'stuffing_date'}"/>
+                        <!-- <filter string="LC Type" icon="terp-folder-orange" domain="[]" context="{'group_by':'type'}"/> -->
+                    </group>
+                </search>
+            </field>
+        </record>
+		
+		<record id="action_stuffing_memo" model="ir.actions.act_window">
+            <field name="name">Stuffing Memo</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stuffing.memo</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_stuffing_memo_search"/>
+            <field name="context">{}</field>
+        </record>
+        
+        <menuitem action="action_stuffing_memo" id="menu_stuffing_memo" parent="stock.menu_stock_warehouse_mgmt" sequence="4"/>
+
+ <!--        <record id="seq_type_stuffing_memo" model="ir.sequence.type">
+            <field name="name">Stuffing Memo</field>
+            <field name="code">stuffing.memo</field>
+        </record>
+        
+        <record id="seq_stuffing_memo" model="ir.sequence">
+            <field name="name">Stuffing Memo</field>
+            <field name="code">stuffing.memo</field>
+            <field name="prefix">SI %(y)s%(month)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record> -->
+	</data>
+</openerp>

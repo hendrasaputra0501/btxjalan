@@ -1,0 +1,45 @@
+<openerp>
+	<data>
+		<record model="ir.ui.view" id="view_purchase_order_lc_form_inherit">
+			<field name="name">purchase.order.lc.form.inherit</field>
+			<field name="type">form</field>
+			<field name="model">purchase.order</field>
+			<field name="inherit_id" ref="purchase.purchase_order_form"/>
+			<field name="arch" type="xml">
+				<field name="state" position="attributes">
+					<attribute name="statusbar_visible">draft,sent,lc_created,adv_created,approved,done</attribute>
+				</field>
+				<xpath expr="/form/header/button[@name='purchase_confirm' and @states='sent']" position="attributes">
+					<attribute name="string">Confirm Draft</attribute>
+				</xpath>
+				<xpath expr="/form/header/button[@name='purchase_confirm' and @states='draft']" position="attributes">
+					<attribute name="string">Confirm Draft</attribute>
+				</xpath>
+				<xpath expr="/form/header/button[@name='purchase_confirm' and @states='sent']" position="after">
+					<button name="purchase_confirm" states="lc_created,adv_created" string="Confirm Order"/>
+					<button name="force_release" type="object" string="Force Release" attrs="{'invisible':['|',('force_release','=',True),('state','not in',('lc_created','adv_created'))]}" class="oe_highlight" groups="purchase.group_purchase_manager"/>
+				</xpath>
+
+
+				<xpath expr="/form/sheet/notebook/page[@string='Incoming Shipments &amp; Invoices']/group[1]/group[2]/field[@name='invoice_method']" position="after">
+					<field name="incoterm"/>
+					<field name="payment_method"/>
+					<field name="new_lc" attrs="{'invisible':[('payment_method','!=','lc')]}"/>
+					<field name="force_release" readonly="1"/>
+				</xpath>
+				<xpath expr="/form/sheet/notebook/page[@string='Incoming Shipments &amp; Invoices']" position="after">
+					<page string="LC(s) Allocated" attrs="{'invisible':[('payment_method','!=','lc')]}">
+						<field name="lc_ids" colspan="4" nolabel="1" domain="[('state','in',['open','close'])]" context="{'lc_type':'out','form_view_ref':'ad_letter_of_credit.view_letterofcredit_purchase_form'}">
+                            <tree>
+                                <field name="partner_id"/>
+                                <field name="lc_number"/>
+                                <field name="lc_amount"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+					</page>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</openerp>

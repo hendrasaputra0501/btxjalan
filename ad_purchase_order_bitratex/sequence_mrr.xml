@@ -1,0 +1,544 @@
+<openerp>
+    <data>
+        <!-- MRR Stores Local JANUARY -->
+        <record id="seq_type_mrr_stores_local_1" model="ir.sequence.type">
+            <field name="name">MRR Stores Local Jan</field>
+            <field name="code">picking.in.stores.local.jan</field>
+        </record>
+        
+        <record id="seq_mrr_stores_local_1" model="ir.sequence">
+            <field name="name">MRR Stores Local Jan</field>
+            <field name="code">picking.in.stores.local.jan</field>
+            <field name="prefix">SML%(y)s01</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Local FEBRUARY -->
+        <record id="seq_type_mrr_stores_local_2" model="ir.sequence.type">
+            <field name="name">MRR Stores Local Feb</field>
+            <field name="code">picking.in.stores.local.feb</field>
+        </record>
+        
+        <record id="seq_mrr_stores_local_2" model="ir.sequence">
+            <field name="name">MRR Stores Local Feb</field>
+            <field name="code">picking.in.stores.local.feb</field>
+            <field name="prefix">SML%(y)s02</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Local MARET -->
+        <record id="seq_type_mrr_stores_local_3" model="ir.sequence.type">
+            <field name="name">MRR Stores Local Mar</field>
+            <field name="code">picking.in.stores.local.mar</field>
+        </record>
+        
+        <record id="seq_mrr_stores_local_3" model="ir.sequence">
+            <field name="name">MRR Stores Local Mar</field>
+            <field name="code">picking.in.stores.local.mar</field>
+            <field name="prefix">SML%(y)s03</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Local APRIL -->
+        <record id="seq_type_mrr_stores_local_4" model="ir.sequence.type">
+            <field name="name">MRR Stores Local Apr</field>
+            <field name="code">picking.in.stores.local.apr</field>
+        </record>
+        
+        <record id="seq_mrr_stores_local_4" model="ir.sequence">
+            <field name="name">MRR Stores Local Apr</field>
+            <field name="code">picking.in.stores.local.apr</field>
+            <field name="prefix">SML%(y)s04</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Local May -->
+        <record id="seq_type_mrr_stores_local_5" model="ir.sequence.type">
+            <field name="name">MRR Stores Local May</field>
+            <field name="code">picking.in.stores.local.may</field>
+        </record>
+        
+        <record id="seq_mrr_stores_local_5" model="ir.sequence">
+            <field name="name">MRR Stores Local May</field>
+            <field name="code">picking.in.stores.local.may</field>
+            <field name="prefix">SML%(y)s05</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Local JUNI -->
+        <record id="seq_type_mrr_stores_local_6" model="ir.sequence.type">
+            <field name="name">MRR Stores Local Jun</field>
+            <field name="code">picking.in.stores.local.jun</field>
+        </record>
+        
+        <record id="seq_mrr_stores_local_6" model="ir.sequence">
+            <field name="name">MRR Stores Local Jun</field>
+            <field name="code">picking.in.stores.local.jun</field>
+            <field name="prefix">SML%(y)s06</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Local JULY -->
+        <record id="seq_type_mrr_stores_local_7" model="ir.sequence.type">
+            <field name="name">MRR Stores Local Jul</field>
+            <field name="code">picking.in.stores.local.jul</field>
+        </record>
+        
+        <record id="seq_mrr_stores_local_7" model="ir.sequence">
+            <field name="name">MRR Stores Local Jul</field>
+            <field name="code">picking.in.stores.local.jul</field>
+            <field name="prefix">SML%(y)s07</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Local AUGUST -->
+        <record id="seq_type_mrr_stores_local_8" model="ir.sequence.type">
+            <field name="name">MRR Stores Local Aug</field>
+            <field name="code">picking.in.stores.local.aug</field>
+        </record>
+        
+        <record id="seq_mrr_stores_local_8" model="ir.sequence">
+            <field name="name">MRR Stores Local Aug</field>
+            <field name="code">picking.in.stores.local.aug</field>
+            <field name="prefix">SML%(y)s08</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Local SEPTEMBER -->
+        <record id="seq_type_mrr_stores_local_9" model="ir.sequence.type">
+            <field name="name">MRR Stores Local Sep</field>
+            <field name="code">picking.in.stores.local.sep</field>
+        </record>
+        
+        <record id="seq_mrr_stores_local_9" model="ir.sequence">
+            <field name="name">MRR Stores Local Sep</field>
+            <field name="code">picking.in.stores.local.sep</field>
+            <field name="prefix">SML%(y)s09</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Local OCTOBER -->
+        <record id="seq_type_mrr_stores_local_10" model="ir.sequence.type">
+            <field name="name">MRR Stores Local Oct</field>
+            <field name="code">picking.in.stores.local.oct</field>
+        </record>
+        
+        <record id="seq_mrr_stores_local_10" model="ir.sequence">
+            <field name="name">MRR Stores Local Oct</field>
+            <field name="code">picking.in.stores.local.oct</field>
+            <field name="prefix">SML%(y)s10</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Local NOVEMBER -->
+        <record id="seq_type_mrr_stores_local_11" model="ir.sequence.type">
+            <field name="name">MRR Stores Local Nov</field>
+            <field name="code">picking.in.stores.local.nov</field>
+        </record>
+        
+        <record id="seq_mrr_stores_local_11" model="ir.sequence">
+            <field name="name">MRR Stores Local Nov</field>
+            <field name="code">picking.in.stores.local.nov</field>
+            <field name="prefix">SML%(y)s11</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Local DECEMBER -->
+        <record id="seq_type_mrr_stores_local_12" model="ir.sequence.type">
+            <field name="name">MRR Stores Local Des</field>
+            <field name="code">picking.in.stores.local.dec</field>
+        </record>
+
+         <record id="seq_mrr_stores_local_12" model="ir.sequence">
+            <field name="name">MRR Stores Local Des</field>
+            <field name="code">picking.in.stores.local.dec</field>
+            <field name="prefix">SML%(y)s12</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Import JANUARY -->
+        <record id="seq_type_mrr_stores_import_1" model="ir.sequence.type">
+            <field name="name">MRR Stores Import Jan</field>
+            <field name="code">picking.in.stores.import.jan</field>
+        </record>
+        
+        <record id="seq_mrr_stores_import_1" model="ir.sequence">
+            <field name="name">MRR Stores Import Jan</field>
+            <field name="code">picking.in.stores.import.jan</field>
+            <field name="prefix">SMM%(y)s01</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Import FEBRUARY -->
+        <record id="seq_type_mrr_stores_import_2" model="ir.sequence.type">
+            <field name="name">MRR Stores Import Feb</field>
+            <field name="code">picking.in.stores.import.feb</field>
+        </record>
+        
+        <record id="seq_mrr_stores_import_2" model="ir.sequence">
+            <field name="name">MRR Stores Import Feb</field>
+            <field name="code">picking.in.stores.import.feb</field>
+            <field name="prefix">SMM%(y)s02</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Import MARET -->
+        <record id="seq_type_mrr_stores_import_3" model="ir.sequence.type">
+            <field name="name">MRR Stores Import Mar</field>
+            <field name="code">picking.in.stores.import.mar</field>
+        </record>
+        
+        <record id="seq_mrr_stores_import_3" model="ir.sequence">
+            <field name="name">MRR Stores Import Mar</field>
+            <field name="code">picking.in.stores.import.mar</field>
+            <field name="prefix">SMM%(y)s03</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Import APRIL -->
+        <record id="seq_type_mrr_stores_import_4" model="ir.sequence.type">
+            <field name="name">MRR Stores Import Apr</field>
+            <field name="code">picking.in.stores.import.apr</field>
+        </record>
+        
+        <record id="seq_mrr_stores_import_4" model="ir.sequence">
+            <field name="name">MRR Stores Import Apr</field>
+            <field name="code">picking.in.stores.import.apr</field>
+            <field name="prefix">SMM%(y)s04</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Import May -->
+        <record id="seq_type_mrr_stores_import_5" model="ir.sequence.type">
+            <field name="name">MRR Stores Import May</field>
+            <field name="code">picking.in.stores.import.may</field>
+        </record>
+        
+        <record id="seq_mrr_stores_import_5" model="ir.sequence">
+            <field name="name">MRR Stores Import May</field>
+            <field name="code">picking.in.stores.import.may</field>
+            <field name="prefix">SMM%(y)s05</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Import JUNI -->
+        <record id="seq_type_mrr_stores_import_6" model="ir.sequence.type">
+            <field name="name">MRR Stores Import Jun</field>
+            <field name="code">picking.in.stores.import.jun</field>
+        </record>
+        
+        <record id="seq_mrr_stores_import_6" model="ir.sequence">
+            <field name="name">MRR Stores Import Jun</field>
+            <field name="code">picking.in.stores.import.jun</field>
+            <field name="prefix">SMM%(y)s06</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Import JULY -->
+        <record id="seq_type_mrr_stores_import_7" model="ir.sequence.type">
+            <field name="name">MRR Stores Import Jul</field>
+            <field name="code">picking.in.stores.import.jul</field>
+        </record>
+        
+        <record id="seq_mrr_stores_import_7" model="ir.sequence">
+            <field name="name">MRR Stores Import Jul</field>
+            <field name="code">picking.in.stores.import.jul</field>
+            <field name="prefix">SMM%(y)s07</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Import AUGUST -->
+        <record id="seq_type_mrr_stores_import_8" model="ir.sequence.type">
+            <field name="name">MRR Stores Import Aug</field>
+            <field name="code">picking.in.stores.import.aug</field>
+        </record>
+        
+        <record id="seq_mrr_stores_import_8" model="ir.sequence">
+            <field name="name">MRR Stores Import Aug</field>
+            <field name="code">picking.in.stores.import.aug</field>
+            <field name="prefix">SMM%(y)s08</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Import SEPTEMBER -->
+        <record id="seq_type_mrr_stores_import_9" model="ir.sequence.type">
+            <field name="name">MRR Stores Import Sep</field>
+            <field name="code">picking.in.stores.import.sep</field>
+        </record>
+        
+        <record id="seq_mrr_stores_import_9" model="ir.sequence">
+            <field name="name">MRR Stores Import Sep</field>
+            <field name="code">picking.in.stores.import.sep</field>
+            <field name="prefix">SMM%(y)s09</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Import OCTOBER -->
+        <record id="seq_type_mrr_stores_import_10" model="ir.sequence.type">
+            <field name="name">MRR Stores Import Oct</field>
+            <field name="code">picking.in.stores.import.oct</field>
+        </record>
+        
+        <record id="seq_mrr_stores_import_10" model="ir.sequence">
+            <field name="name">MRR Stores Import Oct</field>
+            <field name="code">picking.in.stores.import.oct</field>
+            <field name="prefix">SMM%(y)s10</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Import NOVEMBER -->
+        <record id="seq_type_mrr_stores_import_11" model="ir.sequence.type">
+            <field name="name">MRR Stores Import Nov</field>
+            <field name="code">picking.in.stores.import.nov</field>
+        </record>
+        
+        <record id="seq_mrr_stores_import_11" model="ir.sequence">
+            <field name="name">MRR Stores Import Nov</field>
+            <field name="code">picking.in.stores.import.nov</field>
+            <field name="prefix">SMM%(y)s11</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Stores Import DECEMBER -->
+        <record id="seq_type_mrr_stores_import_12" model="ir.sequence.type">
+            <field name="name">MRR Stores Import Des</field>
+            <field name="code">picking.in.stores.import.dec</field>
+        </record>
+        
+        <record id="seq_mrr_stores_import_12" model="ir.sequence">
+            <field name="name">MRR Stores Import Des</field>
+            <field name="code">picking.in.stores.import.dec</field>
+            <field name="prefix">SMM%(y)s12</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+
+        <!-- MRR Packing Local JANUARY -->
+        <record id="seq_type_mrr_packing_local_1" model="ir.sequence.type">
+            <field name="name">MRR Packing Local Jan</field>
+            <field name="code">picking.in.packing.local.jan</field>
+        </record>
+        
+        <record id="seq_mrr_packing_local_1" model="ir.sequence">
+            <field name="name">MRR Packing Local Jan</field>
+            <field name="code">picking.in.packing.local.jan</field>
+            <field name="prefix">PML%(y)s01</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Packing Local FEBRUARY -->
+        <record id="seq_type_mrr_packing_local_2" model="ir.sequence.type">
+            <field name="name">MRR Packing Local Feb</field>
+            <field name="code">picking.in.packing.local.feb</field>
+        </record>
+        
+        <record id="seq_mrr_packing_local_2" model="ir.sequence">
+            <field name="name">MRR Packing Local Feb</field>
+            <field name="code">picking.in.packing.local.feb</field>
+            <field name="prefix">PML%(y)s02</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Packing Local MARET -->
+        <record id="seq_type_mrr_packing_local_3" model="ir.sequence.type">
+            <field name="name">MRR Packing Local Mar</field>
+            <field name="code">picking.in.packing.local.mar</field>
+        </record>
+        
+        <record id="seq_mrr_packing_local_3" model="ir.sequence">
+            <field name="name">MRR Packing Local Mar</field>
+            <field name="code">picking.in.packing.local.mar</field>
+            <field name="prefix">PML%(y)s03</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Packing Local APRIL -->
+        <record id="seq_type_mrr_packing_local_4" model="ir.sequence.type">
+            <field name="name">MRR Packing Local Apr</field>
+            <field name="code">picking.in.packing.local.apr</field>
+        </record>
+        
+        <record id="seq_mrr_packing_local_4" model="ir.sequence">
+            <field name="name">MRR Packing Local Apr</field>
+            <field name="code">picking.in.packing.local.apr</field>
+            <field name="prefix">PML%(y)s04</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Packing Local May -->
+        <record id="seq_type_mrr_packing_local_5" model="ir.sequence.type">
+            <field name="name">MRR Packing Local May</field>
+            <field name="code">picking.in.packing.local.may</field>
+        </record>
+        
+        <record id="seq_mrr_packing_local_5" model="ir.sequence">
+            <field name="name">MRR Packing Local May</field>
+            <field name="code">picking.in.packing.local.may</field>
+            <field name="prefix">PML%(y)s05</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Packing Local JUNI -->
+        <record id="seq_type_mrr_packing_local_6" model="ir.sequence.type">
+            <field name="name">MRR Packing Local Jun</field>
+            <field name="code">picking.in.packing.local.jun</field>
+        </record>
+        
+        <record id="seq_mrr_packing_local_6" model="ir.sequence">
+            <field name="name">MRR Packing Local Jun</field>
+            <field name="code">picking.in.packing.local.jun</field>
+            <field name="prefix">PML%(y)s06</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Packing Local JULY -->
+        <record id="seq_type_mrr_packing_local_7" model="ir.sequence.type">
+            <field name="name">MRR Packing Local Jul</field>
+            <field name="code">picking.in.packing.local.jul</field>
+        </record>
+        
+        <record id="seq_mrr_packing_local_7" model="ir.sequence">
+            <field name="name">MRR Packing Local Jul</field>
+            <field name="code">picking.in.packing.local.jul</field>
+            <field name="prefix">PML%(y)s07</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Packing Local AUGUST -->
+        <record id="seq_type_mrr_packing_local_8" model="ir.sequence.type">
+            <field name="name">MRR Packing Local Aug</field>
+            <field name="code">picking.in.packing.local.aug</field>
+        </record>
+        
+        <record id="seq_mrr_packing_local_8" model="ir.sequence">
+            <field name="name">MRR Packing Local Aug</field>
+            <field name="code">picking.in.packing.local.aug</field>
+            <field name="prefix">PML%(y)s08</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Packing Local SEPTEMBER -->
+        <record id="seq_type_mrr_packing_local_9" model="ir.sequence.type">
+            <field name="name">MRR Packing Local Sep</field>
+            <field name="code">picking.in.packing.local.sep</field>
+        </record>
+        
+        <record id="seq_mrr_packing_local_9" model="ir.sequence">
+            <field name="name">MRR Packing Local Sep</field>
+            <field name="code">picking.in.packing.local.sep</field>
+            <field name="prefix">PML%(y)s09</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Packing Local OCTOBER -->
+        <record id="seq_type_mrr_packing_local_10" model="ir.sequence.type">
+            <field name="name">MRR Packing Local Oct</field>
+            <field name="code">picking.in.packing.local.oct</field>
+        </record>
+        
+        <record id="seq_mrr_packing_local_10" model="ir.sequence">
+            <field name="name">MRR Packing Local Oct</field>
+            <field name="code">picking.in.packing.local.oct</field>
+            <field name="prefix">PML%(y)s10</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Packing Local NOVEMBER -->
+        <record id="seq_type_mrr_packing_local_11" model="ir.sequence.type">
+            <field name="name">MRR Packing Local Nov</field>
+            <field name="code">picking.in.packing.local.nov</field>
+        </record>
+        
+        <record id="seq_mrr_packing_local_11" model="ir.sequence">
+            <field name="name">MRR Packing Local Nov</field>
+            <field name="code">picking.in.packing.local.nov</field>
+            <field name="prefix">PML%(y)s11</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MRR Packing Local DECEMBER -->
+        <record id="seq_type_mrr_packing_local_12" model="ir.sequence.type">
+            <field name="name">MRR Packing Local Des</field>
+            <field name="code">picking.in.packing.local.dec</field>
+        </record>
+
+         <record id="seq_mrr_packing_local_12" model="ir.sequence">
+            <field name="name">MRR Packing Local Des</field>
+            <field name="code">picking.in.packing.local.dec</field>
+            <field name="prefix">PML%(y)s12</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</openerp>

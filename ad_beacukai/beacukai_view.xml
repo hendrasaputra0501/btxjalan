@@ -1,0 +1,611 @@
+<openerp>
+	<data>
+		<record id="view_company_form_inherit_beacukai" model="ir.ui.view">
+        	<field name="name">res.company.inherit.beacukai</field>
+			<field name="model">res.company</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="base.view_company_form" />
+			<field name="arch" type="xml">
+				<xpath expr="/form/sheet/notebook/page[@string='Configuration']/group[1]/group[1]" position="after">
+					<group string="TPB Info">
+						<field name="pabean_office_id"/>
+						<field name="code_module_ceisa_tpb"/>
+						<field name="skep_number"/>
+						<field name="skep_date"/>
+					</group>
+				</xpath>
+			</field>
+		</record>
+
+		<menuitem name='Bea Cukai Documents' id="beacukai"
+			parent="stock.menu_stock_root" sequence="1" />
+
+		<record id="view_beacukai_23_search" model="ir.ui.view">
+			<field name="name">view.beacukai.23.search</field>
+			<field name="model">beacukai</field>
+			<field name="arch" type="xml">
+				<search string="Beacukai 2.3">
+					<field name="name" />
+				</search>
+			</field>
+		</record>
+		<record id="view_beacukai_23_tree" model="ir.ui.view">
+			<field name="name">view.beacukai.23.tree</field>
+			<field name="model">beacukai</field>
+			<field name="arch" type="xml">
+					<tree string="Beacukai 2.3">
+					<field name="name" />
+				</tree>
+			</field>
+		</record>
+		<record id="view_beacukai_23_form" model="ir.ui.view">
+			<field name="name">view.beacukai.23.form</field>
+			<field name="model">beacukai</field>
+			<field name="arch" type="xml">
+					<form version="7.0" string="Beacukai 2.3">
+					<group>
+						<group string="Filter" colspan="4" col="4">
+							<field name="shipment_type" />
+							<field name="transaction_type" required='1' />
+							<field name="berikat_type" />
+							<field name="document_type" readonly='1' />
+						</group>
+						<group colspan="4" cols="4">
+							<notebook>
+								<page string="Header">
+									<group string="Header" colspan="4" col="4">
+										<field name="purpose" />
+										<field name="shipper_id" on_change='onchange_shipper(shipper_id)' />
+										<field name="shipment_type" />
+									</group>
+									<!-- start by bahrul -->
+									<group colspan="4" col="4">
+										<group string="Pengirim Barang" colspan="2" col="2">
+											<field name="source_partner_id" />
+											<field name="source_address" />
+											<field name="source_npwp" />
+										</group>
+										<group string="Penerima Barang" colspan="2" col="2">
+											<field name="dest_partner_id" />
+											<field name="dest_address" />
+											<field name="dest_npwp"/>
+										</group>
+										<group string="Identits Pemberitahu" colspan="2" col="2">
+											<field name="info_partner_id" />
+											<field name="info_address" />
+											<field name="info_npwp" />
+										</group>
+										<group colspan="2" col="2">
+											<field name="ppjk_no" />
+											<field name="ppjk_date" />
+											<field name="voyage_no" /> 	<!--10 No Voy/fight -->
+											<field name="stuffing_loc" />  <!--11 tempat muat -->
+											<field name="unstuffing_loc" />   <!--12. pelabuhan tujuan -->
+											<field name="sale_id" />
+											<field name="purchase_id" />
+											<field name="contract_date" />
+											<field name="volume" />
+											<field name="volume_uom" />
+											<field name="gross_weight" />
+											<field name="sarana_pengangkutan" />
+											<field name="gross_weight" />
+											<field name="nett_weight" />
+											<field name="purchase_id" />
+											<field name="contract_date" />
+											<field name="nett_uom" />
+											<field name="packing" />
+											<field name="brand" />
+											<field name="container_no" />
+											<field name="packing_qty" />
+											<field name="name" />
+											<field name="pabean_office_code" />
+											<field name="pabean_partner_id" />
+											<field name="tpb_type" />
+											<field name="tpb_certificate" />
+											<field name="registration_no" />
+											<field name="registration_date" />
+										</group>
+									</group>		
+								<!-- end by bahrul -->
+								</page>
+								<page string="Header 2">	
+									<group colspan="4" col="4">
+										<group colspan="2" col="2">
+											<field name="merk_kemasan" />
+											<field name="no_kemasan" />
+											<field name="qty_kemasan" />	
+											<field name="Jenis_kemasan" />
+											<field name="no_segel" />
+											<field name="jenis_segel" />	
+											<field name="keterangan_header_2" />	
+										</group>
+										<group colspan="2" col="2">
+											<field name="uraian_barang" />
+											<field name="kode" />
+											<field name="jumlah_satuan" />	
+											<field name="keterangan_hasil" />
+											<field name="place" />
+											<field name="date" />	
+											<field name="signedby" />	
+											<field name="no_pendaftaran" />	
+											<field name="tgl_pendaftaran" />	
+										</group>
+									</group>	
+								</page>
+								<page string="Details">
+									<group string="Pickings &amp; Invoices">
+										<separator string="Invoices" colspan="4"/>
+										<field name="invoice_ids" nolabel="1" colspan="4"/>
+										<separator string="Pickings" colspan="4"/>
+										<field name="picking_ids" nolabel="1" colspan="4"/>
+									</group>
+								</page>
+							</notebook>
+						</group>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_beacukai_23" model="ir.actions.act_window">
+			<field name="name">Beacukai 2.3</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">beacukai</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('document_type','=','23')]</field>
+			<field name="context">{'document_type':'23'}</field>
+			<field name="search_view_id" ref="view_beacukai_23_search" />
+		</record>
+
+		<record id="action_beacukai_23_view1" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_beacukai_23_tree"/>
+			<field name="act_window_id" ref="action_beacukai_23"/>
+		</record>
+
+		<record id="action_beacukai_23_view2" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_beacukai_23_form"/>
+			<field name="act_window_id" ref="action_beacukai_23"/>
+		</record>
+	
+		<!-- form 40 -->
+		<record id="view_beacukai_40_tree" model="ir.ui.view">
+			<field name="name">view.beacukai.40.tree</field>
+			<field name="model">beacukai</field>
+			<field name="arch" type="xml">
+				<tree version="7.0" string="Beacukai 4.0">
+					<field name="name" />
+					<field name="shipment_type" />
+					<field name="picking_related_number"/>
+					<field name="invoice_id" readonly='1' />
+					<field name="document_type" readonly='1' />
+					<field name="registration_no" readonly='1' />
+					<field name="registration_date" readonly='1' />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_beacukai_40_search" model="ir.ui.view">
+			<field name="name">view.beacukai.40.search</field>
+			<field name="model">beacukai</field>
+			<field name="arch" type="xml">
+				<search string="Beacukai 40">
+					<field name="name" />
+				</search>
+			</field>
+		</record>
+
+		<record id="view_beacukai_40_form" model="ir.ui.view">
+			<field name="name">view.beacukai.40.form</field>
+			<field name="model">beacukai</field>
+			<field name="arch" type="xml">
+				<form version="7.0" string="Beacukai 4.0">
+				<group string="Header">
+					<group>
+						<field name="shipment_type" on_change='onchange_shipment_type(shipment_type)' />
+						<field name="document_type" invisible="1"/>
+						<field name="picking_id" on_change='onchange_picking_id(picking_id,shipment_type,document_type)' invisible="1" />
+						<field name="invoice_id" on_change='onchange_invoice_id(invoice_id)' attrs="{'invisible':[('shipment_type','=','in')]}"/>
+						<field name="picking_ids2" widget="many2many_tags" on_change='onchange_picking_id(picking_ids2,shipment_type,document_type)' />
+						<field name="name" string="No. Pengajuan" required="1"/>
+						<!-- <field name="pabean_address" /> -->
+						<!-- <field name="pabean_office_code" required="1"/> -->
+						<field name="pabean_office_id" required="1"/>
+						<field name="tpb_type" string="Jenis TPB"/>
+						<field name="code_module_ceisa_tpb" invisible="1"/>
+						<field name="purpose" string="Tujuan Pengiriman"/>
+					</group>
+					<group string="Kolom Khusus Bea dan Cukai" >
+						<field name="registration_no" string="No. BC"/>
+						<field name="registration_date" string="Tanggal Pengajuan" required="1"/>
+					</group>
+				</group>
+				<notebook>
+					<page string="Detail Informations">
+						<group colspan="4" col="4">
+							<group string="Pengusaha TPB" >
+								<field name="info_partner_id" />
+								<field name="info_address" />
+								<field name="info_npwp" />
+								<field name="ppjk_no" />
+								<field name="ppjk_date" />
+								<field name="tpb_certificate" />
+							</group>
+							<group string="Pengirim Barang" attrs="{'invisible':[('shipment_type','!=','in')]}" >
+								<field name="source_partner_id" />
+								<field name="source_address" />
+								<field name="source_npwp" />
+							</group>							
+							<group string="Penerima Barang" attrs="{'invisible':[('shipment_type','!=','out')]}" >
+								<field name="dest_partner_id" />
+								<field name="dest_address" />
+								<field name="dest_npwp" />
+							</group>
+						</group>
+						<group>
+							<group string="Dokumen Pelengkap Pabean">
+								<field name="purchase_id" invisible="1" attrs="{'invisible':[('shipment_type','!=','in')]}"/>
+								<field name="sale_id" attrs="{'invisible':[('shipment_type','!=','out')]}" invisible="1"/>	
+								<field name="purchase_ids" attrs="{'invisible':[('shipment_type','!=','in')]}" widget="many2many_tags"/>
+								<field name="sale_ids" attrs="{'invisible':[('shipment_type','!=','out')]}" widget="many2many_tags"/>
+								<field name="contract_date" />
+
+								<field name="beacukai_additional_doc" required="1" nolabel="1" colspan="2">
+									<tree string="additional info">
+										<field name="doc_id"/>
+										<field name="no_doc" />
+										<field name="tanggal_doc" />
+									</tree>
+									<form string="additional info">
+										<field name="doc_id" required="1"/>
+										<field name="no_doc" required="1"/>
+										<field name="tanggal_doc" required="1"/>
+									</form>
+								</field>
+							</group>
+							<group string="Data Pengangkutan">
+								<!-- <field name="cara_pengangkutan" /> -->
+								<field name="sarana_pengangkutan" string="Jenis sarana pengangku darat"/>
+								<field name="voyage_no" string="Nomor Polisi"/>
+								<!-- <field name="stuffing_loc" /> -->
+								<!-- <field name="unstuffing_loc" /> -->
+							</group>
+						</group>
+						<group>
+							<group string="Data Kemasan">	
+								<!-- <field name="Jenis_kemasan" /> -->
+								<!-- <field name="no_kemasan" /> -->
+								<!-- <field name="merk_kemasan" /> -->
+								<!-- <field name="qty_kemasan" /> -->
+								<field name="beacukai_product_packages" required="1" nolabel="1">
+									<tree string="Kemasan">
+										<field name="jumlah" />
+										<field name="package_id" />
+										<field name="merk" />
+									</tree>
+									<form string="Kemasan">
+										<field name="jumlah" required="1"/>
+										<field name="package_id" required="1"/>
+										<field name="merk" />
+									</form>
+								</field>
+							</group>
+							<group string="Data Perdagangan">
+								<label for="original_amount" string="Harga Penyerahan"/>
+								<div>
+									<field name="original_amount" style="width:78%%"/>
+									<field name="original_currency" style="width:22%%"/>
+								</div>
+								<label for="amount_idr" string="Harga Penyerahan (IDR)"/>
+								<div>
+									<field name="amount_idr" style="width:78%%"/>
+									<field name="currency_idr" style="width:22%%"/>
+								</div>
+								<field name="volume" string="Volume"/>
+								<field name="gross_weight" string="Berat Kotor"/>
+								<field name="nett_weight" string="Berat Bersih"/>
+							</group>
+						</group>
+						<label for="detail_packing_id" string="Barang" />
+						<field name="detail_packing_id" required="1">
+							<form string="Detail picking" version="7.0">
+								<group>
+									<group>
+										<field name="product_id"  on_change='onchange_product(product_id)'/>
+										<field name="product_uom" invisible="1"/>
+										<field name="product_qty" invisible="1"/>
+										<field name="product_uom_kgs" string="Uom" />
+										<field name="product_qty_kgs" string="Quantity"/>
+									</group>
+									<group>
+										<field name="price_unit" />
+										<field name="price_subtotal" invisible="1"/>
+										<field name="price_subtotal_idr" string="Harga Pemberian"/>
+										<field name="net_weight" />
+										<field name="volume" />
+									</group>
+								</group>
+							</form>
+							<tree string="Detail picking  4.0" create="1" delete="0">
+								<field name="product_id" />
+								<field name="product_uom" invisible="1"/>
+								<field name="product_qty" invisible="1"/>
+								<field name="product_uom_kgs" string="Quantity"/>
+								<field name="product_qty_kgs" string="UoM"/>
+								<field name="price_unit" />
+								<field name="price_subtotal" invisible="1"/>
+								<field name="price_subtotal_idr" sum="Total Harga Pemberian" string="Harga Pemberian"/>
+								<field name="net_weight" sum="Total Netto" string="Netto"/>
+								<field name="volume" sum="Total Volume" string="Volume"/>
+							</tree>
+						</field>
+					</page>
+					<page string="Lembar Konversi">
+						<field name="konversi_ids">
+							<tree string="Detail Konversi" >
+								<field name="product_id" />
+								<field name="product_uom" />
+								<field name="product_qty" />
+								<field name="product_uom_kgs" />
+								<field name="product_qty_kgs" />
+							</tree>
+							<form string="Detail Konversi" version="7.0">
+								<group col="4" colspan="4">
+									<field name="product_id" />
+									<field name="product_uom" />
+									<field name="product_qty" />
+									<field name="product_uom_kgs" />
+									<field name="product_qty_kgs" />
+								</group>
+								<field name="komponen_ids" >
+									<tree string="Detail Komponen" >
+										<field name="product_id" />
+										<field name="rm_category_id" />
+										<field name="product_uom" />
+										<field name="product_qty" />
+										<field name="product_uom_kgs" />
+										<field name="product_qty_kgs" />
+									</tree>
+									<form string="Detail Komponen" version="7.0">
+										<group col="4" colspan="4">
+											<field name="product_id" />
+											<field name="rm_category_id" />
+											<field name="product_uom" />
+											<field name="product_qty" />
+											<field name="product_uom_kgs" />
+											<field name="product_qty_kgs" />
+										</group>
+									</form>
+								</field>
+							</form>
+						</field>
+					</page>
+					<!-- <page string="Lembar Dokumen Pelengkap">
+						<field name="beacukai_additional_doc" >
+							<tree string="additional_info  4.0">
+								<field name="jenis_doc" />
+								<field name="no_doc" />
+								<field name="tanggal_doc" />
+							</tree>
+							<form string="additional_info  4.0">
+								<field name="jenis_doc" />
+								<field name="no_doc" />
+								<field name="tanggal_doc" />
+							</form>
+						</field>
+					</page> -->
+					</notebook>
+					<group colspan="4" col="4">
+						<group>
+						</group>
+						<group string="Tanda Tangan Pengusaha TBP" >
+							<label for="place" string="Tertanda" />
+							<div>
+								<field name="place" placeholder="Tempat di" style="width:70%%" required="1"/>
+								<field name="date" placeholder="Pada Tanggal" style="width:30%%" required="1"/>
+							</div>
+							<field name="signedby" required="1"/>
+						</group>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_beacukai_40" model="ir.actions.act_window">
+			<field name="name">Beacukai 4.0</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">beacukai</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('document_type','=','40'),('shipment_type','=','in')]</field>
+			<field name="context">{'document_type':'40','shipment_type':'in'}</field>
+			<field name="view_id" ref="view_beacukai_40_form" />
+			<field name="search_view_id" ref="view_beacukai_40_search" />
+		</record>
+
+		<record id="action_beacukai_40_view1" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_beacukai_40_tree"/>
+			<field name="act_window_id" ref="action_beacukai_40"/>
+		</record>
+
+		<record id="action_beacukai_40_view2" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_beacukai_40_form"/>
+			<field name="act_window_id" ref="action_beacukai_40"/>
+		</record>
+
+		<!-- BC 4.1 -->
+		<record id="action_beacukai_41" model="ir.actions.act_window">
+			<field name="name">Beacukai 4.1</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">beacukai</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('document_type','=','41'),('shipment_type','=','out')]</field>
+			<field name="context">{'document_type':'41','shipment_type':'out'}</field>
+			<field name="view_id" ref="view_beacukai_40_form" />
+			<field name="search_view_id" ref="view_beacukai_40_search" />
+		</record>
+
+		<record id="action_beacukai_41_view1" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_beacukai_40_tree"/>
+			<field name="act_window_id" ref="action_beacukai_41"/>
+		</record>
+
+		<record id="action_beacukai_41_view2" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_beacukai_40_form"/>
+			<field name="act_window_id" ref="action_beacukai_41"/>
+		</record>
+
+		<!-- form 27 -->
+		<record id="view_beacukai_27_tree" model="ir.ui.view">
+			<field name="name">view.beacukai.27.tree</field>
+				<field name="model">beacukai</field>
+				<field name="arch" type="xml">
+				<tree version="7.0" string="Beacukai 2.7">
+					<field name="shipment_type" />
+					<field name="transaction_type" />
+					<field name="document_type" readonly='1' />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_beacukai_27_search" model="ir.ui.view">
+			<field name="name">view.beacukai.27.search</field>
+			<field name="model">beacukai</field>
+			<field name="arch" type="xml">
+				<search string="Beacukai 27">
+					<field name="name" />
+				</search>
+			</field>
+		</record>
+
+		<record id="action_beacukai_27_in" model="ir.actions.act_window">
+			<field name="name">Beacukai 2.7 Masukan</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">beacukai</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('document_type','=','27_in')]</field>
+			<field name="context">{'document_type':'27_in','shipment_type':'in'}</field>
+			<field name="search_view_id" ref="view_beacukai_40_search" />
+		</record>
+
+		<record id="action_beacukai_27_in_view1" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_beacukai_40_tree"/>
+			<field name="act_window_id" ref="action_beacukai_27_in"/>
+		</record>
+
+		<record id="action_beacukai_27_in_view2" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_beacukai_40_form"/>
+			<field name="act_window_id" ref="action_beacukai_27_in"/>
+		</record>
+
+		<record id="action_beacukai_27_out" model="ir.actions.act_window">
+			<field name="name">Beacukai 2.7 Keluaran</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">beacukai</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('document_type','=','27_out')]</field>
+			<field name="context">{'document_type':'27_out','shipment_type':'out'}</field>
+			<field name="search_view_id" ref="view_beacukai_40_search" />
+		</record>
+
+		<record id="action_beacukai_27_out_view1" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_beacukai_40_tree"/>
+			<field name="act_window_id" ref="action_beacukai_27_out"/>
+		</record>
+
+		<record id="action_beacukai_27_out_view2" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_beacukai_40_form"/>
+			<field name="act_window_id" ref="action_beacukai_27_out"/>
+		</record>
+
+
+		<record id="action_beacukai_30" model="ir.actions.act_window">
+			<field name="name">Beacukai 3.0</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">beacukai</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('document_type','=','30')]</field>
+			<field name="context">{'document_type':'30'}</field>
+			<field name="search_view_id" ref="view_beacukai_40_search" />
+		</record>
+
+		<record id="action_beacukai_30_view1" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_beacukai_40_tree"/>
+			<field name="act_window_id" ref="action_beacukai_30"/>
+		</record>
+
+		<record id="action_beacukai_30_view2" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_beacukai_40_form"/>
+			<field name="act_window_id" ref="action_beacukai_30"/>
+		</record>
+
+		<record id="action_beacukai_23" model="ir.actions.act_window">
+			<field name="name">Beacukai 2.3</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">beacukai</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('document_type','=','23')]</field>
+			<field name="context">{'document_type':'23'}</field>
+			<field name="search_view_id" ref="view_beacukai_40_search" />
+		</record>
+
+		<record id="action_beacukai_23_view1" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_beacukai_40_tree"/>
+			<field name="act_window_id" ref="action_beacukai_23"/>
+		</record>
+
+		<record id="action_beacukai_23_view2" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_beacukai_40_form"/>
+			<field name="act_window_id" ref="action_beacukai_23"/>
+		</record>
+	
+		<!-- for all forms  -->
+		<!-- <menuitem action="action_beacukai_23" id="menu_beacukai_23"
+			parent="beacukai" sequence="1" /> -->
+		<menuitem action="action_beacukai_40" id="menu_beacukai_40"
+			parent="beacukai" sequence="2" />
+		<menuitem action="action_beacukai_41" id="menu_beacukai_41"
+			parent="beacukai" sequence="2" />
+		<menuitem action="action_beacukai_27_in" id="menu_beacukai_27_in"
+			parent="beacukai" sequence="3" />
+		<menuitem action="action_beacukai_27_out" id="menu_beacukai_27_out"
+			parent="beacukai" sequence="3" />
+		<menuitem action="action_beacukai_23" id="menu_beacukai_23"
+			parent="beacukai" sequence="3" />
+		<menuitem action="action_beacukai_30" id="menu_beacukai_30"
+			parent="beacukai" sequence="3" />
+	</data>
+</openerp>

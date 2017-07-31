@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="invoice_inherit_voucher_extra_writeoff_form" model="ir.ui.view">
+            <field name="name">account.invoice.inherit.extra.writeoff.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form" />
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@string='Payments']/field[@name='payment_ids']" position="after">
+                    <separator string='Charge on Payment'/>
+                    <field name='other_charge_lines'>
+                        <tree string="Charge on Payment">
+                            <field name="invoice_related_id" domain="[('partner_id','=',parent.partner_id)]"/>
+                            <field name="name"/>
+                            <field name="type" on_change="onchange_charge(type)"/>
+                            <field name="account_id" domain="[('type','=','other')]"/>
+                            <field name="analytic_id"/>
+                            <field name="analytic_journal_id" attrs="{'required':[('analytic_id','!=',False)]}"/>
+                            <field name="currency_id"/>
+                            <field name="amount"/>
+                        </tree>
+                    </field>
+                </xpath>
+                
+            </field>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="view_sale_order_contract_inherit" model="ir.ui.view">
+            <field name="name">view.sale.order.contract.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+			<field name="priority" eval="17"/>
+            <field name="arch" type="xml">
+                <button name="action_cancel" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </button>
+                <button name="cancel" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </button>
+                <xpath expr="/form/header/button[@name='action_button_confirm']" position="before">
+                    <button name="action_cancel" states="manual,progress,advance,lc_draft,ready_to_deliver" string="Cancel Order" type="object" groups="base.group_user"/>
+                    <button name="cancel" states="draft,sent" string="Cancel Quotation" groups="base.group_user"/>
+                </xpath>
+                <xpath expr="/form/header/button[@name='action_button_confirm']" position="attributes">
+                    <attribute name="string">Negotiated by staff</attribute>
+                    <attribute name="states">draft,sent</attribute>
+                    <attribute name="groups">ad_sales_contract.group_sales_staff_confirm</attribute>
+                </xpath>
+
+                <field name="client_order_ref" position="after">
+                    <field name="client_order_ref_date" />
+                </field>
+                
+                <xpath expr="/form/header/button[@name='action_button_confirm' and @class='oe_highlight']" position="after">
+                    <button name="force_delivery" string="Authorize Delivery" class="oe_highlight" type="object" groups="ad_sales_contract.group_force_confirm" attrs="{'invisible':['|','&amp;',('allow_delivery','=',True),('state','=','ready_to_deliver'),('state','!=','ready_to_deliver')]}"/>
+<!--                    <button name="force_no_delivery" string="Un-Authorize Delivery" class="oe_highlight" type="object" groups="ad_sales_contract.group_force_confirm" attrs="{'invisible':['|','|','&amp;',('allow_delivery','=',False),('state','=','ready_to_deliver'),('state','!=','ready_to_deliver'),('order_policy','!=','picking')]}"/-->
+<!--                    <button name="%(action_sale_order_make_delivery_wizard)d" string="Deliver Goods" class="oe_highlight" type="action" attrs="{'invisible':['|','|','&amp;',('allow_delivery','=',False),('state','=','ready_to_deliver'),('state','!=','ready_to_deliver'),('order_policy','!=','picking')]}"/-->
+                   
+                </xpath>
+                <button name="manual_delivery" position="after">
+                    <button name="manual_delivery" type="workflow" string="Authorize Advance" groups="base.group_sale_manager" class="oe_highlight" states="advance"/>
+                    <button name="reverse_advance_lc" type="workflow" string="Set to Draft" groups="base.group_sale_manager" states="advance,lc_draft"/>
+                    <button name="reverse_manual_delivery" type="object" string="Set Back to Authorize Advance" groups="base.group_sale_manager" attrs="{'invisible':['|',('is_on_ship_wkf','=',True),'|',('state','!=','ready_to_deliver'),('payment_method','=','lc')]}"/>
+                    <button name="reverse_manual_delivery_lc" type="object" string="Set Back to Authorize LC" groups="base.group_sale_manager" attrs="{'invisible':['|',('is_on_ship_wkf','=',True),'|',('state','!=','ready_to_deliver'),('payment_method','!=','lc')]}"/>
+                    <button name="reverse_manual_delivery" type="object" string="Set Back to Manual Delivery" groups="base.group_sale_manager" attrs="{'invisible':['|',('is_on_ship_wkf','=',False),'|',('state','!=','ready_to_deliver'),('payment_method','=','lc')]}"/>
+
+                </button>
+                <xpath expr="/form/header/field[@name='state']" position="attributes">
+                    <attribute name="statusbar_visible">draft,sent,progress,ready_to_deliver,done</attribute>
+                </xpath>
+
+                <field name="date_order" position="replace">
+            		<field name="date_order" on_change="onchange_delivery_date(max_est_delivery_date,date_order,context)"/> 
+            	</field>
+            	
+            	<xpath expr="/form/sheet/group/group[2]" position="after">
+            		<group name="specific_info">
+            			<field name="goods_type"/>
+
+                        <field name="sale_type" on_change="onchange_sale_type(sale_type)"/>
+	            		<field name="locale_sale_type" attrs="{'invisible': [('sale_type','!=','local')],'required':[('sale_type','=','local')]}"/>
+	            		<field name="tolerance_percentage" on_change="onchange_tolerance(tolerance_percentage)"/>
+                        <field name="tolerance_percentage_max" on_change="onchange_tolerance(tolerance_percentage)"/>
+	            		<field name="max_est_delivery_date" on_change="onchange_delivery_date(max_est_delivery_date,date_order,context)"/>
+                        <!-- <field name="advance_percentage" attrs="{'invisible': [('payment_method','=','lc')],'required':[('payment_method','!=','lc')]}"/> -->
+                        <label for="freight_rate_value" attrs="{'invisible':[('sale_type','!=','export')]}"/>
+                        <div attrs="{'invisible':[('sale_type','!=','export')]}">
+                            <div>
+                                <group colspan="1" col="2">
+                                    <field name="freight_rate_value" class="oe_inline" placeholder="Rate Value" nolabel="1" />
+                                    <field name="freight_rate_currency" class="oe_inline oe_no_button" placeholder="Currency" nolabel="1"/>
+                                </group> / KGS
+                                <field name="freight_rate_uom" class="oe_inline oe_no_button" placeholder="Unit of Measure" nolabel="1" invisible="1"/>
+                            </div>
+                        </div>
+	            	</group>
+                    <group name="port_info">
+                        <field name="source_country_id"/>
+                        <field name="source_port_id" domain="[('country','=',source_country_id)]" attrs="{'required':[('sale_type','=','export')]}"/>
+                        <field name="dest_country_id"/>
+                        <field name="dest_port_id" domain="[('country','=',dest_country_id)]" attrs="{'required':[('sale_type','=','export')]}"/>
+                    </group>
+            	</xpath>
+                
+                <field name="partner_shipping_id" position="after">
+                    <field name="notify" />
+                    <field name="consignee" />
+                </field>
+
+                <field name="partner_id" position="attributes">
+                    <attribute name="string">Buyer</attribute>
+                </field>
+
+                <field name="pricelist_id" position="attributes">
+                    <attribute name="string">Currency</attribute>
+                </field>
+
+                <field name="incoterm" position="attributes">
+                    <attribute name="attrs">{'required':[('sale_type','=','export')]}</attribute>
+                </field>
+
+                <field name="payment_term" position="attributes">
+                    <attribute name="attrs">{'required':[('payment_method','=','lc')]}</attribute>
+                </field>
+
+                <field name="payment_term" position="before">
+                    <field name="advance_percentage" attrs="{'invisible': [('payment_method','=','lc')],'required':[('payment_method','!=','lc')]}"/>
+                </field>    
+				
+                <xpath expr="/form/sheet/notebook/page[@string='Order Lines']/field[@name='order_line']/form[@string='Sales Order Lines']/group/group/field[@name='address_allotment_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="/form/sheet/notebook/page[@string='Order Lines']/field[@name='order_line']/form[@string='Sales Order Lines']/group/group/field[@name='th_weight']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <!-- <field name="invoiced" position="before">
+                    <field name="opening_bank" attrs="{'invisible':[('payment_method','not in',['tt','lc'])]}"/>
+                    <field name="intermed_bank"  attrs="{'invisible':[('payment_method','not in',['tt','lc'])]}"/>
+                    <field name="negotiate_bank"  attrs="{'invisible':[('payment_method','not in',['tt','lc'])]}"/>
+                </field> -->
+
+                <!--
+                <xpath expr="/form/sheet/notebook/page[@string='Order Lines']" position="after">
+                    <page string="Manual Picking" attrs="{'invisible':[('state','!=','ready_to_deliver'),('allow_delivery','!=',True)]}">
+                        <field name="manual_pick_ids" nolabel="1" colspan="4"/>
+                    </page>
+                </xpath>-->
+                <xpath expr="/form/sheet/notebook/page[@string='Order Lines']/field[@name='order_line']" position="attributes">
+                    <attribute name="context">{'sale_type':sale_type,'est_delivery_date':max_est_delivery_date}</attribute>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Order Lines']/field[@name='order_line']/form[@string='Sales Order Lines']/group/group/field[@name='price_unit']" position="after">
+                    <field name="knock_off" attrs="{'invisible':[('knock_off','=',False)]}" />
+                    <field name="date_knock_off" attrs="{'invisible':[('knock_off','=',False)]}" />
+                    <field name="knock_off_qty" attrs="{'invisible':[('knock_off','=',False)]}" />
+                    <label for="efisiensi_rate" />
+                    <div>
+                        <field name="efisiensi_rate" class="oe_inline"/>
+                        <button name="%(action_eff_rate_wizard)d" 
+                                string="Set Efisiensi Rate" type="action"
+                                icon="terp-stock_format-scientific"
+                            />
+                    </div>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Order Lines']/field[@name='order_line']/form[@string='Sales Order Lines']/label[@for='name']" position="before">
+            		<group name="item_desc" colspan="4" col="4">
+
+            			<field name="sale_type" invisible="0"/>
+                        <field name="production_location"/>
+                        <field name="cone_weight"/>
+	            		<field name="count_number"/>
+	            		<field name="bom_id" domain="[('bom_id','=',False)]"/>
+	            		<field name="wax"/>
+                        <field name="packing_type" />
+                        <field name="container_size" />
+                        <field name="packing_detail" />
+                        <field name="application" on_change="onchange_application(product_id,application,use_nomenclature)"/>
+                        <field name="use_nomenclature" on_change="onchange_use_nomenclature(use_nomenclature,product_id,name)"/>
+                        <field name="tpi"/>
+                        <field name="tpm"/>
+	            		<field name="est_delivery_date" string="Last Shipment Date" on_change="onchange_delivery_date(est_delivery_date,parent.max_est_delivery_date,parent.date_order)"/>
+                        <label for="order_state" />
+                        <div>
+                        <field name="order_state" />
+                        <button name="%(action_order_state_wizard)d" 
+                            string="Set Order State" type="action"
+                            icon="STOCK_JUSTIFY_FILL"
+                        />
+                        </div>
+                        <label for="reschedule_date" string='Reschedule Date'/>
+                        <div>
+                        <field name='reschedule_date' colspan="4" nolabel="1"/>
+                        <button name="%(action_reschedule_date_wizard)d" 
+                            string="Set Reschedule Date" type="action"
+                            icon="STOCK_JUSTIFY_FILL"
+                        />
+                        </div>
+                        <field name="remarks" />
+                    </group>
+            	</xpath>
+
+                <xpath expr="/form/sheet/notebook/page[@string='Order Lines']/field[@name='order_line']/form[@string='Sales Order Lines']/field[@name='name']" position="after">
+                    <group colspan="4" col="4">
+                        <label for="other_description" string='Internal Remarks'/>
+                        <button name="%(action_internal_remark_wizard)d" 
+                            string="Set Internal Remark" type="action"
+                            icon="STOCK_JUSTIFY_FILL"
+                        />
+                        <field name="other_description" colspan="4" nolabel="1"/>
+                    </group>
+                </xpath>
+
+                
+                <xpath expr="/form/sheet/notebook/page[@string='Order Lines']/field[@name='order_line']/tree/field[@name='product_id']" position="before">
+                    <field name='sequence_line'/>
+                    <field name='est_delivery_date' string='LSD'/>
+                </xpath>
+
+                <xpath expr="/form/sheet/notebook/page[@string='Order Lines']/field[@name='order_line']/form/group" position="before">
+                    <group>
+                        <group string="Order Number">
+                            <field name='sequence_line_1'/>
+                            <field name='sequence_line_2'/>
+                            <field name='sequence_line'/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                </xpath>
+
+                <!-- <xpath expr="/form/sheet/notebook/page[@string='Order Lines']/field[@name='order_line']/form/group" position="attributes">
+                    <attribute name="string">Detail Order</attribute>
+                </xpath> -->
+
+                <xpath expr="/form/sheet/notebook/page[@string='Other Information']" position="after">
+                    <page string="Advance(s)" attrs="{'invisible':[('payment_method','not in',('tt','cash'))]}">
+                        <field name="advance_ids" nolabel="1" colspan="4">
+                            <tree string="Advance Payment(s)">
+                                <field name="name"/>
+                                <field name="date_payment"/>
+                                <field name="effective_date"/>
+                                <field name="journal_id"/>
+                                <field name="total_amount" sum="Total Advances"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Proforma Invoice(s)" attrs="">
+                        <field name="proforma_ids" colspan="4" context="{'sale_id':context.get('active_id',False)}" delete="0"/>
+                    </page>
+                    <!-- <page string="Container Details" attrs="">
+                        <field name="container_details" colspan="4" />
+                    </page> -->
+                </xpath>
+
+                <field name="shipped" position="after">
+                    <field name="allow_delivery" invisible="0" readonly="1"/>
+                    <field name="is_on_ship_wkf" invisible="1" readonly="1"/>
+                </field>
+
+                <field name="note" position="attributes">
+                    <attribute name="placeholder">Special Condition</attribute>
+                </field>
+
+                <field name="note" position="before">
+                    <group>
+                        <group>
+                            <field name="template_special_condition" string="Add from Template" on_change="onchange_template_special_condition(note, template_special_condition)"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                </field>
+                <field name="note" position="after">
+                    <field name="contract_internal_info" placeholder="Internal Sales Information" />
+                </field>
+            </field>
+        </record>
+
+        <record id="view_sale_order_contract_tree_inherit" model="ir.ui.view">
+            <field name="name">view.sale.order.contract.tree.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="payment_pct"/>
+                    <field name="delivery_pct"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_sale_order_stock_contract_inherit" model="ir.ui.view">
+            <field name="name">view.sale.order.contract.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_stock.view_order_form_inherit"/>
+            <field name="priority" eval="17"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@string='Order Lines']/field[@name='order_line']/form[@string='Sales Order Lines']/group/group/label[@for='delay']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[@string='Order Lines']/field[@name='order_line']/form[@string='Sales Order Lines']/group/group/div[field[@name='delay']]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                
+
+                <xpath expr="//page[@string='Order Lines']/field[@name='order_line']/form[@string='Sales Order Lines']/group/group/field[@name='property_ids']" position="attributes">
+                       <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='action_view_delivery']" position="attributes">
+                       <attribute name="attrs">{'invisible': ['|','|',('picking_ids','=',False),('picking_ids','=',[]), ('state', 'not in', ('progress','manual','ready_to_deliver','done'))]}</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_template_special_condition_form" model="ir.ui.view">
+            <field name="name">template.special.condition.form</field>
+            <field name="model">template.special.condition</field>
+            <field name="arch" type="xml">
+                <form string="Template Special Description" version="7.0">
+                    <group>
+                        <group>
+                            <field name="name" />
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <group colspan="4" col="4">
+                        <field name="desc" colspan="4" />
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <!-- <record id="product_uom_form_inherit_sale_contract_view" model="ir.ui.view" >
+            <field name="name">product.uom.form.inherit.sale.contract.view</field>
+            <field name="model">product.uom</field>
+            <field name="inherit_id" ref="ad_product_info_bitratex.product_uom_form_inherit_view" />
+            <field name="arch" type="xml">
+                <field name="net_weight" position="before">
+                    <field name="packing_type" />
+                </field>
+            </field>
+        </record> -->
+
+        <record id="view_template_special_condition_tree" model="ir.ui.view">
+            <field name="name">template.special.condition.tree</field>
+            <field name="model">template.special.condition</field>
+            <field name="arch" type="xml">
+                <tree string="Template Special Description" >
+                    <field name="name" />
+                    <field name="desc"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_order_line_tree_inherit_sales_contarct" model="ir.ui.view">
+            <field name="name">sale.order.line.tree.inherit.sales.contract</field>
+            <field name="model">sale.order.line</field>
+            <field name="inherit_id" ref="sale.view_order_line_tree"/>
+            <field name="arch" type="xml">
+                <field name="order_id" position="before">
+                    <field name="sequence_line"/>
+                </field>
+            </field>
+        </record>
+
+
+        <record id="view_order_line_tree_to_knock" model="ir.ui.view">
+            <field name="name">sale.order.line.tree.to.knock</field>
+            <field name="model">sale.order.line</field>
+            <field name="arch" type="xml">
+                <tree string="Sales Order Lines" create="false">
+                    <field name="product_id" invisible="1"/>
+                    <field name="order_id"/>
+                    <field name="sequence_line"/>
+                    <field name="sale_type" invisible="1"/>
+                    <field name="order_partner_id"/>
+                    <field name="product_uom" string="Unit of Measure" groups="product.group_uom"/>
+                    <field name="product_uom_qty" string="Qty"/>
+                    <field name="product_uom_qty_shipped" />
+                    <field name="outstanding_min_tolerance" />
+                    <field name="product_uom_qty_outstanding" />
+                    <field name="product_uom_qty_outstanding_kgs" invisible="1"/>
+                    <field name="price_subtotal" sum="Total"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_order_line_to_knock" model="ir.actions.act_window">
+            <field name="name">Knock Off Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_order_line_tree_to_knock" />
+            <field name="domain">[('state','in', ('confirmed','done')),('product_uom_qty_shipped','>',0),('product_uom_qty_outstanding_kgs',">",907.2)]</field>
+        </record>
+
+        <record id="action_order_line_to_knock_2" model="ir.actions.act_window">
+            <field name="name">Knock Off Orders Without Delivery</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_order_line_tree_to_knock" />
+            <field name="domain">[('state','in', ('confirmed','done'))]</field>
+        </record>
+
+        <menuitem id="menu_order_line_to_knock" parent="base.menu_sales" sequence="10" name="Knock Off Order"/>
+        <menuitem id="menu_order_line_to_knock_1" parent="menu_order_line_to_knock" action="action_order_line_to_knock" sequence="10" />
+        <menuitem id="menu_order_line_to_knock_2" parent="menu_order_line_to_knock" action="action_order_line_to_knock_2" sequence="10" />
+
+        <!-- sequence -->
+
+        <record id="seq_type_sale_order_export" model="ir.sequence.type">
+            <field name="name">Sale Order Export</field>
+            <field name="code">sale.order.export</field>
+        </record>
+        
+        <record id="seq_csale_order_export" model="ir.sequence">
+            <field name="name">Sale Order Export</field>
+            <field name="code">sale.order.export</field>
+            <field name="prefix">-%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_type_sale_order_local" model="ir.sequence.type">
+            <field name="name">Sale Order Local</field>
+            <field name="code">sale.order.local</field>
+        </record>
+        
+        <record id="seq_csale_order_local" model="ir.sequence">
+            <field name="name">Sale Order Local</field>
+            <field name="code">sale.order.local</field>
+            <field name="prefix">-%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_type_sale_order_local_service" model="ir.sequence.type">
+            <field name="name">Sale Order Local Service</field>
+            <field name="code">sale.order.local.service</field>
+        </record>
+        
+        <record id="seq_csale_order_local_service" model="ir.sequence">
+            <field name="name">Sale Order Local Service</field>
+            <field name="code">sale.order.local.service</field>
+            <field name="prefix">LC-7%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_type_sale_order_waste" model="ir.sequence.type">
+            <field name="name">Sale Order Waste</field>
+            <field name="code">sale.order.waste</field>
+        </record>
+        
+        <record id="seq_csale_order_waste" model="ir.sequence">
+            <field name="name">Sale Order Waste</field>
+            <field name="code">sale.order.waste</field>
+            <field name="prefix">-%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_type_sale_order_finish_others" model="ir.sequence.type">
+            <field name="name">Sale Order FG Others</field>
+            <field name="code">sale.order.finish_others</field>
+        </record>
+        
+        <record id="seq_csale_order_finish_others" model="ir.sequence">
+            <field name="name">Sale Order FG Others</field>
+            <field name="code">sale.order.finish_others</field>
+            <field name="prefix">-%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- finish good sales -->
+        <record id="seq_type_sale_order_export_finish" model="ir.sequence.type">
+            <field name="name">Invoice Export Finish Good Sales</field>
+            <field name="code">sale.order.export.finish</field>
+        </record>
+
+        <record id="seq_sale_order_export_finish" model="ir.sequence">
+            <field name="name">Invoice Expor Finish Good Salest</field>
+            <field name="code">sale.order.export.finish</field>
+            <field name="prefix">EC-1%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_type_sale_order_local_finish" model="ir.sequence.type">
+            <field name="name">Invoice Local Finish Good Sales</field>
+            <field name="code">sale.order.local.finish</field>
+        </record>
+        
+        <record id="seq_sale_order_local_finish" model="ir.sequence">
+            <field name="name">Invoice Local Finish Good Sales</field>
+            <field name="code">sale.order.local.finish</field>
+            <field name="prefix">LC-1%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- finish good others sales -->
+        <record id="seq_type_sale_order_export_finish_others" model="ir.sequence.type">
+            <field name="name">Invoice Export Finish Good Others Sales</field>
+            <field name="code">sale.order.export.finish_others</field>
+        </record>
+        
+        <record id="seq_sale_order_export_finish_others" model="ir.sequence">
+            <field name="name">Invoice Expor Finish Good Others Salest</field>
+            <field name="code">sale.order.export.finish_others</field>
+            <field name="prefix">EC-2%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_type_sale_order_local_finish_others" model="ir.sequence.type">
+            <field name="name">Invoice Local Finish Good Others Sales</field>
+            <field name="code">sale.order.local.finish_others</field>
+        </record>
+        
+        <record id="seq_sale_order_local_finish_others" model="ir.sequence">
+            <field name="name">Invoice Local Finish Good Others Sales</field>
+            <field name="code">sale.order.local.finish_others</field>
+            <field name="prefix">LC-2%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- raw material sales -->
+        <record id="seq_type_sale_order_export_raw" model="ir.sequence.type">
+            <field name="name">Invoice Export Raw Material Sales</field>
+            <field name="code">sale.order.export.raw</field>
+        </record>
+        
+        <record id="seq_sale_order_export_raw" model="ir.sequence">
+            <field name="name">Invoice Expor Raw Material Salest</field>
+            <field name="code">sale.order.export.raw</field>
+            <field name="prefix">EC-3%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_type_sale_order_local_raw" model="ir.sequence.type">
+            <field name="name">Invoice Local Raw Material Sales</field>
+            <field name="code">sale.order.local.raw</field>
+        </record>
+        
+        <record id="seq_sale_order_local_raw" model="ir.sequence">
+            <field name="name">Invoice Local Raw Material Sales</field>
+            <field name="code">sale.order.local.raw</field>
+            <field name="prefix">LC-3%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- fix asset sales -->
+        <record id="seq_type_sale_order_export_asset" model="ir.sequence.type">
+            <field name="name">Invoice Export Fixed Asset Sales</field>
+            <field name="code">sale.order.export.asset</field>
+        </record>
+        
+        <record id="seq_sale_order_export_asset" model="ir.sequence">
+            <field name="name">Invoice Expor Fixed Asset Salest</field>
+            <field name="code">sale.order.export.asset</field>
+            <field name="prefix">EC-4%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_type_sale_order_local_asset" model="ir.sequence.type">
+            <field name="name">Invoice Local Fixed Asset Sales</field>
+            <field name="code">sale.order.local.asset</field>
+        </record>
+        
+        <record id="seq_sale_order_local_asset" model="ir.sequence">
+            <field name="name">Invoice Local Fixed Asset Sales</field>
+            <field name="code">sale.order.local.asset</field>
+            <field name="prefix">LC-4%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- stores sales -->
+        <record id="seq_type_sale_order_export_stores" model="ir.sequence.type">
+            <field name="name">Invoice Export Stores Sales</field>
+            <field name="code">sale.order.export.stores</field>
+        </record>
+        
+        <record id="seq_sale_order_export_asset" model="ir.sequence">
+            <field name="name">Invoice Expor Stores Salest</field>
+            <field name="code">sale.order.export.stores</field>
+            <field name="prefix">EC-5%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_type_sale_order_local_stores" model="ir.sequence.type">
+            <field name="name">Invoice Local Stores Sales</field>
+            <field name="code">sale.order.local.stores</field>
+        </record>
+        
+        <record id="seq_sale_order_local_stores" model="ir.sequence">
+            <field name="name">Invoice Local Stores Sales</field>
+            <field name="code">sale.order.local.stores</field>
+            <field name="prefix">LC-5%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- packing sales -->
+        <record id="seq_type_sale_order_export_packing" model="ir.sequence.type">
+            <field name="name">Invoice Export Packing Sales</field>
+            <field name="code">sale.order.export.packing</field>
+        </record>
+        
+        <record id="seq_sale_order_export_packing" model="ir.sequence">
+            <field name="name">Invoice Expor Packing Sales</field>
+            <field name="code">sale.order.export.packing</field>
+            <field name="prefix">EC-6%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_type_sale_order_local_packing" model="ir.sequence.type">
+            <field name="name">Invoice Local Packing Sales</field>
+            <field name="code">sale.order.local.packing</field>
+        </record>
+        
+        <record id="seq_sale_order_local_packing" model="ir.sequence">
+            <field name="name">Invoice Local Packing Sales</field>
+            <field name="code">sale.order.local.packing</field>
+            <field name="prefix">LC-6%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- others sales -->
+        <record id="seq_type_sale_order_export_others" model="ir.sequence.type">
+            <field name="name">Invoice Export others Sales</field>
+            <field name="code">sale.order.export.others</field>
+        </record>
+        
+        <record id="seq_sale_order_export_others" model="ir.sequence">
+            <field name="name">Invoice Expor others Salest</field>
+            <field name="code">sale.order.export.others</field>
+            <field name="prefix">EC-9%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_type_sale_order_local_others" model="ir.sequence.type">
+            <field name="name">Invoice Local others Sales</field>
+            <field name="code">sale.order.local.others</field>
+        </record>
+        
+        <record id="seq_sale_order_local_others" model="ir.sequence">
+            <field name="name">Invoice Local Misc Sales</field>
+            <field name="code">sale.order.local.others</field>
+            <field name="prefix">LC-9%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+	</data>
+</openerp>

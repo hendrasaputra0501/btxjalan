@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	<record id="invoice_sample_form" model="ir.ui.view">
+            <field name="name">invoice.sample.form</field>
+            <field name="model">invoice.sample</field>
+            <field name="arch" type="xml">
+                <form string="Invoice Sample" version="7.0">
+                <header>
+                    <!-- <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,open,paid" statusbar_colors='{"proforma":"blue","proforma2":"blue"}'/> -->
+                </header>
+                <sheet string="Invoice Sample">
+                    <h1>
+                        <label string="Invoice Sample" />
+                        <field name="name" readonly="1" class="oe_inline"/>
+                        <!-- <label string=" for Contract" />
+                        <field name="sale_id" readonly="1" class="oe_inline"/> -->
+                    </h1>
+                    <group>
+                        <group>
+                            <label for="shipper_id"/>
+                            <div>
+                                <field name="shipper_id"
+                                    options='{"always_reload": True}'/>
+                                <label for="s_use_custom_address"/>
+                                <field name="s_use_custom_address" on_change="onchange_check(shipper_id,context)" context="{'shipper':True}"/>
+                                <field name="s_address_text" attrs="{'invisible':[('s_use_custom_address','=',False)]}"/>
+                            </div>
+                            <!-- <label for="partner_id"/>
+                            <div>
+                                <field name="partner_id"
+                                    options='{"always_reload": True}'/>
+                                <label for="p_use_custom_address"/>
+                                <field name="p_use_custom_address" on_change="onchange_check(partner_id,context)" context="{'partner':True}"/>
+                                <field name="p_address_text" attrs="{'invisible':[('p_use_custom_address','=',False)]}"/>
+                            </div> -->
+                            <label for="consignee_partner_id"/>
+                            <div>
+                                <field name="consignee_partner_id"
+                                    options='{"always_reload": True}'/>
+                                <label for="c_use_custom_address"/>
+                                <field name="c_use_custom_address" on_change="onchange_check(consignee_partner_id,context)" context="{'consignee':True}"/>
+                                <field name="c_address_text" attrs="{'invisible':[('c_use_custom_address','=',False)]}"/>
+                            </div>
+			    <!-- <label for="notify_partner_id"/>
+                            <div>
+                                <field name="notify_partner_id"
+                                    options='{"always_reload": True}'/>
+                                <label for="n_use_custom_address"/>
+                                <field name="n_use_custom_address" on_change="onchange_check(notify_partner_id,context)" context="{'notify':True}"/>
+                                <field name="n_address_text" attrs="{'invisible':[('n_use_custom_address','=',False)]}"/>
+                            </div> -->
+                        </group>
+                        <group>
+                            <field name="type" invisible="1"/>
+                            <field name="picking_ids"/>
+                            <field name="date_invoice"/>
+                            <label for="currency_id" groups="base.group_multi_currency"/>
+                            <div groups="base.group_multi_currency">
+                                <field name="currency_id" class="oe_inline"/>
+                            </div>
+                        </group>
+                    </group>
+                    <field name="sent" invisible="1"/>
+                    <!-- <notebook colspan="4"> -->
+                    <notebook >
+                        <page string="Invoice Lines">
+                            <field name="invoice_line" nolabel="1" widget="one2many_list">
+                            <!-- <field name="invoice_line" > -->
+                                <form string="Invoice Lines" version='7.0'>
+                                    <group string='Invoice'>
+                                    <field name="sequence" widget="handle"/>
+                                        <!-- <field name="sequence"/> -->
+                                        <field name="product_id"/>
+                                        <field name="name"/>
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="quantity"/>
+                                        <field name="uom_id" groups="product.group_uom"/>
+                                        <field name="price_unit"/>
+                                    </group>
+                                </form>
+                                <!-- <tree string="Invoice Lines" editable="bottom"> -->
+                                <tree string="Invoice Lines">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"/>
+                                    <field name="name"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id" groups="product.group_uom"/>
+                                    <field name="price_unit"/>
+                                    <!-- <field name="invoice_line_tax_id" widget="many2many_tags" context="{'type':parent.type}"
+                                        domain="[('parent_id','=',False),('company_id', '=', parent.company_id)]"/> -->
+                                    <field name="price_subtotal"/>
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <div>
+                                    <label for="amount_tax"/>
+                                    <button name="button_reset_taxes"
+                                        string="(update)" class="oe_link oe_edit_only"
+                                        type="object" help="Recompute taxes and total"/>
+                                </div>
+                                <field name="amount_tax" nolabel="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_total" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                            <group>
+                                    <field name="payment_term" class="oe_inline"/>
+                            </group>
+                            <div class="oe_clear">
+                                <label for="note"/>
+                            </div>
+                            <field name="note" class="oe_inline" placeholder="Internal notes..."/>
+                        </page>
+                        <page string="Other Info">
+                            <group col="4">
+                                <group>
+                                    <field name="company_id" widget="selection" groups="base.group_multi_company"/>
+                                    <field name="user_id" groups="base.group_user"/>
+                                    <field name="trucking_company"/>
+                                </group>
+                                <group>
+                                    <!-- <field name="origin" groups="base.group_user"/> -->
+                                    <field name="remit_to"/>
+                                    <field name="credit_to"/>
+                                    <field name="company_bank_account"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+
+                   
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="invoice_sample_tree" model="ir.ui.view">
+            <field name="name">invoice.sample.tree</field>
+            <field name="model">invoice.sample</field>
+            <field name="arch" type="xml">
+                <tree string="Invoice Sample">
+                    <field name="name"/>
+                    <field name="picking_ids"/>
+                    <field name="consignee_partner_id"/>
+                    <field name="date_invoice"/>
+                    <!-- <field name="sale_id" string="Proforma for"/> -->
+                    <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+                    <field name="user_id"/>
+                    <!-- <field name="origin"/> -->
+                    <field name="currency_id" groups="base.group_multi_currency"/>
+                    <field name="amount_untaxed" sum="Untaxed Amount"/>
+                    <field name="amount_total" sum="Total Amount"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_invoice_sample_filter" model="ir.ui.view">
+            <field name="name">invoice.sample.select</field>
+            <field name="model">invoice.sample</field>
+            <field name="arch" type="xml">
+                <search string="Search Invoice Sample">
+                    <field name="name" string="Invoice" filter_domain="['|','|','|', ('name','ilike',self), ('consignee_partner_id', 'child_of', self)]"/>
+                    <separator/>
+                    <filter domain="[('user_id','=',uid)]" help="My Invoices" icon="terp-personal"/>
+                    <field name="consignee_partner_id" operator="child_of"/>
+                    <field name="user_id" string="Salesperson"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Partner" icon="terp-partner" domain="[]" context="{'group_by':'consignee_partner_id'}"/>
+                        <filter string="Responsible" icon="terp-personal" domain="[]"  context="{'group_by':'user_id'}"/>
+                        <filter string="Invoice Date" icon="terp-go-month" domain="[]"  context="{'group_by':'date_invoice'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record id="action_invoice_sample" model="ir.actions.act_window">
+            <field name="name">Invoices Sample</field>
+            <field name="res_model">invoice.sample</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_invoice_sample_filter"/>
+        </record>
+
+        <menuitem action="action_invoice_sample" id="menu_action_invoice_sample" parent="stock.menu_stock_warehouse_mgmt" sequence='12'/>
+
+      <!--   <record id="seq_type_invoice_sample" model="ir.sequence.type">
+            <field name="name">Invoice Sample</field>
+            <field name="code">invoice.sample</field>
+        </record>
+        
+        <record id="seq_invoice_sample" model="ir.sequence">
+            <field name="name">Invoice Sample</field>
+            <field name="code">invoice.sample</field>
+            <field name="prefix">PI%(y)s%(month)s</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record> -->
+        <record id="seq_type_invoice_sample" model="ir.sequence.type">
+            <field name="name">Invoice Sample</field>
+            <field name="code">invoice.sample.sequence</field>
+        </record>
+        
+        <record id="seq_invoice_sample" model="ir.sequence">
+            <field name="name">Invoice Sample</field>
+            <field name="code">invoice.sample.sequence</field>
+            <field name="prefix">SI-%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- <record id="seq_type_invoice_sample_local" model="ir.sequence.type">
+            <field name="name">Invoice Sample Local</field>
+            <field name="code">invoice.sample.local</field>
+        </record> -->
+        
+        <!-- <record id="seq_invoice_sample_local" model="ir.sequence">
+            <field name="name">Invoice Sample Local</field>
+            <field name="code">invoice.sample.local</field> -->
+            <!-- <field name="prefix">%(y)s%(month)s</field> -->
+            <!-- <field name="prefix">/%(month)s/%(y)s/</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record> -->
+
+        <!-- <record id="seq_type_invoice_sample_export" model="ir.sequence.type">
+            <field name="name">Invoice Sample Export</field>
+            <field name="code">invoice.sample.export</field>
+        </record>
+        
+        <record id="seq_invoice_sample_export" model="ir.sequence">
+            <field name="name">Invoice Sample Export</field>
+            <field name="code">invoice.sample.export</field>
+            <field name="prefix">%(y)s%(month)s</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record> -->
+    </data>
+</openerp>

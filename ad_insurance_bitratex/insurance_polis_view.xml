@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	<record id="insurance_polis_form" model="ir.ui.view">
+            <field name="name">insurance.polis.form</field>
+            <field name="model">insurance.polis</field>
+            <field name="arch" type="xml">
+                <form string="Insurance Polis" version="7.0">
+                <header>
+                    <!-- <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,open,paid" statusbar_colors='{"proforma":"blue","proforma2":"blue"}'/> -->
+                </header>
+                <sheet string="Insurance Polis">
+                    <h1>
+                        <label string="Policy Number" />
+                        <field name="name" readonly="0" class="oe_inline"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="insured"
+                                options='{"always_reload": True}'
+                                domain=""/>
+                                <!-- label insured text -->
+                            <label for="show_insuredby_address"/>
+                            <div>
+                            <field name="show_insuredby_address"/>
+                            
+                            <field name="address_text" placeholder="Input Insured By Customs Address here..."  attrs="{'invisible':[('show_insuredby_address','=',False)]}" />
+                            </div>
+                                <!-- label insured text -->
+
+                            <field name="insurer"
+                                options='{"always_reload": True}'
+                                domain=""/>
+                            <field name="type" invisible="1"/>
+                            <field name="supplier_invoice_number" attrs="{'invisible':[('type','!=','purchase')]}"/>
+                            <field name="vessel_conveyance" />
+                            <field name="connect_vessel" />
+                            <field name="voyage_from" />
+                            <field name="transhipment" />
+                            <field name="voyage_to" />
+                            <field name="bl_number" />
+                            <field name="lc_number" />
+                            <field name="lc_date" />
+                        </group>
+                        <group>
+                            <field name="entry_date" attrs="{'required':[('type','!=','sale')]}"/>
+                            <field name="period_id" />
+                            <field name="shipper" attrs="{'invisible':[('type','!=','purchase')]}"/>
+                            <field name="consignee" attrs="{'invisible':[('type','!=','purchase')]}"/>
+                            <field name="notify" attrs="{'invisible':[('type','!=','purchase')]}"/>
+                            <field name="contract_number" attrs="{'invisible':[('type','!=','sale')]}"/>
+                            <field name='compute_insured_amount' readonly='1'/>
+                            <label for='insured_amount' />
+                            <div>
+                                <field name="insured_amount" nolable='1' />
+                                <button name="compute_insured_amount"
+                                        string="(compute insured amount)" class="oe_link oe_edit_only"
+                                        type="object" help="Compute Insured Amount using computation method/rule above or you can manually compute and input"/>
+                            </div>
+                            <label for="currency_id" groups="base.group_multi_currency"/>
+                            <div groups="base.group_multi_currency">
+                                <field name="currency_id" class="oe_inline"/>
+                            </div>
+                        </group>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Summary" invisible="1">
+                            <group col="4">
+                                <group>
+                                    <field name="company_id" widget="selection" groups="base.group_multi_company"/>  
+                                </group>
+                                <group>
+                                    
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Products">
+                            <group>
+                                <group>
+                                    <field name="invoice_id" on_change="onchange_invoice(type,invoice_id,invoice_ids,currency_id,entry_date)" attrs="{'invisible':[('type','=','purchase')]}"/>
+                                    <field name="invoice_number" attrs="{'invisible':[('type','=','sale')]}"/>
+                                    <field name="invoice_date" />
+                                    <field name="picking_ids" on_change="onchange_picking(picking_ids)"
+                                        context="{'tree_view_ref':'stock.view_picking_in_tree', 'picking_type': 'in'}" />
+                                    <!--     <tree string="picking">
+                                            <field name="name" />
+                                            <field name="partner_id" />
+                                            <field name="date_done" />
+                                            <field name="state"/>
+                                        </tree>
+                                    </field>
+ -->
+                                    <field name="invoice_ids" on_change="onchange_invoice(type,invoice_id,invoice_ids,currency_id,entry_date)">
+                                        <tree string="invoices">
+                                            <field name="internal_number" />
+                                            <field name="date_invoice" />
+                                            <field name="currency_id" />
+                                            <field name="amount_untaxed" sum="Total Untaxed"/>
+                                            <field name="amount_total" sum="Total"/>
+                                            <field name="state" />
+                                        </tree>
+                                    </field>
+                                </group>
+                                <group>
+                                    <button name="generate_products" string="Generate Invoice Lines" type="object" class="oe_left oe_edit_only" attrs="{'invisible':[('invoice_id','=',False)]}"/>
+                                </group>
+                            </group>
+                            <label for="product_ids"/>
+                            <field name="product_ids" nolabel="1" widget="one2many_list">
+                                <tree string="Products" editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="name"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id" groups="product.group_uom"/>
+                                    <field name="price_unit"/>
+                                    <field name="invoice_line_tax_id" widget="many2many_tags" 
+                                        domain="[('parent_id','=',False),('company_id', '=', parent.company_id)]"/>
+                                    <field name="price_subtotal"/>
+                                </tree>
+                            </field>
+                            <group>
+                                <group>
+                                    <field name='premi_rate' />
+                                    <field name='show_premi_rate' />
+                                    <field name='paid' />
+                                    <field name='deductable_premi' />
+                                    <field name='compute_deductible_amount' readonly='1'/>
+                                    <label for='deductible_amount' />
+                                    <div>
+                                        <field name="deductible_amount" nolable='1' />
+                                        <button name="compute_deductible_amount"
+                                                string="(compute premi)" class="oe_link oe_edit_only"
+                                                type="object" help="Compute Premi/Deductible Amount using computation method/rule above or you can manually compute and input"/>
+                                    </div>
+                                    <!-- <label for='invoice_charge_id' />
+                                    <div>
+                                        <field name="invoice_charge_id" nolable='1'/>
+                                        <button name="invoice_charge_create" string="Create Invoice Charge" type="object" class="oe_left" attrs="{'invisible':['|',('deductible_amount','=',0.0),('invoice_charge_id','=',True)]}"/>
+                                    </div>
+                                    <label for='bpa_charge_id' />
+                                    <div>
+                                        <field name="bpa_charge_id" nolable='1'/>
+                                        <button name="bpa_charge_create" string="Create BPA Charge" type="object" class="oe_left" attrs="{'invisible':['|',('deductible_amount','=',0.0),('bpa_charge_id','=',True)]}"/>
+                                    </div> -->
+                                </group>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <div>
+                                        <label for="amount_tax"/>
+                                        <!-- <button name="button_reset_taxes"
+                                            string="(update)" class="oe_link oe_edit_only"
+                                            type="object" help="Recompute taxes and total"/> -->
+                                    </div>
+                                    <field name="amount_tax" nolabel="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="amount_total" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Condition/Clauses">
+                            <field name="clause_ids" widget="" />  
+                        </page>
+                        <page string="Additional Cost">
+                            <field name="additional_cost">
+                                <tree editable="bottom">
+                                    <field name="sequence" />
+                                    <field name="name" />
+                                    <field name="show" />
+                                    <field name="currency_id" />
+                                    <field name="amount" />
+                                </tree>
+                            </field>  
+                        </page>
+                        <page string="Surveyor Info">
+                        	<group>
+                        		<field name="surveyor" />
+                            	<field name="desc_surveyor" />  		
+                        	</group>
+                        </page>
+                        <page string="Report View Config">
+                        	<group>
+                        		<field name="open_cover_no" />
+                        		<field name="title_document_header_one" />
+                        		<field name="title_document_header_two" />
+                        		<field name="claim_title" />
+                        		<field name="claim_data" />
+                        		<field name="value_at" />
+                        	</group>
+                        </page>
+                    </notebook>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="insurance_polis_tree" model="ir.ui.view">
+            <field name="name">insurance.polis.tree</field>
+            <field name="model">insurance.polis</field>
+            <field name="arch" type="xml">
+                <tree string="Insurance Polis">
+                    <field name="name"/>
+                    <field name="contract_number"/>
+                    <field name="invoice_id"/>
+                    <field name="deductible_amount" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_insurance_polis_filter" model="ir.ui.view">
+            <field name="name">insurance.polis.select</field>
+            <field name="model">insurance.polis</field>
+            <field name="arch" type="xml">
+                <search string="Search Insurance Polis">
+                    <field name="name" string="Search" filter_domain="['|',('name','ilike',self),('invoice_id','ilike',self)]"/>
+                    <field name="contract_number" string="Contract Number" filter_domain="[('contract_number','ilike',self)]"/>
+                    <separator/>
+                    <filter domain="[('user_id','=',uid)]" help="My Invoices" icon="terp-personal"/>
+                    <!-- <field name="partner_id" operator="child_of"/> -->
+                    <group expand="0" string="Group By...">
+                        <filter string="Contract Number" icon="terp-partner" domain="[]" context="{'group_by':'contract_number'}"/>
+                        <!-- <filter string="Partner" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}"/> -->
+                        <!-- <filter string="Responsible" icon="terp-personal" domain="[]"  context="{'group_by':'user_id'}"/> -->
+                        <!-- <filter string="Invoice Date" icon="terp-go-month" domain="[]"  context="{'group_by':'date_invoice'}"/> -->
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record id="action_insurance_polis_sales" model="ir.actions.act_window">
+            <field name="name">Sales Insurance Certificate</field>
+            <field name="res_model">insurance.polis</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'type':'sale'}</field>
+            <field name="domain">[('type','=','sale')]</field>
+            <field name="search_view_id" ref="view_insurance_polis_filter"/>
+        </record>
+
+        <menuitem action="action_insurance_polis_sales" id="menu_action_insurance_polis_sales" parent="account.menu_finance_receivables" sequence='7'/>
+
+        <record id="action_insurance_polis_purchase" model="ir.actions.act_window">
+            <field name="name">Purchase Insurance Certificate</field>
+            <field name="res_model">insurance.polis</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'type':'purchase'}</field>
+            <field name="domain">[('type','=','purchase')]</field>
+            <field name="search_view_id" ref="view_insurance_polis_filter"/>
+        </record>
+
+        <menuitem action="action_insurance_polis_purchase" id="menu_action_insurance_polis_purchase" parent="account.menu_finance_payables" sequence='7'/>
+    </data>
+</openerp>

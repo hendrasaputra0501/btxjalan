@@ -1,0 +1,51 @@
+country,id,code,name
+China,__export__.res_port_2,CNSHA,Shanghai
+Singapore,__export__.res_port_3,SGSIN,Singapore
+China,__export__.res_port_4,CNHON,Hong Kong
+China,__export__.res_port_5,CNSHE,Shenzhen
+South Korea,__export__.res_port_6,KRBUS,Busan
+China,__export__.res_port_7,CNNIN,Ningbo-Zhoushan
+China,__export__.res_port_8,CNGUA,Guangzhou
+China,__export__.res_port_9,CNQIN,Qingdao
+United Arab Emirates,__export__.res_port_10,AEDUB,Dubai
+Netherlands,__export__.res_port_11,NLROT,Rotterdam
+China,__export__.res_port_12,CNTIA,Tianjin
+Taiwan,__export__.res_port_13,TWKAO,Kaohsiung
+Malaysia,__export__.res_port_14,MYPOR,Port Klang
+Belgium,__export__.res_port_15,BEANT,Antwerp
+Germany,__export__.res_port_16,DEHAM,Hamburg
+Malaysia,__export__.res_port_17,MYTAN,Tanjung Pelepas
+United States,__export__.res_port_18,USLOS,Los Angeles
+United States,__export__.res_port_19,USLON,Long Beach
+China,__export__.res_port_20,CNXIA,Xiamen
+United States,__export__.res_port_21,USNEW,New York/New Jersey
+China,__export__.res_port_22,CNDAL,Dalian
+Thailand,__export__.res_port_23,THLAE,Laem Chabang
+Germany,__export__.res_port_24,DEBRE,Bremen/Bremerhaven
+Indonesia,__export__.res_port_25,IDJAK,Jakarta
+Japan,__export__.res_port_26,JPTOK,Tokyo
+India,__export__.res_port_27,INJAW,Jawaharlal Nehru (Mumbai)
+Spain,__export__.res_port_28,ESVAL,Valencia
+Vietnam,__export__.res_port_29,VNHO,Ho Chi Minh City (Saigon)
+Sri Lanka,__export__.res_port_30,LKCOL,Colombo
+China,__export__.res_port_31,CNLIA,Lianyungang
+Saudi Arabia,__export__.res_port_32,SAJED,Jeddah
+Oman,__export__.res_port_33,OMSAL,Salalah
+Egypt,__export__.res_port_34,EGPOR,Port Said
+China,__export__.res_port_35,CNYIN,Yingkou
+United Kingdom,__export__.res_port_36,UKFEL,Felixstowe
+Japan,__export__.res_port_37,JPYOK,Yokohama
+Philippines,__export__.res_port_38,PHMAN,Manila
+Indonesia,__export__.res_port_39,IDSUR,Surabaya
+United Arab Emirates,__export__.res_port_40,AEKHO,Khor Fakkan
+Italy,__export__.res_port_41,ITGIO,Gioia Tauro
+United States,__export__.res_port_42,USSAV,Savannah
+Spain,__export__.res_port_43,ESALG,Algeciras
+Panama,__export__.res_port_44,PABAL,Balboa
+Brazil,__export__.res_port_45,BRSAN,Santos
+Iran,__export__.res_port_46,IRBAN,Bandar-Abbas
+South Africa,__export__.res_port_47,ZADUR,Durban
+Japan,__export__.res_port_48,JPNAG,Nagoya
+Turkey,__export__.res_port_49,TRAMB,Ambarli (Istanbul)
+Japan,__export__.res_port_50,JPKOB,Kobe
+Canada,__export__.res_port_51,CAVAN,Vancouver

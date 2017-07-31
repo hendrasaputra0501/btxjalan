@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="view_account_position_form_opti">
+        <field name="name">account.fiscal.position.form.opti</field>
+        <field name="model">account.fiscal.position</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="account.view_account_position_form"/>
+        <field name="arch" type="xml">
+            <field name="account_ids" position="after">
+                <field name="global_tax_ids" colspan="4" nolabel="1" widget="one2many_list">
+                    <tree string="Tax Mapping" editable="bottom">
+                        <field name="operator"/>
+                        <field name="amount"/>
+                        <field name="tax_src_id" domain="[('parent_id','=',False)]"/>
+                        <field name="tax_dest_id" domain="[('parent_id','=',False)]"/>
+                    </tree>
+                    <form string="Tax Mapping">
+                        <field name="operator"/>
+                        <field name="amount"/>
+                        <field name="tax_src_id" domain="[('parent_id','=',False)]"/>
+                        <field name="tax_dest_id" domain="[('parent_id','=',False)]"/>
+                    </form>
+                </field>
+            </field>
+        </field>
+    </record>
+
+</data>
+</openerp>

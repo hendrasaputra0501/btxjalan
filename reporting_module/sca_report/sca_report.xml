@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report auto="False" id="sca_report" model="purchase.requisition" name="sca.report" file="reporting_module/sca_report/sca_report.mako" string="SCA Report" usage="default" report_type="webkit" menu="True" />
+    </data>
+</openerp>

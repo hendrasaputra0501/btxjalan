@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<openerp>
+	<data>
+		<report auto="False" 
+			id="bank_receive_voucher_report" model="account.voucher" name="bank.receive.voucher.report"
+            file="ad_form_bank_payment_voucher/report/bank_receive_voucher.mako" string="Print Bank Receive Voucher"
+            usage="default"
+			report_type="webkit" header="False"/>
+		<report auto="False" 
+			id="bank_payment_voucher_report" model="account.voucher" name="bank.payment.voucher.report"
+            file="ad_form_bank_payment_voucher/report/bank_payment_voucher.mako" string="Print Bank Payment Voucher"
+            usage="default"
+			report_type="webkit" header="False"/>
+	</data>
+</openerp>

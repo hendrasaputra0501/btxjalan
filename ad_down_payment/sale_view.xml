@@ -1,0 +1,98 @@
+<openerp>
+	<data>
+		<record id="view_sale_advance_payment_inv" model="ir.ui.view">
+            <field name="name">Advance Customer Invoice</field>
+            <field name="model">sale.advance.payment.inv</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Advance Sale Invoice">
+                    <!--<field name="account_id"/>
+                    <newline />-->
+                    <field name="name"/>
+                    <newline/>
+                    <field name="amount"/>
+                    <newline/>
+                    <field name="journal_id" domain="[('type','in',['bank', 'cash'])]" widget="selection"/>
+                    <separator string="" colspan="4"/>
+                    <button special="cancel" string="Cancel" icon="gtk-cancel"/>
+                    <button name="create_payment_sale" string="Create Down Payment" type="object" icon="gtk-go-forward"/>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_view_sale_advance_payment_inv" model="ir.actions.act_window">
+            <field name="name">Advance Invoice</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.advance.payment.inv</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+        <record id="view_order_form" model="ir.ui.view">
+            <field name="name">view.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                
+            	<xpath expr="/form/notebook/page[@string='History']" position="after">
+                	<page string='Down Payment Notes' attrs="{'invisible': [('dp','=', False)]}">
+                		<field name="dp" invisible="True"/>
+                		<field name="account_voc_line" nolabel="1">
+	            		    <tree colors="blue:(state == 'draft');" string="Downpayment">
+		                		<field name="dp" invisible="True"/>
+		                		<field name="name_dp" />
+		                		<field name="date_dp" />
+		                		<field name="partner_id_dp" />
+		                		<field name="amount_dp" />
+		                		<field name="state" />
+	                		</tree>
+                		</field>
+                	</page>
+            	</xpath>
+            	
+                <xpath expr="/form/group" position="replace">
+                	<group col="6" colspan="4">
+                        <field name="name"/>
+                        <field name="date_order"/>
+                        <field name="invoiced"/>
+                        <field name="shop_id" on_change="onchange_shop_id(shop_id)" widget="selection"/>
+                        <field name="client_order_ref"/>
+                        <field name="shipped"/>
+<!--                        <button name="%(action_view_sale_advance_payment_inv)d" string="Down Payment" type="action" icon="gtk-execute" states="progress"/-->
+	               
+                    </group>
+	                
+                </xpath>
+                 
+           </field>
+        </record>
+        
+        <record id="view_sale_success" model="ir.ui.view">
+            <field name="name">Downpayment Sale Notification</field>
+            <field name="model">downpayment.sale.notification</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Invoices">
+                    <label string="You down payment has been successfully created!" />
+                    <newline />
+                    <separator string="" colspan="4"/>
+                    <group colspan="4">
+                        <button special="cancel" string="Close" icon="gtk-cancel"/>
+                    </group>
+                 </form>
+            </field>
+        </record>
+
+        <record id="action_view_purchase_success" model="ir.actions.act_window">
+            <field name="name">Downpayment Sale Notification</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">downpayment.sale.notification</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+	</data>
+</openerp>

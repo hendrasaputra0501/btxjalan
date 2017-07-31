@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+<report 
+	auto="False" id="report_department_return_form" 
+	model="stock.picking" 
+	name="department.return.form" 
+	file="reporting_module/department_return/department_return.mako" 
+	string="Department Return"
+	usage="default" 
+	report_type="webkit"
+	menu="True"
+	header="False" />
+
+</data>
+</openerp>

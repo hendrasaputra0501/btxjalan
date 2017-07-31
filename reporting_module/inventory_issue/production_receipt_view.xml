@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+<report 
+	auto="False" id="report_production_receipt_form" 
+	model="stock.picking" 
+	name="production.receipt.form" 
+	file="reporting_module/inventory_issue/production_receipt_form.mako" 
+	string="Production Receipt"
+	usage="default" 
+	report_type="webkit" 
+	webkit_header="header_inventory_issue_form"
+	menu="True"
+	header="False" />
+</data>
+</openerp>

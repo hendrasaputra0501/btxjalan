@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_normal_invisible_status_form" model="ir.ui.view">
+            <field name="name">product.normal.invisible.status</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/notebook/page[@string='Information']/group/group[2]/field[@name='default_code']" position="attributes">
+                	<attribute name="string">Inventory ID</attribute>                	
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page[@string='Information']/group/group[2]/div[@name='ean']" position="after">
+                	<field name="hscode"/>                	
+                </xpath>
+                <group name="status" position="attributes">
+					<attribute name="invisible">True</attribute>
+                </group>
+                <group name="Weights" position="attributes">
+					<attribute name="invisible">True</attribute>
+                </group>
+            </field>
+        </record>
+        <record id="view_normal_invisible_storage_form" model="ir.ui.view">
+            <field name="name">product.normal.invisible.storage</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="stock.view_normal_procurement_locations_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='store']/field[@name='loc_rack']" position="attributes">
+                	<attribute name="invisible">True</attribute>                	
+                </xpath>
+                <xpath expr="//group[@name='store']/field[@name='loc_row']" position="attributes">
+                	<attribute name="invisible">True</attribute>                	
+                </xpath>
+                <xpath expr="//group[@name='store']/field[@name='loc_case']" position="attributes">
+                	<attribute name="invisible">True</attribute>                	
+                </xpath>
+            </field>
+        </record>
+        <record id="view_normal_invisible_delay_form" model="ir.ui.view">
+            <field name="name">product.normal.invisible.delay</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="stock.view_normal_procurement_locations_form"/>
+            <field name="arch" type="xml">
+                <group name="delay" position="attributes">
+					<attribute name="invisible">True</attribute>
+                </group>
+            </field>
+        </record>
+        <record id="view_normal_invisible_flow_form" model="ir.ui.view">
+            <field name="name">product.normal.invisible.flow</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="stock_location.product_normal_form_inherit_location"/>
+            <field name="arch" type="xml">
+                <group string="Pull Flow" position="attributes">
+					<attribute name="invisible">True</attribute>
+                </group>
+                <group string="Push Flow" position="attributes">
+					<attribute name="invisible">True</attribute>
+                </group>
+            </field>
+        </record>
+        <record id="view_normal_invisible_manufacturer_form" model="ir.ui.view">
+            <field name="name">product.normal.invisible.manufacturer</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product_manufacturer.view_product_form_expiry"/>
+            <field name="arch" type="xml">
+                <group string="Manufacturer" position="attributes">
+					<attribute name="invisible">False</attribute>
+                </group>
+
+                <group string="Attributes" position="attributes">
+					<attribute name="invisible">True</attribute>
+                </group>
+            </field>
+        </record>
+    </data>
+</openerp>

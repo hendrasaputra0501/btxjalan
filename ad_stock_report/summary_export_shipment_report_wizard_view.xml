@@ -1,0 +1,55 @@
+<openerp>
+	<data>
+		<record id="sum_expshipment_wizard" model="ir.ui.view">
+			<field name="name">sum.expshipment.wizard</field>
+			<field name="model">sum.expshipment.wizard</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="SUMMARY EXPORT SHIPMENT REPORT" version="7.0">
+					<group colspan="4" col="4">
+						<field name="as_on"/>
+						<field name="output_type"/>
+					</group>
+					<notebook>
+						<page string="Sale Type" colspan="4">
+							<field name="sale_type" colspan="4" col="4" nolabel="1"/>
+						</page>
+						<!-- <page string="Location Exception" colspan="4">
+							<field name="location_exception" colspan="4" col="4" nolabel="1"/>
+						</page>
+						<page string="Force Location" colspan="4">
+							<field name="location_force" colspan="4" col="4" nolabel="1"/>
+						</page> -->
+					</notebook>
+					<footer>
+						<group>
+							<button name="generate_report" string="Generate Report" icon="gtk-print" type="object" class="oe_highlight"/>
+							<button string="Cancel" class="oe_highlight" special="cancel"/>
+						</group>
+					</footer>
+				</form>
+			</field>
+		</record>
+		
+		<record id="action_sum_expshipment_wizard" model="ir.actions.act_window">
+			<field name="name">SUMMARY EXPORT SHIPMENT REPORT</field>
+			<field name="res_model">sum.expshipment.wizard</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+		
+		<menuitem id="menu_sum_expshipment_wizard" name="Summary Export Shipment Report" parent="reporting_stock_daily"
+			action="action_sum_expshipment_wizard"/>
+
+		<report id="sum_expshipment_report"
+			name="sum.expshipment.report.pdf"
+			string="Summary Export Shipment Report"
+			model="sum.expshipment.wizard"
+			auto="False"
+			menu="False"
+			file="ad_stock_report/report/sumary_export_shipment_report.mako"
+			usage="default"
+			report_type="webkit"
+			header="True" />
+	</data>
+</openerp>

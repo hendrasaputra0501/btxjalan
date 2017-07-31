@@ -1,0 +1,51 @@
+<openerp>
+	<data>
+		<record id="stock_split_move_form" model="ir.ui.view">
+            <field name="name">stock.split.move.form</field>
+            <field name="model">stock.split.move</field>
+            <field name="arch" type="xml">
+                <form string="Stock Split Move" version="7.0">
+                	<group colspan="4" col="4">
+	                    <separator string="Split Quantity" colspan="4" name="split_separator"/>
+	                    <field name="product_id"/>
+                        <field name="product_qty" string="Source Qty"/>
+                        <field name="source_location"/>
+                        <field name="destination_location"/>
+                        <field name="dest_address_id"/>                  
+                        <field name="move_id" invisible="1"/>
+                        <field name="internal_type" invisible="0"/>
+                    </group>
+                    <field name="line_ids" context="{'move_id': move_id}" >
+                        <tree editable="bottom" string="Splitted Qty">
+                            <field name="product_uop_qty" groups="product.group_uom" on_change="onchange_product_uop(product_uom,product_uop_qty,product_uop,parent.move_id,parent.line_ids)"/>
+                            <field name="product_uop" on_change="onchange_product_uop(product_uom,product_uop_qty,product_uop,parent.move_id,parent.line_ids)" />
+                            <field name="product_uom_qty" groups="product.group_uom" on_change="onchange_product_qty(product_uom_qty,product_uom,parent.move_id,parent.line_ids)"/>
+                            <field name="product_uom" on_change="onchange_product_qty(product_uom_qty,product_uom,parent.move_id,parent.line_ids)"/>
+                            <field name="packaging_id" invisible="1"/>
+                            <field name="pack_id" domain="[('internal_type','in',(parent.internal_type,'Mixed Lot'))]" on_change="onchange_product_qty(product_uom_qty,product_uom,parent.move_id,parent.line_ids)"/>
+                            <!-- <field name="prodlot_id" domain="[('product_id', '=', parent.product_id)]" 
+                            		attrs="{'required':['|',('product_uop_qty', '!=', 0),('product_uom_qty', '!=', 0)]}" 
+                            		groups="stock.group_production_lot" context="{'default_product_id':parent.product_id}"/> -->
+                            <field name="prodlot_id" domain="[('product_id', '=', parent.product_id)]" 
+                                    groups="stock.group_production_lot" context="{'default_product_id':parent.product_id}"/>
+                            <!-- Removed as this feature is not logic: price must be updated upon reception of invoice -->
+                        </tree>
+                    </field>
+	                <footer>
+	                    <button name="split" string="_Split Quantity" type="object" class="oe_highlight"/>
+	                    or
+	                    <button string="Cancel" class="oe_link" special="cancel" />
+	                </footer>
+                </form>
+            </field>
+        </record>
+		
+		<record id="action_split_move_line" model="ir.actions.act_window">
+            <field name="name">Process Split</field>
+            <field name="res_model">stock.split.move</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+	</data>
+</openerp>

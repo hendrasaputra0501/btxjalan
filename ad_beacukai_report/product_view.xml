@@ -1,0 +1,66 @@
+<openerp>
+	<data>
+		<record id="view_product_tree_wip_pabean" model="ir.ui.view">
+            <field name="name">view.product.tree.wip.pabean</field>
+            <field name="model">product.product</field>
+            <field name="arch" type="xml">
+                <tree string="Product WIP Stock">
+                	<field name="code"/>
+                	<field name="name"/>
+                	<field name="uom_id"/>
+                	<field name="qty_available"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- <record id="product_search_form_view_stock_pabean" model="ir.ui.view">
+            <field name="name">product.search.stock.form.pabean</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_search_form_view"/>
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <filter string="Available and Moved Product" name="moved_product" domain="['|',('previous_qty','!=',0),'|',('in_qty','!=',0),'|',('out_qty','!=',0),'|',('adj_qty','!=',0),'|',('all_qty','!=',0),'|',('opname_qty','!=',0),('selisih_qty','!=',0)]" />
+                </field>
+            </field>
+        </record> -->
+
+        <record id="view_product_tree2_pabean" model="ir.ui.view">
+            <field name="name">view.product.tree2.pabean</field>
+            <field name="model">product.product</field>
+            <field name="arch" type="xml">
+                <tree string="Product WIP Stock">
+                    <field name="categ_id" invisible="1"/>
+                	<field name="code"/>
+                	<field name="name"/>
+                	<field name="uom_id"/>
+                	<field name="previous_qty"/>
+                	<field name="in_qty" string="Pemasukan"/>
+                	<field name="out_qty" string="Pengeluaran"/>
+                    <field name="adj_qty" string="Penyesuaian"/>
+                	<field name="all_qty" string="Saldo Buku"/>
+                	<field name="opname_qty" string="Opname"/>
+                    <field name="selisih_qty" string="Selisih"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_product_rm_type_category_tree_pabean" model="ir.ui.view">
+            <field name="name">product.rm.type.category.tree.pabean</field>
+            <field name="model">product.rm.type.category</field>
+            <field name="arch" type="xml">
+                <tree string="Product WIP Stock">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="uom_id"/>
+                    <field name="opening_qty"/>
+                    <field name="in_qty" string="Pemasukan"/>
+                    <field name="out_qty" string="Pengeluaran"/>
+                    <field name="adj_qty" string="Penyesuaian"/>
+                    <field name="all_qty" string="Saldo Buku"/>
+                    <field name="opname_qty" string="Opname"/>
+                    <field name="difference_qty" string="Selisih"/>
+                </tree>
+            </field>
+        </record>
+	</data>
+</openerp>

@@ -1,0 +1,24 @@
+<openerp>
+    <data>
+        <record id="product_uom_form_inherit_beacukai_view" model="ir.ui.view" >
+            <field name="name">product.uom.form.inherit.beacukai.view</field>
+            <field name="model">product.uom</field>
+            <field name="inherit_id" ref="product.product_uom_form_view" />
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="ceisa_tpb_uom_alias" />
+                </field>
+            </field>
+        </record>
+        <record id="view_product_info_inherit_beacukai" model="ir.ui.view">
+            <field name="name">view.product.info.inherit.beacukai</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <field name="default_code" position="before">
+                    <field name="bc_remarks"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

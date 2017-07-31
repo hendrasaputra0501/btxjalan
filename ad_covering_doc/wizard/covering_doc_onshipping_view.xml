@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_covering_document_onshipping" model="ir.ui.view">
+            <field name="name">Covering Document Onshipping</field>
+            <field name="model">covering.doc.onshipping</field>
+            <field name="arch" type="xml">
+              <form string="Create Covering Document" version="7.0">
+                  <group string="Create Covering Document">
+                      <!-- <field name="group"/> -->
+                      <field name="date" />
+                  </group>
+                  <footer>
+                      <button name="open_covering_doc" string="Create" type="object" class="oe_highlight"/>
+                      or
+                      <button string="Cancel" class="oe_link" special="cancel"/>
+                  </footer>
+             </form>
+            </field>
+        </record>
+
+
+        <act_window name="Create Draft Covering Document"
+            res_model="covering.doc.onshipping"
+            src_model="stock.picking.out"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_covering_doc_onshipping"/>
+    </data>
+</openerp>

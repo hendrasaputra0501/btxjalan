@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report auto="False" id="report_surat_jalan" model="stock.picking" name="surat.jalan.form" file="ad_picking_report/surat_jalan/surat_jalan_form.mako" string="Surat Jalan" usage="default" report_type="webkit" menu="True" />
+    </data>
+</openerp>

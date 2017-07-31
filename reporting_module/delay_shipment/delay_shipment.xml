@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>      
+		<record model="ir.ui.view" id="delay_shipment_form_view">
+      <field name="name">Delay Shipment</field>
+      <field name="model">delay.shipment.wizard</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml"> 
+        <form string="Delay Shipment Report" version="7.0">
+          <group colspan="4" col="4">
+            <field name="start_date"/>
+            <field name="end_date"/>
+            <field name="sale_type"/>
+            <field name="report_type"/>
+          </group>
+          <footer>
+            <div>
+              <button type="object" name="calculate_delay" string="Print" icon="STOCK_PRINT"/> or <button special="cancel" string="Cancel" class="oe_link"/>
+            </div>
+          </footer>
+        </form>
+      </field>
+		</record>
+        
+    <record model="ir.actions.act_window" id="delay_shipment_action_view">
+      <field name="name">Delay Shipment</field>
+      <field name="res_model">delay.shipment.wizard</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+      <field name="view_id" ref="delay_shipment_form_view"/>
+    </record>
+         
+	  
+    <menuitem name="Delay Shipment Report" id="menu_delay_shipment" parent="ad_stock_report.reporting_stock_monthly" sequence="10" action="delay_shipment_action_view"/>
+
+    <report id="delay_shipment_report"
+      name="delay.shipment.report"
+      string="Delay Shipment Report"
+      report_type="webkit"
+      model="delay.shipment.wizard"
+      file="reporting_module/delay_shipment/delay_shipment.mako" 
+      header="False"
+      auto="False"
+      menu="False"
+    />
+   
+        </data>
+</openerp>

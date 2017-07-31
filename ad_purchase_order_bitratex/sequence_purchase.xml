@@ -1,0 +1,727 @@
+<openerp>
+	<data>
+
+<!-- PO STORES -->		
+        <!-- PO Stores Local Jan -->
+		<record id="seq_type_po_stores_local_1" model="ir.sequence.type">
+            <field name="name">PO Stores Local Jan</field>
+            <field name="code">purchase.order.stores.local.jan</field>
+        </record>
+        
+        <record id="seq_po_stores_local_1" model="ir.sequence">
+            <field name="name">PO Stores Local Jan</field>
+            <field name="code">purchase.order.stores.local.jan</field>
+            <field name="prefix">SPL%(y)s01</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Local FEBRUARY -->
+        <record id="seq_type_po_stores_local_2" model="ir.sequence.type">
+            <field name="name">PO Stores Local Feb</field>
+            <field name="code">purchase.order.stores.local.feb</field>
+        </record>
+        
+        <record id="seq_po_stores_local_2" model="ir.sequence">
+            <field name="name">PO Stores Local Feb</field>
+            <field name="code">purchase.order.stores.local.feb</field>
+            <field name="prefix">SPL%(y)s02</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Local MARET -->
+        <record id="seq_type_po_stores_local_3" model="ir.sequence.type">
+            <field name="name">PO Stores Local Mar</field>
+            <field name="code">purchase.order.stores.local.mar</field>
+        </record>
+        
+        <record id="seq_po_stores_local_3" model="ir.sequence">
+            <field name="name">PO Stores Local Mar</field>
+            <field name="code">purchase.order.stores.local.mar</field>
+            <field name="prefix">SPL%(y)s03</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Local APRIL -->
+        <record id="seq_type_po_stores_local_4" model="ir.sequence.type">
+            <field name="name">PO Stores Local Apr</field>
+            <field name="code">purchase.order.stores.local.apr</field>
+        </record>
+        
+        <record id="seq_po_stores_local_4" model="ir.sequence">
+            <field name="name">PO Stores Local Apr</field>
+            <field name="code">purchase.order.stores.local.apr</field>
+            <field name="prefix">SPL%(y)s04</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Local May -->
+        <record id="seq_type_po_stores_local_5" model="ir.sequence.type">
+            <field name="name">PO Stores Local May</field>
+            <field name="code">purchase.order.stores.local.may</field>
+        </record>
+        
+        <record id="seq_po_stores_local_5" model="ir.sequence">
+            <field name="name">PO Stores Local May</field>
+            <field name="code">purchase.order.stores.local.may</field>
+            <field name="prefix">SPL%(y)s05</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Local JUNI -->
+        <record id="seq_type_po_stores_local_6" model="ir.sequence.type">
+            <field name="name">PO Stores Local Jun</field>
+            <field name="code">purchase.order.stores.local.jun</field>
+        </record>
+        
+        <record id="seq_po_stores_local_6" model="ir.sequence">
+            <field name="name">PO Stores Local Jun</field>
+            <field name="code">purchase.order.stores.local.jun</field>
+            <field name="prefix">SPL%(y)s06</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Local JULY -->
+        <record id="seq_type_po_stores_local_7" model="ir.sequence.type">
+            <field name="name">PO Stores Local Jul</field>
+            <field name="code">purchase.order.stores.local.jul</field>
+        </record>
+        
+        <record id="seq_po_stores_local_7" model="ir.sequence">
+            <field name="name">PO Stores Local Jul</field>
+            <field name="code">purchase.order.stores.local.jul</field>
+            <field name="prefix">SPL%(y)s07</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Local AUGUST -->
+        <record id="seq_type_po_stores_local_8" model="ir.sequence.type">
+            <field name="name">PO Stores Local Aug</field>
+            <field name="code">purchase.order.stores.local.aug</field>
+        </record>
+        
+        <record id="seq_po_stores_local_8" model="ir.sequence">
+            <field name="name">PO Stores Local Aug</field>
+            <field name="code">purchase.order.stores.local.aug</field>
+            <field name="prefix">SPL%(y)s08</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Local SEPTEMBER -->
+        <record id="seq_type_po_stores_local_9" model="ir.sequence.type">
+            <field name="name">PO Stores Local Sep</field>
+            <field name="code">purchase.order.stores.local.sep</field>
+        </record>
+        
+        <record id="seq_po_stores_local_9" model="ir.sequence">
+            <field name="name">PO Stores Local Sep</field>
+            <field name="code">purchase.order.stores.local.sep</field>
+            <field name="prefix">SPL%(y)s09</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Local OCTOBER -->
+        <record id="seq_type_po_stores_local_10" model="ir.sequence.type">
+            <field name="name">PO Stores Local Oct</field>
+            <field name="code">purchase.order.stores.local.oct</field>
+        </record>
+        
+        <record id="seq_po_stores_local_10" model="ir.sequence">
+            <field name="name">PO Stores Local Oct</field>
+            <field name="code">purchase.order.stores.local.oct</field>
+            <field name="prefix">SPL%(y)s10</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Local NOVEMBER -->
+        <record id="seq_type_po_stores_local_11" model="ir.sequence.type">
+            <field name="name">PO Stores Local Nov</field>
+            <field name="code">purchase.order.stores.local.nov</field>
+        </record>
+        
+        <record id="seq_po_stores_local_11" model="ir.sequence">
+            <field name="name">PO Stores Local Nov</field>
+            <field name="code">purchase.order.stores.local.nov</field>
+            <field name="prefix">SPL%(y)s11</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Local DECEMBER -->
+        <record id="seq_type_po_stores_local_12" model="ir.sequence.type">
+            <field name="name">PO Stores Local Des</field>
+            <field name="code">purchase.order.stores.local.dec</field>
+        </record>
+
+         <record id="seq_po_stores_local_12" model="ir.sequence">
+            <field name="name">PO Stores Local Des</field>
+            <field name="code">purchase.order.stores.local.dec</field>
+            <field name="prefix">SPL%(y)s12</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Import JANUARY -->
+        <record id="seq_type_po_stores_import_1" model="ir.sequence.type">
+            <field name="name">PO Stores Import Jan</field>
+            <field name="code">purchase.order.stores.import.jan</field>
+        </record>
+        
+        <record id="seq_po_stores_import_1" model="ir.sequence">
+            <field name="name">PO Stores Import Jan</field>
+            <field name="code">purchase.order.stores.import.jan</field>
+            <field name="prefix">SPM%(y)s01</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Import FEBRUARY -->
+        <record id="seq_type_po_stores_import_2" model="ir.sequence.type">
+            <field name="name">PO Stores Import Feb</field>
+            <field name="code">purchase.order.stores.import.feb</field>
+        </record>
+        
+        <record id="seq_po_stores_import_2" model="ir.sequence">
+            <field name="name">PO Stores Import Feb</field>
+            <field name="code">purchase.order.stores.import.feb</field>
+            <field name="prefix">SPM%(y)s02</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Import MARET -->
+        <record id="seq_type_po_stores_import_3" model="ir.sequence.type">
+            <field name="name">PO Stores Import Mar</field>
+            <field name="code">purchase.order.stores.import.mar</field>
+        </record>
+        
+        <record id="seq_po_stores_import_3" model="ir.sequence">
+            <field name="name">PO Stores Import Mar</field>
+            <field name="code">purchase.order.stores.import.mar</field>
+            <field name="prefix">SPM%(y)s03</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Import APRIL -->
+        <record id="seq_type_po_stores_import_4" model="ir.sequence.type">
+            <field name="name">PO Stores Import Apr</field>
+            <field name="code">purchase.order.stores.import.apr</field>
+        </record>
+        
+        <record id="seq_po_stores_import_4" model="ir.sequence">
+            <field name="name">PO Stores Import Apr</field>
+            <field name="code">purchase.order.stores.import.apr</field>
+            <field name="prefix">SPM%(y)s04</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Import May -->
+        <record id="seq_type_po_stores_import_5" model="ir.sequence.type">
+            <field name="name">PO Stores Import May</field>
+            <field name="code">purchase.order.stores.import.may</field>
+        </record>
+        
+        <record id="seq_po_stores_import_5" model="ir.sequence">
+            <field name="name">PO Stores Import May</field>
+            <field name="code">purchase.order.stores.import.may</field>
+            <field name="prefix">SPM%(y)s05</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Import JUNI -->
+        <record id="seq_type_po_stores_import_6" model="ir.sequence.type">
+            <field name="name">PO Stores Import Jun</field>
+            <field name="code">purchase.order.stores.import.jun</field>
+        </record>
+        
+        <record id="seq_po_stores_import_6" model="ir.sequence">
+            <field name="name">PO Stores Import Jun</field>
+            <field name="code">purchase.order.stores.import.jun</field>
+            <field name="prefix">SPM%(y)s06</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Import JULY -->
+        <record id="seq_type_po_stores_import_7" model="ir.sequence.type">
+            <field name="name">PO Stores Import Jul</field>
+            <field name="code">purchase.order.stores.import.jul</field>
+        </record>
+        
+        <record id="seq_po_stores_import_7" model="ir.sequence">
+            <field name="name">PO Stores Import Jul</field>
+            <field name="code">purchase.order.stores.import.jul</field>
+            <field name="prefix">SPM%(y)s07</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Import AUGUST -->
+        <record id="seq_type_po_stores_import_8" model="ir.sequence.type">
+            <field name="name">PO Stores Import Aug</field>
+            <field name="code">purchase.order.stores.import.aug</field>
+        </record>
+        
+        <record id="seq_po_stores_import_8" model="ir.sequence">
+            <field name="name">PO Stores Import Aug</field>
+            <field name="code">purchase.order.stores.import.aug</field>
+            <field name="prefix">SPM%(y)s08</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Import SEPTEMBER -->
+        <record id="seq_type_po_stores_import_9" model="ir.sequence.type">
+            <field name="name">PO Stores Import Sep</field>
+            <field name="code">purchase.order.stores.import.sep</field>
+        </record>
+        
+        <record id="seq_po_stores_import_9" model="ir.sequence">
+            <field name="name">PO Stores Import Sep</field>
+            <field name="code">purchase.order.stores.import.sep</field>
+            <field name="prefix">SPM%(y)s09</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Import OCTOBER -->
+        <record id="seq_type_po_stores_import_10" model="ir.sequence.type">
+            <field name="name">PO Stores Import Oct</field>
+            <field name="code">purchase.order.stores.import.oct</field>
+        </record>
+        
+        <record id="seq_po_stores_import_10" model="ir.sequence">
+            <field name="name">PO Stores Import Oct</field>
+            <field name="code">purchase.order.stores.import.oct</field>
+            <field name="prefix">SPM%(y)s10</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Import NOVEMBER -->
+        <record id="seq_type_po_stores_import_11" model="ir.sequence.type">
+            <field name="name">PO Stores Import Nov</field>
+            <field name="code">purchase.order.stores.import.nov</field>
+        </record>
+        
+        <record id="seq_po_stores_import_11" model="ir.sequence">
+            <field name="name">PO Stores Import Nov</field>
+            <field name="code">purchase.order.stores.import.nov</field>
+            <field name="prefix">SPM%(y)s11</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Stores Import DECEMBER -->
+        <record id="seq_type_po_stores_import_12" model="ir.sequence.type">
+            <field name="name">PO Stores Import Des</field>
+            <field name="code">purchase.order.stores.import.dec</field>
+        </record>
+        
+        <record id="seq_po_stores_import_12" model="ir.sequence">
+            <field name="name">PO Stores Import Des</field>
+            <field name="code">purchase.order.stores.import.dec</field>
+            <field name="prefix">SPM%(y)s12</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+<!-- PO Packing Material -->
+
+  		<!-- PO Packing Local JANUARY -->
+  		<record id="seq_type_po_packing_local_1" model="ir.sequence.type">
+            <field name="name">PO Packing Local Jan</field>
+            <field name="code">purchase.order.packing.local.jan</field>
+        </record>
+        
+        <record id="seq_po_packing_local_1" model="ir.sequence">
+            <field name="name">PO Packing Local Jan</field>
+            <field name="code">purchase.order.packing.local.jan</field>
+            <field name="prefix">PPL%(y)s01</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing Local FEBRUARY -->
+        <record id="seq_type_po_packing_local_2" model="ir.sequence.type">
+            <field name="name">PO Packing Local Feb</field>
+            <field name="code">purchase.order.packing.local.feb</field>
+        </record>
+        
+        <record id="seq_po_packing_local_2" model="ir.sequence">
+            <field name="name">PO Packing Local Feb</field>
+            <field name="code">purchase.order.packing.local.feb</field>
+            <field name="prefix">PPL%(y)s02</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing Local MARET -->
+        <record id="seq_type_po_packing_local_3" model="ir.sequence.type">
+            <field name="name">PO Packing Local Mar</field>
+            <field name="code">purchase.order.packing.local.mar</field>
+        </record>
+        
+        <record id="seq_po_packing_local_3" model="ir.sequence">
+            <field name="name">PO Packing Local Mar</field>
+            <field name="code">purchase.order.packing.local.mar</field>
+            <field name="prefix">PPL%(y)s03</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing Local APRIL -->
+        <record id="seq_type_po_packing_local_4" model="ir.sequence.type">
+            <field name="name">PO Packing Local Apr</field>
+            <field name="code">purchase.order.packing.local.apr</field>
+        </record>
+        
+        <record id="seq_po_packing_local_4" model="ir.sequence">
+            <field name="name">PO Packing Local Apr</field>
+            <field name="code">purchase.order.packing.local.apr</field>
+            <field name="prefix">PPL%(y)s04</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing Local May -->
+        <record id="seq_type_po_packing_local_5" model="ir.sequence.type">
+            <field name="name">PO Packing Local May</field>
+            <field name="code">purchase.order.packing.local.may</field>
+        </record>
+        
+        <record id="seq_po_packing_local_5" model="ir.sequence">
+            <field name="name">PO Packing Local May</field>
+            <field name="code">purchase.order.packing.local.may</field>
+            <field name="prefix">PPL%(y)s05</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing Local JUNI -->
+        <record id="seq_type_po_packing_local_6" model="ir.sequence.type">
+            <field name="name">PO Packing Local Jun</field>
+            <field name="code">purchase.order.packing.local.jun</field>
+        </record>
+        
+        <record id="seq_po_packing_local_6" model="ir.sequence">
+            <field name="name">PO Packing Local Jun</field>
+            <field name="code">purchase.order.packing.local.jun</field>
+            <field name="prefix">PPL%(y)s06</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing Local JULY -->
+        <record id="seq_type_po_packing_local_7" model="ir.sequence.type">
+            <field name="name">PO Packing Local Jul</field>
+            <field name="code">purchase.order.packing.local.jul</field>
+        </record>
+        
+        <record id="seq_po_packing_local_7" model="ir.sequence">
+            <field name="name">PO Packing Local Jul</field>
+            <field name="code">purchase.order.packing.local.jul</field>
+            <field name="prefix">PPL%(y)s07</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing Local AUGUST -->
+        <record id="seq_type_po_packing_local_8" model="ir.sequence.type">
+            <field name="name">PO Packing Local Aug</field>
+            <field name="code">purchase.order.packing.local.aug</field>
+        </record>
+        
+        <record id="seq_po_packing_local_8" model="ir.sequence">
+            <field name="name">PO Packing Local Aug</field>
+            <field name="code">purchase.order.packing.local.aug</field>
+            <field name="prefix">PPL%(y)s08</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing Local SEPTEMBER -->
+        <record id="seq_type_po_packing_local_9" model="ir.sequence.type">
+            <field name="name">PO Packing Local Sep</field>
+            <field name="code">purchase.order.packing.local.sep</field>
+        </record>
+        
+        <record id="seq_po_packing_local_9" model="ir.sequence">
+            <field name="name">PO Packing Local Sep</field>
+            <field name="code">purchase.order.packing.local.sep</field>
+            <field name="prefix">PPL%(y)s09</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing Local OCTOBER -->
+        <record id="seq_type_po_packing_local_10" model="ir.sequence.type">
+            <field name="name">PO Packing Local Oct</field>
+            <field name="code">purchase.order.packing.local.oct</field>
+        </record>
+        
+        <record id="seq_po_packing_local_10" model="ir.sequence">
+            <field name="name">PO Packing Local Oct</field>
+            <field name="code">purchase.order.packing.local.oct</field>
+            <field name="prefix">PPL%(y)s10</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing Local NOVEMBER -->
+        <record id="seq_type_po_packing_local_11" model="ir.sequence.type">
+            <field name="name">PO Packing Local Nov</field>
+            <field name="code">purchase.order.packing.local.nov</field>
+        </record>
+        
+        <record id="seq_po_packing_local_11" model="ir.sequence">
+            <field name="name">PO Packing Local Nov</field>
+            <field name="code">purchase.order.packing.local.nov</field>
+            <field name="prefix">PPL%(y)s11</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing Local DECEMBER -->
+        <record id="seq_type_po_packing_local_12" model="ir.sequence.type">
+            <field name="name">PO Packing Local Des</field>
+            <field name="code">purchase.order.packing.local.dec</field>
+        </record>
+
+         <record id="seq_po_packing_local_12" model="ir.sequence">
+            <field name="name">PO Packing Local Des</field>
+            <field name="code">purchase.order.packing.local.dec</field>
+            <field name="prefix">PPL%(y)s12</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing import JANUARY -->
+        <record id="seq_type_po_packing_import_1" model="ir.sequence.type">
+            <field name="name">PO Packing import Jan</field>
+            <field name="code">purchase.order.packingimport.jan</field>
+        </record>
+        
+        <record id="seq_po_packing_import_1" model="ir.sequence">
+            <field name="name">PO Packing import Jan</field>
+            <field name="code">purchase.order.packingimport.jan</field>
+            <field name="prefix">PPI%(y)s01</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing import FEBRUARY -->
+        <record id="seq_type_po_packing_import_2" model="ir.sequence.type">
+            <field name="name">PO Packing import Feb</field>
+            <field name="code">purchase.order.packingimport.feb</field>
+        </record>
+        
+        <record id="seq_po_packing_import_2" model="ir.sequence">
+            <field name="name">PO Packing import Feb</field>
+            <field name="code">purchase.order.packingimport.feb</field>
+            <field name="prefix">PPI%(y)s02</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing import MARET -->
+        <record id="seq_type_po_packing_import_3" model="ir.sequence.type">
+            <field name="name">PO Packing import Mar</field>
+            <field name="code">purchase.order.packingimport.mar</field>
+        </record>
+        
+        <record id="seq_po_packing_import_3" model="ir.sequence">
+            <field name="name">PO Packing import Mar</field>
+            <field name="code">purchase.order.packingimport.mar</field>
+            <field name="prefix">PPI%(y)s03</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing import APRIL -->
+        <record id="seq_type_po_packing_import_4" model="ir.sequence.type">
+            <field name="name">PO Packing import Apr</field>
+            <field name="code">purchase.order.packingimport.apr</field>
+        </record>
+        
+        <record id="seq_po_packing_import_4" model="ir.sequence">
+            <field name="name">PO Packing import Apr</field>
+            <field name="code">purchase.order.packingimport.apr</field>
+            <field name="prefix">PPI%(y)s04</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing import May -->
+        <record id="seq_type_po_packing_import_5" model="ir.sequence.type">
+            <field name="name">PO Packing import May</field>
+            <field name="code">purchase.order.packingimport.may</field>
+        </record>
+        
+        <record id="seq_po_packing_import_5" model="ir.sequence">
+            <field name="name">PO Packing import May</field>
+            <field name="code">purchase.order.packingimport.may</field>
+            <field name="prefix">PPI%(y)s05</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing import JUNI -->
+        <record id="seq_type_po_packing_import_6" model="ir.sequence.type">
+            <field name="name">PO Packing import Jun</field>
+            <field name="code">purchase.order.packingimport.jun</field>
+        </record>
+        
+        <record id="seq_po_packing_import_6" model="ir.sequence">
+            <field name="name">PO Packing import Jun</field>
+            <field name="code">purchase.order.packingimport.jun</field>
+            <field name="prefix">PPI%(y)s06</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing import JULY -->
+        <record id="seq_type_po_packing_import_7" model="ir.sequence.type">
+            <field name="name">PO Packing import Jul</field>
+            <field name="code">purchase.order.packingimport.jul</field>
+        </record>
+        
+        <record id="seq_po_packing_import_7" model="ir.sequence">
+            <field name="name">PO Packing import Jul</field>
+            <field name="code">purchase.order.packingimport.jul</field>
+            <field name="prefix">PPI%(y)s07</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing import AUGUST -->
+        <record id="seq_type_po_packing_import_8" model="ir.sequence.type">
+            <field name="name">PO Packing import Aug</field>
+            <field name="code">purchase.order.packingimport.aug</field>
+        </record>
+        
+        <record id="seq_po_packing_import_8" model="ir.sequence">
+            <field name="name">PO Packing import Aug</field>
+            <field name="code">purchase.order.packingimport.aug</field>
+            <field name="prefix">PPI%(y)s08</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing import SEPTEMBER -->
+        <record id="seq_type_po_packing_import_9" model="ir.sequence.type">
+            <field name="name">PO Packing import Sep</field>
+            <field name="code">purchase.order.packingimport.sep</field>
+        </record>
+        
+        <record id="seq_po_packing_import_9" model="ir.sequence">
+            <field name="name">PO Packing import Sep</field>
+            <field name="code">purchase.order.packingimport.sep</field>
+            <field name="prefix">PPI%(y)s09</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing import OCTOBER -->
+        <record id="seq_type_po_packing_import_10" model="ir.sequence.type">
+            <field name="name">PO Packing import Oct</field>
+            <field name="code">purchase.order.packingimport.oct</field>
+        </record>
+        
+        <record id="seq_po_packing_import_10" model="ir.sequence">
+            <field name="name">PO Packing import Oct</field>
+            <field name="code">purchase.order.packingimport.oct</field>
+            <field name="prefix">PPI%(y)s10</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing import NOVEMBER -->
+        <record id="seq_type_po_packing_import_11" model="ir.sequence.type">
+            <field name="name">PO Packing import Nov</field>
+            <field name="code">purchase.order.packingimport.nov</field>
+        </record>
+        
+        <record id="seq_po_packing_import_11" model="ir.sequence">
+            <field name="name">PO Packing import Nov</field>
+            <field name="code">purchase.order.packingimport.nov</field>
+            <field name="prefix">PPI%(y)s11</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- PO Packing import DECEMBER -->
+        <record id="seq_type_po_packing_import_12" model="ir.sequence.type">
+            <field name="name">PO Packing import Des</field>
+            <field name="code">purchase.order.packingimport.dec</field>
+        </record>
+
+         <record id="seq_po_packing_import_12" model="ir.sequence">
+            <field name="name">PO Packing import Des</field>
+            <field name="code">purchase.order.packingimport.dec</field>
+            <field name="prefix">PPI%(y)s12</field>
+            <field name="suffix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+	</data>
+</openerp>

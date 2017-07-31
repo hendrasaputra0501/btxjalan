@@ -1,0 +1,60 @@
+<openerp>
+	<data>
+		<record id="general_ledger_wizard_form" model="ir.ui.view" >
+			<field name="name">general.ledger.wizard.form</field>
+			<field name="model">general.ledger.wizard</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="General Ledger Wizard" version="7.0">
+					<notebook>
+						<page string="Filters">
+							<group>
+								<field name="filter" />
+								<field name="fiscalyear_id" required="1"/>
+								<field name="init_balance" />
+								<field name="show_analytic_account" />
+							</group>
+							<group attrs="{'invisible':[('filter','=','filter_no')]}">
+								<group>
+									<field name="from_date" attrs="{'invisible':[('filter','=','filter_period')],'required':[('filter','=','filter_date')]}"/>
+									<field name="period_id" domain="[('fiscalyear_id','=',fiscalyear_id)]" attrs="{'invisible':[('filter','=','filter_date')],'required':[('filter','=','filter_period')]}"/>
+								</group>
+								<group>
+									<field name="to_date" attrs="{'invisible':[('filter','=','filter_period')],'required':[('filter','=','filter_date')]}"/>
+								</group>
+							</group>
+						</page>
+						<page string="Filter Accounts">
+							<field name="account_ids" />
+						</page>
+						<page string="Filter Journals">
+							<field name="journal_ids" />
+						</page>
+						<page string="Filter Partners">
+							<field name="partner_ids" />
+						</page>
+					</notebook>	
+					<footer>
+						<div>
+							<button type="object" name="print_report" string="Print" icon="STOCK_PRINT"/>
+							or
+							<button special="cancel" string="Cancel" class="oe_link"/>
+						</div>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="action_general_ledger_bitratex">
+			<field name="name">General Ledger Custom</field>
+			<field name="res_model">general.ledger.wizard</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+			<field name="view_id" ref="general_ledger_wizard_form"/>
+		</record>
+
+		<!-- <menuitem id="general_ledger_bitratex_menu" parent="account.final_accounting_reports" sequence="20" action="action_general_ledger_bitratex"/> -->
+	</data>
+</openerp>

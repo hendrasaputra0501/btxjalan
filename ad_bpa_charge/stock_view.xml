@@ -1,0 +1,27 @@
+<openerp>
+	<data>
+ 		<record id="view_picking_out_extend_form_1" model="ir.ui.view">
+            <field name="name">stock.picking.out.extend.bpa.form</field>
+            <field name="model">stock.picking.out</field>
+            <field name="inherit_id" ref="ad_container_booking.view_picking_out_extend_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@string='Transporter']/group" position="after">
+                    <page string="Transporter">
+                        <group string='Related Invoice and BPA Charge'>
+                            <group>
+                                <field name="freight_invoice_id" readonly='1' />
+                            </group>
+                            <group>
+                                <field name="trucking_invoice_id" readonly='0' />
+                            </group>
+                        </group>
+                        <label for="lifton_bpa_id" />
+                        <field name="lifton_bpa_id" nolable='1' readonly='0'/>
+                        <label for="kbkb_bpa_id" />
+                        <field name="kbkb_bpa_id" nolable='1' readonly='0' />
+                    </page>
+                </xpath>
+            </field>
+        </record>
+	</data>
+</openerp>

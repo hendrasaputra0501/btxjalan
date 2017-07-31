@@ -1,0 +1,47 @@
+<openerp>
+	<data>
+		<record id="ipp_report_wizard" model="ir.ui.view">
+            <field name="name">ipp.report.wizard</field>
+            <field name="model">ipp.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Generate IPP Report" version="7.0">
+                    <group colspan="4" col="4">
+                        <field name="filter"/>
+                        <newline/>
+                        <field name="date_start" attrs="{'invisible':[('filter','=','period')],'required':[('filter','=','date')]}"/>
+                        <field name="date_end" attrs="{'invisible':[('filter','=','period')],'required':[('filter','=','date')]}"/>
+                        <field name="period_id" attrs="{'invisible':[('filter','=','date')],'required':[('filter','=','period')]}"/>
+                    </group>
+                	<notebook>
+                		<page string="Sub Accounts" colspan="4">
+                			<field name="sub_account_ids" colspan="4" col="4" nolabel="1">
+                                <tree string="Sub Account">
+                                    <field name="department_id"/>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                		</page>
+                	</notebook>
+                    <footer>
+                    	<group>
+	                        <button name="generate_report" string="Print" icon="gtk-print" type="object" class="oe_highlight"/>
+	                        <button string="Cancel" class="oe_highlight" special="cancel"/>
+                    	</group>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_ipp_report_wizard" model="ir.actions.act_window">
+            <field name="name">Generate Stock Report</field>
+            <field name="res_model">ipp.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+        <menuitem id="menu_action_ipp_report_wizard" name="IPP Report" parent="ad_stock_report.reporting_stock_daily"
+            action="action_ipp_report_wizard"/>
+	</data>
+</openerp>

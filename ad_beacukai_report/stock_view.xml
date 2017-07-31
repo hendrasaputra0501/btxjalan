@@ -1,0 +1,58 @@
+<openerp>
+	<data>
+		<record id="view_move_picking_form_inherit_beacukai" model="ir.ui.view">
+            <field name="name">view.move.picking.form.inherit.beacukai</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_picking_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="freight_unit" on_change="onchange_freight_unit(freight_unit,product_qty)" attrs="{'required':[('type','=','in')],'invisible':[('type','!=','in')]}"/>
+                    <field name="freight_total" attrs="{'required':[('type','=','in')],'invisible':[('type','!=','in')]}"/>
+                    <field name="insurance_unit" on_change="onchange_insurance_unit(insurance_unit,product_qty)" attrs="{'required':[('type','=','in')],'invisible':[('type','!=','in')]}"/>
+                    <field name="insurance_total" attrs="{'required':[('type','=','in')],'invisible':[('type','!=','in')]}"/>
+                </field>
+            </field>
+        </record>
+        <!-- <record id="view_move_picking_tree_inherit_beacukai" model="ir.ui.view">
+            <field name="name">view.move.picking.tree.inherit.beacukai</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_picking_tree"/>
+            <field name="arch" type="xml">
+                <field name="product_uos" position="after">
+                	<field name="type" invisible="0"/>
+                    <field name="freight_unit" on_change="onchange_freight_unit(freight_unit,product_qty)" attrs="{'required':[('type','=','in')],'invisible':[('type','!=','in')]}"/>
+                    <field name="freight_total" attrs="{'required':[('type','=','in')],'invisible':[('type','!=','in')]}"/>
+                    <field name="insurance_unit" on_change="onchange_insurance_unit(insurance_unit,product_qty)" attrs="{'required':[('type','=','in')],'invisible':[('type','!=','in')]}"/>
+                    <field name="insurance_total" attrs="{'required':[('type','=','in')],'invisible':[('type','!=','in')]}"/>
+                </field>
+            </field>
+        </record> -->
+        <record id="view_move_form_inherit_beacukai" model="ir.ui.view">
+            <field name="name">view.move.form.inherit.beacukai</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="freight_unit" on_change="onchange_freight_unit(freight_unit,product_qty)" attrs="{'required':[('type','=','in')],'invisible':[('type','!=','in')]}"/>
+                    <field name="freight_total" attrs="{'required':[('type','=','in')],'invisible':[('type','!=','in')]}"/>
+                    <field name="insurance_unit" on_change="onchange_insurance_unit(insurance_unit,product_qty)" attrs="{'required':[('type','=','in')],'invisible':[('type','!=','in')]}"/>
+                    <field name="insurance_total" attrs="{'required':[('type','=','in')],'invisible':[('type','!=','in')]}"/>
+                </field>
+            </field>
+        </record>
+        <!-- <record id="view_move_tree_inherit_beacukai" model="ir.ui.view">
+            <field name="name">view.move.tree.inherit.beacukai</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                	<field name="type" invisible="1"/>
+                    <field name="freight_unit" on_change="onchange_freight_unit(freight_unit,product_qty)" attrs="{'required':[('type','=','in')],'invisible':[('type','!=','in')]}"/>
+                    <field name="freight_total" attrs="{'required':[('type','=','in')],'invisible':[('type','!=','in')]}"/>
+                    <field name="insurance_unit" on_change="onchange_insurance_unit(insurance_unit,product_qty)" attrs="{'required':[('type','=','in')],'invisible':[('type','!=','in')]}"/>
+                    <field name="insurance_total" attrs="{'required':[('type','=','in')],'invisible':[('type','!=','in')]}"/>
+                </field>
+            </field>
+        </record> -->
+	</data>
+</openerp>

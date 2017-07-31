@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<record id="view_beacukai_40_form_ok" model="ir.ui.view">
+			<field name="name">view.beacukai.40.form.ok</field>
+			<field name="model">beacukai</field>
+			<field name="inherit_id" ref="ad_beacukai.view_beacukai_40_form" />
+			<field name="arch" type="xml">
+			    <!-- xpath expr="//group[@string='Header']" position="before">
+			        <button name="print_bc" string="Print Beacukai" type="object" class="oe_highlight" />
+			    </xpath -->
+				<field name="source_partner_id" position="attributes">
+					<attribute name="on_change">onchange_src_partner(source_partner_id)</attribute>
+				</field>
+				<field name="dest_partner_id" position="attributes">
+					<attribute name="on_change">onchange_dst_partner(dest_partner_id)</attribute>
+				</field>
+				<field name="info_partner_id" position="attributes">
+					<attribute name="on_change">onchange_info_partner(info_partner_id)</attribute>
+				</field>
+			</field>
+		</record>
+
+		<record id="action_beacukai_25" model="ir.actions.act_window">
+			<field name="name">Beacukai 2.5</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">beacukai</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('document_type','=','25')]</field>
+			<field name="context">{'document_type':'25'}</field>
+			<field name="search_view_id" ref="ad_beacukai.view_beacukai_40_search" />
+		</record>
+
+		<record id="action_beacukai_25_view1" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="ad_beacukai.view_beacukai_40_tree"/>
+			<field name="act_window_id" ref="action_beacukai_25"/>
+		</record>
+
+		<record id="action_beacukai_25_view2" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="ad_beacukai.view_beacukai_40_form"/>
+			<field name="act_window_id" ref="action_beacukai_25"/>
+		</record>
+
+		<record id="action_beacukai_261" model="ir.actions.act_window">
+			<field name="name">Beacukai 2.61</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">beacukai</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('document_type','=','261')]</field>
+			<field name="context">{'document_type':'261'}</field>
+			<field name="search_view_id" ref="ad_beacukai.view_beacukai_40_search" />
+		</record>
+
+		<record id="action_beacukai_261_view1" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="ad_beacukai.view_beacukai_40_tree"/>
+			<field name="act_window_id" ref="action_beacukai_261"/>
+		</record>
+
+		<record id="action_beacukai_261_view2" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="ad_beacukai.view_beacukai_40_form"/>
+			<field name="act_window_id" ref="action_beacukai_261"/>
+		</record>
+
+		<record id="action_beacukai_262" model="ir.actions.act_window">
+			<field name="name">Beacukai 2.62</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">beacukai</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('document_type','=','262')]</field>
+			<field name="context">{'document_type':'262'}</field>
+			<field name="search_view_id" ref="ad_beacukai.view_beacukai_40_search" />
+		</record>
+
+		<record id="action_beacukai_262_view1" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="ad_beacukai.view_beacukai_40_tree"/>
+			<field name="act_window_id" ref="action_beacukai_262"/>
+		</record>
+
+		<record id="action_beacukai_262_view2" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="ad_beacukai.view_beacukai_40_form"/>
+			<field name="act_window_id" ref="action_beacukai_262"/>
+		</record>
+
+		<menuitem action="action_beacukai_25" id="menu_beacukai_25"
+			parent="ad_beacukai.beacukai" sequence="3" />
+		<menuitem action="action_beacukai_261" id="menu_beacukai_261"
+			parent="ad_beacukai.beacukai" sequence="3" />
+		<menuitem action="action_beacukai_262" id="menu_beacukai_262"
+			parent="ad_beacukai.beacukai" sequence="3" />
+	</data>
+</openerp>

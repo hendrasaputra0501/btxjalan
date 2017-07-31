@@ -1,0 +1,46 @@
+<openerp>
+	<data noupdate="1">
+		<record model="account.account.type" id="account.account_type_income_view1">
+			<field name="name">Income View</field>
+			<field name="code">view</field>
+			<field name="report_type">income</field>
+		</record>
+		<record model="account.account.type" id="account.account_type_expense_view1">
+			<field name="name">Expense View</field>
+			<field name="code">expense</field>
+			<field name="report_type">expense</field>
+		</record>
+		<record model="account.account.type" id="account.account_type_asset_view1">
+			<field name="name">Asset View</field>
+			<field name="code">asset</field>
+			<field name="report_type">asset</field>
+		</record>
+		<record model="account.account.type" id="account.account_type_liability_view1">
+			<field name="name">Liability View</field>
+			<field name="code">liability</field>
+			<field name="report_type">liability</field>
+		</record>
+		<record model="account.account.type" id="account.conf_account_type_tax">
+			<field name="name">Tax</field>
+			<field name="code">tax</field>
+			<field name="close_method">unreconciled</field>
+			<field name="report_type">expense</field>
+		</record>
+		<record model="account.account.type" id="account.conf_account_type_equity">
+			<field name="name">Equity</field>
+			<field name="code">equity</field>
+			<field name="close_method">balance</field>
+			<field name="report_type">liability</field>
+		</record>
+		<record model="account.account.type" id="account.conf_account_type_chk">
+			<field name="name">Check</field>
+			<field name="code">check</field>
+			<field name="close_method">balance</field>
+			<field name="report_type">asset</field>
+		</record>
+		<record id="account.tc_root" model="account.tax.code.template">
+		    <field name="name">Bitratex Chart of Taxes</field>
+		    <field name="parent_id" eval="False"/>
+		</record>
+	</data>
+</openerp>

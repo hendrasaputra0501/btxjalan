@@ -1,0 +1,35 @@
+{
+    "name": "Letter of Credit History",
+    "version": "1.0",
+    "depends": [
+                # "base",
+                # "sale",
+                # "account",
+                # "purchase",
+                "ad_account_invoice",
+                "ad_bank_loan",
+                "ad_letter_of_credit",
+                # "ad_ext_transaksi",
+                # "ad_invoice_charge",
+                # "ad_advance_payment",
+                ],
+    "author": "Hendra - Adsoft",
+    "category": "Accounting and Finance",
+    "description": """
+    """,
+    "init_xml": [],
+    'data': [
+        'letterofcredit.history.source.csv',
+    ],
+    'update_xml': [
+                    "bank_loan_view.xml",
+                    "advance_payment_view.xml",
+                    "ext_transaksi_view.xml",
+                    "account_invoice_view.xml",
+                    "letter_of_credit_view.xml",
+                   ],
+    'demo_xml': [],
+    'installable': True,
+    'active': False,
+    'application':False,
+}

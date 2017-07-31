@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report auto="False" id="quality_certificate_report" model="uster.form" name="quality.certificate.report" file="reporting_module/quality_certificate_report/quality_certificate_report.mako" string="Quality Certificate Report" usage="default" report_type="webkit" menu="True" />
+    </data>
+</openerp>

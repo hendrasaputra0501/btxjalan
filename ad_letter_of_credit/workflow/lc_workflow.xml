@@ -1,0 +1,24 @@
+<openerp>
+	<data>
+		<!-- Header of Workflow	 -->
+		<record id="workflow_lc" model="workflow">
+			<field eval="1" name="on_create"/>
+			<field name="name">Letter of Credit</field>
+			<field name="osv">letterofcredit</field>
+		</record>
+
+		<!-- Activity of Workflow -->
+		<record id="act_lc_draft" model="workflow.activity">
+			<field name="kind">function</field>
+			<field name="name">draft</field>
+			<field name="wkf_id" ref="workflow_lc"/>
+			<field name="action">write({'state':'draft'})</field>
+		</record>
+		<record id="act_lc_review" model="workflow.activity">
+			<field name="kind">function</field>
+			<field name="name">review</field>
+			<field name="wkf_id" ref="workflow_lc"/>
+			<field name="action">write({'state':'review'})</field>
+		</record>
+	</data>
+</openerp>

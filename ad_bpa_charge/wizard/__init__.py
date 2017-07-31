@@ -1,0 +1,4 @@
+import wizard_freight_charge_onshipment
+import wizard_trucking_charge_onshipment
+import wizard_lifton_charge_onshipment
+import wizard_kbkb_charge_onshipment

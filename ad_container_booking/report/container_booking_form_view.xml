@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report auto="False" id="report_container_booking" model="container.booking" name="container.booking.form" file="ad_container_booking/report/container_booking_form.mako" string="Container Booking" usage="default" report_type="webkit" menu="True" />
+    </data>
+</openerp>

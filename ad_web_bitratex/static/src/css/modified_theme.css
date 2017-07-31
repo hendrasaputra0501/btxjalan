@@ -1,0 +1,118 @@
+.openerp .oe_login {
+  background-image: url('/img/background.jpg');
+  text-align: center;
+  font-size: 14px;
+  background-size:1400px 800px;
+  background-repeat:no-repeat;
+  height: 100%;
+}
+
+.openerp .oe_login .oe_login_logo {
+  position: absolute;
+  top: -130px;
+  left: -450px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.openerp .oe_login .oe_login_bottom {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-shadow: 0 1px 1px #999999;
+  background-color: transparent;
+}
+
+.openerp .oe_login .oe_login_footer {
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+.openerp .oe_login .oe_login_footer a.oe_login_manage_db{
+	color:#000000;
+}
+
+.openerp .oe_login .oe_login_pane {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -160px -166px;
+  border: solid 1px #E3E3E3;
+  background:none repeat scroll 0 0 rgba(227, 227, 227, 1);
+  padding: 22px 32px;
+  color: #000000;
+  opacity:0.9;
+  filter:alpha(opacity=90); /* For IE8 and earlier */
+  text-align: left;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+  -moz-box-shadow: 0 0 18px rgba(227, 227, 227, 1);
+  -webkit-box-shadow: 0 0 18px rgba(227, 227, 227, 1);
+  box-shadow: 0 0 18px rgba(227, 227, 227, 1);
+  min-height:190px;
+}
+
+.openerp .oe_login .oe_login_dbpane {
+  position: fixed;
+  top: 0;
+  right: 8px;
+  padding: 5px 10px;
+  color: #000000;
+  border: solid 1px #E3E3E3;
+  background: #1e1e1e;
+  background: rgba(227, 227, 227, 1);
+  -moz-border-radius: 0 0 8px 8px;
+  -webkit-border-radius: 0 0 8px 8px;
+  border-radius: 0 0 8px 8px;
+}
+
+.openerp .oe_login .oe_login_error_message {
+  display: none;
+  background-color: #b41616;
+  color: #eeeeee;
+  padding: 14px 18px;
+  margin-top: 15px;
+  text-align: center;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  z-index: 3000;
+}
+.openerp .oe_login_invalid .oe_login_error_message {
+  display: inline-block;
+  z-index: 3000;
+}
+
+.openerp .oe_login .oe_login_footer a{
+	color:#000000;
+}
+.openerp .oe_login .oe_login_footer a span.oe_span_red {
+	color:#FF0000;	
+}
+.openerp .oe_login .oe_login_footer a b.oe_span_black {
+	color:#000000;	
+}
+
+.openerp .oe_login .oe_marquee{
+	color:#000000;
+	font-size:14px !important;
+}
+.openerp .oe_login .oe_login_footer a span.oe_span_red{
+	color:#FF0000;
+	font-size:14px !important;
+}
+
+.openerp .oe_form_sheet .oe_list {
+overflow-x: scroll;
+/*width: 850px;*/
+}
+

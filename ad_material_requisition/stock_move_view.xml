@@ -1,0 +1,43 @@
+<openerp>
+	<data>
+		<record id="view_move_picking_form_inherit_material_request" model="ir.ui.view">
+			<field name="name">stock.move.inherit.material.request</field>
+			<field name="model">stock.move</field>
+			<field name="inherit_id" ref="stock.view_move_picking_form"/>
+			<field name="arch" type="xml">
+				<field name="location_id" position="before">
+					<field name="reason_code" />
+                    <field name="material_type"/>
+				</field>
+			</field>
+		</record>
+
+
+		<record id="view_picking_extend_form" model="ir.ui.view">
+			<field name="name">stock.picking.extend.form</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="stock.view_picking_form"/>
+			<field name="arch" type="xml">
+				<button name="draft_force_assign" position="before">
+					<button name="%(ad_container_booking.action_split_picking)d" string="Split Issue/Transfer" type="action" class="oe_highlight" attrs="{'invisible':[('state','not in',['draft','confirmed','assigned'])]}"/>
+				</button>
+			</field>
+		</record>
+
+		<record id="view_picking_form_editable_rm_inherit_mr" model="ir.ui.view">
+              <field name="name">stock.picking.form.editable.rm.inherit.mr</field>
+              <field name="model">stock.picking</field>
+              <!-- <field eval="12" name="priority"/> -->
+              <field name="inherit_id" ref="ad_container_booking.view_picking_form_editable_rm" />
+              <field name="arch" type="xml">
+                    <field name="tracking_id" position="after">
+                        <field name="reason_code"/>
+                        <field name="material_type"/>
+                    </field>
+<!--                     <xpath expr="/form/sheet/notebook/page[@string='Products']/field[@name='move_lines']/tree/field[@name='tracking_id']" position="after">
+                        <field name="reason_code"/>
+                    </xpath> -->
+              </field>
+        </record>
+	</data>
+</openerp>

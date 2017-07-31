@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+		<record id="seq_type_rfq" model="ir.sequence.type">
+            <field name="name">RFQ Number</field>
+            <field name="code">rfq_seq</field>
+        </record>
+
+
+        <record id="seq_rfq" model="ir.sequence">
+            <field name="name">RFQ Number</field>
+            <field name="code">rfq_seq</field>
+            <field name="prefix">RFQ-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_type_pr_cust" model="ir.sequence.type">
+            <field name="name">PR Number</field>
+            <field name="code">pr_skc</field>
+        </record>
+
+
+        <record id="seq_pr_cust" model="ir.sequence">
+            <field name="name">PR Number</field>
+            <field name="code">pr_skc</field>
+            <field name="prefix">PR-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_type_mr_stores" model="ir.sequence.type">
+            <field name="name">MR Stores</field>
+            <field name="code">mr_stores</field>
+        </record>
+
+
+        <record id="seq_mr_stores" model="ir.sequence">
+            <field name="name">MR Stores</field>
+            <field name="code">mr_stores</field>
+            <field name="prefix">MR-%(y)s-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MR Local -->
+        <record id="seq_type_mr_local" model="ir.sequence.type">
+            <field name="name">MR Local</field>
+            <field name="code">mr_local</field>
+        </record>
+        <record id="seq_mr_local" model="ir.sequence">
+            <field name="name">MR Local</field>
+            <field name="code">mr_local</field>
+            <field name="prefix">MRL%(y)s%(month)sDept-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- MR Import -->
+        <record id="seq_type_mr_import" model="ir.sequence.type">
+            <field name="name">MR Import</field>
+            <field name="code">mr_import</field>
+        </record>
+        <record id="seq_mr_import" model="ir.sequence">
+            <field name="name">MR Import</field>
+            <field name="code">mr_import</field>
+            <field name="prefix">MRI%(y)s%(month)sDept-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+	</data>
+</openerp>

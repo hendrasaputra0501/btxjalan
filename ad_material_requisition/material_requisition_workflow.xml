@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<!--#####################Activity###################-->
+		<record id="wkf_material_request" model="workflow">
+			<field name="name">material.request</field>
+			<field name="osv">material.request</field>
+			<field name="on_create">True</field>
+		</record>
+
+		<record id="act_cancel_mr" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_material_request"/>
+			<field name="name">cancel</field>
+			<field name="action">picking_cancel()
+write({'state':'cancel'})</field>
+			<field name="kind">function</field>
+			<field name="flow_stop">False</field>
+		</record>
+
+		<record id="act_draft_mr" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_material_request"/>
+			<field name="name">draft</field>
+			<field name="action">write({'state':'draft'})</field>
+			<field name="kind">function</field>
+			<field name="flow_start">True</field>
+		</record>
+
+		<record id="act_draft2_mr" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_material_request"/>
+			<field name="name">ReDraft</field>
+			<field name="action">action_set_to_draft()</field>
+			<field name="kind">function</field>
+		</record>
+
+		<record id="act_lv_1" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_material_request"/>
+			<field name="name">lv_1</field>
+			<field name="action">lv_1_approve()</field>
+			<field name="kind">function</field>
+		</record>
+
+		<record id="act_lv_2" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_material_request"/>
+			<field name="name">lv_2</field>
+			<field name="action">lv_2_approve()</field>
+			<field name="kind">function</field>
+		</record>
+
+		<record id="act_lv_3" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_material_request"/>
+			<field name="name">lv_3</field>
+			<field name="action">lv_3_approve()</field>
+			<field name="kind">function</field>
+		</record>
+
+		<record id="act_lv_4" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_material_request"/>
+			<field name="name">lv_4</field>
+			<field name="action">lv_4_approve()</field>
+			<field name="kind">function</field>
+		</record>
+
+		<record id="act_lv_5" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_material_request"/>
+			<field name="name">Done</field>
+			<field name="action">tender_done()</field>
+			<field name="kind">function</field>
+		</record>
+		
+	
+
+		<!--#####################Transition###################-->
+
+		<record id="trans_tender_in_progress" model="workflow.transition">
+			<field name="act_from" ref="act_draft_mr"/>
+			<field name="act_to" ref="act_lv_1"/>
+			<field name="signal">lv_1_approve</field>
+			<field name="condition">True</field>
+		</record>
+
+		<record id="trans_lv_1_approve" model="workflow.transition">
+			<field name="act_from" ref="act_lv_1"/>
+			<field name="act_to" ref="act_lv_2"/>
+			<field name="signal">lv_2_approve</field>
+			<field name="condition">True</field>
+		</record>
+
+		<record id="trans_lv_2_approve" model="workflow.transition">
+			<field name="act_from" ref="act_lv_2"/>
+			<field name="act_to" ref="act_lv_5"/>
+			<field name="signal">lv_3_approve</field>
+			<field name="condition">True</field>
+		</record>
+
+
+		<!-- <record id="trans_lv_3_approve" model="workflow.transition">
+			<field name="act_from" ref="act_lv_3"/>
+			<field name="act_to" ref="act_lv_5"/>
+			<field name="signal">lv_3_approve</field>
+			<field name="condition">check_budget()</field>
+		</record> -->
+
+<!-- 		<record id="trans_lv_3_i_approve" model="workflow.transition">
+			<field name="act_from" ref="act_lv_3"/>
+			<field name="act_to" ref="act_lv_5"/>
+			<field name="signal"></field>
+			<field name="condition">not check_budget()</field>
+		</record>
+ -->
+		<!--
+<record id="trans_lv_4_approve" model="workflow.transition"> <field name="act_from"
+			ref="act_lv_4"/>
+			<field name="act_to" ref="act_lv_5"/> <field name="signal">lv_4_approve</field>
+			<field
+			name="condition">True</field> </record>-->
+
+
+		<record id="trans_tender_draft_cancel" model="workflow.transition">
+			<field name="act_from" ref="act_draft_mr"/>
+			<field name="act_to" ref="act_cancel_mr"/>
+			<field name="signal">tender_cancel</field>
+			<field name="condition">True</field>
+		</record>
+
+		<record id="trans_tender_lv_1_cancel" model="workflow.transition">
+			<field name="act_from" ref="act_lv_1"/>
+			<field name="act_to" ref="act_cancel_mr"/>
+			<field name="signal">tender_cancel</field>
+			<field name="condition">True</field>
+		</record>
+
+		<record id="trans_tender_lv_2_cancel" model="workflow.transition">
+			<field name="act_from" ref="act_lv_2"/>
+			<field name="act_to" ref="act_cancel_mr"/>
+			<field name="signal">tender_cancel</field>
+			<field name="condition">True</field>
+		</record>
+
+		<!-- 
+		
+		<record id="trans_tender_lv_3_cancel" model="workflow.transition">
+			<field name="act_from" ref="act_lv_3"/>
+			<field name="act_to" ref="act_cancel_mr"/>
+			<field name="signal">tender_cancel</field>
+			<field name="condition">True</field>
+		</record> 
+		<record id="trans_tender_lv_4_cancel" model="workflow.transition">
+			<field name="act_from" ref="act_lv_4"/>
+			<field name="act_to" ref="act_cancel_mr"/>
+			<field name="signal">tender_cancel</field>
+			<field name="condition">True</field>
+		</record>
+		-->
+
+		<record id="trans_tender_lv_5_cancel" model="workflow.transition">
+			<field name="act_from" ref="act_lv_5"/>
+			<field name="act_to" ref="act_cancel_mr"/>
+			<field name="signal">tender_cancel</field>
+			<field name="condition">True</field>
+		</record>
+
+		<!-- <record id="trans_tender_cancel_draft_2" model="workflow.transition">
+			<field name="act_from" ref="act_cancel_mr"/>
+			<field name="act_to" ref="act_draft2_mr"/>
+			<field name="signal">tender_draft</field>
+			<field name="condition">True</field>
+		</record> -->
+
+		<record id="trans_tender_in_progress_2" model="workflow.transition">
+			<field name="act_from" ref="act_draft2_mr"/>
+			<field name="act_to" ref="act_lv_1"/>
+			<field name="signal">lv_1_approve</field>
+			<field name="condition">True</field>
+		</record>
+		<!--
+<record id="trans_tender_reset" model="workflow.transition">
+			<field
+			name="act_from" ref="act_cancel"/>
+			<field name="act_to" ref="act_draft"/>
+			<field
+			name="signal">tender_reset</field>
+			<field name="condition">True</field>
+		</record>-->
+
+
+	</data>
+</openerp>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="view_mo_batch_line_form" model="ir.ui.view">
+			<field name="name">mo.batch.line.form</field>
+			<field name="model">mo.batch.line</field>
+			<field name="arch" type="xml">
+				<form string="Manufacturing Orders Batch Line" version="7.0">
+					<group>
+						<field name="product_id" on_change="product_id_change(product_id)" class="oe_inline" />
+						<label for="product_qty"/>
+						<div>
+						<field name="product_qty" class="oe_inline"/>
+						<field name="product_uom" groups="product.group_uom" class="oe_inline"/>
+						<button type="action"
+						    icon="terp-accessories-archiver+"
+						    name="%(mrp.action_change_production_qty)d"
+						    string="(Update)" states="confirmed" class="oe_edit_only oe_link"/>
+						</div>
+						<label for="product_uos_qty" groups="product.group_uos"/>
+						<div groups="product.group_uos">
+						<field name="product_uos_qty" class="oe_inline"/>
+						<label string="-" attrs="{'invisible':[('product_uos','=',False)]}" class="oe_inline"/>
+						<field name="product_uos" class="oe_inline"/>
+						</div>
+						<field name="bom_id"/>
+						<field name="date_planned"/>
+					</group>
+                </form>
+            </field>
+        </record>
+				
+		<record id="view_mo_batch" model="ir.ui.view">
+			<field name="name">mo.batch.form</field>
+			<field name="model">mo.batch</field>
+			<field name="arch" type="xml">
+				<form string="Manufacturing Orders Batch" version="7.0">
+					<group>
+						<field name="date_create"/>
+						<field name="user_id"/>
+					</group>
+					<field name="mo_batch_line" context="{'form_view_ref': 'ad_mo_batch.view_mo_batch_line_form'}">
+						<tree string="Finished Goods Products" editable="top">
+							<field name="product_id" on_change="product_id_change(product_id)" />
+							<field name="product_qty"/>
+							<field name="product_uom"/>
+							<field name="product_uos_qty"/>
+							<field name="product_uos"/>
+							<field name="bom_id"/>
+							<field name="date_planned"/>
+						</tree>
+					</field>
+                    <footer>
+                        <button string="Create Batch" name="create_batch_mo" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_mo_batch" model="ir.actions.act_window">
+        	<field name="name">Manufacturing Orders Batch</field>
+        	<field name="res_model">mo.batch</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">tree,form</field>
+        	<field name="view_id" ref="ad_mo_batch.view_mo_batch"/>
+			<field name="target">new</field>
+        </record>
+
+        <menuitem action="ad_mo_batch.action_mo_batch"
+            id="menu_action_mo_batch_wizard"
+            parent="mrp.menu_mrp_manufacturing"
+         	sequence="1" />
+	</data>
+</openerp>

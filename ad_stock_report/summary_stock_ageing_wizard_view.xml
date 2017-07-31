@@ -1,0 +1,56 @@
+<openerp>
+	<data>
+		<record id="summary_stock_ageing_wizard" model="ir.ui.view">
+			<field name="name">summary.stock.ageing.wizard</field>
+			<field name="model">summary.stock.ageing.wizard</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Generate Summary Stock Ageing" version="7.0">
+					<group colspan="4" col="4">
+						<field name="as_on"/>
+						<field name="output_type"/>
+						<field name="period_length"/>
+					</group>
+					<notebook>
+						<page string="Goods Type" colspan="4">
+							<field name="goods_type" colspan="4" col="4" nolabel="1"/>
+						</page>
+						<!-- <page string="Location Exception" colspan="4">
+							<field name="location_exception" colspan="4" col="4" nolabel="1"/>
+						</page> -->
+						<page string="Force Location" colspan="4">
+							<field name="location_force" colspan="4" col="4" nolabel="1"/>
+						</page>
+					</notebook>
+					<footer>
+						<group>
+							<button name="generate_report" string="Generate Report" icon="gtk-print" type="object" class="oe_highlight"/>
+							<button string="Cancel" class="oe_highlight" special="cancel"/>
+						</group>
+					</footer>
+				</form>
+			</field>
+		</record>
+		
+		<record id="action_summary_stock_ageing_wizard" model="ir.actions.act_window">
+			<field name="name">Generate Summary Stock Ageing</field>
+			<field name="res_model">summary.stock.ageing.wizard</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+		
+		<menuitem id="menu_summary_stock_ageing_wizard" name="Summary Stock Ageing" parent="reporting_stock_monthly"
+			action="action_summary_stock_ageing_wizard"/>
+
+		<report id="summary_stock_ageing_report"
+			name="summary.stock.ageing.report.pdf"
+			string="Summary Stock Ageing Report"
+			model="summary.stock.ageing.wizard"
+			auto="False"
+			menu="False"
+			file="ad_stock_report/report/stock_ageing_report.mako"
+			usage="default"
+			report_type="webkit"
+			header="True" />
+	</data>
+</openerp>

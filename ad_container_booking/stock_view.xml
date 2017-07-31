@@ -1,0 +1,1210 @@
+<openerp>
+	<data>
+        <record id="view_tracking_inherit_container_booking_form" model="ir.ui.view">
+            <field name="name">stock.tracking.inherit.container.booking.form</field>
+            <field name="model">stock.tracking</field>
+            <field name="inherit_id" ref="stock.view_tracking_form"/>
+            <field name="arch" type="xml">
+                <field name='name' position='after'>
+                    <field name='alias'/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_picking_out_search" model="ir.ui.view">
+            <field name="name">stock.picking.inherit.search</field>
+            <field name="model">stock.picking.out</field>
+            <field name="inherit_id" ref="stock.view_picking_out_search"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="container_book_id" string="SI" filter_domain="[('container_book_id','ilike', self)]"/>
+                </field>
+                <xpath expr="/search/group/filter[@string='Status']" position="after">
+                    <filter string="Shipping Address" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'partner_id'}"/>
+                    <filter string="Trucking Charge" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'trucking_charge'}"/>
+                    <filter string="Truck Number" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'truck_number'}"/>
+                </xpath>
+            </field>
+        </record>
+
+ 		<record id="view_picking_extend_form" model="ir.ui.view">
+            <field name="name">stock.picking.extend.form</field>
+            <field name="model">stock.picking</field>
+            <field name="priority" eval="32"/>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <button name="button_cancel" position="attributes">
+                    <attribute name="states">assigned,instructed,confirmed,booked,booking_created,draft</attribute>
+                </button>
+                <field name="sale_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <button name="button_cancel" position="after">
+                    <button name="compute_prod_lot_ids" string="Auto Compute Serial" type="object"/>
+                </button>
+                <field name="stock_journal_id" position="after">
+                    <field name="internal_shipment_type" attrs="{'invisible':[('type','!=','internal')]}" readonly="1"/>
+                </field>
+                <xpath expr="/form/sheet/notebook/page[@string='Additional Info']/group" position="before">
+                    <group>
+                        <group>
+                            <label for="default_location_id"/>
+                            <div>
+                                <field name="default_location_id" domain="[('usage','!=','view')]"/>
+                                <button name="set_default_location" states="draft"
+                                        string="(set location)" class="oe_link oe_edit_only"
+                                        type="object" help="Set all detail products location"/>
+                            </div>
+                            <label for="default_dest_location_id"/>
+                            <div>
+                                <field name="default_dest_location_id" domain="[('usage','!=','view')]"/>
+                                <button name="set_default_location" states="draft"
+                                        string="(set location)" class="oe_link oe_edit_only"
+                                        type="object" help="Set all detail products location"/>
+                            </div>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                </xpath>
+
+                <field name='date_done' position='after'>
+                    <field name='date_done_2' on_change='onchange_date_done_2(date_done_2)'/>
+                </field>
+                <field name='date_done' position='attributes'>
+                    <attribute name='invisible'>1</attribute>
+                </field>
+            </field>
+        </record>
+ 
+        <record id="view_picking_out_extend_form" model="ir.ui.view">
+            <field name="name">stock.picking.out.extend.form</field>
+            <field name="model">stock.picking.out</field>
+            <field name="inherit_id" ref="stock.view_picking_out_form"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="replace">
+                    <label for="partner_id"/>
+                    <div>
+                        <div>
+                            <field name="partner_id" />
+                            <label for="show_partner_address"/>
+                            <field name="show_partner_address"/>
+                        </div>
+                        <field name="c_address_text" placeholder="Input Consignee Customs Address here..."  attrs="{'invisible':[('show_partner_address','=',False)]}" />
+                    </div>
+                    <label for="notify" string="Notify"/>
+                    <div>
+                        <div>
+                            <field name="notify" />
+                            <label for="show_notify_address"/>
+                            <field name="show_notify_address"/>
+                        </div>
+                        <field name="n_address_text" placeholder="Input Notify Customs Address here..."  attrs="{'invisible':[('show_notify_address','=',False)]}" />
+                    </div>
+                    <field name="draft_invoice_number" attrs="{'invisible':[('sale_type','=','local')]}"/>
+                </field>
+                <field name="min_date" position="before">
+                    <field name="estimation_deliv_date" attrs="{'invisible':[('sale_type','=','local')]}"/>
+                    <field name="estimation_arriv_date" attrs="{'invisible':[('sale_type','=','local')]}"/>
+                </field>
+                <button name="button_cancel" position="attributes">
+                    <attribute name="states">assigned,instructed,confirmed,booked,booking_created,draft</attribute>
+                </button>
+                <field name='origin' position='after'>
+                    <field name="sale_type" attrs="{'invisible':[('type','!=','out')],'required':[('type','=','out')]}"/>
+                </field>
+                <xpath expr="/form/header//field[@name='state']" position="replace">
+                    <field name="state" nolabel="1" readonly="1" widget="statusbar" statusbar_visible="draft,booking_created,booked,confirmed,instructed,assigned,done" statusbar_colors='{"auto":"blue", "confirmed":"blue"}'/>
+                </xpath>
+                <xpath expr="/form/header//button[@name='%(stock.report_picking_list_out)d']" position="after">
+                    <button name="button_create_container_booking" string="Create Shipping Instruction" type="object" class="oe_highlight" attrs="{'invisible':['|',('container_book_id','!=',False),('state','!=','booking_created')]}"/>
+                    <button name="booking_confirmed" string="Proceed to stock checking" type="workflow" class="oe_highlight" states="booked"/>
+                    <button name="%(ad_container_booking.action_split_picking)d" string="Split Delivery" type="action" class="oe_highlight"  attrs="{'invisible':['|','&amp;',('sale_type','=','local'),('state','not in',['draft','confirmed','assigned']),'&amp;',('sale_type','=','export'),('state','not in',['draft','booking_created','booked','confirmed','instructed','assigned'])]}"/>
+                    <button name="%(action_stuffing_memo_onshipping)d" string="Create Stuffing Memo"  attrs="{'invisible':['|','&amp;',('sale_type','=','local'),('state','not in',['confirmed']),'&amp;',('sale_type','=','export'),('state','not in',['booked'])]}"  type="action" class="oe_highlight" />
+                    <button name="compute_prod_lot_ids" string="Auto Compute Serial" type="object"/>
+                </xpath>
+
+                <xpath expr="/form/header//button[@name='action_assign']" position="replace">
+                    <button name="action_assign" attrs="{'invisible':['|','&amp;',('sale_type','=','local'),('state','!=','confirmed'),'&amp;',('sale_type','=','export'),('state','!=','instructed')]}" string="Check Availability" type="object" class="oe_highlight"/>
+                </xpath>
+                <xpath expr="/form/header//button[@name='force_assign']" position="replace">
+                    <button name="force_assign" attrs="{'invisible':['|','&amp;',('sale_type','=','local'),('state','!=','confirmed'),'&amp;',('sale_type','=','export'),('state','!=','instructed')]}" string="Force Availability" type="object" class="oe_highlight" groups="base.group_user"/>
+                </xpath>
+
+                <field name="stock_journal_id" position="after">
+                    <field name="container_book_id" readonly="1" attrs="{'invisible':[('sale_type','=','local')]}"/>
+                </field>
+
+                <xpath expr="/form/sheet/notebook/page[@string='Additional Info']" position="before">
+                    <page string="Transporter">
+                        <group>
+                            <group>
+                                <field name="forwading" domain="[('type','=','container')]" attrs="{'invisible':[('sale_type','=','local')]}" />
+                                <field name="forwading_charge" domain="['&amp;','&amp;',('transporter_id','=',forwading),'|',('date_from','&lt;=',date_done),('date_from','&lt;=',date),'|','|',('date_to','&gt;=',date_done),('date_from','&gt;=',date),('date_to','=',False)]" attrs="{'invisible':[('sale_type','=','local')]}" context="{'transporter_id':forwading}" on_change="onchange_forwading_charge(forwading_charge)"/>
+                                <field name="shipping_lines" domain="[('type','=','container')]" attrs="{'invisible':[('sale_type','=','local')]}"/>
+                                <field name="destination_country" attrs="{'invisible':[('sale_type','=','local')]}"/>
+                                <field name="fumigation_remarks" attrs="{'invisible':[('sale_type','=','local')]}" />
+                                <field name="trucking_company" domain="[('type','=','trucking')]" on_change="onchange_trucking_company(trucking_company)"/>
+                                <field name="truck_type" domain="[('transporter_id','=',trucking_company)]"/>
+                                <field name="trucking_charge" domain="['&amp;','&amp;',('transporter_id','=',trucking_company),'|',('date_from','&lt;=',date_done),('date_from','&lt;=',date),'|','|',('date_to','&gt;=',date_done),('date_to','&gt;=',date),('date_to','=',False)]" context="{'transporter_id':trucking_company}"/>
+                                <field name="porters" />
+                                <field name="porters_charge" context="{'porters_id':porters}"/>
+                            </group>
+                            <group>
+                                <field name="container_size" attrs="{'invisible':[('sale_type','=','local')]}" />
+                                <field name="teus" attrs="{'invisible':[('sale_type','=','local')]}" />
+                                <field name="container_number" attrs="{'invisible':[('sale_type','=','local')]}"/>
+                                <field name="tare_weight" attrs="{'invisible':[('sale_type','=','local')]}"/>
+                                <field name="seal_number" attrs="{'invisible':[('sale_type','=','local')]}" />
+                                <field name="truck_number" />
+                                <field name="driver_id" />
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Stuffing Memo(s)" >
+                        <field name="stuffing_ids" />
+                    </page>
+                </xpath>
+
+                <field name='date_done' position='after'>
+                    <field name='date_done_2' on_change='onchange_date_done_2(date_done_2)'/>
+                </field>
+                <field name='date_done' position='attributes'>
+                    <attribute name='invisible'>1</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_location_form_inherit_cont_book" model="ir.ui.view">
+            <field name="name">stock.location.form.inherit.container.booking</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_form" />
+            <field name="arch" type="xml">
+                <field name="usage" position="before">
+                    <field name="alias"/>
+                    <field name="sequence"/>
+                </field>
+                <field name="comment" position="after">
+                    <field name="child_ids" />
+                </field>
+            </field>
+        </record>
+
+        <record id="view_picking_out_inherit_tree" model="ir.ui.view">
+            <field name="name">stock.picking.inherit.out.tree</field>
+            <field name="model">stock.picking.out</field>
+            <field name="inherit_id" ref="stock.view_picking_out_tree" />
+            <field name="arch" type="xml">
+                <field name="invoice_state" position="replace">
+                    <field name="draft_invoice_number" />
+                    <field name="invoice_id" />
+                </field>
+                <field name="stock_journal_id" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </field>
+                <field name="date" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </field>
+                <field name="name" position="attributes">
+                    <attribute name="string">No. Surat Jalan</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_picking_withweight_inherit_container_booking_form" model="ir.ui.view">
+            <field name="name">stock.picking_withweight.container.booking.form.view</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="delivery.view_picking_withweight_internal_move_form"/>
+            <field name="arch" type="xml">
+                <field name="weight" position="replace">
+                    <field name="gross_weight" attrs="{'invisible':[('type','=','internal')]}"/>
+                </field>
+                <field name="weight_net" position="replace">
+                    <field name="net_weight" attrs="{'invisible':[('type','=','internal')]}"/>
+                </field>
+            </field>
+        </record>
+        
+        <record id="view_move_form_container_booking_inherit" model="ir.ui.view">
+            <field name="name">view.move.form.container.booking.inherit</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/group/group/div/button[@string='Scrap']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_move_picking_form_container_booking_inherit" model="ir.ui.view">
+            <field name="name">view.move.picking.form.container.booking.inherit</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/group/group/div/button[@string='Scrap']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <field name="location_dest_id" position="attributes">
+                    <attribute name="domain">[('usage','!=','view')]</attribute>
+                </field>
+                <xpath expr="/form/group" position="after">
+                    <group>
+                        <field name="picking_ids" on_change="onchange_picking_ids(product_id,picking_ids)">
+                            <tree>
+                                <field name="name"/>
+                                <field name="date_done" />
+                                <field name="state" />
+                            </tree>
+                        </field>
+                        <field name="stock_move_line_ids">
+                            <tree>
+                                <field name="product_id"/>
+                                <field name="product_uom" />
+                                <field name="product_qty" />
+                            </tree>
+                            <form>
+                                <field name="source_move_line_id"/>
+                                <field name="product_id"/>
+                                <field name="description"/>
+                                <field name="product_uom" />
+                                <field name="product_qty" />
+                            </form>
+                        </field>
+                    </group>
+                </xpath>
+                <xpath expr="/form/group/group/field[@name='date_expected']" position="after">
+                        <field name="remarks"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--<record id="view_move_tree_container_booking_inherit" model="ir.ui.view">
+            <field name="name">view.move.tree.container.booking.inherit</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="/tree/button[@string='Scrap Products']" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                </xpath>
+            </field>
+        </record>-->
+        <record id="view_move_picking_tree_container_booking_inherit" model="ir.ui.view">
+            <field name="name">view.move.picking.tree.container.booking.inherit</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_picking_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="/tree/button[@string='Scrap Products']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="/tree/field[@name='product_id']" position="before">
+                    <field name="sequence_no" />
+                </xpath>
+            </field>
+        </record>
+
+        <record id="stock.action_picking_tree6" model="ir.actions.act_window">
+            <field name="name">Internal Moves</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="domain">[('type','=','internal'),('internal_shipment_type','=','fg_move')]</field>
+            <field name="context">{'contact_display': 'partner_address', 'search_default_available': 1,'internal_shipment_type':'fg_move'}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create an internal move request. 
+              </p><p>
+                Most operations are prepared automatically by OpenERP according
+                to your preconfigured logistics rules, but you can also record
+                manual stock movements.
+              </p>
+            </field>
+        </record>
+
+
+        
+        <menuitem id="menu_internal_stock_pickings" name="Internal Move Orders" parent="stock.menu_stock_root" sequence="1"/>
+        <menuitem id="menu_action_picking_tree6" action="stock.action_picking_tree6" parent="menu_internal_stock_pickings" name="Internal Move" sequence="0"/>
+
+        <record id="view_picking_form_editable_rm" model="ir.ui.view">
+            <field name="name">stock.picking.form.editable.rm</field>
+            <field name="model">stock.picking</field>
+            <field eval="12" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Internal Picking List" version="7.0">
+                <header>
+                    <button name="draft_force_assign" states="draft" string="Confirm" type="object" class="oe_highlight" groups="base.group_user"/>
+                    <button name="draft_validate" states="draft" string="Confirm &amp; Transfer" type="object" class="oe_highlight" groups="base.group_user"/>
+                    <button name="action_assign" states="confirmed" string="Check Availability" type="object" class="oe_highlight"/>
+                    <button name="force_assign" states="confirmed" string="Force Availability" type="object" class="oe_highlight" groups="base.group_user"/>
+                    <button name="action_process" states="assigned" string="Transfer" groups="stock.group_stock_user" type="object" class="oe_highlight"/>
+                    <button name="%(stock.act_stock_return_picking)d" string="Reverse Transfer" states="done" type="action" groups="base.group_user"/>
+                    <button name="button_cancel" states="assigned,confirmed,draft" string="Cancel Transfer" groups="base.group_user"/>
+                    <button name="action_revert_done" string="Reopen" states="done,cancel" type="object" icon="gtk-cancel" confirm="Are you sure you want to reopen this stock picking?"/>
+                    <button name="compute_product_uom_qty_rm" string="Re-Compute Quantity" type="object" attrs="{'invisible':[('type','!=','internal'),('internal_shipment_type','!=','rm_issue'),('state','!=','done')]}"/>
+                    <button name="allow_cancelation" string="Allow Cancelation" type="object" icon="gtk-apply" groups="stock_cancel.allow_cancelation" attrs="{'invisible':['|',('is_allow_cancel','=',True),'&amp;',('state','not in',['done','cancel']),('is_allow_cancel','=',False)]}"/>
+                    <button name="allow_back_date_release" string="Allow Back Date" type="object" icon="gtk-apply" groups="stock_cancel.allow_back_date_entry" attrs="{'invisible':['|',('allow_back_date_release','=',True),('state','in',['done','cancel'])]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,assigned,done" statusbar_colors='{"shipping_except":"red","invoice_except":"red","waiting_date":"blue"}'/>
+                </header>
+                <sheet>
+                    <h1>
+                        <field name="name" class="oe_inline" attrs="{'invisible': [('name','=','/')]}" readonly="1"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="internal_shipment_type" required="True" readonly="1"/>
+                            <field name="default_dest_location_id" domain="[('usage','=','production')]" on_change="onchange_def_location_id(default_location_id)"/>
+                            <field name="default_location_id" domain="[('usage','=','internal')]" on_change="onchange_def_location_dest_id(default_dest_location_id)"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="min_date" readonly="1" attrs="{'invisible': [('min_date','=',False)]}"/>
+                            <field name="origin" placeholder="e.g. BI-315-0032" class="oe_inline"/>
+                            <!-- <field name="goods_type" required="1"/> -->
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Products">
+                            <field name="move_lines" string="Stock Move" context="{'location_id':default_location_id,'location_dest_id':default_dest_location_id,'picking_type': 'internal'}" options='{"reload_on_button": true}'>
+                                <tree colors="grey:scrapped == True" string="Stock Moves" editable="top">
+                                    <field name="name" invisible="1"/>
+                                    <field name="date" invisible="1"/>
+                                    <field name="product_id" on_change="onchange_product_id(product_id,location_id,location_dest_id, False)" domain="[('internal_type','=','Raw Material')]"/>
+                                    <field name="internal_type" invisible="1"/>
+                                    <field name="product_uop_qty" on_change="onchange_uop_quantity(product_id,product_uop_qty,product_uom,product_uos,product_uop,location_id,date,tracking_id,context)"/>
+                                    <field name="product_uop" string="Unit of Packing" groups="product.group_uom" on_change="onchange_uop_quantity(product_id,product_uop_qty,product_uom,product_uos,product_uop,location_id,date,tracking_id,context)"/>
+                                    <field name="product_qty" on_change="onchange_quantity(product_id, product_qty, product_uom, product_uos)"/>
+                                    <field name="product_uom" string="Unit of Measure" groups="product.group_uom" on_change="onchange_uop_quantity(product_id,product_uop_qty,product_uom,product_uos,product_uop,context)"/>
+                                    <field name="product_uos_qty" invisible="1" groups="product.group_uos"/>
+                                    <field name="product_uos" invisible="1" groups="product.group_uos"/>
+                                    <field name="location_dest_id" groups="stock.group_locations" invisible="0" domain="[('usage','=','production'),('id','=',parent.default_location_id)]"/>
+                                    <field name="location_id" domain="[('usage','=','internal'),('id','=',parent.default_dest_location_id or [])]" groups="stock.group_locations"/>
+                                    <field groups="stock.group_tracking_lot" name="tracking_id" required="True" domain="[('internal_type','in',(internal_type,'Mixed Lot'))]"/>
+                                    <field name="analytic_account_id" required="0" invisible="0"/>
+                                    <field name="scrapped" invisible="1"/>
+                                    <field name="prodlot_id" invisible="1" groups="stock.group_production_lot"/>
+                                    <field invisible="1" name="state"/>
+                                </tree>
+                            </field>
+                            <field name="note" placeholder="Add an internal note..." class="oe_inline"/>
+                        </page>
+                        <page string="Additional Info">
+                            <group>
+                                <group>
+                                    <field name="is_allow_cancel" attrs="{'invisible':[('is_allow_cancel','=',False)]}" readonly="1" />
+                                    <field name="allow_back_date_release" attrs="{'invisible':[('allow_back_date_release','=',False)]}" readonly="1" />
+                                    <field name="move_type" invisible="1"/>
+                                    <field name="type" invisible="1"/>
+                                    <field name="auto_picking" groups="base.group_user"/>
+                                </group>
+                                <group>
+                                    <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+                                    <field name="date_done" invisible="1"/>
+                                    <field name='date_done_2' required="1" on_change='onchange_date_done_2(date_done_2)'/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_picking_internal_rm_issue" model="ir.actions.act_window">
+            <field name="name">Raw Material Issue</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','internal'),('internal_shipment_type','=','rm_issue')]</field>
+            <field name="context">{'default_type':'internal','contact_display': 'partner_address', 'internal_shipment_type':'rm_issue','goods_type':'raw'}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create an internal move request. </p>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_picking_internal_rm_issue_view1">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="stock.vpicktree"/>
+            <field name="act_window_id" ref="action_picking_internal_rm_issue"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_picking_internal_rm_issue_view2">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <!-- <field name="view_id" ref="stock.view_picking_form"/> -->
+            <field name="view_id" ref="view_picking_form_editable_rm"/>
+            <field name="act_window_id" ref="action_picking_internal_rm_issue"/>
+        </record>
+
+        <menuitem action="action_picking_internal_rm_issue" id="menu_picking_internal_rm_issue" parent="menu_internal_stock_pickings" sequence="1"/>
+
+        <record id="action_picking_internal_rm_return" model="ir.actions.act_window">
+            <field name="name">Raw Material Return</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','internal'),('internal_shipment_type','=','rm_return')]</field>
+            <field name="context">{'default_type':'internal','contact_display': 'partner_address', 'internal_shipment_type':'rm_return'}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create an internal move request. </p> 
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_picking_internal_rm_return_view1">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="stock.vpicktree"/>
+            <field name="act_window_id" ref="action_picking_internal_rm_return"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_picking_internal_rm_return_view2">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock.view_picking_form"/>
+            <field name="act_window_id" ref="action_picking_internal_rm_return"/>
+        </record>
+
+        <menuitem action="action_picking_internal_rm_return" id="menu_picking_internal_rm_return" parent="menu_internal_stock_pickings" sequence="2"/>
+
+        <record id="action_picking_internal_fg_receipt" model="ir.actions.act_window">
+            <field name="name">Production Receipt</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','internal'),('internal_shipment_type','=','fg_receipt')]</field>
+            <field name="context">{'default_type':'internal','contact_display': 'partner_address', 'internal_shipment_type':'fg_receipt'}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create an internal move request. </p> 
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window.view" id="action_picking_internal_fg_receipt_view1">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="stock.vpicktree"/>
+            <field name="act_window_id" ref="action_picking_internal_fg_receipt"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_picking_internal_fg_receipt_view2">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock.view_picking_form"/>
+            <field name="act_window_id" ref="action_picking_internal_fg_receipt"/>
+        </record>
+
+        <menuitem action="action_picking_internal_fg_receipt" id="menu_picking_internal_fg_receipt" parent="menu_internal_stock_pickings" sequence="3"/>
+
+
+        <record id="view_move_picking_tree_editable" model="ir.ui.view">
+            <field name="name">stock.move.tree.editable</field>
+            <field name="model">stock.move</field>
+            <field eval="4" name="priority"/>
+            <field name="arch" type="xml">
+                <tree colors="grey:scrapped == True" string="Stock Moves" editable="top">
+                    <field name="product_id"/>
+                    <field name="product_qty" on_change="onchange_quantity(product_id, product_qty, product_uom, product_uos)"/>
+                    <field name="product_uom" string="Unit of Measure" groups="product.group_uom"/>
+                    <field name="product_uos_qty" invisible="1" groups="product.group_uos"/>
+                    <field name="product_uos" invisible="1" groups="product.group_uos"/>
+                    <field name="location_id" groups="stock.group_locations" invisible="1"/>
+                    <field name="picking_id" invisible="1" />
+                    <field name="create_date" invisible="1" />
+                    <field name="date_expected" invisible="1" />
+                    <button invisible="1" name="%(stock.move_scrap)d"
+                       string="Scrap Products" type="action"
+                       icon="terp-gtk-jump-to-ltr" context="{'scrap': True}"
+                       states="draft,waiting,confirmed,assigned"
+                       groups="base.group_user"/>
+                    <field name="scrapped" invisible="1"/>
+                    <field name="prodlot_id" invisible="1" groups="stock.group_production_lot"/>
+                    <button invisible="1"
+                       name="%(stock.track_line)d"
+                       string="Split in Serial Number"
+                       groups="stock.group_production_lot"
+                       type="action" icon="gtk-justify-fill"
+                       states="draft,waiting,confirmed,assigned"/>
+                     <field groups="stock.group_tracking_lot" name="tracking_id"/>
+                     <button invisible="1" name="setlast_tracking" string="Put in current pack" type="object"
+                        attrs="{'invisible': [('tracking_id','&lt;&gt;',False)]}"
+                        icon="terp-accessories-archiver"
+                        groups="stock.group_tracking_lot"
+                        states="draft,assigned,confirmed"/>
+                     <button invisible="1" name="%(stock.split_into)d" string="Put in a new pack" type="action"
+                        groups="stock.group_tracking_lot"
+                        icon="terp-accessories-archiver+"
+                        states="draft,assigned,confirmed"/>
+                      <field name="location_dest_id" groups="stock.group_locations"/>
+                      <field invisible="1" name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_picking_form_editable" model="ir.ui.view">
+            <field name="name">stock.picking.form.editable</field>
+            <field name="model">stock.picking</field>
+            <field eval="12" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Internal Picking List" version="7.0">
+                <header>
+                    <button name="draft_force_assign" states="draft" string="Confirm" type="object" class="oe_highlight" groups="base.group_user"/>
+                    <button name="draft_validate" states="draft" string="Confirm &amp; Transfer" type="object" class="oe_highlight" groups="base.group_user"/>
+                    <button name="action_assign" states="confirmed" string="Check Availability" type="object" class="oe_highlight"/>
+                    <button name="force_assign" states="confirmed" string="Force Availability" type="object" class="oe_highlight" groups="base.group_user"/>
+                    <button name="action_process" states="assigned" string="Confirm &amp; Transfer" groups="stock.group_stock_user" type="object" class="oe_highlight"/>
+                    <button name="%(stock.act_stock_return_picking)d" string="Reverse Transfer" states="done" type="action" groups="base.group_user"/>
+                    <button name="button_cancel" states="assigned,confirmed,draft" string="Cancel Transfer" groups="base.group_user"/>
+                    <button name="action_revert_done" string="Reopen" states="done,cancel" type="object" icon="gtk-cancel" confirm="Are you sure you want to reopen this stock picking?"/>
+                    <button name="allow_cancelation" string="Allow Cancelation" type="object" icon="gtk-apply" groups="stock_cancel.allow_cancelation" attrs="{'invisible':['|',('is_allow_cancel','=',True),'&amp;',('state','not in',['done','cancel']),('is_allow_cancel','=',False)]}"/>
+                    <button name="allow_back_date_release" string="Allow Back Date" type="object" icon="gtk-apply" groups="stock_cancel.allow_back_date_entry" attrs="{'invisible':['|',('allow_back_date_release','=',True),('state','in',['done','cancel'])]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,assigned,done" statusbar_colors='{"shipping_except":"red","invoice_except":"red","waiting_date":"blue"}'/>
+                </header>
+                <sheet>
+                    <h1>
+                        <field name="name" class="oe_inline" attrs="{'invisible': [('name','=','/')]}" readonly="1"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="internal_shipment_type" required="True" readonly="1"/>
+                            <field name="default_location_id" domain="[('usage','=','production')]" on_change="onchange_def_location_id(default_location_id)"/>
+                            <field name="default_dest_location_id" domain="[('usage','=','internal')]" on_change="onchange_def_location_dest_id(default_dest_location_id)"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="min_date" readonly="1" attrs="{'invisible': [('min_date','=',False)]}"/>
+                            <field name="origin" placeholder="e.g. BR-115-0032" class="oe_inline"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Products">
+                            <field name="move_lines" string="Stock Move" context="{'location_id':default_location_id,'location_dest_id':default_dest_location_id,'picking_type': 'internal'}" options='{"reload_on_button": true}'>
+                                <tree colors="grey:scrapped == True" string="Stock Moves" editable="top">
+                                    <field name="name" invisible="1"/>
+                                    <field name="product_id" on_change="onchange_product_id(product_id,location_id,location_dest_id, False)" domain="[('internal_type','in',('Finish','Finish_others'))]"/>
+                                    <field name="internal_type" invisible="1"/>
+                                    <field name="product_uop_qty" on_change="onchange_uop_quantity(product_id,product_uop_qty,product_uom,product_uos,product_uop,context)"/>
+                                    <field name="product_uop" string="Unit of Packing" groups="product.group_uom" on_change="onchange_uop_quantity(product_id,product_uop_qty,product_uom,product_uos,product_uop,context)"/>
+                                    <field name="product_qty" on_change="onchange_quantity(product_id, product_qty, product_uom, product_uos)"/>
+                                    <field name="product_uom" string="Unit of Measure" groups="product.group_uom" on_change="onchange_uop_quantity(product_id,product_uop_qty,product_uom,product_uos,product_uop,context)"/>
+                                    <field name="product_uos_qty" invisible="1" groups="product.group_uos"/>
+                                    <field name="product_uos" invisible="1" groups="product.group_uos"/>
+                                    <field name="location_id" groups="stock.group_locations" invisible="0" domain="[('usage','=','production'),('id','=',parent.default_location_id)]"/>
+                                    <field name="location_dest_id" domain="[('usage','=','internal'),('id','=',parent.default_dest_location_id or [])]" groups="stock.group_locations"/>
+                                    <field groups="stock.group_tracking_lot" name="tracking_id" required="True" domain="[('internal_type','in',(internal_type,'Mixed Lot'))]"/>
+                                    <field name="scrapped" invisible="1"/>
+                                    <field name="prodlot_id" invisible="1" groups="stock.group_production_lot"/>
+                                    <field invisible="1" name="state"/>
+                                </tree>
+                            </field>
+                            <field name="note" placeholder="Add an internal note..." class="oe_inline"/>
+                        </page>
+                        <page string="Additional Info">
+                            <group>
+                                <group>
+                                    <field name="is_allow_cancel" attrs="{'invisible':[('is_allow_cancel','=',False)]}" readonly="1" />
+                                    <field name="allow_back_date_release" attrs="{'invisible':[('allow_back_date_release','=',False)]}" readonly="1" />
+                                    <field name="move_type" invisible="1"/>
+                                    <field name="type" invisible="1"/>
+                                    <field name="auto_picking" groups="base.group_user"/>
+                                </group>
+                                <group>
+                                    <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+                                    <field name="date_done" invisible="1"/>
+                                    <field name='date_done_2' required="1" on_change='onchange_date_done_2(date_done_2)'/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_picking_internal_fg_receipt_editable" model="ir.actions.act_window">
+            <field name="name">Production Receipt Simplified</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','internal'),('internal_shipment_type','=','fg_receipt')]</field>
+            <field name="context">{'default_type':'internal','contact_display': 'partner_address', 'internal_shipment_type':'fg_receipt'}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create an internal move request. </p> 
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_picking_internal_fg_receipt_editable1">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="stock.vpicktree"/>
+            <field name="act_window_id" ref="action_picking_internal_fg_receipt_editable"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_picking_internal_fg_receipt_editable2">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_picking_form_editable"/>
+            <field name="act_window_id" ref="action_picking_internal_fg_receipt_editable"/>
+        </record>
+
+        <menuitem action="action_picking_internal_fg_receipt_editable" id="menu_picking_internal_fg_receipt_editable" parent="menu_internal_stock_pickings" sequence="3"/>
+
+        <record id="action_picking_internal_fg_return" model="ir.actions.act_window">
+            <field name="name">Production Return</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','internal'),('internal_shipment_type','=','fg_return')]</field>
+            <field name="context">{'default_type':'internal','contact_display': 'partner_address', 'internal_shipment_type':'fg_return'}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create an internal move request. </p> 
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_picking_internal_fg_return_view1">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="stock.vpicktree"/>
+            <field name="act_window_id" ref="action_picking_internal_fg_return"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_picking_internal_fg_return_view2">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock.view_picking_form"/>
+            <field name="act_window_id" ref="action_picking_internal_fg_return"/>
+        </record>
+
+        <menuitem action="action_picking_internal_fg_return" id="menu_picking_internal_fg_return" parent="menu_internal_stock_pickings" sequence="4"/>
+
+        <!-- FGO -->
+        <record id="action_picking_internal_fgo_receipt" model="ir.actions.act_window">
+            <field name="name">FGO Receipts</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','internal'),('internal_shipment_type','=','fgo_receipt')]</field>
+            <field name="context">{'default_type':'internal','contact_display': 'partner_address', 'internal_shipment_type':'fgo_receipt'}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create an internal move request. </p> 
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_picking_internal_fgo_receipt_view1">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="stock.vpicktree"/>
+            <field name="act_window_id" ref="action_picking_internal_fgo_receipt"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_picking_internal_fgo_receipt_view2">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock.view_picking_form"/>
+            <field name="act_window_id" ref="action_picking_internal_fgo_receipt"/>
+        </record>
+
+        <menuitem action="action_picking_internal_fgo_receipt" id="menu_picking_internal_fgo_receipt" parent="menu_internal_stock_pickings" sequence="4"/>
+
+        <record id="action_picking_internal_fgo_issue" model="ir.actions.act_window">
+            <field name="name">FGO Issues</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','internal'),('internal_shipment_type','=','fgo_issue')]</field>
+            <field name="context">{'default_type':'internal','contact_display': 'partner_address', 'internal_shipment_type':'fgo_issue'}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create an internal move request. </p> 
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_picking_internal_fgo_issue_view1">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="stock.vpicktree"/>
+            <field name="act_window_id" ref="action_picking_internal_fgo_issue"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_picking_internal_fgo_issue_view2">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock.view_picking_form"/>
+            <field name="act_window_id" ref="action_picking_internal_fgo_issue"/>
+        </record>
+
+        <menuitem action="action_picking_internal_fgo_issue" id="menu_picking_internal_fgo_issue" parent="menu_internal_stock_pickings" sequence="4"/>
+
+        <!-- WM -->
+        <record id="action_picking_internal_wm_receipt" model="ir.actions.act_window">
+            <field name="name">WM Receipts</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','internal'),('internal_shipment_type','=','wm_receipt')]</field>
+            <field name="context">{'default_type':'internal','contact_display': 'partner_address', 'internal_shipment_type':'wm_receipt'}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create an internal move request. </p> 
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_picking_internal_wm_receipt_view1">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="stock.vpicktree"/>
+            <field name="act_window_id" ref="action_picking_internal_wm_receipt"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_picking_internal_wm_receipt_view2">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock.view_picking_form"/>
+            <field name="act_window_id" ref="action_picking_internal_wm_receipt"/>
+        </record>
+
+        <menuitem action="action_picking_internal_wm_receipt" id="menu_picking_internal_wm_receipt" parent="menu_internal_stock_pickings" sequence="4"/>
+
+        <record id="action_picking_internal_wm_issue" model="ir.actions.act_window">
+            <field name="name">WM Issues</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','internal'),('internal_shipment_type','=','wm_issue')]</field>
+            <field name="context">{'default_type':'internal','contact_display': 'partner_address', 'internal_shipment_type':'wm_issue'}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create an internal move request. </p> 
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_picking_internal_wm_issue_view1">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="stock.vpicktree"/>
+            <field name="act_window_id" ref="action_picking_internal_wm_issue"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_picking_internal_wm_issue_view2">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock.view_picking_form"/>
+            <field name="act_window_id" ref="action_picking_internal_wm_issue"/>
+        </record>
+
+        <menuitem action="action_picking_internal_wm_issue" id="menu_picking_internal_wm_issue" parent="menu_internal_stock_pickings" sequence="4"/>
+
+
+        <!--Packing-->
+        <record id="action_picking_internal_pm_issue" model="ir.actions.act_window">
+            <field name="name">Packing Issues</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','internal'),('internal_shipment_type','=','pm_issue')]</field>
+            <field name="context">{'default_type':'internal','contact_display': 'partner_address',  'internal_shipment_type':'pm_issue'}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create an internal move request. </p> 
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_picking_internal_pm_issue_view1">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="stock.vpicktree"/>
+            <field name="act_window_id" ref="action_picking_internal_pm_issue"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_picking_internal_pm_issue_view2">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock.view_picking_form"/>
+            <field name="act_window_id" ref="action_picking_internal_pm_issue"/>
+        </record>
+
+        <menuitem action="action_picking_internal_pm_issue" id="menu_picking_internal_pm_issue" parent="menu_internal_stock_pickings" sequence="5"/>
+
+        <record id="action_picking_internal_pm_return" model="ir.actions.act_window">
+            <field name="name">Packing Department Returns</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','internal'),('internal_shipment_type','=','pm_return')]</field>
+            <field name="context">{'default_type':'internal','contact_display': 'partner_address',  'internal_shipment_type':'pm_return'}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create an internal move request. </p> 
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_picking_internal_pm_return_view1">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="stock.vpicktree"/>
+            <field name="act_window_id" ref="action_picking_internal_pm_return"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_picking_internal_pm_return_view2">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock.view_picking_form"/>
+            <field name="act_window_id" ref="action_picking_internal_pm_return"/>
+        </record>
+
+        <menuitem action="action_picking_internal_pm_return" id="menu_picking_internal_pm_return" parent="menu_internal_stock_pickings" sequence="6"/>
+
+        <record id="action_picking_internal_pm_transfer" model="ir.actions.act_window">
+            <field name="name">Packing Transfers</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','internal'),('internal_shipment_type','=','pm_transfer')]</field>
+            <field name="context">{'default_type':'internal','contact_display': 'partner_address',  'internal_shipment_type':'pm_transfer'}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create an internal move request. </p> 
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_picking_internal_pm_transfer_view1">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="stock.vpicktree"/>
+            <field name="act_window_id" ref="action_picking_internal_pm_transfer"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_picking_internal_pm_transfer_view2">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock.view_picking_form"/>
+            <field name="act_window_id" ref="action_picking_internal_pm_transfer"/>
+        </record>
+
+        <menuitem action="action_picking_internal_pm_transfer" id="menu_picking_internal_pm_transfer" parent="menu_internal_stock_pickings" sequence="7"/>
+
+        <!-- STORES -->
+        <record id="action_picking_internal_ss_return" model="ir.actions.act_window">
+            <field name="name">Store Department Returns</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','internal'),('internal_shipment_type','=','ss_return')]</field>
+            <field name="context">{'default_type':'internal','contact_display': 'partner_address',  'internal_shipment_type':'ss_return'}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create an internal move request. </p> 
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_picking_internal_ss_return_view1">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="stock.vpicktree"/>
+            <field name="act_window_id" ref="action_picking_internal_ss_return"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_picking_internal_ss_return_view2">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock.view_picking_form"/>
+            <field name="act_window_id" ref="action_picking_internal_ss_return"/>
+        </record>
+
+        <menuitem action="action_picking_internal_ss_return" id="menu_picking_internal_ss_return" parent="menu_internal_stock_pickings" sequence="8"/>
+
+        <record id="action_picking_internal_ss_transfer" model="ir.actions.act_window">
+            <field name="name">Store Transfers</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','internal'),('internal_shipment_type','=','ss_transfer')]</field>
+            <field name="context">{'default_type':'internal','contact_display': 'partner_address',  'internal_shipment_type':'ss_transfer'}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create an internal move request. </p> 
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_picking_internal_ss_transfer_view1">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="stock.vpicktree"/>
+            <field name="act_window_id" ref="action_picking_internal_ss_transfer"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_picking_internal_ss_transfer_view2">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock.view_picking_form"/>
+            <field name="act_window_id" ref="action_picking_internal_ss_transfer"/>
+        </record>
+
+        <menuitem action="action_picking_internal_ss_transfer" id="menu_picking_internal_ss_transfer" parent="menu_internal_stock_pickings" sequence="9"/>
+
+
+
+        <!-- internal move -->
+        <record id="seq_type_internal_move" model="ir.sequence.type">
+            <field name="name">Internal Move</field>
+            <field name="code">stock.picking.internal</field>
+        </record>
+        
+        <record id="seq_internal_move" model="ir.sequence">
+            <field name="name">Internal Move</field>
+            <field name="code">stock.picking.internal</field>
+            <field name="prefix">T-%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Receipt -->
+        <record id="type_receipt_move_1" model="ir.sequence.type">
+            <field name="name">Internal Move FG</field>
+            <field name="code">stock.picking.internal.r.finish</field>
+        </record>
+        
+        <record id="receipt_move_1" model="ir.sequence">
+            <field name="name">Internal Move FG</field>
+            <field name="code">stock.picking.internal.r.finish</field>
+            <field name="prefix">R-1%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="type_receipt_move_2" model="ir.sequence.type">
+            <field name="name">Internal Move FGO</field>
+            <field name="code">stock.picking.internal.r.finisho</field>
+        </record>
+        
+        <record id="receipt_move_2" model="ir.sequence">
+            <field name="name">Internal Move FGO</field>
+            <field name="code">stock.picking.internal.r.finisho</field>
+            <field name="prefix">R-2%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="type_receipt_move_3" model="ir.sequence.type">
+            <field name="name">Internal Move RM</field>
+            <field name="code">stock.picking.internal.r.raw</field>
+        </record>
+        
+        <record id="receipt_move_3" model="ir.sequence">
+            <field name="name">Internal Move RM</field>
+            <field name="code">stock.picking.internal.r.raw</field>
+            <field name="prefix">R-3%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="type_receipt_move_4" model="ir.sequence.type">
+            <field name="name">Internal Move Fix Asset</field>
+            <field name="code">stock.picking.internal.r.asset</field>
+        </record>
+        
+        <record id="receipt_move_4" model="ir.sequence">
+            <field name="name">Internal Move Fix Asset</field>
+            <field name="code">stock.picking.internal.r.asset</field>
+            <field name="prefix">R-4%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="type_receipt_move_5" model="ir.sequence.type">
+            <field name="name">Internal Move Stores</field>
+            <field name="code">stock.picking.internal.r.stores</field>
+        </record>
+        
+        <record id="receipt_move_5" model="ir.sequence">
+            <field name="name">Internal Move Stores</field>
+            <field name="code">stock.picking.internal.r.stores</field>
+            <field name="prefix">R-5%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="type_receipt_move_6" model="ir.sequence.type">
+            <field name="name">Internal Move PM</field>
+            <field name="code">stock.picking.internal.r.packing</field>
+        </record>
+        
+        <record id="receipt_move_6" model="ir.sequence">
+            <field name="name">Internal Move PM</field>
+            <field name="code">stock.picking.internal.r.packing</field>
+            <field name="prefix">R-6%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="type_receipt_move_7" model="ir.sequence.type">
+            <field name="name">Internal Move Service</field>
+            <field name="code">stock.picking.internal.r.service</field>
+        </record>
+        
+        <record id="receipt_move_7" model="ir.sequence">
+            <field name="name">Internal Move Service</field>
+            <field name="code">stock.picking.internal.r.service</field>
+            <field name="prefix">R-7%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="type_receipt_move_9" model="ir.sequence.type">
+            <field name="name">Internal Move Others</field>
+            <field name="code">stock.picking.internal.r.others</field>
+        </record>
+        
+        <record id="receipt_move_9" model="ir.sequence">
+            <field name="name">Internal Move Others</field>
+            <field name="code">stock.picking.internal.r.others</field>
+            <field name="prefix">R-9%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Issue -->
+        <record id="type_issue_move_1" model="ir.sequence.type">
+            <field name="name">Internal Move FG</field>
+            <field name="code">stock.picking.internal.i.finish</field>
+        </record>
+        
+        <record id="issue_move_1" model="ir.sequence">
+            <field name="name">Internal Move FG</field>
+            <field name="code">stock.picking.internal.i.finish</field>
+            <field name="prefix">I-1%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="type_issue_move_2" model="ir.sequence.type">
+            <field name="name">Internal Move FGO</field>
+            <field name="code">stock.picking.internal.i.finisho</field>
+        </record>
+        
+        <record id="issue_move_2" model="ir.sequence">
+            <field name="name">Internal Move FGO</field>
+            <field name="code">stock.picking.internal.i.finisho</field>
+            <field name="prefix">I-2%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="type_issue_move_3" model="ir.sequence.type">
+            <field name="name">Internal Move RM</field>
+            <field name="code">stock.picking.internal.i.raw</field>
+        </record>
+        
+        <record id="issue_move_3" model="ir.sequence">
+            <field name="name">Internal Move RM</field>
+            <field name="code">stock.picking.internal.i.raw</field>
+            <field name="prefix">I-3%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="type_issue_move_4" model="ir.sequence.type">
+            <field name="name">Internal Move Fix Asset</field>
+            <field name="code">stock.picking.internal.i.asset</field>
+        </record>
+        
+        <record id="issue_move_4" model="ir.sequence">
+            <field name="name">Internal Move Fix Asset</field>
+            <field name="code">stock.picking.internal.i.asset</field>
+            <field name="prefix">I-4%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="type_issue_move_5" model="ir.sequence.type">
+            <field name="name">Internal Move Stores</field>
+            <field name="code">stock.picking.internal.i.stores</field>
+        </record>
+        
+        <record id="issue_move_5" model="ir.sequence">
+            <field name="name">Internal Move Stores</field>
+            <field name="code">stock.picking.internal.i.stores</field>
+            <field name="prefix">I-5%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="type_issue_move_6" model="ir.sequence.type">
+            <field name="name">Internal Move PM</field>
+            <field name="code">stock.picking.internal.i.packing</field>
+        </record>
+        
+        <record id="issue_move_6" model="ir.sequence">
+            <field name="name">Internal Move PM</field>
+            <field name="code">stock.picking.internal.i.packing</field>
+            <field name="prefix">I-6%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="type_issue_move_7" model="ir.sequence.type">
+            <field name="name">Internal Move Service</field>
+            <field name="code">stock.picking.internal.i.service</field>
+        </record>
+        
+        <record id="issue_move_7" model="ir.sequence">
+            <field name="name">Internal Move Service</field>
+            <field name="code">stock.picking.internal.i.service</field>
+            <field name="prefix">I-7%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="type_issue_move_9" model="ir.sequence.type">
+            <field name="name">Internal Move Others</field>
+            <field name="code">stock.picking.internal.i.others</field>
+        </record>
+        
+        <record id="issue_move_9" model="ir.sequence">
+            <field name="name">Internal Move Others</field>
+            <field name="code">stock.picking.internal.i.others</field>
+            <field name="prefix">I-9%(y)s-</field>
+            <field name="suffix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+	</data>
+</openerp>

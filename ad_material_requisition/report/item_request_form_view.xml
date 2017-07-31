@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report auto="False" 
+        	id="report_item_request" 
+        	model="material.request" 
+        	name="item.request.form" 
+        	file="ad_material_requisition/report/item_request_form.html" 
+        	string="Material Request" 
+        	usage="default" 
+        	report_type="webkit" 
+        	menu="True" />
+    </data>
+</openerp>

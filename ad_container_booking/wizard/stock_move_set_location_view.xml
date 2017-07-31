@@ -1,0 +1,32 @@
+<openerp>
+	<data>
+		<record id="wizard_stock_move_set_location_form" model="ir.ui.view">
+			<field name="name">stock.move.set.location.form</field>
+			<field name="model">stock.move.set.location</field>
+			<field name="arch" type="xml">
+				<form string="Set Location" version="7.0">
+					<group string="Set Location for All Selected Moves">
+						<field name="default_location_id"/>
+						<field name="default_dest_location_id"/>
+					</group>
+					<footer>
+						<button name="set_location" string="Set" type="object" class="oe_highlight"/>
+						or
+						<button string="Cancel" class="oe_link" special="cancel"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+
+		<act_window name="Set Location"
+            res_model="stock.move.set.location"
+			src_model="stock.move"
+    		key2="client_action_multi"
+   			multi="True"
+			view_mode="form"
+			view_type="form"
+			target="new"
+			id="action_stock_move_set_location"/>
+	</data>
+</openerp>

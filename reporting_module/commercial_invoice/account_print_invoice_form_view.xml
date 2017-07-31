@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+<report 
+	auto="False" id="account.account_invoices" 
+	model="account.invoice" 
+	name="account.print.invoice.form" 
+	file="reporting_module/commercial_invoice/account_print_invoice_form.mako" 
+	string="Commercial Invoices"
+	header="True"
+    usage="default" 
+    report_type="webkit" 
+    menu="True" />
+</data>
+</openerp>

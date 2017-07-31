@@ -1,0 +1,113 @@
+<openerp>
+	<data>
+		<record id="product_requisition_form" model="ir.ui.view">
+			<field name="name">product.requisition.form</field>
+			<field name="model">product.requisition</field>
+			<field name="arch" type="xml">
+				<form string="Product Request" version="7.0">
+					<header>
+						 <button name="action_submit" states="draft" string="Submit Product" class="oe_highlight" type="object"/>
+						<button name="action_approve" states="submitted" string="Approve" class="oe_highlight" type="object"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved" statusbar_colors='{"submitted":"blue","approved":"grey"}'/>
+					</header>
+					<sheet>
+						<div class="oe_title">
+							<h1>
+								<label string="Number"/>
+								<field name="name" class="oe_inline"/>
+							</h1>
+						</div>
+						<group>
+							<group>
+								<field name="date_entry" />
+								<field name="source_dept_id" />
+								<field name="request_by" />
+								<field name="dest_dept_id" />
+							</group>
+							<group>
+								<field name="partner_id" domain="[('supplier','=',True)]"/>
+							</group>
+						</group>
+						<notebook>
+							<page string="New Product Request Lines">
+								<field name="requisition_lines" >
+									<!-- <form>
+									</form> -->
+									<tree string="New Product Request Lines" editable="bottom">
+										<field name="name"/>
+										<field name="catalogue"/>
+										<field name="part_number"/>
+										<field name="product_uom"/>
+										<field name="suggested_code"/>
+										<field name="product_id" attrs="{'invisible':[('state','=','draft')],'required':[('state','=','submitted')]}"/>
+										<field name="default_code" readonly="1"/>
+										<field name="state" invisible="1" />
+									</tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="product_requisition_tree" model="ir.ui.view">
+			<field name="name">product.requisition.tree</field>
+			<field name="model">product.requisition</field>
+			<field name="arch" type="xml">
+				<tree string="New Product Request">
+					<field name="name" />
+					<field name="date_entry" />
+					<field name="source_dept_id" />
+					<field name="request_by" />
+					<field name="dest_dept_id" />
+					<field name="partner_id" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="product_requisition_search" model="ir.ui.view">
+			<field name="name">product.requisition.search</field>
+			<field name="model">product.requisition</field>
+			<field name="arch" type="xml">
+				<search string="New Product Request">
+					<field name="name" string="Search" filter_domain="[('name','ilike',self)]"/>
+					<field name="source_dept_id" string="Source Department" filter_domain="[('source_dept_id','ilike',self)]"/>
+					<field name="request_by" string="Requested By" filter_domain="[('request_by','ilike',self)]"/>
+					<field name="partner_id" string="Supplier" filter_domain="[('partner_id','ilike',self)]"/>
+				</search>
+			</field>
+		</record>
+
+		<record id="action_product_requisition" model="ir.actions.act_window">
+            <field name="name">New Product Request</field>
+            <field name="res_model">product.requisition</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="product_requisition_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to record a new Product Request.
+              </p>
+            </field>
+        </record>
+
+        <record id="seq_type_product_requisition" model="ir.sequence.type">
+            <field name="name">Product Requisition</field>
+            <field name="code">product_requisition</field>
+        </record>
+
+
+        <record id="seq_product_requisition" model="ir.sequence">
+            <field name="name">Product Requisition</field>
+            <field name="code">product_requisition</field>
+            <field name="prefix">%(y)s-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <menuitem action="action_product_requisition" id="menu_action_product_requisition" parent="purchase.menu_procurement_management_product" sequence="1"/>
+	</data>
+</openerp>

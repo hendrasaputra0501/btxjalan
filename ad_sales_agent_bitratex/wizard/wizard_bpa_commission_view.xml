@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_bpa_commission" model="ir.ui.view">
+            <field name="name">Wizard BPA Commission</field>
+            <field name="model">wizard.bpa.commission</field>
+            <field name="arch" type="xml">
+              <form string="Create BPA" version="7.0">
+                  <group string="Create BPA">
+                      <field name="currency_id"/>
+                      <field name="use_kmk_rate" />
+                      <field name="bpa_date" />
+                      <field name="date_supplier_invoice" />
+                      <field name="due_date" />
+                  </group>
+                  <footer>
+                      <button name="open_bpa_commission" string="Create" type="object" class="oe_highlight"/>
+                      or
+                      <button string="Cancel" class="oe_link" special="cancel"/>
+                  </footer>
+             </form>
+            </field>
+        </record>
+
+
+        <act_window name="Create Draft Provision Commission"
+            res_model="wizard.bpa.commission"
+            src_model="account.invoice.commission"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_prov_commission" context="{'provision':True}"/>
+
+          <act_window name="Create Draft BPA Commission"
+            res_model="wizard.bpa.commission"
+            src_model="account.invoice.commission"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_bpa_commission"/>
+    </data>
+</openerp>

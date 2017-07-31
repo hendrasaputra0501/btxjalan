@@ -1,0 +1,16 @@
+<openerp>
+	<data>
+		<record id="advance_payment_form_contract_inherit" model="ir.ui.view">
+            <field name="name">advance.payment.form.contract.inherit</field>
+            <field name="model">account.advance.payment</field>
+            <field name="inherit_id" ref="ad_advance_payment.view_advance_payment_in_form"/>
+            <field name="arch" type="xml">
+            	<xpath expr="/form/sheet/notebook/page[@string='Payment Line']" position="after">
+                    <page string="Sales Contract(s)">
+                        <field name="sale_ids" colspan="4" nolabel="1"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+	</data>
+</openerp>

@@ -1,0 +1,36 @@
+<openerp>
+    <data>
+
+        <record id="sale_order_line_knock_off_form" model="ir.ui.view">
+            <field name="name">sale.order.line.knock.off.form</field>
+            <field name="model">sale.order.line.knock.off</field>
+            <field name="arch" type="xml">
+                <form string="Confirm Draft Invoices" version="7.0">
+                    <p class="oe_grey">
+                        Once Order Lines are knock off, you will not be able
+                        to modify them
+                    </p>
+                    <group>
+                        <group>
+                            <field name="date" />
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Knock Off Orders" name="order_knock_off" type="object" default_focus="1" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_sale_order_line_knock_off"
+            multi="True"
+            key2="client_action_multi" name="Knock Off Orders"
+            res_model="sale.order.line.knock.off" src_model="sale.order.line"
+            view_mode="form" target="new" view_type="form" />
+
+    </data>
+</openerp>

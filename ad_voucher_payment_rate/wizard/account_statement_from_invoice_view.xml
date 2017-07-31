@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_account_statement_from_invoice_lines_inherit1" model="ir.ui.view">
+            <field name="name">account.statement.from.invoice.lines.form.inherit1</field>
+            <field name="model">account.statement.from.invoice.lines</field>
+            <field name="inherit_id" ref="account_voucher.view_account_statement_from_invoice_lines"/>
+            <field name="arch" type="xml">
+                <field name="line_ids" position="attributes">
+                    <attribute name="domain">[('account_id.type','in',['receivable','payable']),('reconcile_id','=',False), ('state', '=', 'valid'),('id','not in',context.get('current_move_line_selected',[]))]</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="account_voucher.action_view_account_statement_from_invoice_lines" model="ir.actions.act_window">
+            <field name="name">Import Entries</field>
+            <field name="res_model">account.statement.from.invoice.lines</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="account_voucher.view_account_statement_from_invoice_lines"/>
+            <field name="target">new</field>
+            <field name="context">{'statement_id': active_id,'current_move_line_selected':context.get('current_move_line_selected',[])}</field>
+        </record>
+    </data>
+</openerp>

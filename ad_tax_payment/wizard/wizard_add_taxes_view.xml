@@ -1,0 +1,37 @@
+<openerp>
+	<data>
+		<record id="wizard_add_taxes_form" model="ir.ui.view">
+			<field name="name">wizard.add.taxes.form</field>
+			<field name="model">wizard.add.taxes</field>
+			<field name="arch" type="xml">
+				<form string="Generate Tax" version="7.0">
+					<field name="tax_move_line_ids" create="False">
+						<tree string="Taxes to be added">
+							<field name="name"/>
+							<field name="move_line_id"/>
+							<field name="partner_id"/>
+							<field name="effective_date"/>
+							<field name="invoice_id"/>
+							<field name="amount"/>
+							<field name="currency_id"/>
+							<field name="amount_currency"/>
+						</tree>
+					</field>
+					<footer>
+						<button name="generate_tax" string="Generate" class="oe_highlight" type="object" />
+                      	or
+                      	<button string="Cancel" class="oe_link" special="cancel"/>
+                  	</footer>
+				</form> 
+			</field>
+		</record>
+
+        <act_window name="Generate Tax"
+            res_model="wizard.add.taxes"
+            src_model="account.tax.payment"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_wizard_add_taxes" />
+	</data>
+</openerp>
